@@ -5,6 +5,7 @@
 
 .icons/
 .images/
+Resource.designer.cs
 
 # User-specific files
 *.suo
