@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <RootNamespace>Dwares.Dwarf</RootNamespace>
+    <Authors>Roman Dementiev</Authors>
+    <Company>Dwares</Company>
+  </PropertyGroup>
+
+</Project>
