@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="ACE.Views.PickupDetailPage"
+			 Title="Pickup Details"
+			 >
+
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Order="Primary"
+					 Text="Accept" 
+					 Command="{Binding AcceptCommand}"
+					 >
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="accept.png" />
+					<On Platform="Android" Value="ic_action_accept.png" />
+					<On Platform="UWP" Value="Images/e10b.png" />
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+		<ToolbarItem Order="Primary"
+					 Text="Cancel" 
+					 Command="{Binding CancelCommand}"
+					>
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="cancel.png" />
+					<On Platform="Android" Value="ic_action_cancel.png" />
+					<On Platform="UWP" Value="Images/e10a.png" />
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+	</ContentPage.ToolbarItems>
+
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical" 
+					 Margin="8"
+					 >
+			<StackLayout Orientation="Horizontal">
+				<Label Text="At:"
+					   FontAttributes="Bold"
+					   VerticalOptions="Center"
+					   />
+				<TimePicker x:Name="pickupTime"
+							Time="{Binding PickupTime}"
+							/>
+			</StackLayout>
+			<Label Text="Name"/>
+			<Entry x:Name="name"
+				   Placeholder="Enter Client Name"
+				   Text="{Binding ClientName}"
+				   />
+
+			<Label Text="Phone Number"/>
+			<Entry x:Name="phone"
+				   Placeholder="Enter Client Phone Number"
+				   Text="{Binding ClientPhone}"
+				   Keyboard="Telephone"
+				   />
+
+			<Label Text="Address"/>
+			<Entry x:Name="address"
+				   Placeholder="Enter Client Address"
+				   Text="{Binding ClientAddress}"
+				   />
+
+			<Label Text=""/>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="To:"
+					   FontAttributes="Bold"
+					   VerticalOptions="Center"
+					   />
+				<TimePicker x:Name="AppoitmentTime"
+							Time="{Binding AppoitmentTime}"
+							/>
+			</StackLayout>
+			<Entry x:Name="officeName"
+				   Placeholder="Enter Office Name"
+				   Text="{Binding OfficeName}"
+				   />
+			<Entry x:Name="officePhone"
+				   Placeholder="Enter Office Phone"
+				   Text="{Binding OfficePhone}"
+				   />
+			<Entry x:Name="officeAddress"
+				   Placeholder="Enter Office Address"
+				   Text="{Binding OfficeAddress}"
+				   />
+		</StackLayout>
+	</ContentPage.Content>
+
+
+	<!--<ContentPage.Content>
+		<Grid Margin="8">
+			<Grid.RowDefinitions>
+				--><!-- 0: NameLabel--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 1: Name Entry--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 2: Phone Label--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 4: Phone Entry--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 4: Address Label--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 5: Address Entry--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 6: --><!--
+				<RowDefinition Height="10" />
+				--><!-- 7: "To"--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 8: Office Name Entry--><!--
+				<RowDefinition Height="Auto" />
+				--><!-- 9: Office Address Entry--><!--
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.Row="0" Grid.Column="0"
+				   Text="Name"
+				   />
+			<Entry Grid.Row="1" Grid.Column="0"
+				   x:Name="name"
+				   Placeholder="Enter Client Name"
+				   Text="{Binding ClientName}"
+				   />
+
+			<Label Grid.Row="2" Grid.Column="0"
+				   Text="Phone Number"
+				   />
+			<Entry Grid.Row="3" Grid.Column="0"
+				   x:Name="phone"
+				   Placeholder="Enter Client Phone Number"
+				   Text="{Binding ClientPhone}"
+				   Keyboard="Telephone"
+				   />
+
+			<Label Grid.Row="4" Grid.Column="0"
+				   Text="Address"
+				   />
+			<Entry Grid.Row="5" Grid.Column="0"
+				   x:Name="address"
+				   Placeholder="Enter Client Address"
+				   Text="{Binding ClientAddress}"
+				   />
+
+			<Label Grid.Row="7" Grid.Column="0"
+				   Text="To:"
+				   />
+			<Entry Grid.Row="8" Grid.Column="0"
+				   x:Name="officeName"
+				   Placeholder="Enter Office Name"
+				   Text="{Binding OfficeName}"
+				   />
+			<Entry Grid.Row="9" Grid.Column="0"
+				   x:Name="office"
+				   Placeholder="Enter Office Address"
+				   Text="{Binding OfficeAddress}"
+				   />
+		</Grid>
+	</ContentPage.Content>-->
+</ContentPage>

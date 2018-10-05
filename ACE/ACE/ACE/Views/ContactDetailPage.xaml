@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ACE.Views.ContactDetailPage">
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Order="Primary"
+					 Text="Accept" 
+					 Command="{Binding AcceptCommand}"
+					 >
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="accept.png" />
+					<On Platform="Android" Value="ic_action_accept.png" />
+					<On Platform="UWP" Value="Images/e10b.png" />
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+		<ToolbarItem Order="Primary"
+					 Text="Cancel" 
+					 Command="{Binding CancelCommand}"
+					>
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="cancel.png" />
+					<On Platform="Android" Value="ic_action_cancel.png" />
+					<On Platform="UWP" Value="Images/e10a.png" />
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+	</ContentPage.ToolbarItems>
+	
+	<ContentPage.Content>
+		<Grid Margin="8">
+			<Grid.RowDefinitions>
+				<!-- 0: NameLabel-->
+				<RowDefinition Height="Auto" />
+				<!-- 1: Name Entry-->
+				<RowDefinition Height="Auto" />
+				<!-- 2: Phone Label-->
+				<RowDefinition Height="Auto" />
+				<!-- 4: Phone Entry-->
+				<RowDefinition Height="Auto" />
+				<!-- 4: Address Label-->
+				<RowDefinition Height="Auto" />
+				<!-- 5: Address Entry-->
+				<RowDefinition Height="Auto" />
+				<!-- 6: Comment Label-->
+				<RowDefinition Height="Auto" />
+				<!-- 7: Comment Entry-->
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.Row="0" Grid.Column="0"
+				   Text="Name"
+				   />
+			<Entry Grid.Row="1" Grid.Column="0"
+				   x:Name="name"
+				   Placeholder="Enter Name"
+				   Text="{Binding Name}"
+				   />
+
+			<Label Grid.Row="2" Grid.Column="0"
+				   Text="Phone Number"
+				   />
+			<Entry Grid.Row="3" Grid.Column="0"
+				   x:Name="phone"
+				   Placeholder="Enter Phone Number"
+				   Text="{Binding Phone}"
+				   Keyboard="Telephone"
+				   />
+
+			<Label Grid.Row="4" Grid.Column="0"
+				   Text="Address"
+				   />
+			<Entry Grid.Row="5" Grid.Column="0"
+				   x:Name="address"
+				   Placeholder="Enter Address"
+				   Text="{Binding Address}"
+				   />
+
+			<Label Grid.Row="6" Grid.Column="0"
+				   Text="Notes"
+				   />
+			<Entry Grid.Row="7" Grid.Column="0"
+				   x:Name="comment"
+				   Placeholder="Enter Notes"
+				   Text="{Binding Comment}"
+				   />
+		</Grid>
+	</ContentPage.Content>
+	
+</ContentPage>

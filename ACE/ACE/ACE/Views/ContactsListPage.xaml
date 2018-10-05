@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:local="clr-namespace:ACE"
+			 xmlns:vm="clr-namespace:ACE.ViewModels"
+			 x:Class="ACE.Views.ContactsListPage"
+			 x:Name="page">
+
+	<ContentPage.Resources>
+		<!--<ResourceDictionary>
+			<vm:PhoneToVisibleConverter x:Key="phoneToVisible" />
+		</ResourceDictionary>-->
+	</ContentPage.Resources>
+	
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Add" Command="{Binding AddCommand}">
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="UWP" Value="Images/e109.png"/>
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+		<ToolbarItem Text="Edit" Command="{Binding EditCommand}">
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="UWP" Value="Images/e104.png"/>
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+		<ToolbarItem Text="Delete" Command="{Binding DeleteCommand}">
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="UWP" Value="Images/e107.png"/>
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ToolbarItem>
+	</ContentPage.ToolbarItems>
+
+	<ContentPage.Content>
+		<ListView x:Name="contactsListView"
+					  Margin="0"
+					  VerticalOptions="FillAndExpand"
+					  HorizontalOptions="FillAndExpand"
+					  SeparatorVisibility="None"
+					  ItemsSource="{Binding Contacts}"
+					  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+					  HasUnevenRows="True">
+
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ContentView Padding="0">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<local:ToolButton Grid.Row="0" Grid.Column="0"
+												  x:Name="call"
+												  Command="{Binding CallCommand}"
+												  IsVisible="{Binding Source={x:Reference page}, Path=BindingContext.Callable}"
+												  >
+									<local:ToolButton.Image>
+										<OnPlatform x:TypeArguments="FileImageSource"
+														iOS="phone.png"
+														WinPhone="Images/phone48.png"
+														Android="ic_action_phone.png"
+														/>
+									</local:ToolButton.Image>
+								</local:ToolButton>
+								<StackLayout Orientation="Vertical"
+													VerticalOptions="Start"
+													Grid.Row="0" Grid.Column="1"
+													>
+									<Label x:Name="name"
+												FontSize="Default"
+												FontAttributes="Bold"
+												Text="{Binding Name}"
+												IsVisible="{Binding HasName}"
+												/>
+									<Label x:Name="phone"
+												FontSize="Medium"
+												Text="{Binding Phone}"
+												IsVisible="{Binding HasPhone}"
+												/>
+									<Label x:Name="address"
+												Text="{Binding Address}"
+												IsVisible="{Binding HasAddress}"
+												/>
+									<Label x:Name="comment"
+												Text="{Binding Comment}"
+												IsVisible="{Binding HasComment}"
+												/>
+								</StackLayout>
+								<BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+											 Color="Black"
+											 HeightRequest="1"
+											 />
+							</Grid>
+						</ContentView>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
+
+</ContentPage>
