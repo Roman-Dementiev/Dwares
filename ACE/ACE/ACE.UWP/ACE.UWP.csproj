@@ -177,6 +177,18 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Druid\Druid.UWP\Druid.UWP.csproj">
+      <Project>{0b5041da-67d1-4d61-b874-645bc54ffa60}</Project>
+      <Name>Druid.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Druid\Druid\Druid.csproj">
+      <Project>{a953d6bc-0f57-4b96-9f22-36338c57a143}</Project>
+      <Name>Druid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Dwarf\Dwarf.csproj">
+      <Project>{53da1e6d-067b-419b-b9dc-e2fd24a21ffe}</Project>
+      <Name>Dwarf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ACE\ACE.csproj">
       <Project>{10ACCCE7-BCB6-49AE-A344-B4972DA81792}</Project>
       <Name>ACE</Name>

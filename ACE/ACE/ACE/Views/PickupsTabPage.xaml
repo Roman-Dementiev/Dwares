@@ -54,18 +54,20 @@
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
-								<local:ToolButton x:Name="call" 
-														Grid.Row="0" Grid.Column="0"
-														Command="{Binding CallClientCommand}"
-														>
-									<local:ToolButton.Image>
+								<Button Grid.Row="0" Grid.Column="0"
+												HorizontalOptions="Center"
+												VerticalOptions="Center"
+												BackgroundColor="Transparent"
+												Command="{Binding CallClientCommand}"
+												>
+									<Button.Image>
 										<OnPlatform x:TypeArguments="FileImageSource"
 														iOS="phone.png"
 														WinPhone="Images/phone48.png"
 														Android="ic_action_phone.png"
 														/>
-									</local:ToolButton.Image>
-								</local:ToolButton>
+									</Button.Image>
+								</Button>
 								<StackLayout Orientation="Vertical"
 											 HorizontalOptions="Fill"
 											 VerticalOptions="Center"

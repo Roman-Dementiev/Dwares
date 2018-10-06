@@ -172,5 +172,19 @@ namespace ACE.Models
 			}
 			return true;
 		}
+
+		public static List<Contact> GetContacts(ContactType contactType)
+		{
+			var contacts = Contacts;
+			var list = new List<Contact>();
+			foreach (var contact in contacts) {
+				if (contact.ContactType == contactType)
+					list.Add(contact);
+			}
+			return list;
+		}
+
+		public static List<Contact> GetClients() => GetContacts(ContactType.Client);
+		public static List<Contact> GetOffices() => GetContacts(ContactType.Office);
 	}
 }

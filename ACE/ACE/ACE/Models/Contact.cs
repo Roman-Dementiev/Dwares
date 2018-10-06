@@ -19,20 +19,20 @@ namespace ACE.Models
 			ContactType = type;
 		}
 
-		public Contact(Contact src) :
-			this(src.ContactType)
-		{
-			CopyFrom(src);
-		}
+		//public Contact(Contact src) :
+		//	this(src.ContactType)
+		//{
+		//	CopyFrom(src);
+		//}
 
-		public void CopyFrom(Contact src)
-		{
-			ContactType = src.ContactType;
-			Name = src.Name;
-			Phone = src.Phone;
-			Address = src.Address;
-			Comment = src.Comment;
-		}
+		//public void CopyFrom(Contact src)
+		//{
+		//	ContactType = src.ContactType;
+		//	Name = src.Name;
+		//	Phone = src.Phone;
+		//	Address = src.Address;
+		//	Comment = src.Comment;
+		//}
 
 		public ContactType ContactType { get; private set;  }
 		public bool IsClient => ContactType == ContactType.Client;

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 			 x:Class="ACE.Views.PickupDetailPage"
 			 Title="Pickup Details"
 			 >
@@ -47,17 +48,28 @@
 							/>
 			</StackLayout>
 			<Label Text="Name"/>
-			<Entry x:Name="name"
+			<!--<Entry x:Name="name"
 				   Placeholder="Enter Client Name"
 				   Text="{Binding ClientName}"
-				   />
+				   />-->
+			<ui:AutoSuggestEntry x:Name="name"
+								Placeholder="Enter Client Name"
+								Text="{Binding ClientName}"
+								SuggestionSource="{Binding ClientNameSuggestions}"
+								/>
 
 			<Label Text="Phone Number"/>
-			<Entry x:Name="phone"
+			<!--<Entry x:Name="phone"
 				   Placeholder="Enter Client Phone Number"
 				   Text="{Binding ClientPhone}"
 				   Keyboard="Telephone"
-				   />
+				   />-->
+			<ui:AutoSuggestEntry x:Name="phone"
+								Placeholder="Enter Client Phone Number"
+								Text="{Binding ClientPhone}"
+								SuggestionSource="{Binding ClientPhoneSuggestions}"
+								/>
+
 
 			<Label Text="Address"/>
 			<Entry x:Name="address"
@@ -76,14 +88,26 @@
 							Time="{Binding AppoitmentTime}"
 							/>
 			</StackLayout>
-			<Entry x:Name="officeName"
+			<!--<Entry x:Name="officeName"
 				   Placeholder="Enter Office Name"
 				   Text="{Binding OfficeName}"
-				   />
-			<Entry x:Name="officePhone"
+				   />-->
+			<ui:AutoSuggestEntry x:Name="officeName"
+								Placeholder="Enter Office Name"
+								Text="{Binding OfficeName}"
+								SuggestionSource="{Binding OfficeNameSuggestions}"
+								/>
+
+			<!--<Entry x:Name="officePhone"
 				   Placeholder="Enter Office Phone"
 				   Text="{Binding OfficePhone}"
-				   />
+				   />-->
+			<ui:AutoSuggestEntry x:Name="officePhone"
+								Placeholder="Enter Office Phone Number"
+								Text="{Binding OfficePhone}"
+								SuggestionSource="{Binding OfficePhoneSuggestions}"
+								/>
+
 			<Entry x:Name="officeAddress"
 				   Placeholder="Enter Office Address"
 				   Text="{Binding OfficeAddress}"

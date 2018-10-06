@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid
+namespace Dwares.Druid.Support
 {
 	public class BindingScope : CommandTarget, INotifyPropertyChanged
 	{

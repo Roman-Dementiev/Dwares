@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid
+namespace Dwares.Druid.Support
 {
 	public static class Navigator
 	{

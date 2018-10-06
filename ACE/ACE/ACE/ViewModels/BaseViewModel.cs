@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
-using ACE.Models;
-using ACE.Services;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace ACE.ViewModels
@@ -39,7 +38,7 @@ namespace ACE.ViewModels
 
 			backingStore = value;
 			onChanged?.Invoke();
-			OnPropertyChanged(propertyName);
+			RaisePropertyChanged(propertyName);
 			return true;
 		}
 

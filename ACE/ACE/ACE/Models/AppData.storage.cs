@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using ACE.Services;
 using Newtonsoft.Json;
+using Dwares.Dwarf;
 
 
 namespace ACE.Models
@@ -119,10 +120,19 @@ namespace ACE.Models
 				});
 			}
 
-			foreach (var rec in json.Pickups) {
+			foreach (var rec in json.Pickups)
+			{
+				var client = AppData.GetContactByPhone(rec.ClientPhone);
+				if (client == null)
+					continue;
+
+				var office = AppData.GetContactByPhone(rec.OfficePhone);
+				if (office == null)
+					continue;
+
 				AddPickupInternal(pickups, new Pickup {
-					Client = AppData.GetContactByPhone(rec.ClientPhone),
-					Office = AppData.GetContactByPhone(rec.OfficePhone),
+					Client = client,
+					Office = office,
 					PickupTime = rec.PickupTime,
 					AppoitmentTime = rec.AppoitmentTime
 				});

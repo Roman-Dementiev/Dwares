@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 using ACE.Services;
 
-[assembly: Dependency(typeof(ACE.UWP.DeviceStorage))]
 
+[assembly: Dependency(typeof(ACE.UWP.DeviceStorage))]
 namespace ACE.UWP
 {
 	class DeviceFile : IDeviceFile

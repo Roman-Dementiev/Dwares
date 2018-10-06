@@ -34,8 +34,6 @@ namespace ACE.Models
 			var today = DateTime.Today;
 			var span = new TimeSpan(hours, minutes, seconds);
 			dt = today.Add(span);
-			Debug.Print("ScheduledTime(): hours={0}, minutes={1} today-{2} span={3} => {4} [{5}]", 
-				hours, minutes, today, span, dt, ToString());
 		}
 
 		public static implicit operator ScheduleTime(DateTime time) => new ScheduleTime(time);

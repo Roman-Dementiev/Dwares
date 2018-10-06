@@ -17,8 +17,12 @@ namespace ACE.Views
 			BindingContext = viewModel = new PickupDetailViewModel(Navigation, pickup);
 
 			InitializeComponent();
+		}
 
-			//pickupTime.Time
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			viewModel.UpdateAutoSuggestions();
 		}
 	}
 }

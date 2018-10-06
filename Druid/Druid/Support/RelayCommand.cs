@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace Dwares.Druid
+namespace Dwares.Druid.Support
 {
 	public class RelayCommand : ICommand
 	{

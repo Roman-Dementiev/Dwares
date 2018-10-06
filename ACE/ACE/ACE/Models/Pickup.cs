@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Xamarin.Forms;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace ACE.Models
@@ -39,7 +40,7 @@ namespace ACE.Models
 				if (value != isSelected) {
 					isSelected = value;
 
-					OnPropertiesChanged(
+					PropertiesChanged(
 						nameof(IsSelected),
 						nameof(ShowOfficeInfo),
 						nameof(ShowOfficeName),

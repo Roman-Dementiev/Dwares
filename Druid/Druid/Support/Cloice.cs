@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid
+namespace Dwares.Druid.Support
 {
 	public interface IChoice
 	{

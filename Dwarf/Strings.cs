@@ -26,6 +26,22 @@ namespace Dwares.Dwarf
 			return false;
 		}
 
+		public static bool IsNullOrEmpty(object obj, bool whitespaceIsEmpty)
+		{
+			if (obj == null)
+				return true;
+
+			var str = obj.ToString();
+			if (whitespaceIsEmpty) {
+				return String.IsNullOrWhiteSpace(str);
+			} else {
+				return String.IsNullOrEmpty(str);
+			}
+		}
+
+		public static bool IsNullOrEmpty(object obj) => IsNullOrEmpty(obj, false);
+		public static bool IsNullOrBlank(object obj) => IsNullOrEmpty(obj, true);
+
 		public static string JoinNonEmpty(IEnumerable parts, string separator, Func<object, string> toString, string prefix = null, string suffix = null)
 		{
 			if (separator == null)

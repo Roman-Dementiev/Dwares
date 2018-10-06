@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid
+namespace Dwares.Druid.Support
 {
 	public interface ICommandTarget
 	{
 		ICommandTarget ChainOfCommand { get; set; }
 		bool CanExecute(string commandUid, object parameter);
 		void Execute(string commandUid, object parameter);
-		Command GetCommand(string commandUid, bool ownOnly = false);
+		CommandEx GetCommand(string commandUid, bool ownOnly = false);
 		void ChangeCanExecute();
 	}
 
@@ -29,26 +29,26 @@ namespace Dwares.Druid
 
 		public ICommandTarget ChainOfCommand { get; set; }
 
-		IEnumerable<Command> commands = null;
-		public IEnumerable<Command> Commands {
+		IEnumerable<CommandEx> commands = null;
+		public IEnumerable<CommandEx> Commands {
 			get => GetGommands();
 			protected set => SetCommands(value);
 		}
 
-		public virtual IEnumerable<Command> GetGommands(bool create = false)
+		public virtual IEnumerable<CommandEx> GetGommands(bool create = false)
 		{
 			if (commands == null && create) {
-				commands = new List<Command>();
+				commands = new List<CommandEx>();
 			}
 			return commands;
 		}
 
-		public virtual void SetCommands(IEnumerable<Command> commands)
+		public virtual void SetCommands(IEnumerable<CommandEx> commands)
 		{
 			this.commands = commands;
 		}
 
-		public Command GetCommand(string commandUid, bool ownOnly = false)
+		public CommandEx GetCommand(string commandUid, bool ownOnly = false)
 		{
 			if (String.IsNullOrEmpty(commandUid))
 				return null;
