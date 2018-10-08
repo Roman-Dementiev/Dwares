@@ -14,6 +14,8 @@ namespace Dwares.Dwarf
 
 	public static class Debug
 	{
+		const string AssertFailed = "Assert.Failed";
+		const string Failed = "Failed";
 		const string ExceptionCaughtFormat = "Exception caught: {0}";
 #if DEBUG
 		public static readonly Tracer Tracer = new Tracer(new DebugWire());
@@ -26,11 +28,26 @@ namespace Dwares.Dwarf
 		public static void Assert(bool condition, string message = null, string detailFormat = null, params object[] detailArgs)
 		{
 			if (!String.IsNullOrEmpty(detailFormat)) {
-				System.Diagnostics.Debug.Assert(condition, message ?? "Assert.Failed", detailFormat, detailArgs);
+				var details = String.Format(detailFormat, detailArgs);
+				System.Diagnostics.Debug.Assert(condition, message ?? AssertFailed, details);
 			} else if (String.IsNullOrEmpty(message)) {
 				System.Diagnostics.Debug.Assert(condition);
 			} else {
 				System.Diagnostics.Debug.Assert(condition, message);
+			}
+		}
+
+		[System.Diagnostics.Conditional("DEBUG")]
+		public static void Fail(string message = null, string detailFormat = null, params object[] detailArgs)
+		{
+			if (String.IsNullOrEmpty(message))
+				message = Failed;
+
+			if (!String.IsNullOrEmpty(detailFormat)) {
+				var details = String.Format(detailFormat, detailArgs);
+				System.Diagnostics.Debug.Fail(message, details);
+			} else {
+				System.Diagnostics.Debug.Fail(message);
 			}
 		}
 

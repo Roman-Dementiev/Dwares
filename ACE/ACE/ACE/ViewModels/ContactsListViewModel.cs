@@ -25,7 +25,7 @@ namespace ACE.ViewModels
 			Callable = contactType == ContactType.Company;
 			AddCommand = new Command(OnAdd);
 			EditCommand = new Command(OnEdit, HasSelected);
-			DeleteCommand = new Command(OnDelete, CanDelete);
+			DeleteCommand = new Command(OnDelete, () => AppData.CanDelete(Selected));
 
 			ResetContacts();
 
@@ -78,22 +78,16 @@ namespace ACE.ViewModels
 
 		protected virtual async void OnAdd()
 		{
-			await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(ContactType)));
+			var page = new ContactDetailPage(ContactType);
+			await Navigator.NavigateToModal(page);
 		}
 
 		protected virtual async void OnEdit()
 		{
 			if (Selected != null) {
-				await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(Selected)));
-			//} else {
-			//	//await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(ContactType)));
-			//	await Navigator.NavigateTo(new NavigationPage(new ContactDetailPage(ContactType)));
+				var page = new ContactDetailPage(Selected);
+				await Navigator.NavigateToModal(page);
 			}
-		}
-
-		private bool CanDelete()
-		{
-			return Selected != null && !AppData.isEngaged(Selected);
 		}
 
 		private async void OnDelete()

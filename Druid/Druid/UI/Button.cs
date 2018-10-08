@@ -6,7 +6,7 @@
 
 //namespace Dwares.Druid.UI
 //{
-//	public class Button: Xamarin.Forms.Button
+//	public class Button : Xamarin.Forms.Button
 //	{
 //		public Button()
 //		{

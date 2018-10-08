@@ -7,7 +7,7 @@ namespace Dwares.Dwarf.Runtime
 {
 	public static class Reflection
 	{
-		static readonly Type[] cNoParams = new Type[0];
+		public static readonly Type[] cNoParams = new Type[0];
 
 		public static TResult EvalForType<TResult>(Type type, Func<Type, TResult> eval) where TResult : class
 		{
@@ -244,6 +244,12 @@ namespace Dwares.Dwarf.Runtime
 			return methodInfo;
 		}
 
+		public static object InvokeMethod(object target, string methodName, bool required = true)
+		{
+			var methodInfo = GetMethod(target, methodName, cNoParams, null, required);
+			return methodInfo?.Invoke(target, new object[] { });
+		}
+
 		public static object InvokeMethod(object target, string methodName, Type argType, object arg, bool required = true)
 		{
 			MethodInfo methodInfo = GetMethod(target, methodName, new Type[] { argType }, null, required);
@@ -256,11 +262,11 @@ namespace Dwares.Dwarf.Runtime
 			return methodInfo?.Invoke(target, args);
 		}
 
-		public static object InvokeMethod(object target, string methodName, bool required = true)
-		{
-			MethodInfo methodInfo = GetMethod(target, methodName, cNoParams, null, required);
-			return methodInfo?.Invoke(target, null);
-		}
+		//public static object InvokeMethod(object target, string methodName, bool required = true)
+		//{
+		//	MethodInfo methodInfo = GetMethod(target, methodName, cNoParams, null, required);
+		//	return methodInfo?.Invoke(target, null);
+		//}
 
 		public static TReturn InvokeMethod<TReturn>(object target, string methodName, Type[] argTypes, object[] args, bool required = true)
 		{
@@ -272,7 +278,7 @@ namespace Dwares.Dwarf.Runtime
 			}
 		}
 
-		public static TReturn InvokeMethod<TReturn>(object target, string methodName, object[] args, bool required = true)
+		public static Type[] GetArgumentTypes(object[] args)
 		{
 			Type[] argTypes = new Type[args.Length];
 			for (int i = 0; i < args.Length; i++) {
@@ -283,12 +289,28 @@ namespace Dwares.Dwarf.Runtime
 					argTypes[i] = args[i].GetType();
 				}
 			}
+			return argTypes;
+		}
 
-			MethodInfo methodInfo = GetMethod(target, methodName, argTypes, typeof(TReturn), required);
+		public static TReturn InvokeMethod<TReturn>(object target, string methodName, object[] args, bool required = true)
+		{
+			var argTypes = GetArgumentTypes(args);
+			var methodInfo = GetMethod(target, methodName, argTypes, typeof(TReturn), required);
 			if (methodInfo != null) {
 				return (TReturn)methodInfo.Invoke(target, args);
 			} else {
 				return default(TReturn);
+			}
+		}
+
+		public static object InvokeMethod(object target, string methodName, object[] args, bool required = true)
+		{
+			var argTypes = GetArgumentTypes(args);
+			var methodInfo = GetMethod(target, methodName, argTypes, typeof(void), required);
+			if (methodInfo != null) {
+				return methodInfo.Invoke(target, args);
+			} else {
+				return typeof(void);
 			}
 		}
 

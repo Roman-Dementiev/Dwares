@@ -31,7 +31,7 @@ namespace ACE.ViewModels
 		private Task AddOrEdit(Pickup pickup)
 		{
 			var page = new PickupDetailPage(pickup);
-			return Navigation.PushModalAsync(new NavigationPage(page));
+			return Navigator.NavigateToModal(page);
 		}
 
 		private async void OnDelete()

@@ -37,7 +37,7 @@ namespace ACE.Models
 		static ClassRef @class = new ClassRef(typeof(AppData));
 
 		static Settings settings = new Settings {
-			CompanyContactsAreEditable = false
+			CanDeleteCompanyContacts = false
 		};
 
 		static ObservableCollection<Contact> contacts = null;
@@ -128,33 +128,33 @@ namespace ACE.Models
 			}
 		}
 
-		static void AddContactInfo(Contact contact, Contact newContact)
-		{
-			if (newContact.ContactType != contact.ContactType) {
-				// TODO
-				return;
-			}
+		//static void AddContactInfo(Contact contact, Contact newContact)
+		//{
+		//	if (newContact.ContactType != contact.ContactType) {
+		//		// TODO
+		//		return;
+		//	}
 
-			if (String.IsNullOrEmpty(contact.Name)) {
-				contact.Name = newContact.Name;
-			} else if (!String.IsNullOrEmpty(newContact.Name) && newContact.Name != contact.Name) {
-				// TODO
-				return;
-			}
+		//	if (String.IsNullOrEmpty(contact.Name)) {
+		//		contact.Name = newContact.Name;
+		//	} else if (!String.IsNullOrEmpty(newContact.Name) && newContact.Name != contact.Name) {
+		//		// TODO
+		//		return;
+		//	}
 
-			if (String.IsNullOrEmpty(contact.Address)) {
-				contact.Address = newContact.Address;
-			} else if (!String.IsNullOrEmpty(newContact.Address) && newContact.Address != contact.Address) {
-				// TODO
-			}
+		//	if (String.IsNullOrEmpty(contact.Address)) {
+		//		contact.Address = newContact.Address;
+		//	} else if (!String.IsNullOrEmpty(newContact.Address) && newContact.Address != contact.Address) {
+		//		// TODO
+		//	}
 
-			if (String.IsNullOrEmpty(contact.AltPhone)) {
-				contact.AltPhone = newContact.AltPhone;
-			}
-			if (String.IsNullOrEmpty(contact.AltAddress)) {
-				contact.AltPhone = newContact.AltAddress;
-			}
-		}
+		//	if (String.IsNullOrEmpty(contact.AltPhone)) {
+		//		contact.AltPhone = newContact.AltPhone;
+		//	}
+		//	if (String.IsNullOrEmpty(contact.AltAddress)) {
+		//		contact.AltPhone = newContact.AltAddress;
+		//	}
+		//}
 
 		public static async Task RemovePickup(Pickup pickup)
 		{
@@ -184,47 +184,45 @@ namespace ACE.Models
 			return null;
 		}
 
-		delegate bool ContactIsEngaged(Contact contact, Pickup pickup);
+		public static bool CanDelete(Contact contact)
+		{
+			if (contact == null)
+				return false;
+
+			if (contact.ContactType == ContactType.Company)
+				return settings.CanDeleteCompanyContacts;
+
+			return !IsEngaged(contact);
+		}
+
+		delegate bool ContactIsEngaged(Pickup pickup);
 		static bool IsEngaged(Contact contact, ContactIsEngaged isEngaged)
 		{
 			if (contact.ContactType == ContactType.Company)
-				return !settings.CompanyContactsAreEditable;
+				return false;
 
 			var pickups = Pickups;
 			foreach (var pickup in pickups) {
-				if (isEngaged(contact, pickup))
+				if (isEngaged(pickup))
 					return true;
 			}
 			return false;
 		}
 
-		public static bool isEngaged(Contact contact)
+		public static bool IsEngaged(Contact contact)
 		{
-			return IsEngaged(contact, (_contact, pickup) => pickup.Client == _contact || pickup.Office == _contact);
+			return IsEngaged(contact, (pickup) => pickup.Client == contact || pickup.Office == contact);
 		}
 
 		public static bool HasPickup(Contact contact)
 		{
-			return IsEngaged(contact, (_contact, pickup) => pickup.Client == _contact);
+			return IsEngaged(contact, (pickup) => pickup.Client == contact);
 		}
 
 		public static bool HasAppoitment(Contact contact)
 		{
-			return IsEngaged(contact, (_contact, pickup) => pickup.Office == _contact);
+			return IsEngaged(contact, (pickup) => pickup.Office == contact);
 		}
-
-		//public static bool IsEngaged(Contact contact)
-		//{
-		//	if (contact.ContactType == ContactType.Company)
-		//		return !settings.CompanyContactsAreEditable;
-
-		//	var pickups = Pickups;
-		//	foreach (var pickup in Pickups) {
-		//		if (pickup.Client == contact || pickup.Office == contact)
-		//			return true;
-		//	}
-		//	return false;
-		//}
 
 		public static List<Contact> GetContacts(ContactType contactType)
 		{

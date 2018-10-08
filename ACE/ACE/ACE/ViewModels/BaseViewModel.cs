@@ -12,10 +12,10 @@ namespace ACE.ViewModels
 	{
 		public BaseViewModel(INavigation navigation)
 		{
-			Navigation = navigation;
+			//Navigation = navigation;
 		}
 
-		public INavigation Navigation { get; }
+		//public INavigation Navigation { get; }
 
 		bool isBusy = false;
 		public bool IsBusy {

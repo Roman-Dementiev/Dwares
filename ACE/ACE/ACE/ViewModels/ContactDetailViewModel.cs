@@ -17,6 +17,19 @@ namespace ACE.ViewModels
 			Source = source;
 			ContactType = type;
 
+			switch (type)
+			{
+			case ContactType.Client:
+				Title = "Client Details";
+				break;
+			case ContactType.Office:
+				Title = "Office Details";
+				break;
+			default:
+				Title = "Contact Details";
+				break;
+			}
+
 			if (source != null) {
 				Name = source.Name;
 				Phone = source.Phone;
@@ -50,12 +63,13 @@ namespace ACE.ViewModels
 			};
 
 			await AppData.ReplaceContact(newContact, Source);
-			await Navigation.PopModalAsync();
+			//await Navigation.PopModalAsync();
 		}
 
 		public async void OnCancel()
 		{
-			await Navigation.PopModalAsync();
+			//await Navigation.PopModalAsync();
+			await Navigator.PopPageAsync();
 		}
 	}
 }

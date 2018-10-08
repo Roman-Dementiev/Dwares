@@ -231,12 +231,14 @@ namespace ACE.ViewModels
 				Source.AppoitmentTime = (ScheduleTime)this.AppoitmentTime;
 			}
 
-			await Navigation.PopModalAsync();
+			//await Navigation.PopModalAsync();
+			await Navigator.PopPageAsync();
 		}
 
 		public async void OnCancel()
 		{
-			await Navigation.PopModalAsync();
+			//await Navigation.PopModalAsync();
+			await Navigator.PopPageAsync();
 		}
 	}
 }

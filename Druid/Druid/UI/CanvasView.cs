@@ -50,7 +50,7 @@ namespace Dwares.Druid.UI
 			var canvas = e.Surface.Canvas;
 			canvas.Save();
 			try {
-				using (var objects = new Disposeables()) {
+				using (var objects = new Disposables()) {
 					Draw(canvas, objects);
 				}
 			}
@@ -62,7 +62,7 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		protected virtual void Draw(SKCanvas canvas, Disposeables objects) { }
+		protected virtual void Draw(SKCanvas canvas, Disposables objects) { }
 
 		//protected override void OnTouch(SKTouchEventArgs e)
 		//{

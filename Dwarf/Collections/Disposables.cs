@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+
 
 namespace Dwares.Dwarf.Collections
 {
-	public class Disposeables: IDisposable
+	public class Disposables: IDisposable
 	{
 		List<IDisposable> list = new List<IDisposable>();
 

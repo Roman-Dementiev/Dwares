@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ACE.Views;
 using ACE.Models;
+using Dwares.Dwarf;
 using Dwares.Druid.Support;
 
 
@@ -20,6 +21,8 @@ namespace ACE
 
 			mainPage = new MainPage();
 			MainPage = mainPage;
+
+			Navigator.Initialize();
 		}
 
 		public static new App Current => Application.Current as App;

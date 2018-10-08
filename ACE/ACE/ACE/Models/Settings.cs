@@ -6,6 +6,6 @@ namespace ACE.Models
 {
 	public class Settings
 	{
-		public bool CompanyContactsAreEditable { get; set; }
+		public bool CanDeleteCompanyContacts { get; set; }
 	}
 }
