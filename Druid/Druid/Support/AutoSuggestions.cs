@@ -152,13 +152,6 @@ namespace Dwares.Druid.Support
 			if (SuggestionSource == null)
 				return;
 
-			//Debug.Print("CollectSuggestions: {0}, mode={1}", input, mode);
-
-			//var seps = new char[separators.Length];
-			//for (int i = 0; i < separators.Length; i++) {
-			//	seps[i] = separators[i];
-			//}
-
 			foreach (var item in SuggestionSource) {
 				var text = Match(input, item, mode, separators.ToCharArray());
 				if (text != null) {

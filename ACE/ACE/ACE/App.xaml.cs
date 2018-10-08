@@ -4,6 +4,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ACE.Views;
 using ACE.Models;
+using Dwares.Druid.Support;
+
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace ACE
@@ -16,8 +18,8 @@ namespace ACE
 		{
 			InitializeComponent();
 
-
-			MainPage = mainPage = new MainPage();
+			mainPage = new MainPage();
+			MainPage = mainPage;
 		}
 
 		public static new App Current => Application.Current as App;
@@ -53,6 +55,11 @@ namespace ACE
 		public static async Task ErrorAlert(string message, string dismiss = "OK")
 		{
 			await Alert("Error", message, dismiss);
+		}
+
+		public static async Task<bool> ConfirmAlert(string message, string accept = "Yes", string dismiss = "No")
+		{
+			return await Alert("Confirm", message, accept, dismiss);
 		}
 	}
 }

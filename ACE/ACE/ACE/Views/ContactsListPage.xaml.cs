@@ -10,8 +10,8 @@ namespace ACE.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ContactsListPage : ContentPage
 	{
-		ContactsViewModel viewModel;
-		public ContactsViewModel ViewModel => viewModel;
+		ContactsListViewModel viewModel;
+		public ContactsListViewModel ViewModel => viewModel;
 
 		public ContactsListPage() : this(ContactType.Company) { }
 
@@ -19,7 +19,7 @@ namespace ACE.Views
 
 		public ContactsListPage(ContactType contactType)
 		{
-			BindingContext = viewModel = new ContactsViewModel(Navigation, contactType);
+			BindingContext = viewModel = new ContactsListViewModel(Navigation, contactType);
 
 			InitializeComponent();
 		}

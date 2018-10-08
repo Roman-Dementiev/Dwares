@@ -48,34 +48,30 @@
 							/>
 			</StackLayout>
 			<Label Text="Name"/>
-			<!--<Entry x:Name="name"
-				   Placeholder="Enter Client Name"
-				   Text="{Binding ClientName}"
-				   />-->
-			<ui:AutoSuggestEntry x:Name="name"
-								Placeholder="Enter Client Name"
-								Text="{Binding ClientName}"
-								SuggestionSource="{Binding ClientNameSuggestions}"
-								/>
+			<ui:AutoSuggestEntry x:Name="clientName"
+								 Placeholder="Enter Client Name"
+								 Text="{Binding ClientName}"
+								 InputTransparent="{Binding IsEditing}"
+								 SuggestionSource="{Binding ClientNameSuggestions}"
+								 AutoSuggestionSelected="OnClientNameSelected"
+								 />
 
 			<Label Text="Phone Number"/>
-			<!--<Entry x:Name="phone"
-				   Placeholder="Enter Client Phone Number"
-				   Text="{Binding ClientPhone}"
-				   Keyboard="Telephone"
-				   />-->
-			<ui:AutoSuggestEntry x:Name="phone"
-								Placeholder="Enter Client Phone Number"
-								Text="{Binding ClientPhone}"
-								SuggestionSource="{Binding ClientPhoneSuggestions}"
-								/>
+			<ui:AutoSuggestEntry x:Name="clientPhone"
+								 Placeholder="Enter Client Phone Number"
+								 Text="{Binding ClientPhone}"
+								 InputTransparent="{Binding IsEditing}"
+								 SuggestionSource="{Binding ClientPhoneSuggestions}"
+								 AutoSuggestionSelected="OnClientPhoneSelected"
+								 SelectExactMatch="True"
+								 />
 
 
 			<Label Text="Address"/>
-			<Entry x:Name="address"
-				   Placeholder="Enter Client Address"
-				   Text="{Binding ClientAddress}"
-				   />
+			<Editor x:Name="clientAddress"
+					HeightRequest="50"
+					Text="{Binding ClientAddress}"
+					/>
 
 			<Label Text=""/>
 
@@ -93,99 +89,31 @@
 				   Text="{Binding OfficeName}"
 				   />-->
 			<ui:AutoSuggestEntry x:Name="officeName"
-								Placeholder="Enter Office Name"
-								Text="{Binding OfficeName}"
-								SuggestionSource="{Binding OfficeNameSuggestions}"
-								/>
+								 Placeholder="Enter Office Name"
+								 Text="{Binding OfficeName}"
+								 InputTransparent="{Binding IsEditing}"
+								 SuggestionSource="{Binding OfficeNameSuggestions}"
+								 AutoSuggestionSelected="OnOfficeNameSelected"
+								 />
 
 			<!--<Entry x:Name="officePhone"
 				   Placeholder="Enter Office Phone"
 				   Text="{Binding OfficePhone}"
 				   />-->
 			<ui:AutoSuggestEntry x:Name="officePhone"
-								Placeholder="Enter Office Phone Number"
-								Text="{Binding OfficePhone}"
-								SuggestionSource="{Binding OfficePhoneSuggestions}"
-								/>
+								 Placeholder="Enter Office Phone Number"
+								 Text="{Binding OfficePhone}"
+								 InputTransparent="{Binding IsEditing}"
+								 SuggestionSource="{Binding OfficePhoneSuggestions}"
+								 AutoSuggestionSelected="OnOfficePhoneSelected"
+								 SelectExactMatch="True"
+								 />
 
-			<Entry x:Name="officeAddress"
-				   Placeholder="Enter Office Address"
-				   Text="{Binding OfficeAddress}"
-				   />
+			<Editor x:Name="officeAddress"
+					HeightRequest="50"
+					Text="{Binding OfficeAddress}"
+					/>
 		</StackLayout>
 	</ContentPage.Content>
 
-
-	<!--<ContentPage.Content>
-		<Grid Margin="8">
-			<Grid.RowDefinitions>
-				--><!-- 0: NameLabel--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 1: Name Entry--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 2: Phone Label--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 4: Phone Entry--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 4: Address Label--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 5: Address Entry--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 6: --><!--
-				<RowDefinition Height="10" />
-				--><!-- 7: "To"--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 8: Office Name Entry--><!--
-				<RowDefinition Height="Auto" />
-				--><!-- 9: Office Address Entry--><!--
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-
-			<Label Grid.Row="0" Grid.Column="0"
-				   Text="Name"
-				   />
-			<Entry Grid.Row="1" Grid.Column="0"
-				   x:Name="name"
-				   Placeholder="Enter Client Name"
-				   Text="{Binding ClientName}"
-				   />
-
-			<Label Grid.Row="2" Grid.Column="0"
-				   Text="Phone Number"
-				   />
-			<Entry Grid.Row="3" Grid.Column="0"
-				   x:Name="phone"
-				   Placeholder="Enter Client Phone Number"
-				   Text="{Binding ClientPhone}"
-				   Keyboard="Telephone"
-				   />
-
-			<Label Grid.Row="4" Grid.Column="0"
-				   Text="Address"
-				   />
-			<Entry Grid.Row="5" Grid.Column="0"
-				   x:Name="address"
-				   Placeholder="Enter Client Address"
-				   Text="{Binding ClientAddress}"
-				   />
-
-			<Label Grid.Row="7" Grid.Column="0"
-				   Text="To:"
-				   />
-			<Entry Grid.Row="8" Grid.Column="0"
-				   x:Name="officeName"
-				   Placeholder="Enter Office Name"
-				   Text="{Binding OfficeName}"
-				   />
-			<Entry Grid.Row="9" Grid.Column="0"
-				   x:Name="office"
-				   Placeholder="Enter Office Address"
-				   Text="{Binding OfficeAddress}"
-				   />
-		</Grid>
-	</ContentPage.Content>-->
 </ContentPage>

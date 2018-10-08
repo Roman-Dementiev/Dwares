@@ -90,7 +90,7 @@
 											   />
 									</Grid>
 									<Label x:Name="phone"
-										   FontSize="Medium"
+										   FontSize="Default"
 										   Text="{Binding ClientPhone}"
 										   />
 									<Label x:Name="address"

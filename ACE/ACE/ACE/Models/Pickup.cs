@@ -1,6 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 
 
@@ -19,19 +19,18 @@ namespace ACE.Models
 			Office = new Contact(ContactType.Office);
 		}
 
-		//public Pickup(Pickup src) :
-		//	this()
-		//{
-		//	if (src != null) {
-		//		CopyFrom(src);
-		//	}
-		//}
+		public Pickup(Contact client, Contact office)
+		{
+			Client = client;
+			Office = office;
+		}
 
-		//public void CopyFrom(Pickup src)
-		//{
-		//	Client.CopyFrom(src.Client);
-		//	Office.CopyFrom(src.Office);
-		//}
+		public override string ToString()
+		{
+			return Strings.Properties(this,
+				new string[] { nameof(Client), nameof(Office), nameof(PickupTime), nameof(AppoitmentTime) },
+				skipNull: true);
+		}
 
 		bool isSelected;
 		public bool IsSelected {
@@ -52,27 +51,45 @@ namespace ACE.Models
 
 		public string ClientName {
 			get => Client.Name;
-			set => Client.Name = value;
+			set {
+				Client.Name = value;
+				RaisePropertyChanged();
+			}
 		}
 		public string ClientPhone {
 			get => Client.Phone;
-			set => Client.Phone = value;
+			set {
+				Client.Phone = value;
+				RaisePropertyChanged();
+			}
 		}
 		public string ClientAddress {
 			get => Client.Address;
-			set => Client.Address = value;
+			set {
+				Client.Address = value;
+				RaisePropertyChanged();
+			}
 		}
 		public string OfficeName {
 			get => Office.Name;
-			set => Office.Name = value;
+			set {
+				Office.Name = value;
+				RaisePropertyChanged();
+			}
 		}
 		public string OfficePhone {
 			get => Office.Phone;
-			set => Office.Phone = value;
+			set {
+				Office.Phone = value;
+				RaisePropertyChanged();
+			}
 		}
 		public string OfficeAddress {
 			get => Office.Address;
-			set => Office.Address = value;
+			set {
+				Office.Address = value;
+				RaisePropertyChanged();
+			}
 		}
 
 		public TimeSpan PickupTimeSpan => PickupTime.TimeSpan;

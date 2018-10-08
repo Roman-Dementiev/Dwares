@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Collections.Specialized;
 using Xamarin.Forms;
 using ACE.Models;
 using ACE.Views;
-using System.Collections.Specialized;
+using Dwares.Druid.Support;
+
 
 namespace ACE.ViewModels
 {
-	public class ContactsViewModel : CollectionViewModel<Contact>
+	public class ContactsListViewModel : CollectionViewModel<Contact>
 	{
 		public ObservableCollection<Contact> Contacts => Items;
 		public ContactType ContactType { get;  }
@@ -17,13 +18,13 @@ namespace ACE.ViewModels
 		public Command EditCommand { get; }
 		public Command DeleteCommand { get; }
 
-		public ContactsViewModel(INavigation navigation, ContactType contactType) :
+		public ContactsListViewModel(INavigation navigation, ContactType contactType) :
 			base(navigation)
 		{
 			ContactType = contactType;
 			Callable = contactType == ContactType.Company;
 			AddCommand = new Command(OnAdd);
-			EditCommand = new Command(OnEdit, CanEdit);
+			EditCommand = new Command(OnEdit, HasSelected);
 			DeleteCommand = new Command(OnDelete, CanDelete);
 
 			ResetContacts();
@@ -75,28 +76,25 @@ namespace ACE.ViewModels
 			}
 		}
 
-		private bool SelectedIsEditable()
-		{
-			return Selected != null && AppData.IsEditable(Selected);
-		}
-
 		protected virtual async void OnAdd()
 		{
 			await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(ContactType)));
 		}
 
-		private bool CanEdit() => SelectedIsEditable();
-
 		protected virtual async void OnEdit()
 		{
 			if (Selected != null) {
 				await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(Selected)));
-			} else {
-				await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(ContactType)));
+			//} else {
+			//	//await Navigation.PushModalAsync(new NavigationPage(new ContactDetailPage(ContactType)));
+			//	await Navigator.NavigateTo(new NavigationPage(new ContactDetailPage(ContactType)));
 			}
 		}
 
-		private bool CanDelete() => SelectedIsEditable();
+		private bool CanDelete()
+		{
+			return Selected != null && !AppData.isEngaged(Selected);
+		}
 
 		private async void OnDelete()
 		{

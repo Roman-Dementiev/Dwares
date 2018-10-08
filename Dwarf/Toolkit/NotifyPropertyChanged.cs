@@ -28,6 +28,8 @@ namespace Dwares.Dwarf.Toolkit
 
 		protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
 		{
+			//if (EqualityComparer<T>.Default.Equals(oldValue,, value))
+			//	return false;
 			if (Object.Equals(storage, value))
 				return false;
 
@@ -35,5 +37,18 @@ namespace Dwares.Dwarf.Toolkit
 			RaisePropertyChanged(propertyName);
 			return true;
 		}
+
+		protected bool SetProperty<T>(IValueHolder<T> storage, T value, [CallerMemberName]string propertyName = "")
+		{
+			//if (EqualityComparer<T>.Default.Equals(storage.Value, value))
+			//	return false;
+			if (Object.Equals(storage.Value, value))
+				return false;
+
+			storage.Value = value;
+			RaisePropertyChanged(propertyName);
+			return true;
+		}
+
 	}
 }

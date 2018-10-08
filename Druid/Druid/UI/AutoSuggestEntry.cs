@@ -32,14 +32,7 @@ namespace Dwares.Druid.UI
 	{
 		public event AutoSuggestionSelectedEventHandler AutoSuggestionSelected;
 
-		public AutoSuggestEntry()
-		{
-			//Source = new AutoSuggestionStrings() {
-			//	Suggestions = new List<string>() {
-			//		 "None", "Test 1", "Test 2", "Another Test"
-			//	}
-			//};
-		}
+		public AutoSuggestEntry() {}
 
 		public static readonly BindableProperty PlaceholderProperty =
 			BindableProperty.Create(

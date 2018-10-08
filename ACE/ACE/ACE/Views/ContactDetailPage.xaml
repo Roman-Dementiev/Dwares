@@ -77,20 +77,20 @@
 			<Label Grid.Row="4" Grid.Column="0"
 				   Text="Address"
 				   />
-			<Entry Grid.Row="5" Grid.Column="0"
-				   x:Name="address"
-				   Placeholder="Enter Address"
-				   Text="{Binding Address}"
-				   />
+			<Editor Grid.Row="5" Grid.Column="0"
+					x:Name="address"
+					HeightRequest="75"
+					Text="{Binding Address}"
+					/>
 
 			<Label Grid.Row="6" Grid.Column="0"
 				   Text="Notes"
 				   />
-			<Entry Grid.Row="7" Grid.Column="0"
-				   x:Name="comment"
-				   Placeholder="Enter Notes"
-				   Text="{Binding Comment}"
-				   />
+			<Editor Grid.Row="7" Grid.Column="0"
+					x:Name="comment"
+					HeightRequest="75"
+					Text="{Binding Comment}"
+					/>
 		</Grid>
 	</ContentPage.Content>
 	

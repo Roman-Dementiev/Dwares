@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-
+using Dwares.Dwarf;
 
 namespace ACE.Models
 {
@@ -34,6 +34,8 @@ namespace ACE.Models
 
 	public static partial class AppData
 	{
+		static ClassRef @class = new ClassRef(typeof(AppData));
+
 		static Settings settings = new Settings {
 			CompanyContactsAreEditable = false
 		};
@@ -45,19 +47,35 @@ namespace ACE.Models
 		static ObservableCollection<Pickup> pickups = null;
 		public static ObservableCollection<Pickup> Pickups => LazyInitializer.EnsureInitialized(ref pickups);
 
-		public static async Task AddContact(Contact newContact) => await AddOrReplaceContact(newContact, null);
-		public static async Task ReplaceContact(Contact newContact, Contact oldContact) => await AddOrReplaceContact(newContact, oldContact);
-
-		static void AddContactInternal(ObservableCollection<Contact> contacts, Contact newContact, Contact oldContact = null)
+		public static async Task NewContact(Contact newContact)
 		{
-			contacts.AddOrReplace(newContact, oldContact);
-			//Debug.Print("Contact Added: Type={0} Phone={1} [Count={2}]", newContact.ContactType, newContact.Phone, Contacts.Count);
+			AddContact(Contacts, newContact);
+			await SaveAsync();
 		}
 
-		static async Task AddOrReplaceContact(Contact newContact, Contact oldContact)
+		public static async Task ReplaceContact(Contact newContact, Contact oldContact)
 		{
-			AddContactInternal(Contacts, newContact, oldContact);
+			AddContact(Contacts, newContact, oldContact);
+
+			if (oldContact != null) {
+				var pickups = Pickups;
+				foreach (var pickup in pickups) {
+					if (pickup.Client == oldContact) {
+						pickup.Client = newContact;
+					}
+					if (pickup.Office == oldContact) {
+						pickup.Office = newContact;
+					}
+				}
+			}
+
 			await SaveAsync();
+		}
+
+		static void AddContact(ObservableCollection<Contact> contacts, Contact newContact, Contact oldContact = null)
+		{
+			Debug.Trace(@class, nameof(AddContact), "{0}", newContact);
+			contacts.AddOrReplace(newContact, oldContact);
 		}
 
 		public static async Task RemoveContact(Contact contact)
@@ -68,40 +86,46 @@ namespace ACE.Models
 		}
 
 
-		public static async Task AddPickup(Pickup newPickup) => await AddOrReplacePickup(newPickup, null);
-		public static async Task ReplacePickup(Pickup newPickup, Pickup oldPickup) => await AddOrReplacePickup(newPickup, oldPickup);
-
-		static void AddPickupInternal(ObservableCollection<Pickup> pickups, Pickup newPickup, Pickup oldPickup = null)
+		public static async Task NewPickup(Pickup newPickup)
 		{
+			AddPickup(Pickups, newPickup);
+
+			await SaveAsync();
+		}
+
+		//public static async Task ReplacePickup(Pickup newPickup, Pickup oldPickup)
+		//{
+		//	AddPickup(Pickups, newPickup, oldPickup);
+
+		//	if (oldPickup == null) {
+		//		var client = GetContactByPhone(newPickup.ClientPhone);
+		//		if (client == null) {
+		//			contacts.Add(newPickup.Client);
+		//		} else {
+		//			AddContactInfo(client, newPickup.Client);
+		//		}
+
+		//		var office = GetContactByPhone(newPickup.OfficePhone);
+		//		if (office == null) {
+		//			contacts.Add(newPickup.Office);
+		//		} else {
+		//			AddContactInfo(office, newPickup.Office);
+		//		}
+		//	}
+
+		//	await SaveAsync();
+
+		//}
+
+		static void AddPickup(ObservableCollection<Pickup> pickups, Pickup newPickup, Pickup oldPickup = null)
+		{
+			Debug.Trace(@class, nameof(AddPickup), "{0}", newPickup);
 			pickups.AddOrReplace(newPickup, oldPickup);
 			//Debug.Print("Pickup {0}: {1}, Count={2}", oldPickup==null ? "added" : "replaced",  newPickup.ClientPhone, Contacts.Count);
 
 			if (newPickup.PickupTime.IsAfter(latestPickup)) {
 				latestPickup = newPickup.PickupTime;
 			}
-		}
-
-		static async Task AddOrReplacePickup(Pickup newPickup, Pickup oldPickup)
-		{
-			AddPickupInternal(Pickups, newPickup, oldPickup);
-
-			if (oldPickup == null) {
-				var client = GetContactByPhone(newPickup.ClientPhone);
-				if (client == null) {
-					contacts.Add(newPickup.Client);
-				} else {
-					AddContactInfo(client, newPickup.Client);
-				}
-
-				var office = GetContactByPhone(newPickup.OfficePhone);
-				if (office == null) {
-					contacts.Add(newPickup.Office);
-				} else {
-					AddContactInfo(office, newPickup.Office);
-				}
-			}
-
-			await SaveAsync();
 		}
 
 		static void AddContactInfo(Contact contact, Contact newContact)
@@ -160,18 +184,47 @@ namespace ACE.Models
 			return null;
 		}
 
-		public static bool IsEditable(Contact contact)
+		delegate bool ContactIsEngaged(Contact contact, Pickup pickup);
+		static bool IsEngaged(Contact contact, ContactIsEngaged isEngaged)
 		{
 			if (contact.ContactType == ContactType.Company)
-				return settings.CompanyContactsAreEditable;
+				return !settings.CompanyContactsAreEditable;
 
 			var pickups = Pickups;
-			foreach (var pickup in Pickups) {
-				if (pickup.Client == contact || pickup.Office == contact)
-					return false;
+			foreach (var pickup in pickups) {
+				if (isEngaged(contact, pickup))
+					return true;
 			}
-			return true;
+			return false;
 		}
+
+		public static bool isEngaged(Contact contact)
+		{
+			return IsEngaged(contact, (_contact, pickup) => pickup.Client == _contact || pickup.Office == _contact);
+		}
+
+		public static bool HasPickup(Contact contact)
+		{
+			return IsEngaged(contact, (_contact, pickup) => pickup.Client == _contact);
+		}
+
+		public static bool HasAppoitment(Contact contact)
+		{
+			return IsEngaged(contact, (_contact, pickup) => pickup.Office == _contact);
+		}
+
+		//public static bool IsEngaged(Contact contact)
+		//{
+		//	if (contact.ContactType == ContactType.Company)
+		//		return !settings.CompanyContactsAreEditable;
+
+		//	var pickups = Pickups;
+		//	foreach (var pickup in Pickups) {
+		//		if (pickup.Client == contact || pickup.Office == contact)
+		//			return true;
+		//	}
+		//	return false;
+		//}
 
 		public static List<Contact> GetContacts(ContactType contactType)
 		{

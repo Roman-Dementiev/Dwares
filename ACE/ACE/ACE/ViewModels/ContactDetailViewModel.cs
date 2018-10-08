@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using ACE.Models;
+using Dwares.Druid.Support;
 
 
 namespace ACE.ViewModels
@@ -47,8 +48,8 @@ namespace ACE.ViewModels
 				Address = this.Address,
 				Comment = this.Comment
 			};
-			await AppData.ReplaceContact(newContact, Source);
 
+			await AppData.ReplaceContact(newContact, Source);
 			await Navigation.PopModalAsync();
 		}
 

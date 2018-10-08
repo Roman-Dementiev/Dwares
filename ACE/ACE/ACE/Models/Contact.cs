@@ -2,6 +2,8 @@
 using Xamarin.Forms;
 using ACE.Services;
 using System.Threading;
+using Dwares.Dwarf;
+
 
 namespace ACE.Models
 {
@@ -19,20 +21,12 @@ namespace ACE.Models
 			ContactType = type;
 		}
 
-		//public Contact(Contact src) :
-		//	this(src.ContactType)
-		//{
-		//	CopyFrom(src);
-		//}
-
-		//public void CopyFrom(Contact src)
-		//{
-		//	ContactType = src.ContactType;
-		//	Name = src.Name;
-		//	Phone = src.Phone;
-		//	Address = src.Address;
-		//	Comment = src.Comment;
-		//}
+		public override string ToString()
+		{
+			return Strings.Properties(this,
+				new string[] { nameof(Name), nameof(Phone), nameof(AltPhone), nameof(Address), nameof(Comment) },
+				skipNull: true);
+		}
 
 		public ContactType ContactType { get; private set;  }
 		public bool IsClient => ContactType == ContactType.Client;
@@ -57,6 +51,21 @@ namespace ACE.Models
 		public async void Call()
 		{
 			await PhoneDialer.DialAsync(Phone, Name);
+		}
+
+		public bool NeedUpdate(string newName = null, string newAddress = null)
+		{
+			return
+				(!String.IsNullOrEmpty(newName) && newName != Name) ||
+				(!String.IsNullOrEmpty(newAddress) && newAddress != Address);
+		}
+
+		public void Update(string newName = null, string newAddress = null)
+		{
+			if (!String.IsNullOrEmpty(newName))
+				Name = newName;
+			if (!String.IsNullOrEmpty(newAddress))
+				Address = newAddress;
 		}
 	}
 }

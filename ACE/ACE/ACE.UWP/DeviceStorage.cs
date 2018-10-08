@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Xamarin.Forms;
-using Dwares.Dwarf;
+//using Dwares.Dwarf;
 using ACE.Services;
 
 
@@ -64,7 +64,7 @@ namespace ACE.UWP
 				await FileIO.WriteTextAsync(storageFile, text);
 			}
 			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+				//Debug.ExceptionCaught(ex);
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace ACE.UWP
 				}
 			}
 			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+				//Debug.ExceptionCaught(ex);
 				return null;
 			}
 		}
@@ -94,7 +94,7 @@ namespace ACE.UWP
 				return filenames;
 			}
 			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+				//Debug.ExceptionCaught(ex);
 				return null;
 			}
 		}
@@ -113,7 +113,7 @@ namespace ACE.UWP
 				return files;
 			}
 			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+				//Debug.ExceptionCaught(ex);
 				return null;
 			}
 		}
@@ -125,7 +125,7 @@ namespace ACE.UWP
 				await storageFile.DeleteAsync();
 			}
 			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+				//Debug.ExceptionCaught(ex);
 			}
 		}
 
@@ -187,7 +187,7 @@ namespace ACE.UWP
 				return new DeviceFolder(folder);
 			}
 			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+				//Debug.ExceptionCaught(ex);
 				return null;
 			}
 		}

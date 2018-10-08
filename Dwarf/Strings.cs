@@ -69,29 +69,6 @@ namespace Dwares.Dwarf
 
 		public static string JoinNonEmptyParts(IEnumerable parts, string separator, string prefix = null, string suffix = null)
 		{
-			//if (separator == null)
-			//	separator = String.Empty;
-
-			//string result = null;
-			//foreach (var part in parts)
-			//{
-			//	var str = part?.ToString();
-			//	if (String.IsNullOrEmpty(str))
-			//		continue;
-
-			//	if (result == null ) {
-			//		result = prefix ?? String.Empty;
-			//	} else {
-			//		result += separator;
-			//		result += str;
-			//	}
-			//}
-
-			//if (suffix != null) {
-			//	result += suffix;
-			//}
-			//return result;
-
 			return JoinNonEmpty(parts, separator, (value) => value?.ToString(), prefix, suffix);
 		}
 
@@ -218,10 +195,11 @@ namespace Dwares.Dwarf
 			string separator = null,
 			string format = null,
 			string prefix = DefaultProperiesPrefix,
-			string suffix = DefaultProperiesSuffix)
+			string suffix = DefaultProperiesSuffix,
+			bool skipNull = false)
 		{
 			var names = Reflection.GetPropertyNames(target, isReadable: true);
-			return Properties(target, names, separator, format, prefix, suffix);
+			return Properties(target, names, separator, format, prefix, suffix, skipNull);
 		}
 
 		public static string Properties(
@@ -230,7 +208,8 @@ namespace Dwares.Dwarf
 			string separator = null,
 			string format = null,
 			string prefix = DefaultProperiesPrefix,
-			string suffix = DefaultProperiesSuffix)
+			string suffix = DefaultProperiesSuffix,
+			bool skipNull = false)
 		{
 			if (names == null) {
 				names = Reflection.GetPropertyNames(target, isReadable: true, isExplicit: false);
@@ -242,14 +221,19 @@ namespace Dwares.Dwarf
 				values.Add(value);
 			}
 
-			return NamedValues(names, values, separator, null, prefix, suffix);
+			return NamedValues(names, values, separator, null, prefix, suffix, skipVoid: false, skipNull: skipNull);
 		}
 
 		public static string Properties(object target, params string[] names)
 		{
 			return Properties(target, (IEnumerable<string>)names);
 		}
-		
+
+		public static string NotEmptyProperties(object target, params string[] names)
+		{
+			return Properties(names, (IEnumerable<string>)names, skipNull: true);
+		}
+
 		public static string[] CharsAsStrings(this string str)
 		{
 			if (str == null)

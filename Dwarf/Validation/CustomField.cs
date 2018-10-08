@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Dwares.Dwarf.Toolkit;
+
 
 namespace Dwares.Dwarf.Validation
 {
-	public class CustomField<T> : Validatable<T>
+	public class CustomField<T> : Validatable<T>, IValueHolder<T>
 	{
 		public const string IsRequiredMessage = "Field is Required";
 

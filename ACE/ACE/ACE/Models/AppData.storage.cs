@@ -110,7 +110,7 @@ namespace ACE.Models
 			var pickups = Pickups;
 
 			foreach (var rec in json.Contacts) {
-				AddContactInternal(contacts, new Contact(rec.ContactType) {
+				AddContact(contacts, new Contact(rec.ContactType) {
 					Name = rec.Name,
 					Phone = rec.Phone,
 					AltPhone = rec.AltPhone,
@@ -130,7 +130,7 @@ namespace ACE.Models
 				if (office == null)
 					continue;
 
-				AddPickupInternal(pickups, new Pickup {
+				AddPickup(pickups, new Pickup {
 					Client = client,
 					Office = office,
 					PickupTime = rec.PickupTime,
