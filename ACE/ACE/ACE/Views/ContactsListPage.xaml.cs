@@ -19,7 +19,7 @@ namespace ACE.Views
 
 		public ContactsListPage(ContactType contactType)
 		{
-			BindingContext = viewModel = new ContactsListViewModel(Navigation, contactType);
+			BindingContext = viewModel = new ContactsListViewModel(contactType);
 
 			InitializeComponent();
 		}

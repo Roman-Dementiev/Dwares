@@ -13,7 +13,7 @@ namespace ACE.Views
 
 		public PickupsTabPage ()
 		{
-			BindingContext = viewModel = new PickupsViewModel(Navigation);
+			BindingContext = viewModel = new PickupsViewModel();
 
 			InitializeComponent();
 		}

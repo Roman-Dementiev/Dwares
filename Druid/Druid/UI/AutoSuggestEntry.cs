@@ -34,6 +34,18 @@ namespace Dwares.Druid.UI
 
 		public AutoSuggestEntry() {}
 
+		public static readonly BindableProperty KeyboardProperty =
+			BindableProperty.Create(
+				nameof(Keyboard),
+				typeof(Keyboard),
+				typeof(AutoSuggestEntry),
+				Keyboard.Default);
+
+		public Keyboard Keyboard { 
+			set { SetValue(KeyboardProperty, value); }
+			get { return (Keyboard)GetValue(KeyboardProperty); }
+		}
+
 		public static readonly BindableProperty PlaceholderProperty =
 			BindableProperty.Create(
 				nameof(Placeholder),

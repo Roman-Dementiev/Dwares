@@ -72,8 +72,8 @@
 			<Entry Grid.Row="3" Grid.Column="0"
 				   x:Name="phone"
 				   Placeholder="Enter Phone Number"
-				   Text="{Binding Phone}"
 				   Keyboard="Telephone"
+				   Text="{Binding Phone}"
 				   />
 
 			<Label Grid.Row="4" Grid.Column="0"

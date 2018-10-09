@@ -5,14 +5,14 @@ using ACE.Models;
 using Dwares.Dwarf.Validation;
 using Dwares.Druid.Support;
 
+
 namespace ACE.ViewModels
 {
-	public class PickupDetailViewModel : BaseViewModel
+	public class PickupDetailViewModel : BindingScope
 	{
 		Validatables validatables;
 
-		public PickupDetailViewModel(INavigation navigation, Pickup source) :
-			base(navigation)
+		public PickupDetailViewModel(Pickup source)
 		{
 			Source = source;
 			if (source != null) {
@@ -170,7 +170,7 @@ namespace ACE.ViewModels
 		public async void OnAccept()
 		{
 			if (!validatables.Validate()) {
-				await App.ErrorAlert(validatables.FirstError);
+				await Alerts.ErrorAlert(validatables.FirstError);
 				return;
 			}
 
@@ -178,7 +178,7 @@ namespace ACE.ViewModels
 				var client = AppData.GetContactByPhone(ClientPhone);
 				if (client != null) {
 					if (client.NeedUpdate(ClientName, ClientAddress)) {
-						bool update = await App.ConfirmAlert("Client name or address is different from the record.\nDo you want to update client information?");
+						bool update = await Alerts.ConfirmAlert("Client name or address is different from the record.\nDo you want to update client information?");
 						if (!update)
 							return;
 					}
@@ -187,7 +187,7 @@ namespace ACE.ViewModels
 				var office = AppData.GetContactByPhone(OfficePhone);
 				if (office != null) {
 					if (office.NeedUpdate(OfficeName, OfficeAddress)) {
-						bool update = await App.ConfirmAlert("Office name or address is different from the record.\nDo you want update office information?");
+						bool update = await Alerts.ConfirmAlert("Office name or address is different from the record.\nDo you want update office information?");
 						if (!update)
 							return;
 					}
@@ -217,7 +217,7 @@ namespace ACE.ViewModels
 					office.Update(newName: OfficeName, newAddress: OfficeAddress);
 				}
 
-				var newPickup = new Pickup(client, office);
+				var newPickup = new Pickup(client, office, (ScheduleTime)PickupTime, (ScheduleTime)AppoitmentTime);
 				await AppData.NewPickup(newPickup);
 			}
 			else {

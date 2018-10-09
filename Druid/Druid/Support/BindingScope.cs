@@ -9,13 +9,19 @@ namespace Dwares.Druid.Support
 {
 	public class BindingScope : NotifyPropertyChanged
 	{
-		public BindingScope(BindingScope parentScope)
+		public BindingScope(BindingScope parentScope = null)
 		{
 			ParentScope = parentScope;
 		}
 
 		public string MethodNameFormat { get; set; } = "On{0}";
 		public BindingScope ParentScope { get; }
+
+		string title = string.Empty;
+		public string Title {
+			get { return title; }
+			set { SetProperty(ref title, value); }
+		}
 
 		public object ExecuteOrder(string order)
 		{

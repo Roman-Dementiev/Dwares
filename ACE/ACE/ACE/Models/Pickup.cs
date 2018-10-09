@@ -19,10 +19,12 @@ namespace ACE.Models
 			Office = new Contact(ContactType.Office);
 		}
 
-		public Pickup(Contact client, Contact office)
+		public Pickup(Contact client, Contact office, ScheduleTime pickupTime, ScheduleTime appoitmentTime)
 		{
 			Client = client;
 			Office = office;
+			PickupTime = pickupTime;
+			AppoitmentTime = appoitmentTime;
 		}
 
 		public override string ToString()
@@ -99,9 +101,9 @@ namespace ACE.Models
 
 		public bool ShowClientName => Client.HasName;
 		public bool ShowClientAddress => Client.HasAddress;
-		public bool ShowOfficeInfo => IsSelected && (Office.HasName || Office.HasAddress);
-		public bool ShowOfficeName => IsSelected && Office.HasName;
-		public bool ShowOfficeAddress => IsSelected && Office.HasAddress;
+		public bool ShowOfficeInfo => IsSelected;
+		public bool ShowOfficeName => Office.HasName;
+		public bool ShowOfficeAddress => Office.HasAddress;
 
 		public Command CallClientCommand => Client.CallCommand;
 		public Command CallOfficeCommand => Office.CallCommand;

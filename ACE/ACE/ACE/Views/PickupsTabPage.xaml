@@ -53,6 +53,7 @@
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 								<Button Grid.Row="0" Grid.Column="0"
 												HorizontalOptions="Center"
@@ -68,40 +69,46 @@
 														/>
 									</Button.Image>
 								</Button>
-								<StackLayout Orientation="Vertical"
+								<StackLayout Grid.Row="0" Grid.Column="1"
+											 x:Name="clientInfo"
+											 Orientation="Vertical"
 											 HorizontalOptions="Fill"
 											 VerticalOptions="Center"
-											 Grid.Row="0" Grid.Column="1"
-													>
+											 >
 									<Grid>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="*" />
 											<ColumnDefinition Width="Auto" />
 										</Grid.ColumnDefinitions>
 										<Label Grid.Column="0"
-											   x:Name="name"
+											   x:Name="clientNames"
 											   FontSize="Default"
 											   FontAttributes="Bold"
 											   Text="{Binding ClientName}"
 											   IsVisible="{Binding ShowClientName}"
 											   />
 										<Label Grid.Column="1"
+											   x:Name="pickupTime"
 											   Text="{Binding PickupTimeString}"
 											   />
 									</Grid>
-									<Label x:Name="phone"
+									<Label x:Name="clientPhone"
 										   FontSize="Default"
 										   Text="{Binding ClientPhone}"
 										   />
-									<Label x:Name="address"
+									<Label x:Name="clientAddress"
 										   Text="{Binding ClientAddress}"
 										   IsVisible="{Binding ShowClientAddress}"
 										   />
-									<!--<Label Text="To:"
-										   FontAttributes="Bold"
-										   IsVisible="{Binding ShowOfficeInfo}"
-										   />-->
-									<Grid IsVisible="{Binding ShowOfficeInfo}" >
+								</StackLayout>
+								<StackLayout Grid.Row="1" Grid.Column="1"
+											 x:Name="officeInfo"
+											 Orientation="Vertical"
+											 HorizontalOptions="Fill"
+											 VerticalOptions="Center"
+											 IsVisible="{Binding ShowOfficeInfo}"
+											 >
+									<Grid>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="*" />
 											<ColumnDefinition Width="Auto" />
@@ -123,7 +130,7 @@
 										   IsVisible="{Binding ShowOfficeAddress}"
 										   />
 								</StackLayout>
-								<BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+								<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
 											 Color="Black"
 											 HeightRequest="1"
 											 />

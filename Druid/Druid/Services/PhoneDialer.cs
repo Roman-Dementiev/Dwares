@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Dwares.Druid.Support;
 
 
-namespace ACE.Services
+namespace Dwares.Druid.Services
 {
 	public interface IPhoneDialer
 	{
@@ -43,7 +44,7 @@ namespace ACE.Services
 				var message = String.Format("Can't dia {0}: {1}", phoneNumber, ex.Message);
 				System.Diagnostics.Debug.WriteLine(message);
 
-				await App.ErrorAlert(ex.Message);
+				await Alerts.ErrorAlert(ex.Message);
 			}
 		}
 	}

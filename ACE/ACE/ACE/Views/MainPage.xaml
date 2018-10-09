@@ -11,13 +11,59 @@
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="tab_feed.png"/>
 				</OnPlatform>
+			
 			</NavigationPage.Icon>
 			<x:Arguments>
 				<views:PickupsTabPage Title="Pickups"/>
 			</x:Arguments>
 		</NavigationPage>
 
-		<NavigationPage Title="Contacts">
+		<NavigationPage Title="ACE">
+			<NavigationPage.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="tab_feed.png"/>
+				</OnPlatform>
+			</NavigationPage.Icon>
+			<x:Arguments>
+				<views:ContactsListPage Title="ACE">
+					<x:Arguments>
+						<x:Int32>0</x:Int32>
+					</x:Arguments>
+				</views:ContactsListPage>
+			</x:Arguments>
+		</NavigationPage>
+
+		<NavigationPage Title="Clients">
+			<NavigationPage.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="tab_feed.png"/>
+				</OnPlatform>
+			</NavigationPage.Icon>
+			<x:Arguments>
+				<views:ContactsListPage Title="Clients">
+					<x:Arguments>
+						<x:Int32>1</x:Int32>
+					</x:Arguments>
+				</views:ContactsListPage>
+			</x:Arguments>
+		</NavigationPage>
+
+		<NavigationPage Title="Offices">
+			<NavigationPage.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="tab_feed.png"/>
+				</OnPlatform>
+			</NavigationPage.Icon>
+			<x:Arguments>
+				<views:ContactsListPage Title="Offices">
+					<x:Arguments>
+						<x:Int32>2</x:Int32>
+					</x:Arguments>
+				</views:ContactsListPage>
+			</x:Arguments>
+		</NavigationPage>
+
+		<!--<NavigationPage Title="Contacts">
 			<NavigationPage.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="tab_feed.png"/>
@@ -26,7 +72,7 @@
 			<x:Arguments>
 				<views:ContactsTabPage Title="Contacts" />
 			</x:Arguments>
-		</NavigationPage>
+		</NavigationPage>-->
 		
 		<NavigationPage Title="About">
 			<NavigationPage.Icon>

@@ -59,6 +59,7 @@
 			<Label Text="Phone Number"/>
 			<ui:AutoSuggestEntry x:Name="clientPhone"
 								 Placeholder="Enter Client Phone Number"
+								 Keyboard="Telephone"
 								 Text="{Binding ClientPhone}"
 								 InputTransparent="{Binding IsEditing}"
 								 SuggestionSource="{Binding ClientPhoneSuggestions}"
@@ -96,13 +97,12 @@
 								 AutoSuggestionSelected="OnOfficeNameSelected"
 								 />
 
-			<!--<Entry x:Name="officePhone"
-				   Placeholder="Enter Office Phone"
-				   Text="{Binding OfficePhone}"
-				   />-->
+			<!--<Entry Placeholder="Enter Office Phone"
+								 Keyboard="Telephone"/>-->
 			<ui:AutoSuggestEntry x:Name="officePhone"
 								 Placeholder="Enter Office Phone Number"
 								 Text="{Binding OfficePhone}"
+								 Keyboard="Telephone"
 								 InputTransparent="{Binding IsEditing}"
 								 SuggestionSource="{Binding OfficePhoneSuggestions}"
 								 AutoSuggestionSelected="OnOfficePhoneSelected"

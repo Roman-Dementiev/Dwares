@@ -14,14 +14,14 @@ namespace ACE.Views
 
 		public ContactDetailPage(Contact contact)
 		{
-			BindingContext = viewModel = new ContactDetailViewModel(Navigation, contact);
+			BindingContext = viewModel = new ContactDetailViewModel(contact);
 
 			InitializeComponent();
 		}
 
 		public ContactDetailPage(ContactType type)
 		{
-			BindingContext = viewModel = new ContactDetailViewModel(Navigation, type);
+			BindingContext = viewModel = new ContactDetailViewModel(type);
 
 			InitializeComponent();
 		}

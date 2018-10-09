@@ -10,8 +10,8 @@ namespace ACE.ViewModels
 {
 	public class PickupsViewModel: CollectionViewModel<Pickup>
 	{
-		public PickupsViewModel(INavigation navigation) :
-			base(navigation, AppData.Pickups)
+		public PickupsViewModel() :
+			base(AppData.Pickups)
 		{
 			AddCommand = new Command(OnAdd);
 			EditCommand = new Command(OnEdit, HasSelected);

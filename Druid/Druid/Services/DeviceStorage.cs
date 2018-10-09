@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 
-namespace ACE.Services
+namespace Dwares.Druid.Services
 {
 	public enum StorageLocation
 	{

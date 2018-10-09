@@ -6,13 +6,13 @@ using Dwares.Druid.Support;
 
 namespace ACE.ViewModels
 {
-	public class ContactDetailViewModel: BaseViewModel
+	public class ContactDetailViewModel: BindingScope
 	{
-		public ContactDetailViewModel(INavigation navigation, Contact source) : this(navigation, source, source.ContactType) { }
-		public ContactDetailViewModel(INavigation navigation, ContactType type) : this(navigation, null, type) { }
+		public ContactDetailViewModel(Contact source) : this(source, source.ContactType) { }
+		
+		public ContactDetailViewModel(ContactType type) : this(null, type) { }
 
-		private ContactDetailViewModel(INavigation navigation, Contact source, ContactType type) :
-			base(navigation)
+		private ContactDetailViewModel(Contact source, ContactType type)
 		{
 			Source = source;
 			ContactType = type;

@@ -19,11 +19,16 @@ namespace ACE.Views
 
 		public PickupDetailPage(Pickup pickup)
 		{
-			BindingContext = viewModel = new PickupDetailViewModel(Navigation, pickup);
+			BindingContext = viewModel = new PickupDetailViewModel(pickup);
 
-			InitializeComponent();
+			try {
+				InitializeComponent();
+			} catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+				throw;
+			}
 
-			Debug.EnableTracing(@class);
+			//Debug.EnableTracing(@class);
 
 			//clientName.AutoSuggestionSelected += OnAutoSuggestionSelected;
 			//officeName.AutoSuggestionSelected += OnAutoSuggestionSelected;

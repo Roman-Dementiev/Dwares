@@ -18,8 +18,7 @@ namespace ACE.ViewModels
 		public Command EditCommand { get; }
 		public Command DeleteCommand { get; }
 
-		public ContactsListViewModel(INavigation navigation, ContactType contactType) :
-			base(navigation)
+		public ContactsListViewModel(ContactType contactType)
 		{
 			ContactType = contactType;
 			Callable = contactType == ContactType.Company;

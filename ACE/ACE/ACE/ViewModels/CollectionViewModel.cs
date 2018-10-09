@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using Dwares.Druid.Support;
 using ACE.Models;
 
 namespace ACE.ViewModels
 {
 	public delegate void SelectedItemChangedHandler(SelectedItemChangedEventArgs args);
 
-	public class CollectionViewModel<Item> : BaseViewModel
+	public class CollectionViewModel<Item> : BindingScope
 	{
 		public event SelectedItemChangedHandler SelectedItemChangedEvent;
 	
-		public CollectionViewModel(INavigation navigation, ObservableCollection<Item> items = null) : 
-			base(navigation)
+		public CollectionViewModel(ObservableCollection<Item> items = null) 
 		{
 			Items = items ?? new ObservableCollection<Item>();
 		}

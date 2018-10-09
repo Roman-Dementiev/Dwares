@@ -1,7 +1,10 @@
 ﻿using System;
-using Xamarin.Forms.Platform.UWP;
-using Windows.UI.Xaml.Controls;
 using System.ComponentModel;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.UWP;
+using Dwares.Dwarf;
 using Dwares.Druid.UI;
 
 
@@ -9,22 +12,29 @@ using Dwares.Druid.UI;
 
 namespace Dwares.Druid.UWP
 {
-	class AutoSuggestEntryRenderer : ViewRenderer<AutoSuggestEntry, AutoSuggestBox>
+	class AutoSuggestEntryRenderer : ViewRendererEx<AutoSuggestEntry, AutoSuggestBox>
 	{
+		//Windows.UI.Xaml.Style defaultStyle;
+
 		protected override void OnElementChanged(ElementChangedEventArgs<AutoSuggestEntry> args)
 		{
 			base.OnElementChanged(args);
 
-			if (Control == null) {
-				if (Element != null) {
-					SetNativeControl(new AutoSuggestBox());
-				} else
-					return;
-			}
+			//if (Control == null) {
+			//	if (Element != null) {
+			//		var control = new AutoSuggestBox();
+			//		defaultStyle = control.Style;
+			//		SetNativeControl(control);
+			//	} else
+			//		return;
+			//}
+			if (!CreateControl())
+				return;
 
 			if (args.NewElement != null) {
 				SetItemsSource();
 				SetIntent();
+				SetKeyboard();
 				SetPlaceholder();
 				SetText();
 
@@ -79,6 +89,8 @@ namespace Dwares.Druid.UWP
 				SetPlaceholder();
 			} else if (args.PropertyName == AutoSuggestEntry.TextProperty.PropertyName) {
 				SetText();
+			} else if (args.PropertyName == AutoSuggestEntry.KeyboardProperty.PropertyName) {
+				SetKeyboard();
 			} else if (args.PropertyName == AutoSuggestEntry.IntentProperty.PropertyName) {
 				SetIntent();
 			}
@@ -114,8 +126,17 @@ namespace Dwares.Druid.UWP
 
 		void SetText()
 		{
-			//Debug.Print("SetText: Element.Text={0}", Element.Text);
 			Control.Text = Element.Text ?? "";
+		}
+
+		void SetKeyboard()
+		{
+			if (Element.Keyboard == Keyboard.Telephone) {
+				SetControlStyle("PhoneAutoSuggestBoxStyle");
+			} else {
+				// TODO
+				SetControlStyle(null);
+			}
 		}
 
 		void SetIntent()
@@ -134,5 +155,6 @@ namespace Dwares.Druid.UWP
 				break;
 			}
 		}
+
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ACE.Views;
@@ -45,24 +44,5 @@ namespace ACE
 
 		//public static INavigation Navigation => CurrentPage.Navigation;
 
-		public static async Task Alert(string title, string message, string dismiss)
-		{
-			await Current.MainPage.DisplayAlert(title, message, dismiss);
-		}
-
-		public static async Task<bool> Alert(string title, string message, string accept, string cancel)
-		{
-			return await Current.MainPage.DisplayAlert(title, message, accept, cancel);
-		}
-
-		public static async Task ErrorAlert(string message, string dismiss = "OK")
-		{
-			await Alert("Error", message, dismiss);
-		}
-
-		public static async Task<bool> ConfirmAlert(string message, string accept = "Yes", string dismiss = "No")
-		{
-			return await Alert("Confirm", message, accept, dismiss);
-		}
 	}
 }
