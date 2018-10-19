@@ -1,12 +1,12 @@
 ﻿using System;
-using Xamarin.Forms;
-using ACE.Models;
+using System.Threading.Tasks;
 using Dwares.Druid.Support;
+using ACE.Models;
 
 
 namespace ACE.ViewModels
 {
-	public class ContactDetailViewModel: BindingScope
+	public class ContactDetailViewModel: FormScope
 	{
 		public ContactDetailViewModel(Contact source) : this(source, source.ContactType) { }
 		
@@ -36,9 +36,6 @@ namespace ACE.ViewModels
 				Address = source.Address;
 				Comment = source.Comment;
 			}
-
-			AcceptCommand = new Command(OnAccept);
-			CancelCommand = new Command(OnCancel);
 		}
 
 		public Contact Source { get; }
@@ -49,27 +46,25 @@ namespace ACE.ViewModels
 		public string Address { get; set; }
 		public string Comment { get; set; }
 
-		public Command AcceptCommand { get; }
-		public Command CancelCommand { get; }
-
-
-		public async void OnAccept()
+		protected override async Task DoAccept()
 		{
-			var newContact = new Contact(ContactType) {
-				Name = this.Name,
-				Phone = this.Phone,
-				Address = this.Address,
-				Comment = this.Comment
-			};
+			if (Source == null) {
+				var newContact = new Contact(ContactType) {
+					Name = this.Name,
+					Phone = this.Phone,
+					Address = this.Address,
+					Comment = this.Comment
+				};
 
-			await AppData.ReplaceContact(newContact, Source);
-			//await Navigation.PopModalAsync();
-		}
+				await AppData.NewContact(newContact);
+			} else {
+				Source.Name = this.Name;
+				Source.Phone = this.Phone;
+				Source.Address = this.Address;
+				Source.Comment = this.Comment;
+			}
 
-		public async void OnCancel()
-		{
-			//await Navigation.PopModalAsync();
-			await Navigator.PopPageAsync();
+			await AppData.SaveAsync();
 		}
 	}
 }

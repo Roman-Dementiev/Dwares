@@ -1,26 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
-using ACE.Models;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Validation;
 using Dwares.Druid.Support;
+using ACE.Models;
 
 
 namespace ACE.ViewModels
 {
-	public class PickupDetailViewModel : BindingScope
+	public class PickupDetailViewModel : FormScope //BindingScope
 	{
-		Validatables validatables;
+		//Validatables validatables;
 
 		public PickupDetailViewModel(Pickup source)
 		{
 			Source = source;
 			if (source != null) {
 				ClientName = source.ClientName;
-				//ClientPhone = source.ClientPhone;
+				ClientPhone = source.ClientPhone;
 				ClientAddress = source.ClientAddress;
 				OfficeName = source.OfficeName;
-				//OfficePhone = source.Office.Phone;
+				OfficePhone = source.Office.Phone;
 				OfficeAddress = source.OfficeAddress;
 				PickupTime = (TimeSpan)source.PickupTime;
 				AppoitmentTime = (TimeSpan)source.AppoitmentTime;
@@ -28,13 +30,15 @@ namespace ACE.ViewModels
 				PickupTime = AppoitmentTime = (TimeSpan) AppData.ApproximateNextPickup();
 			}
 
+			clientAddress = new RequiredField<string>("Client address is required");
+			officeAddress = new RequiredField<string>("Office address is required");
 			clientPhone = new PhoneField("Client phone number is invalid", "Client phone number is required") { Value = source?.ClientPhone };
 			officePhone = new PhoneField("Office phone number is invalid") { Value = source?.OfficePhone };
 
-			validatables = new Validatables(clientPhone, officePhone);
+			validatables = new Validatables(clientPhone, clientAddress, officePhone, officeAddress);
 
-			AcceptCommand = new Command(OnAccept);
-			CancelCommand = new Command(OnCancel);
+			//AcceptCommand = new Command(OnAccept);
+			//CancelCommand = new Command(OnCancel);
 
 			//var clients = AppData.GetClients();
 			//var offices = AppData.GetOffices();
@@ -58,10 +62,10 @@ namespace ACE.ViewModels
 			set => SetProperty(clientPhone, value);
 		}
 
-		string clientAddress;
+		RequiredField<string> clientAddress;
 		public string ClientAddress {
 			get => clientAddress;
-			set => SetProperty(ref clientAddress, value);
+			set => SetProperty(clientAddress, value);
 		}
 
 		string officeName;
@@ -76,10 +80,10 @@ namespace ACE.ViewModels
 			set => SetProperty(officePhone, value);
 		}
 
-		string officeAddress;
+		RequiredField<string> officeAddress;
 		public string OfficeAddress {
 			get => officeAddress;
-			set => SetProperty(ref officeAddress, value);
+			set => SetProperty(officeAddress, value);
 		}
 
 		TimeSpan pickupTime;
@@ -94,8 +98,8 @@ namespace ACE.ViewModels
 			set => SetProperty(ref appoitmentTime, value);
 		}
 
-		public Command AcceptCommand { get; }
-		public Command CancelCommand { get; }
+		//public Command AcceptCommand { get; }
+		//public Command CancelCommand { get; }
 
 		AutoSuggestions clientNameSuggestions;
 		public AutoSuggestions ClientNameSuggestions {
@@ -125,7 +129,7 @@ namespace ACE.ViewModels
 		{
 			return new AutoSuggestions() {
 				SuggestionSource = contacts,
-				DisplayProperty = nameof(Contact.Name)
+				DisplayProperty = nameof(Contact.NameSuggestion)
 			};
 		}
 
@@ -133,7 +137,7 @@ namespace ACE.ViewModels
 		{
 			return new AutoSuggestions() {
 				SuggestionSource = contacts,
-				DisplayProperty = nameof(Contact.Phone)
+				DisplayProperty = nameof(Contact.PhoneSuggestion)
 			};
 		}
 
@@ -167,21 +171,16 @@ namespace ACE.ViewModels
 			OfficeAddress = office.Address;
 		}
 
-		public async void OnAccept()
+		protected override async Task<bool> Validate()
 		{
-			if (!validatables.Validate()) {
-				await Alerts.ErrorAlert(validatables.FirstError);
-				return;
-			}
+			bool valid = await base.Validate();
 
-			if (Source == null) {
+			if (valid  && Source == null) {
 				var client = AppData.GetContactByPhone(ClientPhone);
-				if (client != null) {
-					if (client.NeedUpdate(ClientName, ClientAddress)) {
-						bool update = await Alerts.ConfirmAlert("Client name or address is different from the record.\nDo you want to update client information?");
-						if (!update)
-							return;
-					}
+				if (client != null && client.NeedUpdate(ClientName, ClientAddress)) {
+					bool update = await Alerts.ConfirmAlert("Client name or address is different from the record.\nDo you want to update client information?");
+					if (!update)
+						return false;
 				}
 
 				var office = AppData.GetContactByPhone(OfficePhone);
@@ -189,10 +188,18 @@ namespace ACE.ViewModels
 					if (office.NeedUpdate(OfficeName, OfficeAddress)) {
 						bool update = await Alerts.ConfirmAlert("Office name or address is different from the record.\nDo you want update office information?");
 						if (!update)
-							return;
+							return false;
 					}
 				}
+			}
 
+			return valid;
+		}
+
+		protected override async Task DoAccept()
+		{
+			if (Source == null) {
+				var client = AppData.GetContactByPhone(ClientPhone);
 				if (client == null) {
 					client = new Contact(ContactType.Client) {
 						Name = ClientName,
@@ -205,6 +212,7 @@ namespace ACE.ViewModels
 					client.Update(newName: ClientName, newAddress: ClientAddress);
 				}
 
+				var office = AppData.GetContactByPhone(OfficePhone);
 				if (office == null) {
 					office = new Contact(ContactType.Office) {
 						Name = OfficeName,
@@ -218,27 +226,31 @@ namespace ACE.ViewModels
 				}
 
 				var newPickup = new Pickup(client, office, (ScheduleTime)PickupTime, (ScheduleTime)AppoitmentTime);
-				await AppData.NewPickup(newPickup);
-			}
-			else {
-				//Source.ClientName = this.ClientName;
-				//Source.ClientPhone = this.ClientPhone;
-				Source.ClientAddress = this.ClientAddress;
-				//Source.OfficeName = this.OfficeName;
-				//Source.OfficePhone = this.OfficePhone;
-				Source.OfficeAddress = this.OfficeAddress;
-				Source.PickupTime = (ScheduleTime)this.PickupTime;
-				Source.AppoitmentTime = (ScheduleTime)this.AppoitmentTime;
+				await AppData.NewPickup(newPickup, false);
+			} else {
+				Source.Client?.Update(newAddress: ClientAddress);
+				Source.Office?.Update(newAddress: OfficeAddress);
+				Source.PickupTime = (ScheduleTime)PickupTime;
+				Source.AppoitmentTime = (ScheduleTime)AppoitmentTime;
 			}
 
-			//await Navigation.PopModalAsync();
-			await Navigator.PopPageAsync();
+			await AppData.SaveAsync();
 		}
 
-		public async void OnCancel()
-		{
-			//await Navigation.PopModalAsync();
-			await Navigator.PopPageAsync();
-		}
+		//public async void OnAccept()
+		//{
+		//	if (!validatables.Validate()) {
+		//		await Alerts.ErrorAlert(validatables.FirstError);
+		//		return;
+		//	}
+
+
+		//	await Navigator.PopPage();
+		//}
+
+		//public async void OnCancel()
+		//{
+		//	await Navigator.PopPage();
+		//}
 	}
 }

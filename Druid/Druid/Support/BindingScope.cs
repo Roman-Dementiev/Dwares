@@ -7,9 +7,13 @@ using Dwares.Dwarf.Runtime;
 
 namespace Dwares.Druid.Support
 {
-	public class BindingScope : NotifyPropertyChanged
+	public class BindingScope : PropertyNotifier
 	{
-		public BindingScope(BindingScope parentScope = null)
+		public static BindingScope AppScope {
+			get => Application.Current?.BindingContext as BindingScope;
+		}
+
+		public BindingScope(BindingScope parentScope)
 		{
 			ParentScope = parentScope;
 		}
@@ -23,44 +27,41 @@ namespace Dwares.Druid.Support
 			set { SetProperty(ref title, value); }
 		}
 
-		public object ExecuteOrder(string order)
+		public object ExecuteWrit(string writ)
 		{
-			bool invoked;
-			return InvokeOrder(order, new object[0], new Type[0], out invoked);
+			return InvokeWrit(writ, new object[0], new Type[0], out var invoked);
 		}
 
-		public object ExecuteOrder(string order, object parameter)
+		public object ExecuteWrit(string writ, object parameter)
 		{
-			bool invoked;
-			var result = InvokeOrder(order, new object[]{parameter}, new Type[]{typeof(object)}, out invoked);
+			var result = InvokeWrit(writ, new object[] { parameter }, new Type[] { typeof(object) }, out var invoked);
 
 			if (!invoked && parameter == null) {
-				result = InvokeOrder(order, new object[0], new Type[0], out invoked);
+				result = InvokeWrit(writ, new object[0], new Type[0], out invoked);
 			}
 
 			return result;
 		}
 
-		public object Execute(string order, params object[] args) => ExecuteOrder(order, args, null);
+		public object Execute(string writ, params object[] args) => ExecuteWrit(writ, args, null);
 
-		public object ExecuteOrder(string order, object[] args, Type[] argTypes = null)
+		public object ExecuteWrit(string writ, object[] args, Type[] argTypes = null)
 		{
 			if (argTypes == null) {
 				argTypes = Reflection.GetArgumentTypes(args);
 			}
-			bool invoked;
-			return InvokeOrder(order, args, argTypes, out invoked);
+			return InvokeWrit(writ, args, argTypes, out var invoked);
 		}
 
-		protected object InvokeOrder(string order, object[] args, Type[] argTypes, out bool invoked)
+		protected object InvokeWrit(string writ, object[] args, Type[] argTypes, out bool invoked)
 		{
-			var methodName = String.Format(MethodNameFormat, order);
+			var methodName = String.Format(MethodNameFormat, writ);
 			var method = Reflection.GetMethod(this, methodName, argTypes, null, required: false);
 			if (method != null) {
 				invoked = true;
 				return method.Invoke(this, args);
 			} else if (ParentScope != null) {
-				return ParentScope.InvokeOrder(order, args, argTypes, out invoked);
+				return ParentScope.InvokeWrit(writ, args, argTypes, out invoked);
 			} else {
 				invoked = false;
 				return null;
@@ -89,7 +90,7 @@ namespace Dwares.Druid.Support
 
 		public static BindingScope GetCurrentScope()
 		{
-			object page = Navigator.CurrentPage;
+			object page = Navigator.ContentPage;
 			if (page == null) {
 				page = Application.Current.MainPage;
 			}

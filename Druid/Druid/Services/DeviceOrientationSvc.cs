@@ -60,15 +60,7 @@ namespace Dwares.Druid.Services
 	{
 		public const string DeviceOrientationChangeMessage = nameof(DeviceOrientationChangeMessage);
 		static DependencyService<IDeviceOrientationSvc> instance;
- 		public static IDeviceOrientationSvc Instance //= new DependencyService<IDeviceOrientationSvc>(true);
-		{
-			get {
-				if (instance == null) {
-					instance = new DependencyService<IDeviceOrientationSvc>(true);
-				}
-				return instance.Service;
-			}
-		}
+		public static IDeviceOrientationSvc Instance => DependencyService<IDeviceOrientationSvc>.GetInstance(ref instance);
 
 		public static DeviceOrientations CurrentOrientation
 		{

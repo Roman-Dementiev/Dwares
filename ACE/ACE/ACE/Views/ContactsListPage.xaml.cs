@@ -13,7 +13,7 @@ namespace ACE.Views
 		ContactsListViewModel viewModel;
 		public ContactsListViewModel ViewModel => viewModel;
 
-		public ContactsListPage() : this(ContactType.Company) { }
+		//public ContactsListPage() : this(ContactType.Member) { }
 
 		public ContactsListPage(int contactType) : this((ContactType)contactType) { }
 

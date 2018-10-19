@@ -2,11 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:local="clr-namespace:ACE"
-			 x:Class="ACE.Views.PickupsTabPage"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 xmlns:druid="clr-namespace:Dwares.Druid.Support;assembly=Druid"
+			 x:Class="ACE.Views.PickupsListPage"
 			 x:Name="page"
 			 Title="{Binding Title}"
 			 >
 
+	<!--<ContentPage.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ContentPage.Resources>-->
+	
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Text="Add" Command="{Binding AddCommand}">
 			<ToolbarItem.Icon>
@@ -29,6 +37,8 @@
 				</OnPlatform>
 			</ToolbarItem.Icon>
 		</ToolbarItem>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Content>
@@ -49,6 +59,7 @@
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="Auto" />
@@ -56,11 +67,11 @@
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 								<Button Grid.Row="0" Grid.Column="0"
-												HorizontalOptions="Center"
-												VerticalOptions="Center"
-												BackgroundColor="Transparent"
-												Command="{Binding CallClientCommand}"
-												>
+										HorizontalOptions="Center"
+										VerticalOptions="Center"
+										BackgroundColor="Transparent"
+										Command="{Binding CallClientCommand}"
+										>
 									<Button.Image>
 										<OnPlatform x:TypeArguments="FileImageSource"
 														iOS="phone.png"
@@ -70,67 +81,80 @@
 									</Button.Image>
 								</Button>
 								<StackLayout Grid.Row="0" Grid.Column="1"
-											 x:Name="clientInfo"
 											 Orientation="Vertical"
 											 HorizontalOptions="Fill"
 											 VerticalOptions="Center"
 											 >
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="Auto" />
-										</Grid.ColumnDefinitions>
-										<Label Grid.Column="0"
-											   x:Name="clientNames"
-											   FontSize="Default"
-											   FontAttributes="Bold"
-											   Text="{Binding ClientName}"
-											   IsVisible="{Binding ShowClientName}"
-											   />
-										<Label Grid.Column="1"
-											   x:Name="pickupTime"
-											   Text="{Binding PickupTimeString}"
-											   />
-									</Grid>
-									<Label x:Name="clientPhone"
+									<Label Text="{Binding ClientName}"
 										   FontSize="Default"
-										   Text="{Binding ClientPhone}"
+										   FontAttributes="Bold"
+										   IsVisible="{Binding ShowClientName}"
 										   />
-									<Label x:Name="clientAddress"
-										   Text="{Binding ClientAddress}"
+									<Label Text="{Binding ClientPhone}"
+										   FontSize="Medium"
+										   />
+									<Label Text="{Binding ClientAddress}"
 										   IsVisible="{Binding ShowClientAddress}"
 										   />
 								</StackLayout>
+								<StackLayout Grid.Row="0" Grid.Column="2"
+											 Orientation="Vertical"
+											 >
+									<Label Text="{Binding PickupTimeString}"
+										   />
+									<Button Command="{Binding ClientDirectionsCommand}"
+											BackgroundColor="Transparent"
+											HorizontalOptions="Center"
+											VerticalOptions="Center"
+											IsVisible="{Binding ShowClientDirections}"
+											>
+										<Button.Image>
+											<OnPlatform x:TypeArguments="FileImageSource"
+														iOS="directions.png"
+														WinPhone="Images/directions24.png"
+														Android="ic_action_directions.png"
+														/>
+										</Button.Image>
+									</Button>
+								</StackLayout>
 								<StackLayout Grid.Row="1" Grid.Column="1"
-											 x:Name="officeInfo"
 											 Orientation="Vertical"
 											 HorizontalOptions="Fill"
 											 VerticalOptions="Center"
 											 IsVisible="{Binding ShowOfficeInfo}"
 											 >
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="Auto" />
-										</Grid.ColumnDefinitions>
-										<Label Grid.Column="0"
-											   Text="To:"
-											   FontAttributes="Bold"
-											   />
-										<Label Grid.Column="1"
-											   Text="{Binding AppoitmentTimeString}"
-											   />
-									</Grid>
-									<Label x:Name="officeName"
-										   Text="{Binding OfficeName}"
+									<Label Text="To:"
+										   FontAttributes="Bold"
+										   />
+									<Label Text="{Binding OfficeName}"
 										   IsVisible="{Binding ShowOfficeName}"
 										   />
-									<Label x:Name="officeAddress"
-										   Text="{Binding OfficeAddress}"
+									<Label Text="{Binding OfficeAddress}"
 										   IsVisible="{Binding ShowOfficeAddress}"
 										   />
 								</StackLayout>
-								<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+								<StackLayout Grid.Row="1" Grid.Column="2"
+											 Orientation="Vertical"
+											 IsVisible="{Binding ShowOfficeInfo}"
+											 >
+									<Label Text="{Binding AppoitmentTimeString}"
+										   />
+									<Button Command="{Binding OfficeDirectionsCommand}"
+											BackgroundColor="Transparent"
+											HorizontalOptions="Center"
+											VerticalOptions="Center"
+											IsVisible="{Binding ShowOfficeDirections}"
+											>
+										<Button.Image>
+											<OnPlatform x:TypeArguments="FileImageSource"
+														iOS="directions.png"
+														WinPhone="Images/directions24.png"
+														Android="ic_action_directions.png"
+														/>
+										</Button.Image>
+									</Button>
+								</StackLayout>
+								<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
 											 Color="Black"
 											 HeightRequest="1"
 											 />

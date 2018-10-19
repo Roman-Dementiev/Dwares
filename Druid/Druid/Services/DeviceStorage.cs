@@ -41,16 +41,8 @@ namespace Dwares.Druid.Services
 
 	public static class DeviceStorage
 	{
-		static IDeviceStorage storage = null;
-
-		public static IDeviceStorage Storage {
-			get {
-				if (storage == null) {
-					storage = DependencyService.Get<IDeviceStorage>();
-				}
-				return storage;
-			}
-		}
+		static DependencyService<IDeviceStorage> instance;
+		public static IDeviceStorage Instance => DependencyService<IDeviceStorage>.GetInstance(ref instance);
 
 		public static async Task<IDeviceFolder> GetFolder(StorageLocation location = StorageLocation.AppData, bool create = true)
 		{
@@ -59,7 +51,7 @@ namespace Dwares.Druid.Services
 
 		public static async Task<IDeviceFolder> GetFolder(string path, StorageLocation location = StorageLocation.AppData, bool create = true)
 		{
-			return await Storage?.GetFolder(path, location, create);
+			return await Instance.GetFolder(path, location, create);
 		}
 	}
 }

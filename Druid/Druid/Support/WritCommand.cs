@@ -4,16 +4,20 @@ using System.Windows.Input;
 
 namespace Dwares.Druid.Support
 {
-	public class Order: ICommand //Xamarin.Forms.Command
+	public class WritCommand: ICommand //Xamarin.Forms.Command
 	{
 		public event EventHandler CanExecuteChanged;
 
-		public Order(string uid)
+		public WritCommand() { }
+
+		public WritCommand(string writ, BindingScope scope = null)
 		{
-			Uid = uid;
+			Writ = writ;
+			Scope = scope;
 		}
 
-		public String Uid { get; set; }
+		public BindingScope Scope { get; set; }
+		public string Writ { get; set; }
 
 		Func<object, bool> canExecute;
 		public bool CanExecute(object parameter)
@@ -27,8 +31,8 @@ namespace Dwares.Druid.Support
 
 		public void Execute(object parameter)
 		{
-			var scope = BindingScope.GetCurrentScope();
-			scope.ExecuteOrder(Uid, parameter);
+			var scope = Scope ?? BindingScope.GetCurrentScope();
+			scope?.ExecuteWrit(Writ, parameter);
 		}
 
 		public void RaiseCanExecuteChanged()

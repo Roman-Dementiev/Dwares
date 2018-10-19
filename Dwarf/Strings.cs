@@ -15,6 +15,9 @@ namespace Dwares.Dwarf
 		const string DefaultProperiesPrefix = "{";
 		const string DefaultProperiesSuffix = "}";
 
+		public static List<string> EmptyList = new List<string>();
+		public static string[] EmptyArray = new string[0];
+
 		public static bool IsNullOrEmptyString(object obj)
 		{
 			if (obj == null)
@@ -246,5 +249,23 @@ namespace Dwares.Dwarf
 			}
 			return list;
 		}
+
+		public static string FirstPart(string str, char[] separators)
+		{
+			if (str != null) {
+				var split = str.Split(separators);
+				if (split != null && split.Length > 0) {
+					return split[0];
+				}
+			}
+			return null;
+		}
+
+		public static string FirstLine(string str) => FirstPart(str, lineEndings);
+		public static string FirstWord(string str) => FirstPart(str, wordEndings);
+
+		static char[] lineEndings = new char[] { '\n', '\r' }; // TODO
+		static char[] wordEndings = new char[] { ' ', '\t', '\n', '\r' }; // TODO
 	}
 }
+ 

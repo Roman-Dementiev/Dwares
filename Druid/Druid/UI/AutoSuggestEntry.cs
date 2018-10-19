@@ -144,6 +144,18 @@ namespace Dwares.Druid.UI
 			get { return (bool)GetValue(SelectExactMatchProperty); }
 		}
 
+		public static readonly BindableProperty UpdateTextOnSelectProperty =
+			BindableProperty.Create(
+				nameof(UpdateTextOnSelect),
+				typeof(bool),
+				typeof(AutoSuggestEntry),
+				true);
+
+		public bool UpdateTextOnSelect {
+			set { SetValue(UpdateTextOnSelectProperty, value); }
+			get { return (bool)GetValue(UpdateTextOnSelectProperty); }
+		}
+
 		public void OnItemSelected(object item, AutoSuggestionSelectReason reason)
 		{
 			if (AutoSuggestionSelected != null) {

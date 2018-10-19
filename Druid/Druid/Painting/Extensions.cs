@@ -24,8 +24,7 @@ namespace Dwares.Druid.Painting
 
 		public static FontMeasurement MeasureFont(this SKPaint paint, PaintingOptions options)
 		{
-			SKFontMetrics metrics;
-			paint.GetFontMetrics(out metrics);
+			paint.GetFontMetrics(out var metrics);
 
 			var measurement = new FontMeasurement();
 

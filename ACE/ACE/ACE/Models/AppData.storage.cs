@@ -16,12 +16,16 @@ namespace ACE.Models
 		const StorageLocation kStorageLocation  = StorageLocation.AppData;
 #endif
 		const string kFilename = "ACE.json";
+		const string kBackupFilename = "ACE.backup.json";
 		const int kVersion1 = 1;
 
-		struct ContactRec
+		const string ACEAddress = "10162 Bustleton Ave\nPhiladelphia, PA 19116";
+
+		class ContactRec
 		{
 			public ContactType ContactType { get; set; }
 			public string Name { get; set; }
+			public string ShortName { get; set; }
 			public string Phone { get; set; }
 			public string AltPhone { get; set; }
 			public string Address { get; set; }
@@ -29,7 +33,7 @@ namespace ACE.Models
 			public string Comment { get; set; }
 		}
 
-		struct PickupRec
+		class PickupRec
 		{
 			public string ClientPhone { get; set; }
 			public string OfficePhone { get; set; }
@@ -44,10 +48,16 @@ namespace ACE.Models
 			public PickupRec[] Pickups { get; set; }
 		}
 
-		static async Task<Json> LoadJsonAsync()
+		class Convert
+		{
+			public Action<ContactRec> ConvertContact { get; set; }
+			public Action<PickupRec> ConvertPickup { get; set; }
+		}
+
+		static async Task<Json> LoadJsonAsync(string filename)
 		{
 			var folder = await DeviceStorage.GetFolder(kStorageLocation);
-			string text = await folder.ReadTextAsync(kFilename);
+			string text = await folder.ReadTextAsync(filename);
 
 			Json json;
 			try {
@@ -64,37 +74,45 @@ namespace ACE.Models
 
 			if (json.Contacts.Length == 0) {
 				json.Contacts = new ContactRec[] {
-					new ContactRec { ContactType = ContactType.Company, Name = "Alla", Phone = "267-938-1300" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Semen", Phone = "215-715-8551" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Oleg", Phone = "267-255-0268" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Pavel", Phone = "267-761-7237" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Alexander", Phone = "267-679-5955" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Volodya", Phone = "267-469-7961" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Carlos", Phone = "267-269-8448" },
-					new ContactRec { ContactType = ContactType.Company, Name = "Rita", Phone = "267-778-7146" },
-					new ContactRec { ContactType = ContactType.Company, Name = "ACE", Phone = "267-709-9702" }
+					new ContactRec { ContactType = ContactType.ACE, Name = "Alla", Phone = "267-938-1300" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Semen", Phone = "215-715-8551" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Oleg", Phone = "267-255-0268" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Pavel", Phone = "267-761-7237" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Alexander", Phone = "267-679-5955" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Volodya", Phone = "267-469-7961" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Carlos", Phone = "267-269-8448" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "Rita", Phone = "267-778-7146" },
+					new ContactRec { ContactType = ContactType.ACE, Name = "ACE", Phone = "267-709-9702" , Address =  ACEAddress },
+
+					new ContactRec { ContactType = ContactType.Office, Name = "Temple University Hospital", ShortName = "Temple Univ", Phone = "(215) 707-2000", Address =  "3401 N Broad St\nPhiladelphia, PA 19140" },
+					new ContactRec { ContactType = ContactType.Office, Name = "Temple University Boyer Pavillion", ShortName = "Temple Boyer", Phone = "(215) 707-6000", Address =  "3509 N Broad St\nPhiladelphia, PA 19140" },
+					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Broad Street", ShortName = "Einstein Broad St", Phone = "(215) 457-7700", Address =  "4817 North Broad Street\nPhiladelphia, PA 19141" },
+					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Old York Road", ShortName = "Einstein Old York Rd", Phone = "(215) 924-1234", Address =  "5325  North Broad Street\nPhiladelphia, PA 19141" },
+					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Medical Center", ShortName = "Einstein Frankford", Phone = "(215) 456-7890", Address =  "7131 Frankford Ave\nPhiladelphia, PA 19135" },
+					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Mayfair ", ShortName = "Einstein Mayfair", Phone = "(215) 332-4164", Address =  "5501 Old York Rd\n Philadelphia, PA 19141" }
 				};
 
-				await SaveJsonAsync(json);
+				await SaveJsonAsync(json, filename);
 			}
 
 			return json;
 		}
-
-		static async Task SaveJsonAsync(Json json)
+	
+		static async Task SaveJsonAsync(Json json, string filename)
 		{
 			try {
 				var folder = await DeviceStorage.GetFolder(kStorageLocation);
-				var serializer = new JsonSerializer();
-				serializer.NullValueHandling = NullValueHandling.Ignore;
-				serializer.Formatting = Formatting.Indented;
+				var serializer = new JsonSerializer {
+					NullValueHandling = NullValueHandling.Ignore,
+					Formatting = Formatting.Indented
+				};
 
 				using (var sw = new StringWriter())
 				using (var writer = new JsonTextWriter(sw)) {
 					serializer.Serialize(writer, json);
 					var text = sw.ToString();
 
-					await folder.WriteTextAsync(kFilename, text);
+					await folder.WriteTextAsync(filename, text);
 				}
 			}
 			catch (Exception ex) {
@@ -102,26 +120,61 @@ namespace ACE.Models
 			}
 		}
 
+		//static void ConvertType(ContactRec rec)
+		//{
+		//	switch ((int)rec.ContactType) {
+		//	case 0:
+		//		if (rec.Name == "ACE") {
+		//			rec.ContactType = ContactType.Address;
+		//		} else {
+		//			rec.ContactType = ContactType.Member;
+		//		}
+		//		break;
+		//	case 1:
+		//		rec.ContactType = ContactType.Client;
+		//		break;
+		//	case 2:
+		//		rec.ContactType = ContactType.Office;
+		//		break;
+		//	case 3:
+		//		rec.ContactType = ContactType.Address;
+		//		break;
+		//	}
+		//}
 
-		public static async Task LoadAsync()
+
+		public static async Task LoadAsync(string filename = null) => await LoadAsync(filename, null);
+
+		private static async Task LoadAsync(string filename, Convert convert)
 		{
-			var json = await LoadJsonAsync();
+			Clear();
+
+			var json = await LoadJsonAsync(filename ?? kFilename);
 			var contacts = Contacts;
 			var pickups = Pickups;
 
 			foreach (var rec in json.Contacts) {
-				AddContact(contacts, new Contact(rec.ContactType) {
+				if (convert != null) {
+					convert.ConvertContact?.Invoke(rec);
+				}
+				var newContact = new Contact(rec.ContactType) {
 					Name = rec.Name,
+					ShortName = rec.ShortName,
 					Phone = rec.Phone,
 					AltPhone = rec.AltPhone,
 					Address = rec.Address,
 					AltAddress = rec.AltAddress,
 					Comment = rec.Comment
-				});
+				};
+				AddContact(contacts, newContact);
 			}
 
 			foreach (var rec in json.Pickups)
 			{
+				if (convert != null) {
+					convert.ConvertPickup?.Invoke(rec);
+				}
+
 				var client = AppData.GetContactByPhone(rec.ClientPhone);
 				if (client == null)
 					continue;
@@ -138,9 +191,12 @@ namespace ACE.Models
 				});
 			}
 
+			if (convert != null) {
+				await SaveAsync(filename);
+			}
 		}
 
-		public static async Task SaveAsync()
+		public static async Task SaveAsync(string filename = null)
 		{
 			var contactCount = AppData.Contacts.Count;
 			var contacts = new ContactRec[contactCount];
@@ -149,6 +205,7 @@ namespace ACE.Models
 				contacts[i] = new ContactRec {
 					ContactType = c.ContactType,
 					Name = c.Name,
+					ShortName = c.ShortName,
 					Phone = c.Phone,
 					AltPhone = c.AltPhone,
 					Address = c.Address,
@@ -175,7 +232,18 @@ namespace ACE.Models
 				Pickups = pickups
 			};
 
-			await SaveJsonAsync(json);
+			await SaveJsonAsync(json, filename ?? kFilename);
+		}
+
+		public static async Task BackupAsync()
+		{
+			await SaveAsync(kBackupFilename);
+		}
+
+		public static async Task RestoreAsync()
+		{
+			await LoadAsync(kBackupFilename);
+			await SaveAsync();
 		}
 	}
 }

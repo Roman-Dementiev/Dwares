@@ -60,7 +60,7 @@ namespace Dwares.Druid.UWP
 			PhoneLine newLine = AllPhoneLines[lineGuid];
 			if (newLine != null) {
 				currentPhoneLine = newLine;
-				updateCellularInformation();
+				UpdateCellularInformation();
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace Dwares.Druid.UWP
 			currentPhoneLine = await getDefaultLineTask;
 
 			//Update cellular information based on default line
-			updateCellularInformation();
+			UpdateCellularInformation();
 		}
 
 		/// <summary>
@@ -126,9 +126,7 @@ namespace Dwares.Druid.UWP
 		{
 			PhoneCallManager.CallStateChanged += (o, args) => {
 				doesPhoneCallExist = PhoneCallManager.IsCallActive || PhoneCallManager.IsCallIncoming;
-				if (ActivePhoneCallStateChanged != null) {
-					ActivePhoneCallStateChanged();
-				}
+				ActivePhoneCallStateChanged?.Invoke();
 			};
 		}
 
@@ -181,7 +179,7 @@ namespace Dwares.Druid.UWP
 		/// <summary>
 		/// Updates the cellular information fields based on the current phone line.
 		/// </summary>
-		private void updateCellularInformation()
+		private void UpdateCellularInformation()
 		{
 			PhoneLine line = currentPhoneLine;
 			PhoneLineCellularDetails cellularDetails = line.CellularDetails;
@@ -275,9 +273,7 @@ namespace Dwares.Druid.UWP
 			}
 
 			//Cell info update complete. Fire event
-			if (CellInfoUpdateCompleted != null) {
-				CellInfoUpdateCompleted();
-			}
+			CellInfoUpdateCompleted?.Invoke();
 		}
 		#endregion
 

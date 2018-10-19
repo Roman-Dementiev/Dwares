@@ -9,7 +9,8 @@ namespace Dwares.Druid.Support
 	{
 		OnMainPage,
 		OnNavigationPage,
-		OnCurrentPage
+		OnCurrentPage,
+		OnContentPage
 	}
 
 	public static class Alerts
@@ -37,8 +38,11 @@ namespace Dwares.Druid.Support
 				case AlertPlacement.OnCurrentPage:
 					page = Navigator.CurrentPage;
 					break;
+				case AlertPlacement.OnContentPage:
+					page = Navigator.ContentPage;
+					break;
 				}
-				
+
 				return page ?? Application.Current.MainPage;
 			}
 		}

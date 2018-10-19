@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 			 x:Class="ACE.Views.ContactDetailPage"
 			 Title="{Binding Title}"
 			>
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Order="Primary"
-					 Text="Accept" 
-					 Command="{Binding AcceptCommand}"
-					 >
+		<ui:ToolbarItemEx Order="Primary"
+						Text="Accept" 
+						Writ="Accept"
+						>
 			<ToolbarItem.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="accept.png" />
@@ -17,11 +18,11 @@
 					<On Platform="UWP" Value="Images/e10b.png" />
 				</OnPlatform>
 			</ToolbarItem.Icon>
-		</ToolbarItem>
-		<ToolbarItem Order="Primary"
-					 Text="Cancel" 
-					 Command="{Binding CancelCommand}"
-					>
+		</ui:ToolbarItemEx>
+		<ui:ToolbarItemEx Order="Primary"
+						  Text="Cancel"
+						  Writ="Cancel"
+						  >
 			<ToolbarItem.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="cancel.png" />
@@ -29,7 +30,7 @@
 					<On Platform="UWP" Value="Images/e10a.png" />
 				</OnPlatform>
 			</ToolbarItem.Icon>
-		</ToolbarItem>
+		</ui:ToolbarItemEx>
 	</ContentPage.ToolbarItems>
 	
 	<ContentPage.Content>
@@ -61,7 +62,6 @@
 				   Text="Name"
 				   />
 			<Entry Grid.Row="1" Grid.Column="0"
-				   x:Name="name"
 				   Placeholder="Enter Name"
 				   Text="{Binding Name}"
 				   />
@@ -70,7 +70,6 @@
 				   Text="Phone Number"
 				   />
 			<Entry Grid.Row="3" Grid.Column="0"
-				   x:Name="phone"
 				   Placeholder="Enter Phone Number"
 				   Keyboard="Telephone"
 				   Text="{Binding Phone}"
@@ -80,7 +79,6 @@
 				   Text="Address"
 				   />
 			<Editor Grid.Row="5" Grid.Column="0"
-					x:Name="address"
 					HeightRequest="75"
 					Text="{Binding Address}"
 					/>
@@ -89,7 +87,6 @@
 				   Text="Notes"
 				   />
 			<Editor Grid.Row="7" Grid.Column="0"
-					x:Name="comment"
 					HeightRequest="75"
 					Text="{Binding Comment}"
 					/>

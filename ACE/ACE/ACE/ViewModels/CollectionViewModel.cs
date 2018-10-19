@@ -13,7 +13,8 @@ namespace ACE.ViewModels
 	{
 		public event SelectedItemChangedHandler SelectedItemChangedEvent;
 	
-		public CollectionViewModel(ObservableCollection<Item> items = null) 
+		public CollectionViewModel(BindingScope parentScope, ObservableCollection<Item> items = null) :
+			base(parentScope)
 		{
 			Items = items ?? new ObservableCollection<Item>();
 		}

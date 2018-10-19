@@ -8,10 +8,10 @@
 
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Order="Primary"
-					 Text="Accept" 
-					 Command="{Binding AcceptCommand}"
-					 >
+		<ui:ToolbarItemEx Order="Primary"
+						  Text="Accept" 
+						  Writ="Accept"
+						  >
 			<ToolbarItem.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="accept.png" />
@@ -19,11 +19,11 @@
 					<On Platform="UWP" Value="Images/e10b.png" />
 				</OnPlatform>
 			</ToolbarItem.Icon>
-		</ToolbarItem>
-		<ToolbarItem Order="Primary"
-					 Text="Cancel" 
-					 Command="{Binding CancelCommand}"
-					>
+		</ui:ToolbarItemEx>
+		<ui:ToolbarItemEx Order="Primary"
+						  Text="Cancel" 
+						  Writ="Cancel"
+						  >
 			<ToolbarItem.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="cancel.png" />
@@ -31,7 +31,7 @@
 					<On Platform="UWP" Value="Images/e10a.png" />
 				</OnPlatform>
 			</ToolbarItem.Icon>
-		</ToolbarItem>
+		</ui:ToolbarItemEx>
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Content>
@@ -50,20 +50,25 @@
 			<Label Text="Name"/>
 			<ui:AutoSuggestEntry x:Name="clientName"
 								 Placeholder="Enter Client Name"
-								 Text="{Binding ClientName}"
+								 Text="{Binding ClientName, Mode=TwoWay}"
 								 InputTransparent="{Binding IsEditing}"
 								 SuggestionSource="{Binding ClientNameSuggestions}"
 								 AutoSuggestionSelected="OnClientNameSelected"
+								 MinSuggestionLength="3"
+								 UpdateTextOnSelect="False"
+								 SelectExactMatch="True"
 								 />
 
 			<Label Text="Phone Number"/>
 			<ui:AutoSuggestEntry x:Name="clientPhone"
 								 Placeholder="Enter Client Phone Number"
 								 Keyboard="Telephone"
-								 Text="{Binding ClientPhone}"
+								 Text="{Binding ClientPhone, Mode=TwoWay}"
 								 InputTransparent="{Binding IsEditing}"
 								 SuggestionSource="{Binding ClientPhoneSuggestions}"
 								 AutoSuggestionSelected="OnClientPhoneSelected"
+								 MinSuggestionLength="3"
+								 UpdateTextOnSelect="False"
 								 SelectExactMatch="True"
 								 />
 
@@ -71,7 +76,7 @@
 			<Label Text="Address"/>
 			<Editor x:Name="clientAddress"
 					HeightRequest="50"
-					Text="{Binding ClientAddress}"
+					Text="{Binding ClientAddress, Mode=TwoWay}"
 					/>
 
 			<Label Text=""/>
@@ -91,7 +96,7 @@
 				   />-->
 			<ui:AutoSuggestEntry x:Name="officeName"
 								 Placeholder="Enter Office Name"
-								 Text="{Binding OfficeName}"
+								 Text="{Binding OfficeName, Mode=TwoWay}"
 								 InputTransparent="{Binding IsEditing}"
 								 SuggestionSource="{Binding OfficeNameSuggestions}"
 								 AutoSuggestionSelected="OnOfficeNameSelected"
@@ -101,7 +106,7 @@
 								 Keyboard="Telephone"/>-->
 			<ui:AutoSuggestEntry x:Name="officePhone"
 								 Placeholder="Enter Office Phone Number"
-								 Text="{Binding OfficePhone}"
+								 Text="{Binding OfficePhone, Mode=TwoWay}"
 								 Keyboard="Telephone"
 								 InputTransparent="{Binding IsEditing}"
 								 SuggestionSource="{Binding OfficePhoneSuggestions}"

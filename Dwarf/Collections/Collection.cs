@@ -22,7 +22,25 @@ namespace Dwares.Dwarf.Collections
 			return collection.Count == 0;
 		}
 
-		public static T LastElement<T>(IList<T> collection)
+		public static T First<T>(IList<T> collection)
+		{
+			if (!IsNullOrEmpty(collection)) {
+				return collection[0];
+			} else {
+				return default(T);
+			}
+		}
+
+		public static T First<T>(IReadOnlyList<T> collection)
+		{
+			if (!IsNullOrEmpty(collection)) {
+				return collection[0];
+			} else {
+				return default(T);
+			}
+		}
+
+		public static T Last<T>(IList<T> collection)
 		{
 			if (!IsNullOrEmpty(collection)) {
 				return collection[collection.Count - 1];
@@ -31,7 +49,7 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
-		public static T LastElement<T>(IReadOnlyList<T> collection)
+		public static T Last<T>(IReadOnlyList<T> collection)
 		{
 			if (!IsNullOrEmpty(collection)) {
 				return collection[collection.Count - 1];

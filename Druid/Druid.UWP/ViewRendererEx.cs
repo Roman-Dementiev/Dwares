@@ -19,8 +19,7 @@ namespace Dwares.Druid.UWP
 		{
 			try {
 				var resources = Windows.UI.Xaml.Application.Current.Resources;
-				object value;
-				if (resources.TryGetValue(styleName, out value)) {
+				if (resources.TryGetValue(styleName, out object value)) {
 					if (value is Windows.UI.Xaml.Style style) {
 						return style;
 					} else {

@@ -92,12 +92,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CallingInfo.cs" />
-    <Compile Include="DeviceStorage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PhoneDialer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,12 +121,12 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Images\directions24.png" />
     <Content Include="Images\e104.png" />
     <Content Include="Images\e107.png" />
     <Content Include="Images\e109.png" />
     <Content Include="Images\e10a.png" />
     <Content Include="Images\e10b.png" />
-    <Content Include="Images\edit32.png" />
     <Content Include="Images\phone48.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LargeTile.scale-100.png" />
@@ -160,7 +157,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="xamarin_logo.png" />
-    <Content Include="add.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

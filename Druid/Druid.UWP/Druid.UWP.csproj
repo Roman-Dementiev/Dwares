@@ -111,7 +111,9 @@
     <Compile Include="DeviceOrientationSvc.cs" />
     <Compile Include="DeviceStorage.cs" />
     <Compile Include="Druid_UWP.cs" />
+    <Compile Include="Launcher.cs" />
     <Compile Include="LocalizationSvc.cs" />
+    <Compile Include="BingMapSvc.cs" />
     <Compile Include="PhoneDialer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceMapListener.cs" />

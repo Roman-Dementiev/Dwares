@@ -11,10 +11,10 @@
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="tab_feed.png"/>
 				</OnPlatform>
-			
+
 			</NavigationPage.Icon>
 			<x:Arguments>
-				<views:PickupsTabPage Title="Pickups"/>
+				<views:PickupsListPage Title="Pickups"/>
 			</x:Arguments>
 		</NavigationPage>
 
@@ -63,18 +63,7 @@
 			</x:Arguments>
 		</NavigationPage>
 
-		<!--<NavigationPage Title="Contacts">
-			<NavigationPage.Icon>
-				<OnPlatform x:TypeArguments="FileImageSource">
-					<On Platform="iOS" Value="tab_feed.png"/>
-				</OnPlatform>
-			</NavigationPage.Icon>
-			<x:Arguments>
-				<views:ContactsTabPage Title="Contacts" />
-			</x:Arguments>
-		</NavigationPage>-->
-		
-		<NavigationPage Title="About">
+		<!--<NavigationPage Title="About">
 			<NavigationPage.Icon>
 				<OnPlatform x:TypeArguments="FileImageSource">
 					<On Platform="iOS" Value="tab_about.png"/>
@@ -83,7 +72,8 @@
 			<x:Arguments>
 				<views:AboutPage Title="About" />
 			</x:Arguments>
-		</NavigationPage>
-	</TabbedPage.Children>
+		</NavigationPage>-->
 
+	</TabbedPage.Children>
 </TabbedPage>
+	

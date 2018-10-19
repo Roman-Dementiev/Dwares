@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
@@ -6,7 +7,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace ACE.Models
 {
-	public class Pickup: NotifyPropertyChanged, ISelectable
+	public class Pickup: PropertyNotifier, ISelectable
 	{
 		public Contact Client { get; set; }
 		public Contact Office { get; set; }
@@ -17,14 +18,23 @@ namespace ACE.Models
 		{
 			Client = new Contact(ContactType.Client);
 			Office = new Contact(ContactType.Office);
+
+			Client.PropertyChanged += Client_PropertyChanged;
+			Office.PropertyChanged += Office_PropertyChanged;
 		}
 
 		public Pickup(Contact client, Contact office, ScheduleTime pickupTime, ScheduleTime appoitmentTime)
 		{
+			Debug.AssertNotNull(client);
+			Debug.AssertNotNull(office);
+
 			Client = client;
 			Office = office;
 			PickupTime = pickupTime;
 			AppoitmentTime = appoitmentTime;
+
+			Client.PropertyChanged += Client_PropertyChanged;
+			Office.PropertyChanged += Office_PropertyChanged;
 		}
 
 		public override string ToString()
@@ -51,46 +61,96 @@ namespace ACE.Models
 			}
 		}
 
+		private void Client_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(Contact.Name)) {
+				RaisePropertyChanged(nameof(ClientName));
+				RaisePropertyChanged(nameof(ShowClientName));
+			}
+			else if (e.PropertyName == nameof(Contact.Phone)) {
+				RaisePropertyChanged(nameof(ClientPhone));
+			}
+			else if (e.PropertyName == nameof(Contact.Address)) {
+				RaisePropertyChanged(nameof(ClientAddress));
+				RaisePropertyChanged(nameof(ShowClientAddress));
+				RaisePropertyChanged(nameof(ShowClientDirections));
+
+			}
+		}
+
+		private void Office_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(Contact.Name)) {
+				RaisePropertyChanged(nameof(OfficeName));
+				RaisePropertyChanged(nameof(ShowOfficeName));
+			} else if (e.PropertyName == nameof(Contact.Phone)) {
+				RaisePropertyChanged(nameof(OfficePhone));
+			} else if (e.PropertyName == nameof(Contact.Address)) {
+				RaisePropertyChanged(nameof(OfficeAddress));
+				RaisePropertyChanged(nameof(ShowOfficeAddress));
+				RaisePropertyChanged(nameof(ShowOfficeDirections));
+
+			}
+		}
+
 		public string ClientName {
 			get => Client.Name;
 			set {
-				Client.Name = value;
-				RaisePropertyChanged();
+				if (value != Client.Name) {
+					Client.Name = value;
+					//RaisePropertyChanged();
+					//RaisePropertyChanged(nameof(ShowClientName));
+				}
 			}
 		}
 		public string ClientPhone {
 			get => Client.Phone;
 			set {
-				Client.Phone = value;
-				RaisePropertyChanged();
+				if (value != Client.Phone) {
+					Client.Phone = value;
+					//RaisePropertyChanged();
+				}
 			}
 		}
 		public string ClientAddress {
 			get => Client.Address;
 			set {
-				Client.Address = value;
-				RaisePropertyChanged();
+				if (value != Client.Address) {
+					Client.Address = value;
+					//RaisePropertyChanged();
+					//RaisePropertyChanged(nameof(ShowClientAddress));
+					//RaisePropertyChanged(nameof(ShowClientDirections));
+				}
 			}
 		}
 		public string OfficeName {
 			get => Office.Name;
 			set {
-				Office.Name = value;
-				RaisePropertyChanged();
+				if (value != Office.Name) {
+					Office.Name = value;
+					//RaisePropertyChanged();
+					//RaisePropertyChanged(nameof(ShowOfficeName));
+				}
 			}
 		}
 		public string OfficePhone {
 			get => Office.Phone;
 			set {
-				Office.Phone = value;
-				RaisePropertyChanged();
+				if (value != Office.Phone) {
+					Office.Phone = value;
+					//RaisePropertyChanged();
+				}
 			}
 		}
 		public string OfficeAddress {
 			get => Office.Address;
 			set {
-				Office.Address = value;
-				RaisePropertyChanged();
+				if (value != Office.Address) {
+					Office.Address = value;
+					//RaisePropertyChanged();
+					//RaisePropertyChanged(nameof(ShowOfficeAddress));
+					//RaisePropertyChanged(nameof(ShowOfficeDirections));
+				}
 			}
 		}
 
@@ -101,11 +161,16 @@ namespace ACE.Models
 
 		public bool ShowClientName => Client.HasName;
 		public bool ShowClientAddress => Client.HasAddress;
+		public bool ShowClientDirections => Client.HasAddress;
 		public bool ShowOfficeInfo => IsSelected;
 		public bool ShowOfficeName => Office.HasName;
 		public bool ShowOfficeAddress => Office.HasAddress;
+		public bool ShowOfficeDirections => Office.HasAddress;
 
 		public Command CallClientCommand => Client.CallCommand;
 		public Command CallOfficeCommand => Office.CallCommand;
+		public Command ClientDirectionsCommand => Client.DirectionsCommand;
+		public Command OfficeDirectionsCommand => Office.DirectionsCommand;
+
 	}
 }

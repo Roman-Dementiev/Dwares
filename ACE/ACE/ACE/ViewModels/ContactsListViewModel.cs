@@ -18,10 +18,11 @@ namespace ACE.ViewModels
 		public Command EditCommand { get; }
 		public Command DeleteCommand { get; }
 
-		public ContactsListViewModel(ContactType contactType)
+		public ContactsListViewModel(ContactType contactType) :
+			base(AppScope)
 		{
 			ContactType = contactType;
-			Callable = contactType == ContactType.Company;
+			Callable = (contactType == ContactType.ACE);
 			AddCommand = new Command(OnAdd);
 			EditCommand = new Command(OnEdit, HasSelected);
 			DeleteCommand = new Command(OnDelete, () => AppData.CanDelete(Selected));
@@ -78,14 +79,14 @@ namespace ACE.ViewModels
 		protected virtual async void OnAdd()
 		{
 			var page = new ContactDetailPage(ContactType);
-			await Navigator.NavigateToModal(page);
+			await Navigator.PushModal(page);
 		}
 
 		protected virtual async void OnEdit()
 		{
 			if (Selected != null) {
 				var page = new ContactDetailPage(Selected);
-				await Navigator.NavigateToModal(page);
+				await Navigator.PushModal(page);
 			}
 		}
 

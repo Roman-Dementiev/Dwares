@@ -60,7 +60,7 @@ namespace Dwares.Dwarf.Runtime
 			bool? isSpecial = false,
 			bool? isExplicit = false)
 		{
-			Type type = target as Type;
+			var type = target as Type;
 			if (type == null) {
 				type = target.GetType();
 			}
@@ -82,7 +82,7 @@ namespace Dwares.Dwarf.Runtime
 
 		public static PropertyInfo GetProperty(object target, string propertyName, bool required = false)
 		{
-			Type type = target as Type;
+			var type = target as Type;
 			if (type == null) {
 				type = target.GetType();
 			}

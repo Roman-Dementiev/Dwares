@@ -1,0 +1,9 @@
+ACE Transit	
+Key: At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa
+Application Url: 
+Key type: Basic / Dev/Test
+Created date: 10/11/2018
+Expiration date: None
+Key Status: Enabled
+Security Enabled: No Update
+

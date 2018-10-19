@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 x:Class="ACE.Views.SettingsPage"
+			 Title="{Binding Title}"
+			 >
+
+	<ContentPage.ToolbarItems>
+		<ui:ToolbarItemEx Text="Accept" Writ="Dismiss">
+			<ToolbarItem.Icon>
+				<OnPlatform x:TypeArguments="FileImageSource">
+					<On Platform="iOS" Value="accept.png" />
+					<On Platform="Android" Value="ic_action_accept.png" />
+					<On Platform="UWP" Value="Images/e10b.png" />
+				</OnPlatform>
+			</ToolbarItem.Icon>
+		</ui:ToolbarItemEx>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ContentPage.ToolbarItems>
+
+	<ContentPage.Content>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Label Grid.Row="0" Text="TODO!" HorizontalOptions="Center" />
+			<StackLayout Grid.Row="1"
+						 Orientation="Horizontal"
+						 HorizontalOptions="Center">
+				<ui:ButtonEx Text="Backup" Writ="Backup" />
+				<ui:ButtonEx Text="Restore" Writ="Restore" />
+			</StackLayout>
+			<!--<StackLayout Grid.Row="3"
+						 Orientation="Horizontal"
+						 HorizontalOptions="Center"
+						 >
+				<ui:ButtonEx Text="Ok" Writ="Dismiss"/>
+			</StackLayout>-->
+		</Grid>
+	</ContentPage.Content>
+</ContentPage>

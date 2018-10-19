@@ -37,6 +37,7 @@ namespace Dwares.Druid.UWP
 				SetKeyboard();
 				SetPlaceholder();
 				SetText();
+				SetUpdateTextOnSelect();
 
 				//Control.QuerySubmitted += Control_QuerySubmitted;
 				Control.TextChanged += Control_TextChanged;
@@ -62,6 +63,7 @@ namespace Dwares.Druid.UWP
 		private void Control_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
 		{
 			Element.OnItemSelected(args.SelectedItem, AutoSuggestionSelectReason.Choosen);
+			//Control.IsSuggestionListOpen = false;
 		}
 
 		private void Control_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -93,6 +95,8 @@ namespace Dwares.Druid.UWP
 				SetKeyboard();
 			} else if (args.PropertyName == AutoSuggestEntry.IntentProperty.PropertyName) {
 				SetIntent();
+			} else if (args.PropertyName == AutoSuggestEntry.UpdateTextOnSelectProperty.PropertyName) {
+				SetUpdateTextOnSelect();
 			}
 		}
 
@@ -154,6 +158,11 @@ namespace Dwares.Druid.UWP
 				Control.QueryIcon = null;
 				break;
 			}
+		}
+
+		void SetUpdateTextOnSelect()
+		{
+			Control.UpdateTextOnSelect = Element.UpdateTextOnSelect;
 		}
 
 	}

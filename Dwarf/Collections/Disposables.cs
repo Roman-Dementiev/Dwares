@@ -11,21 +11,33 @@ namespace Dwares.Dwarf.Collections
 		public void Dispose()
 		{
 			if (list != null) {
-				foreach (var item in list) {
-					try {
-						item?.Dispose();
-					}
-					catch (Exception ex) {
-						Debug.ExceptionCaught(ex);
-					}
-				}
-
+				Clear();
 				list = null;
 			}
 		}
 
 		public void Attach(IDisposable item) => list.Add(item);
 		public void Detach(IDisposable item) => list.Remove(item);
+
+		public void Remove(IDisposable item)
+		{
+			if (list.Remove(item)) {
+				item.Dispose();
+			}
+		}
+
+		public void Clear()
+		{
+			foreach (var item in list) {
+				try {
+					item?.Dispose();
+				}
+				catch (Exception ex) {
+					Debug.ExceptionCaught(ex);
+				}
+				list.Clear();
+			}
+		}
 	}
 }
 

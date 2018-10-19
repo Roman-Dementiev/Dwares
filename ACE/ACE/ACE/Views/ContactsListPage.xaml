@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:local="clr-namespace:ACE"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 			 xmlns:vm="clr-namespace:ACE.ViewModels"
 			 x:Class="ACE.Views.ContactsListPage"
 			 x:Name="page">
@@ -35,6 +36,8 @@
 				</OnPlatform>
 			</ToolbarItem.Icon>
 		</ToolbarItem>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
 	</ContentPage.ToolbarItems>
 
 	<ContentPage.Content>
@@ -86,7 +89,7 @@
 												IsVisible="{Binding HasName}"
 												/>
 									<Label x:Name="phone"
-												FontSize="Medium"
+												FontSize="Default"
 												Text="{Binding Phone}"
 												IsVisible="{Binding HasPhone}"
 												/>

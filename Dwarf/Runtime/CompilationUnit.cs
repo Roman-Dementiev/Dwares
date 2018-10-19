@@ -126,7 +126,7 @@ namespace Dwares.Dwarf.Runtime
 	public class ClassUnit : CompilationUnit
 	{
 		public Type Type { get; }
-		public new NamespaceUnit Namespace { get; }
+		public NamespaceUnit Namespace { get; }
 
 		public ClassUnit(Type type, ClassUnit parent = null)
 		{

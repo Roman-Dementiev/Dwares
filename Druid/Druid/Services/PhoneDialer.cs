@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using Dwares.Druid.Support;
 
 
@@ -14,16 +13,8 @@ namespace Dwares.Druid.Services
 
 	public static class PhoneDialer
 	{
-		static IPhoneDialer instance = null;
-
-		public static IPhoneDialer Instance {
-			get {
-				if (instance == null) {
-					instance = DependencyService.Get<IPhoneDialer>();
-				}
-				return instance;
-			}
-		}
+		static DependencyService<IPhoneDialer> instance;
+		public static IPhoneDialer Instance => DependencyService<IPhoneDialer>.GetInstance(ref instance);
 
 		public static Exception TryDial(string phoneNumber, string displayName)
 		{

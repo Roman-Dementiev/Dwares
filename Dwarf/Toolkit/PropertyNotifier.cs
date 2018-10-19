@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Dwares.Dwarf.Toolkit
 {
-	public class NotifyPropertyChanged : INotifyPropertyChanged
+	public class PropertyNotifier : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 

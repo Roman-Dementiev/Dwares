@@ -6,7 +6,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Validation
 {
-	public abstract class BaseValidatable : NotifyPropertyChanged, IValidatable
+	public abstract class BaseValidatable : PropertyNotifier, IValidatable
 	{
 		private bool? isValid = null;
 		public bool IsValid {

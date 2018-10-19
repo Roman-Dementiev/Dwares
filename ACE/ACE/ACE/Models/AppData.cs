@@ -43,9 +43,16 @@ namespace ACE.Models
 		static ObservableCollection<Contact> contacts = null;
 		public static ObservableCollection<Contact> Contacts => LazyInitializer.EnsureInitialized(ref contacts);
 
-		static DateTime latestPickup = DateTime.Today;
+		static DateTime latestPickup = DateTime.Now;
 		static ObservableCollection<Pickup> pickups = null;
 		public static ObservableCollection<Pickup> Pickups => LazyInitializer.EnsureInitialized(ref pickups);
+
+		private static void Clear()
+		{
+			contacts?.Clear();
+			pickups?.Clear();
+			latestPickup = DateTime.Now;
+		}
 
 		public static async Task NewContact(Contact newContact)
 		{
@@ -53,24 +60,24 @@ namespace ACE.Models
 			await SaveAsync();
 		}
 
-		public static async Task ReplaceContact(Contact newContact, Contact oldContact)
-		{
-			AddContact(Contacts, newContact, oldContact);
+		//public static async Task ReplaceContact(Contact newContact, Contact oldContact)
+		//{
+		//	AddContact(Contacts, newContact, oldContact);
 
-			if (oldContact != null) {
-				var pickups = Pickups;
-				foreach (var pickup in pickups) {
-					if (pickup.Client == oldContact) {
-						pickup.Client = newContact;
-					}
-					if (pickup.Office == oldContact) {
-						pickup.Office = newContact;
-					}
-				}
-			}
+		//	if (oldContact != null) {
+		//		var pickups = Pickups;
+		//		foreach (var pickup in pickups) {
+		//			if (pickup.Client == oldContact) {
+		//				pickup.Client = newContact;
+		//			}
+		//			if (pickup.Office == oldContact) {
+		//				pickup.Office = newContact;
+		//			}
+		//		}
+		//	}
 
-			await SaveAsync();
-		}
+		//	await SaveAsync();
+		//}
 
 		static void AddContact(ObservableCollection<Contact> contacts, Contact newContact, Contact oldContact = null)
 		{
@@ -86,11 +93,13 @@ namespace ACE.Models
 		}
 
 
-		public static async Task NewPickup(Pickup newPickup)
+		public static async Task NewPickup(Pickup newPickup, bool save)
 		{
 			AddPickup(Pickups, newPickup);
 
-			await SaveAsync();
+			if (save) {
+				await SaveAsync();
+			}
 		}
 
 		//public static async Task ReplacePickup(Pickup newPickup, Pickup oldPickup)
@@ -177,6 +186,9 @@ namespace ACE.Models
 
 		public static Contact GetContactByPhone(string phone)
 		{
+			if (String.IsNullOrEmpty(phone))
+				return null;
+
 			foreach (var contact in Contacts) {
 				if (contact.Phone == phone)
 					return contact;
@@ -189,7 +201,7 @@ namespace ACE.Models
 			if (contact == null)
 				return false;
 
-			if (contact.ContactType == ContactType.Company)
+			if (contact.ContactType == ContactType.ACE)
 				return settings.CanDeleteCompanyContacts;
 
 			return !IsEngaged(contact);
@@ -198,7 +210,7 @@ namespace ACE.Models
 		delegate bool ContactIsEngaged(Pickup pickup);
 		static bool IsEngaged(Contact contact, ContactIsEngaged isEngaged)
 		{
-			if (contact.ContactType == ContactType.Company)
+			if (contact.ContactType != ContactType.Client && contact.ContactType != ContactType.Office)
 				return false;
 
 			var pickups = Pickups;

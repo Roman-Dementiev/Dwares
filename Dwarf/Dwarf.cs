@@ -28,4 +28,10 @@ namespace Dwares.Dwarf
 		static Null<T> As<T>() => new Null<T>();
 	}
 
+
+	public class Never
+	{
+		private Never() { }
+		public T As<T>() => default(T);
+	}
 }

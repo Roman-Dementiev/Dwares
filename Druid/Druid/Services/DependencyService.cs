@@ -1,47 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 
 namespace Dwares.Druid.Services
 {
-	public class DependencyServiceNotFound: Exception
-	{
-		public const string DefaultMessageFormat = "Depemdency Service not found: {0}";
-
-		public Type ServiceType { get; }
-
-		public DependencyServiceNotFound() { }
-
-		public DependencyServiceNotFound(Type serviceType, string message) : base(message)
-		{
-			ServiceType = serviceType;
-		}
-		
-		public DependencyServiceNotFound(Type serviceType, string message, Exception innerException) : base(message, innerException)
-		{
-			ServiceType = serviceType;
-		}
-
-
-
-		public static void Raise(Type serviceType, Exception innerException = null) => Raise(serviceType, null, innerException);
-
-		public static void Raise(Type serviceType, string messageFormat, Exception innerException = null)
-		{
-			//Debug.Trace("DependencyService not found: {0}", serviceType?.FullName);
-			var message = String.Format(messageFormat ?? DefaultMessageFormat, serviceType?.FullName);
-
-			DependencyServiceNotFound ex;
-			if (innerException != null) {
-				ex = new DependencyServiceNotFound(serviceType, message, innerException);
-			} else {
-				ex = new DependencyServiceNotFound(serviceType, message);
-			}
-			throw ex;
-		}
-	}
-
 	public class DependencyService<TService> where TService : class
 	{
 		public enum Mode
@@ -53,16 +15,22 @@ namespace Dwares.Druid.Services
 			GetOnly
 		};
 
-		private bool inited = false;
-		private TService service = null;
-		public TService Service {
-			get => Get(Mode.Exlusive);
-			set => Set(value);
+		public static TService GetInstance(ref DependencyService<TService> instance)
+		{
+			var _instance = LazyInitializer.EnsureInitialized(ref instance);
+			return _instance.Service;
 		}
 
-		public DependencyService(bool init = false)
+		public static void SetInstance(ref DependencyService<TService> instance, TService service)
 		{
-			//Debug.Trace("DependencyService() init={0}", init);
+			var _instance = LazyInitializer.EnsureInitialized(ref instance, () => new DependencyService<TService>(false));
+			_instance.Set(service);
+		}
+
+		public DependencyService() : this(true) { }
+
+		public DependencyService(bool init)
+		{
 			if (init) {
 				service = TryGet(true);
 			}
@@ -70,8 +38,14 @@ namespace Dwares.Druid.Services
 
 		public DependencyService(TService service)
 		{
-			//Debug.Print("DependencyService() service={0}", service);
 			Set(service);
+		}
+
+		private bool inited = false;
+		private TService service = null;
+		public TService Service {
+			get => Get(Mode.Exlusive);
+			set => Set(value);
 		}
 
 		public TService TryGet(bool required)
@@ -126,5 +100,41 @@ namespace Dwares.Druid.Services
 			inited = true; 
 		}
 
+	}
+
+	public class DependencyServiceNotFound : Exception
+	{
+		public const string DefaultMessageFormat = "Dependency Service not found: {0}";
+
+		public Type ServiceType { get; }
+
+		public DependencyServiceNotFound() { }
+
+		public DependencyServiceNotFound(Type serviceType, string message) : base(message)
+		{
+			ServiceType = serviceType;
+		}
+
+		public DependencyServiceNotFound(Type serviceType, string message, Exception innerException) : base(message, innerException)
+		{
+			ServiceType = serviceType;
+		}
+
+
+
+		public static void Raise(Type serviceType, Exception innerException = null) => Raise(serviceType, null, innerException);
+
+		public static void Raise(Type serviceType, string messageFormat, Exception innerException = null)
+		{
+			var message = String.Format(messageFormat ?? DefaultMessageFormat, serviceType?.FullName);
+
+			DependencyServiceNotFound ex;
+			if (innerException != null) {
+				ex = new DependencyServiceNotFound(serviceType, message, innerException);
+			} else {
+				ex = new DependencyServiceNotFound(serviceType, message);
+			}
+			throw ex;
+		}
 	}
 }

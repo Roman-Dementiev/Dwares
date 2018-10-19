@@ -38,29 +38,40 @@ namespace Dwares.Druid.Support
 					navigationPage.PoppedToRoot += OnNavigationPageChanged;
 				}
 
-				//NavigationPageChanged?.Invoke(typeof(Navigator), EventArgs.Empty);
-				CurrentPage = navigationPage.CurrentPage;
+				//CurrentPage = navigationPage.CurrentPage;
+				//InvokeNavigationPageChanged();
+				InvokeCurrentPageChanged();
 			}
 		}
 
-		private static Page currentPage;
-		public static Page CurrentPage
-		{
-			get => currentPage;
-			set {
-				if (value != currentPage) {
-					currentPage = value;
-					CurrentPageChanged?.Invoke(typeof(Navigator), EventArgs.Empty);
-				}
-			}
-		}
-
+		public static Page ModalPage => GetCurrentPage(true, true);
+		public static Page ContentPage => GetCurrentPage(true);
+		public static Page CurrentPage => GetCurrentPage(false);
 
 		public static bool HasModal {
 			get => !Collection.IsNullOrEmpty(Navigation?.ModalStack);
 		}
-		public static Page ModalPage {
-			get => Collection.LastElement(Navigation?.ModalStack);
+
+		public static Page GetCurrentPage(bool content, bool? modal = null)
+		{
+			Page currentPage = null;
+
+			if (NavigationPage != null)
+			{
+				if (modal != false) {
+					currentPage = Collection.Last(Navigation?.ModalStack);
+				}
+
+				if (modal != true && currentPage == null) {
+					currentPage = NavigationPage.CurrentPage;
+				}
+
+				if (content && currentPage is NavigationPage navigationPage) {
+					currentPage = navigationPage.CurrentPage;
+				}
+			}
+
+			return currentPage;
 		}
 
 		public static void Initialize(Page rootPage = null)
@@ -71,11 +82,11 @@ namespace Dwares.Druid.Support
 			}
 			RootPage = rootPage;
 			navigationPage = null;
-			currentPage = null;
+			//currentPage = null;
 
 			if (RootPage is NavigationPage navPage) {
 				NavigationPage = navPage;
-				CurrentPage = NavigationPage.CurrentPage;
+				//InvokeCurrentPageChanged();
 			}
 			else if (RootPage is MultiPage<Page> multiPage) {
 				multiPage.CurrentPageChanged += (sender, e) => MultiPage_CurrentPageChanged();
@@ -106,12 +117,12 @@ namespace Dwares.Druid.Support
 				NavigationPage.PoppedToRoot += OnNavigationPageChanged;
 			}
 
-			CurrentPage = NavigationPage.CurrentPage;
+			InvokeCurrentPageChanged();
 		}
 
 		private static void OnNavigationPageChanged(object sender, NavigationEventArgs e)
 		{
-			CurrentPage = NavigationPage.CurrentPage;
+			InvokeCurrentPageChanged();
 		}
 
 		public static bool CanNavigate()
@@ -119,29 +130,22 @@ namespace Dwares.Druid.Support
 			return Navigation != null;
 		}
 
-		public static async Task NavigateToRoot()
-		{
-			if (Navigation != null) {
-				await Navigation.PopToRootAsync(Animated);
-			}
-		}
-
-		public static async Task NavigateToModal(Page page)
-		{
-			await PushPageAsync(new NavigationPage(page), true);
-		}
-
 		public static async Task NavigateTo(Page page)
 		{
-			await PushPageAsync(new NavigationPage(page), false);
+			await PushPage(page, false, true);
 		}
 
-		public static async void NavigateBack()
+		//public static async void NavigateBack()
+		//{
+		//	await PopPageAsync();
+		//}
+
+		public static async Task PushModal(Page page, bool asNavigationPage=true)
 		{
-			await PopPageAsync();
+			await PushPage(page, true, asNavigationPage);
 		}
 
-		public static async Task PushPageAsync(Page page, bool modal)
+		public static async Task PushPage(Page page, bool modal, bool asNavigatopPage)
 		{
 			if (page == null)
 				return;
@@ -156,14 +160,19 @@ namespace Dwares.Druid.Support
 				return;
 			}
 
+			if (asNavigatopPage) {
+				page = new NavigationPage(page);
+			}
+
 			if (modal) {
 				await Navigation.PushModalAsync(page, Animated);
 			} else {
 				await Navigation.PushAsync(page, Animated);
+				//await NavigationPage.PushAsync(page);
 			}
 		}
 
-		public static async Task PopPageAsync()
+		public static async Task PopPage()
 		{
 			if (Navigation != null /*&& CurrentPage != null*/) {
 				if (HasModal) {
@@ -174,9 +183,21 @@ namespace Dwares.Druid.Support
 			}
 		}
 
-		//private static void InvokeCurrentPageChanged()
+		public static async Task PopToRoot()
+		{
+			if (Navigation != null) {
+				await Navigation.PopToRootAsync(Animated);
+			}
+		}
+
+		//private static void InvokeNavigationPageChanged()
 		//{
-		//	CurrentPageChanged?.Invoke(typeof(Navigator), EventArgs.Empty);
+		//	NavigationPageChanged?.Invoke(typeof(Navigator), EventArgs.Empty);
 		//}
+
+		private static void InvokeCurrentPageChanged()
+		{
+			CurrentPageChanged?.Invoke(typeof(Navigator), EventArgs.Empty);
+		}
 	}
 }

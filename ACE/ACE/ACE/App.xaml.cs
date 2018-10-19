@@ -16,6 +16,7 @@ namespace ACE
 
 		public App()
 		{
+			BindingContext = new AppScope();
 			InitializeComponent();
 
 			mainPage = new MainPage();

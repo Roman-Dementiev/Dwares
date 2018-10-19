@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Dwares.Druid.Support;
 using ACE.Models;
 using ACE.Views;
 
+
 namespace ACE.ViewModels
 {
-	public class PickupsViewModel: CollectionViewModel<Pickup>
+	public class PickupsListViewModel: CollectionViewModel<Pickup>
 	{
-		public PickupsViewModel() :
-			base(AppData.Pickups)
+		public PickupsListViewModel() :
+			base(AppScope, AppData.Pickups)
 		{
+			//AboutWrit = new WritCommand("About", this);
+			////AboutCommand = new Command(OnAbout);
+			//AboutCommand = AboutWrit;
+
 			AddCommand = new Command(OnAdd);
 			EditCommand = new Command(OnEdit, HasSelected);
 			DeleteCommand = new Command(OnDelete, HasSelected);
@@ -24,17 +30,17 @@ namespace ACE.ViewModels
 		public Command EditCommand { get; }
 		public Command DeleteCommand { get; }
 
-		private async void OnAdd() => await AddOrEdit(null);
+		public async void OnAdd() => await AddOrEdit(null);
 
-		private async void OnEdit() => await AddOrEdit(Selected);
+		public async void OnEdit() => await AddOrEdit(Selected);
 
 		private Task AddOrEdit(Pickup pickup)
 		{
 			var page = new PickupDetailPage(pickup);
-			return Navigator.NavigateToModal(page);
+			return Navigator.PushModal(page);
 		}
 
-		private async void OnDelete()
+		public async void OnDelete()
 		{
 			await AppData.RemovePickup(Selected);
 		}

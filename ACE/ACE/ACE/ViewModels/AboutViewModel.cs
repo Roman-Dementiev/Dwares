@@ -6,13 +6,16 @@ using Dwares.Druid.Support;
 
 namespace ACE.ViewModels
 {
-	public class AboutViewModel : BindingScope
+	public class AboutViewModel : FormScope
 	{
-		public AboutViewModel()
+		public AboutViewModel() :
+			base(null)
 		{
 			OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
+			DismissCommand = new Command(async () => await Navigator.PopPage());
 		}
 
 		public ICommand OpenWebCommand { get; }
+		public ICommand DismissCommand { get; }
 	}
 }
