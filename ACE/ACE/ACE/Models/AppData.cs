@@ -43,7 +43,7 @@ namespace ACE.Models
 		static ObservableCollection<Contact> contacts = null;
 		public static ObservableCollection<Contact> Contacts => LazyInitializer.EnsureInitialized(ref contacts);
 
-		static DateTime latestPickup = DateTime.Now;
+		static ScheduleTime latestPickup = new ScheduleTime();
 		static ObservableCollection<Pickup> pickups = null;
 		public static ObservableCollection<Pickup> Pickups => LazyInitializer.EnsureInitialized(ref pickups);
 
@@ -51,7 +51,7 @@ namespace ACE.Models
 		{
 			contacts?.Clear();
 			pickups?.Clear();
-			latestPickup = DateTime.Now;
+			latestPickup.Unset();
 		}
 
 		public static async Task NewContact(Contact newContact)
@@ -132,7 +132,7 @@ namespace ACE.Models
 			pickups.AddOrReplace(newPickup, oldPickup);
 			//Debug.Print("Pickup {0}: {1}, Count={2}", oldPickup==null ? "added" : "replaced",  newPickup.ClientPhone, Contacts.Count);
 
-			if (newPickup.PickupTime.IsAfter(latestPickup)) {
+			if (!latestPickup.IsSet || newPickup.PickupTime.IsAfter(latestPickup.DateTime)) {
 				latestPickup = newPickup.PickupTime;
 			}
 		}
@@ -172,16 +172,21 @@ namespace ACE.Models
 			}
 		}
 
-		public static ScheduleTime ApproximateNextPickup()
+		public static bool EstimateNextPickup(out ScheduleTime pickupTime, out ScheduleTime appoitmentTime)
 		{
-			if (latestPickup.Minute < 30) {
-				return new ScheduleTime(latestPickup.Hour, 30);
+			if (!latestPickup.IsSet) {
+				pickupTime = new ScheduleTime(DateTime.Now.Hour, 30);
+			} else if (latestPickup.Minute < 30) {
+				pickupTime = new ScheduleTime(latestPickup.Hour, 30);
 			} else if (latestPickup.Hour < 23) {
-				return new ScheduleTime(latestPickup.Hour + 1, 0);
+				pickupTime = new ScheduleTime(latestPickup.Hour + 1, 0);
 			} else {
-				// TODO
-				return DateTime.Today;
+				pickupTime = appoitmentTime = ScheduleTime.Tomorrow;
+				return false;
 			}
+
+			appoitmentTime = new ScheduleTime(pickupTime, new TimeSpan(hours: 1, minutes: 0, seconds: 0));
+			return true;
 		}
 
 		public static Contact GetContactByPhone(string phone)

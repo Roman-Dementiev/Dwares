@@ -13,6 +13,8 @@ namespace ACE.Models
 		public Contact Office { get; set; }
 		public ScheduleTime PickupTime { get; set; }
 		public ScheduleTime AppoitmentTime { get; set; }
+		public bool Wheelchair { get; set; }
+		public bool Escort{ get; set; }
 
 		public Pickup()
 		{
@@ -23,7 +25,7 @@ namespace ACE.Models
 			Office.PropertyChanged += Office_PropertyChanged;
 		}
 
-		public Pickup(Contact client, Contact office, ScheduleTime pickupTime, ScheduleTime appoitmentTime)
+		public Pickup(Contact client, Contact office, ScheduleTime pickupTime, ScheduleTime appoitmentTime, bool wheelchair, bool escort)
 		{
 			Debug.AssertNotNull(client);
 			Debug.AssertNotNull(office);

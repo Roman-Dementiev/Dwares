@@ -8,4 +8,6 @@ namespace Dwares.Dwarf.Toolkit
 	{
 		T Value { get; set; }
 	}
+
+
 }

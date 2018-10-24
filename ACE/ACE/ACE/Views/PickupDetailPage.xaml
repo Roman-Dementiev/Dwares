@@ -72,12 +72,20 @@
 								 SelectExactMatch="True"
 								 />
 
-
 			<Label Text="Address"/>
 			<Editor x:Name="clientAddress"
 					HeightRequest="50"
 					Text="{Binding ClientAddress, Mode=TwoWay}"
 					/>
+
+			<StackLayout Orientation="Horizontal">
+				<ui:CheckBoxView Text="Wheelchair"
+								 IsChecked="{Binding Wheelchair}"
+								 />
+				<ui:CheckBoxView Text="Escort"
+								 IsChecked="{Binding Escort}"
+								 />
+			</StackLayout>
 
 			<Label Text=""/>
 

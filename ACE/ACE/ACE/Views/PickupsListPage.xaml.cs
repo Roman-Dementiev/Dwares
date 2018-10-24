@@ -22,5 +22,12 @@ namespace ACE.Views
 
 			InitializeComponent();
 		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			viewModel.UpdateCommands();
+		}
+
 	}
 }

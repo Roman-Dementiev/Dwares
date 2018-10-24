@@ -1,59 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Xamarin.Forms;
-using Dwares.Dwarf;
 using Dwares.Dwarf.Validation;
+using Dwares.Druid.Forms;
 using Dwares.Druid.Support;
 using ACE.Models;
-
+using System.Collections;
 
 namespace ACE.ViewModels
 {
-	public class PickupDetailViewModel : FormScope //BindingScope
+	public class PickupDetailViewModel : FormScope
 	{
-		//Validatables validatables;
-
 		public PickupDetailViewModel(Pickup source)
 		{
 			Source = source;
+
+			clientName = new PersonNameField();
+			officeName = new GeneralNameField();
+			clientAddress = new Field<string>();
+			officeAddress = new Field<string>();
+			clientPhone = new PhoneField("Client phone number is invalid", "Client phone number is required");
+			officePhone = new PhoneField("Office phone number is invalid");
+			pickupTime = new TimeField();
+			appoitmentTime = new TimeField();
+			wheelchair = new Field<bool>();
+			escort = new Field<bool>();
+
 			if (source != null) {
-				ClientName = source.ClientName;
-				ClientPhone = source.ClientPhone;
-				ClientAddress = source.ClientAddress;
-				OfficeName = source.OfficeName;
-				OfficePhone = source.Office.Phone;
-				OfficeAddress = source.OfficeAddress;
-				PickupTime = (TimeSpan)source.PickupTime;
-				AppoitmentTime = (TimeSpan)source.AppoitmentTime;
+				clientName.Value = source.ClientName;
+				officeName.Value = source.OfficeName;
+				clientPhone.Value = source.ClientPhone;
+				officePhone.Value = source.OfficePhone;
+				clientAddress.Value = source.ClientAddress;
+				officeAddress.Value = source.OfficeAddress;
+				pickupTime.Value = source.PickupTime.TimeSpan;
+				appoitmentTime.Value = source.AppoitmentTime.TimeSpan ;
+				wheelchair.Value = source.Wheelchair;
+				escort.Value = source.Escort;
 			} else {
-				PickupTime = AppoitmentTime = (TimeSpan) AppData.ApproximateNextPickup();
+				ScheduleTime pickup, appoitment;
+				AppData.EstimateNextPickup(out pickup, out appoitment);
+				pickupTime.Value = pickup.TimeSpan;
+				appoitmentTime.Value = appoitment.TimeSpan;
 			}
 
-			clientAddress = new RequiredField<string>("Client address is required");
-			officeAddress = new RequiredField<string>("Office address is required");
-			clientPhone = new PhoneField("Client phone number is invalid", "Client phone number is required") { Value = source?.ClientPhone };
-			officePhone = new PhoneField("Office phone number is invalid") { Value = source?.OfficePhone };
-
 			validatables = new Validatables(clientPhone, clientAddress, officePhone, officeAddress);
-
-			//AcceptCommand = new Command(OnAccept);
-			//CancelCommand = new Command(OnCancel);
-
-			//var clients = AppData.GetClients();
-			//var offices = AppData.GetOffices();
-			//clientPhoneSuggestions = GetPhoneSuggestions(clients);
-			//officePhoneSuggestions = GetPhoneSuggestions(offices);
 		}
 
 		public Pickup Source { get;}
-		public bool IsNiew => Source == null;
+		public bool IsNew => Source == null;
 		public bool IsEditing => Source != null;
 
-		string clientName;
+		PersonNameField clientName;
 		public string ClientName {
 			get => clientName;
-			set => SetProperty(ref clientName, value);
+			set => SetProperty(clientName, value);
 		}
 
 		PhoneField clientPhone;
@@ -62,16 +63,16 @@ namespace ACE.ViewModels
 			set => SetProperty(clientPhone, value);
 		}
 
-		RequiredField<string> clientAddress;
+		Field<string> clientAddress;
 		public string ClientAddress {
 			get => clientAddress;
 			set => SetProperty(clientAddress, value);
 		}
 
-		string officeName;
+		GeneralNameField officeName;
 		public string OfficeName {
 			get => officeName;
-			set => SetProperty(ref officeName, value);
+			set => SetProperty(officeName, value);
 		}
 
 		PhoneField officePhone;
@@ -80,26 +81,35 @@ namespace ACE.ViewModels
 			set => SetProperty(officePhone, value);
 		}
 
-		RequiredField<string> officeAddress;
+		Field<string> officeAddress;
 		public string OfficeAddress {
 			get => officeAddress;
 			set => SetProperty(officeAddress, value);
 		}
 
-		TimeSpan pickupTime;
+		TimeField pickupTime;
 		public TimeSpan PickupTime {
 			get => pickupTime;
-			set => SetProperty(ref pickupTime, value);
+			set => SetProperty(pickupTime, value);
 		}
 
-		TimeSpan appoitmentTime;
+		TimeField appoitmentTime;
 		public TimeSpan AppoitmentTime {
 			get => appoitmentTime;
-			set => SetProperty(ref appoitmentTime, value);
+			set => SetProperty(appoitmentTime, value);
 		}
 
-		//public Command AcceptCommand { get; }
-		//public Command CancelCommand { get; }
+		Field<bool> wheelchair;
+		public bool Wheelchair {
+			get => wheelchair;
+			set => SetProperty(wheelchair, value);
+		}
+
+		Field<bool> escort;
+		public bool Escort {
+			get => escort;
+			set => SetProperty(escort, value);
+		}
 
 		AutoSuggestions clientNameSuggestions;
 		public AutoSuggestions ClientNameSuggestions {
@@ -131,6 +141,7 @@ namespace ACE.ViewModels
 				SuggestionSource = contacts,
 				DisplayProperty = nameof(Contact.NameSuggestion)
 			};
+
 		}
 
 		private static AutoSuggestions GetPhoneSuggestions(List<Contact> contacts)
@@ -159,6 +170,8 @@ namespace ACE.ViewModels
 			ClientName = client.Name;
 			ClientPhone = client.Phone;
 			ClientAddress = client.Address;
+			Wheelchair = client.Tags.HasTag(Tag.Wheelchair);
+			Escort = client.Tags.HasTag(Tag.Escort);
 		}
 
 		public void OnOfficeSelected(Contact office)
@@ -206,6 +219,8 @@ namespace ACE.ViewModels
 						Phone = clientPhone,
 						Address = ClientAddress,
 					};
+					client.Tags.SetTag(Tag.Wheelchair, Wheelchair);
+					client.Tags.SetTag(Tag.Escort, Escort);
 
 					await AppData.NewContact(client);
 				} else {
@@ -220,37 +235,29 @@ namespace ACE.ViewModels
 						Address = OfficeAddress,
 					};
 
-					await AppData.NewContact(office);
+					if (!String.IsNullOrEmpty(OfficePhone)) {
+						await AppData.NewContact(office);
+					}
 				} else {
 					office.Update(newName: OfficeName, newAddress: OfficeAddress);
 				}
 
-				var newPickup = new Pickup(client, office, (ScheduleTime)PickupTime, (ScheduleTime)AppoitmentTime);
+				var newPickup = new Pickup(client, office, 
+					(ScheduleTime)PickupTime,
+					(ScheduleTime)AppoitmentTime,
+					Wheelchair, Escort);
+
 				await AppData.NewPickup(newPickup, false);
 			} else {
 				Source.Client?.Update(newAddress: ClientAddress);
 				Source.Office?.Update(newAddress: OfficeAddress);
 				Source.PickupTime = (ScheduleTime)PickupTime;
 				Source.AppoitmentTime = (ScheduleTime)AppoitmentTime;
+				Source.Wheelchair = wheelchair;
+				Source.Escort = escort;
 			}
 
 			await AppData.SaveAsync();
 		}
-
-		//public async void OnAccept()
-		//{
-		//	if (!validatables.Validate()) {
-		//		await Alerts.ErrorAlert(validatables.FirstError);
-		//		return;
-		//	}
-
-
-		//	await Navigator.PopPage();
-		//}
-
-		//public async void OnCancel()
-		//{
-		//	await Navigator.PopPage();
-		//}
 	}
 }

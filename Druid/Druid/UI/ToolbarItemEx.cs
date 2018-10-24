@@ -30,5 +30,47 @@ namespace Dwares.Druid.UI
 			get => writ.Writ;
 			set => writ.Writ = value;
 		}
+
+		SymbolEx symbol;
+		public SymbolEx Symbol {
+			get => symbol;
+			set {
+				if (value != symbol) {
+					symbol = value;
+					Icon = value.ImageSource();
+				}
+			}
+		}
+
+		//string uid;
+		//public string Uid {
+		//	get => uid;
+		//	set {
+		//		if (value != uid) {
+		//			bool changeText, changeWrit, changeSymbol;
+		//			if (String.IsNullOrEmpty(uid)) {
+		//				changeText = String.IsNullOrEmpty(Text);
+		//				changeWrit = String.IsNullOrEmpty(Writ);
+		//				changeSymbol = Symbol == SymbolEx.None;
+		//			} else {
+		//				changeText = Text == uid;
+		//				changeWrit = Writ == uid;
+		//				changeSymbol = Symbol.Name() == uid;
+		//			}
+
+		//			uid = value;
+
+		//			if (changeText) {
+		//				Text = uid;
+		//			}
+		//			if (changeWrit) {
+		//				Writ = uid;
+		//			}
+		//			if (changeSymbol /*&& Order != ToolbarItemOrder.Secondary*/) {
+		//				Symbol = Symbols.GetSymbolByName(uid);
+		//			}
+		//		}
+		//	}
+		//}
 	}
 }

@@ -29,10 +29,10 @@ namespace Dwares.Dwarf.Validation
 			return validatable.Value;
 		}
 
-		public static explicit operator Validatable<T>(T value)
-		{
-			return new Validatable<T>() { Value = value };
-		}
+		//public static explicit operator Validatable<T>(T value)
+		//{
+		//	return new Validatable<T>() { Value = value };
+		//}
 
 
 		private T value;

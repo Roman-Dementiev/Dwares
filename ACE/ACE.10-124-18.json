@@ -1,0 +1,353 @@
+{
+  "Version": 1,
+  "Contacts": [
+    {
+      "ContactType": 0,
+      "Name": "Alla",
+      "Phone": "267-938-1300"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Semen",
+      "Phone": "215-715-8551"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Oleg",
+      "Phone": "267-255-0268"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Pavel",
+      "Phone": "267-761-7237"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Alexander",
+      "Phone": "267-679-5955"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Volodya",
+      "Phone": "267-469-7961"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Carlos",
+      "Phone": "267-269-8448"
+    },
+    {
+      "ContactType": 0,
+      "Name": "Rita",
+      "Phone": "267-778-7146"
+    },
+    {
+      "ContactType": 0,
+      "Name": "ACE",
+      "Phone": "267-709-9702",
+      "Address": "10162 Bustleton Ave\nPhiladelphia, PA 19116"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Temple University Hospital",
+      "ShortName": "Temple Univ",
+      "Phone": "(215) 707-2000",
+      "Address": "3401 N Broad St\nPhiladelphia, PA 19140"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Temple University Boyer Pavillion",
+      "ShortName": "Temple Boyer",
+      "Phone": "(215) 707-6000",
+      "Address": "3509 N Broad St\rPhiladelphia, PA 19140"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Einstein Physicians Mayfair ",
+      "ShortName": "Einstein Mayfair",
+      "Phone": "(215) 332-4164",
+      "Address": "5501 Old York Rd\n Philadelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Elvin Taylor",
+      "Phone": "215-424-1409",
+      "Address": "6300 Old York Rd\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Zora Malone",
+      "Phone": "215-549-1176",
+      "Address": "6300 Old York Rd\rApt 215\rPhiladelphia PA 18141",
+      "Comment": "Escort"
+    },
+    {
+      "ContactType": 1,
+      "Name": "",
+      "Phone": "267-988-5611",
+      "Address": "5938 Bennington St\rPhiladelphia, PA 19120",
+      "Comment": "Escort"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Dolores Gordon",
+      "Phone": "215-438-4941",
+      "Address": "222 E Cliveden St\rPhiladelphia, PA 19119"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Jeans Hospital",
+      "Address": "7600 Central Ave\rPhiladelphia, PA 19111"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Ronisha Edwards",
+      "Phone": "267-243-3831",
+      "Address": "2003 E Pacific St\rPhiladelphia, PA 19134"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Behavioral Health",
+      "Address": "2600 N American St\rPhiladelphia, PA 19133"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Moss Rehab Center",
+      "Address": "1200 W Tabor Rd\rPhiladelphia, PA 19142"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Stephanie Lyons",
+      "Phone": "215-288-6762",
+      "Address": "1030 StevensTerrace\rPhiladelphia, PA 19111"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Nativad Collazo Del",
+      "Phone": "267-742-6304",
+      "Address": "617 E Allengheny Ave\rPhiladelphia, PA 19134"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Lloyd Carter",
+      "Phone": "267-438-8442",
+      "Address": "1758 W Pacific St\rPhiladelphia, PA 19140\r"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Nacole Butler",
+      "Phone": "215-954-0843",
+      "Address": "5521 Blakemore St\rPhiladelphia, PA 19138"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Maria Aponte Escribano",
+      "Phone": "267-904-6127",
+      "Address": "1605 W Allegheny Ave\rPhiladelphia, PA 19132"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Barbara Crockett",
+      "Phone": "267-978-4582",
+      "Address": "2839 N Judson St\rPhiladelphia, PA 19132",
+      "Comment": "Escort"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Leroy McCrea",
+      "Phone": "215-765-2078",
+      "Address": "1514 Dondfill Pl\rPhiladelphia, PA 19122"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Anthony Odrick",
+      "Phone": "267-444-3739",
+      "Address": "2311 E Clearfield St\rPhiladelphia ,PA 19134"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Episcopal Hospital",
+      "Phone": "215-707-1830",
+      "Address": "100 E Lehigh Ave\rPhiladelphia, PA 19125"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Jeannette Knight",
+      "Phone": "267-408-6215",
+      "Address": "5131  N 12th St\rPhiladelphia, PA 19141",
+      "Comment": ""
+    },
+    {
+      "ContactType": 1,
+      "Name": "Eric Marshall",
+      "Phone": "702-517-6016",
+      "Address": "5722 Greene St\rPhiladelphia, PA 19144",
+      "Comment": "Escort"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Toni Lanier",
+      "Phone": "215-292-2377",
+      "Address": "6302 Old York Rd\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Thomasina Thomas",
+      "Phone": "215-292-2377",
+      "Address": "6302 Old York Rd\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Robert Collins",
+      "Phone": "215-228-0523",
+      "Address": "2637 N 28th St\rPhiladelphia, PA 19132"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Bernice Jordan",
+      "Phone": "215-232-3328",
+      "Address": "1030 W. Dakota St\rPhiladelphia, PA 19133"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Sharon Taylor",
+      "Phone": "267-298-7934",
+      "Address": "42600M Glenwood Dr\rPhiladelphia, PA 19121"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Curtis Drayton",
+      "Phone": "215-288-7140",
+      "Address": "4645 Pennhurst St\rPhiladelphia, PA 19124"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Ismael Rivera",
+      "Phone": "267-456-1129",
+      "Address": "3813. N 7th St\rPhiladelphia, PA 19122"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Hope Davis",
+      "Phone": "215-235-1389",
+      "Address": "1506 N 19 St\rPhiladelphia, PA 19121"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Angiila Kirshaw",
+      "Phone": "215-906-2759",
+      "Address": "4806 N Camae St\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Tina Cobb",
+      "Phone": "215-331-2365",
+      "Address": "8742 Cottage St\rPhiladelphia, PA 19136"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Julia Johnson",
+      "Phone": "215-228-2295",
+      "Address": "1151 W Oakdale St\rPhiladelphia, PA 19133"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Linda Fuller",
+      "Phone": "267-819-8532",
+      "Address": "2130 W Jefferson St\rPhiladelphia, PA 19121"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Carole Ferrell",
+      "Phone": "215-406-8991",
+      "Address": "54 E. Washington Ln\rPhiladelphia, PA 19144"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Kaloutie Kowlesar",
+      "Phone": "267-242-8543",
+      "Address": "1829 Haworth St\rPhiladelphia, PA 19124"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Arnetta Ryan",
+      "Phone": "267-773-7150",
+      "Address": "2434 W Norris St\rPhiladelphia, PA 19121"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Selina McDonald",
+      "Phone": "215-438-9415",
+      "Address": "3229 McMichael St\rPhiladelphia, PA19129"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Sarah Washington",
+      "Phone": "267-600-1937",
+      "Address": "64E Pastorius St\rPhiladelphia, PA 19144"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Mabel Hayes",
+      "Phone": "267-333-9346",
+      "Address": "1041 E Comly St\rPhiladelphia, PA 19111"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Bernice McKnight",
+      "Phone": "215-228-1693",
+      "Address": "1418 Clearview St\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Marjorie Logan",
+      "Phone": "267-275-9377",
+      "Address": "213 W Godfrey Ave\rPhiladelphia, PA 19120"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Roxborough Medical Network",
+      "Address": "5735 Ridge Ave\rPhiladelphia, PA 19128"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Einstein Cardiac Rehabilitation Ctr",
+      "Address": "101 E Olney Ave\rPhiladelphia, PA 19120"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Einstein Moss Rehab",
+      "Address": "1200 W Tabor Rd\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 2,
+      "Name": "Einstein Hospital",
+      "Address": "5401 Old York Rd\rPhiladelphia, PA 19141"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Michael Orr",
+      "Phone": "215-439-3526",
+      "Address": "4182 Paul St\rPhiladelphia, PA 19124\r"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Mary Shaw",
+      "Phone": "215-533-9168",
+      "Address": "852 Bridge St\rPhiladelphia, PA 19124"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Lucillla King",
+      "Phone": "215-424-2406",
+      "Address": "6060 Crescentville Rd WB2\rPhiladelphia, PA 19120"
+    },
+    {
+      "ContactType": 1,
+      "Name": "Margaret Hatos",
+      "Phone": "215-332-2420",
+      "Address": "4129 Stirling St\rPhiladelphia, PA 19135"
+    }
+  ],
+  "Pickups": []
+}

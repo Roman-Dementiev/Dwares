@@ -14,10 +14,14 @@ namespace Dwares.Dwarf.Toolkit
 
 	public static class RegEx
 	{
+		const string EolPattern = "(\r?\n|\n)";
 		const string EmailPattern = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
 		const string PhonePattern = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 		const string USAPhonePattern = @"^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 		const string ExtPhonePattern = @"^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$";
+
+		static Regex eol;
+		public static Regex Eol => LazyInit(ref eol, EolPattern);
 
 		static Regex email;
 		public static Regex Email => LazyInit(ref email, EmailPattern);
@@ -50,5 +54,6 @@ namespace Dwares.Dwarf.Toolkit
 		{
 			return LazyInitializer.EnsureInitialized(ref regex, () => new Regex(pattern));
 		}
+
 	}
 }

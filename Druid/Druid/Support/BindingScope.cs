@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection;
+using System.Threading;
 using Xamarin.Forms;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf.Runtime;
@@ -7,7 +7,7 @@ using Dwares.Dwarf.Runtime;
 
 namespace Dwares.Druid.Support
 {
-	public class BindingScope : PropertyNotifier
+	public class BindingScope : PropertyNotifier, IDescendant
 	{
 		public static BindingScope AppScope {
 			get => Application.Current?.BindingContext as BindingScope;
@@ -18,56 +18,20 @@ namespace Dwares.Druid.Support
 			ParentScope = parentScope;
 		}
 
-		public string MethodNameFormat { get; set; } = "On{0}";
-		public BindingScope ParentScope { get; }
-
 		string title = string.Empty;
 		public string Title {
 			get { return title; }
 			set { SetProperty(ref title, value); }
 		}
 
-		public object ExecuteWrit(string writ)
-		{
-			return InvokeWrit(writ, new object[0], new Type[0], out var invoked);
+		public BindingScope ParentScope { get; set; }
+		object IDescendant.Parent => ParentScope;
+
+		IWritExecutor writExecutor = null;
+		public IWritExecutor WritExecutor {
+			get => LazyInitializer.EnsureInitialized(ref writExecutor, () => new WritExecutor(this));
+			set => writExecutor = value;
 		}
-
-		public object ExecuteWrit(string writ, object parameter)
-		{
-			var result = InvokeWrit(writ, new object[] { parameter }, new Type[] { typeof(object) }, out var invoked);
-
-			if (!invoked && parameter == null) {
-				result = InvokeWrit(writ, new object[0], new Type[0], out invoked);
-			}
-
-			return result;
-		}
-
-		public object Execute(string writ, params object[] args) => ExecuteWrit(writ, args, null);
-
-		public object ExecuteWrit(string writ, object[] args, Type[] argTypes = null)
-		{
-			if (argTypes == null) {
-				argTypes = Reflection.GetArgumentTypes(args);
-			}
-			return InvokeWrit(writ, args, argTypes, out var invoked);
-		}
-
-		protected object InvokeWrit(string writ, object[] args, Type[] argTypes, out bool invoked)
-		{
-			var methodName = String.Format(MethodNameFormat, writ);
-			var method = Reflection.GetMethod(this, methodName, argTypes, null, required: false);
-			if (method != null) {
-				invoked = true;
-				return method.Invoke(this, args);
-			} else if (ParentScope != null) {
-				return ParentScope.InvokeWrit(writ, args, argTypes, out invoked);
-			} else {
-				invoked = false;
-				return null;
-			}
-		}
-
 
 		public static BindingScope GetObjectScope(object obj)
 		{
@@ -97,6 +61,10 @@ namespace Dwares.Druid.Support
 
 			return GetObjectScope(page ?? Application.Current);
 		}
+
+		public virtual void UpdateCommands()
+		{
+		}
 	}
 
 	public static partial class Extensions
@@ -115,5 +83,6 @@ namespace Dwares.Druid.Support
 		{
 			return obj.BindingContext as TScope;
 		}
+
 	}
 }

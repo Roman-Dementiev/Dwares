@@ -42,9 +42,8 @@ namespace Dwares.Druid.UWP
 
 		public Task OpenDirections(string from, string dest)
 		{
-			//var uri = String.Format("bingmaps:?rtp={0}~{1}", Adderss(from), Adderss(dest));
-			//return OpenMapUri(uri);
-			return Dwares.Druid.Services.Launcher.OpenUri(new Uri("http://maps.google.com/"));
+			var uri = String.Format("bingmaps:?rtp={0}~{1}", Adderss(from), Adderss(dest));
+			return OpenMapUri(uri);
 		}
 	}
 }

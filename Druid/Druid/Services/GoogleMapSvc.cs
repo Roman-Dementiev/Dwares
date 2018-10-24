@@ -27,7 +27,9 @@ namespace Dwares.Druid.Services
 
 		public Task OpenDirections(string from, string dest)
 		{
-			return null;
+			// TODO
+			var uri = "http://maps.google.com/";
+			return Launcher.OpenUri(new Uri(uri));
 		}
 	}
 }

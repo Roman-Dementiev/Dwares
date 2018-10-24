@@ -4,40 +4,42 @@ using System.Collections.Specialized;
 using Xamarin.Forms;
 using ACE.Models;
 using ACE.Views;
+using Dwares.Dwarf.Collections;
 using Dwares.Druid.Support;
 
 
 namespace ACE.ViewModels
 {
+	// TODO
+	public class SortOrder
+	{
+		public SortOrder(string name)
+		{
+			Name = name;
+		}
+
+		public string Name { get; }
+		public override string ToString() => Name;
+	}
+
 	public class ContactsListViewModel : CollectionViewModel<Contact>
 	{
-		public ObservableCollection<Contact> Contacts => Items;
-		public ContactType ContactType { get;  }
-		public bool Callable { get; set; }
-		public Command AddCommand { get; }
-		public Command EditCommand { get; }
-		public Command DeleteCommand { get; }
-
-		public ContactsListViewModel(ContactType contactType) :
+		public ContactsListViewModel(ContactsListPage page, ContactType contactType) :
 			base(AppScope)
 		{
+			Page = page;
 			ContactType = contactType;
 			Callable = (contactType == ContactType.ACE);
-			AddCommand = new Command(OnAdd);
-			EditCommand = new Command(OnEdit, HasSelected);
-			DeleteCommand = new Command(OnDelete, () => AppData.CanDelete(Selected));
 
 			ResetContacts();
 
 			AppData.Contacts.CollectionChanged += All_CollectionChanged;
-
-			//MessagingCenter.Subscribe<ContactDetailPage, Contact>(this, "AddContact", async (obj, contact) => {
-			//	if (contact.ContactType == ContactType) {
-			//		Contacts.Add(contact);
-			//		Debug.Print("ContactsViewModel[{0}] added: Phone={1}", ContactType, contact.Phone);
-			//	}
-			//});
 		}
+
+		ContactsListPage Page { get; }
+		public ObservableCollection<Contact> Contacts => Items;
+		public ContactType ContactType { get; }
+		public bool Callable { get; set; }
 
 		private void ResetContacts()
 		{
@@ -76,13 +78,30 @@ namespace ACE.ViewModels
 			}
 		}
 
-		protected virtual async void OnAdd()
+		public void OnShowSortPanel()
+		{
+			Page.ShowSortPanel();
+		}
+
+		public void OnShowFindPanel()
+		{
+			Page.ShowFindPanel();
+		}
+
+		public void OnClosePanel()
+		{
+			Page.HidePanel();
+		}
+
+		public virtual async void OnAddContact()
 		{
 			var page = new ContactDetailPage(ContactType);
 			await Navigator.PushModal(page);
 		}
 
-		protected virtual async void OnEdit()
+		public bool CanEditContact() => HasSelected();
+
+		public virtual async void OnEditContact()
 		{
 			if (Selected != null) {
 				var page = new ContactDetailPage(Selected);
@@ -90,22 +109,17 @@ namespace ACE.ViewModels
 			}
 		}
 
-		private async void OnDelete()
+		public bool CanDeleteContact() => AppData.CanDelete(Selected);
+
+		public async void OnDeleteContact()
 		{
 			await AppData.RemoveContact(Selected);
 		}
 
-		protected override void OnSelectedItemChanged()
+		public override void UpdateCommands()
 		{
-			base.OnSelectedItemChanged();
-
-			UpdateCommands();
-		}
-
-		public void UpdateCommands()
-		{
-			EditCommand.ChangeCanExecute();
-			DeleteCommand.ChangeCanExecute();
+			WritMessage.Send(this, WritMessage.WritCanExecuteChanged, "EditContact");
+			WritMessage.Send(this, WritMessage.WritCanExecuteChanged, "DeleteContact");
 		}
 	}
 }

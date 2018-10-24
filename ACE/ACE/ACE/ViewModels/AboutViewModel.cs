@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Dwares.Druid.Forms;
 using Dwares.Druid.Support;
 
 

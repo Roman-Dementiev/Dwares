@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf.Validation;
 
 
-namespace Dwares.Dwarf.Validation
+namespace Dwares.Druid.Forms
 {
-	public class PhoneField<T> : CustomField<T>
+	public class PhoneField<T> : Field<T>
 	{
 		const string InvalidPhoneMessage = "Phone number is invalid";
 

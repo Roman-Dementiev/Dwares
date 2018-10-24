@@ -16,27 +16,9 @@
 	</ContentPage.Resources>-->
 	
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Add" Command="{Binding AddCommand}">
-			<ToolbarItem.Icon>
-				<OnPlatform x:TypeArguments="FileImageSource">
-					<On Platform="UWP" Value="Images/e109.png"/>
-				</OnPlatform>
-			</ToolbarItem.Icon>
-		</ToolbarItem>
-		<ToolbarItem Text="Edit" Command="{Binding EditCommand}">
-			<ToolbarItem.Icon>
-				<OnPlatform x:TypeArguments="FileImageSource">
-					<On Platform="UWP" Value="Images/e104.png"/>
-				</OnPlatform>
-			</ToolbarItem.Icon>
-		</ToolbarItem>
-		<ToolbarItem Text="Delete" Command="{Binding DeleteCommand}">
-			<ToolbarItem.Icon>
-				<OnPlatform x:TypeArguments="FileImageSource">
-					<On Platform="UWP" Value="Images/e107.png"/>
-				</OnPlatform>
-			</ToolbarItem.Icon>
-		</ToolbarItem>
+		<ui:ToolbarItemEx Text="Add" Symbol="Add" Writ="AddPickup" />
+		<ui:ToolbarItemEx Text="Edit" Symbol="Edit" Writ="EditPickup" />
+		<ui:ToolbarItemEx Text="Delete" Symbol="Delete" Writ="DeletePickup" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
 	</ContentPage.ToolbarItems>
@@ -86,10 +68,10 @@
 											 VerticalOptions="Center"
 											 >
 									<Label Text="{Binding ClientName}"
-										   FontSize="Default"
-										   FontAttributes="Bold"
-										   IsVisible="{Binding ShowClientName}"
-										   />
+											   FontSize="Default"
+											   FontAttributes="Bold"
+											   IsVisible="{Binding ShowClientName}"
+											   />
 									<Label Text="{Binding ClientPhone}"
 										   FontSize="Medium"
 										   />
@@ -102,6 +84,32 @@
 											 >
 									<Label Text="{Binding PickupTimeString}"
 										   />
+									<StackLayout Orientation="Horizontal"
+												 HorizontalOptions="Center"
+												 >
+										<Image IsVisible="{Binding Wheelchair}"
+											   WidthRequest="16"
+											   HeightRequest="16">
+											<Image.Source>
+												<OnPlatform x:TypeArguments="FileImageSource"
+															iOS="wheelchair.png"
+															WinPhone="Images/wheelchair24-1.png"
+															Android="ic_action_wheelchair.png"
+															/>
+											</Image.Source>
+										</Image>
+										<Image IsVisible="{Binding Escort}"
+											   WidthRequest="16"
+											   HeightRequest="16">
+											<Image.Source>
+												<OnPlatform x:TypeArguments="FileImageSource"
+															iOS="escort.png"
+															WinPhone="Images/escort24.png"
+															Android="ic_action_escort.png"
+															/>
+											</Image.Source>
+										</Image>
+									</StackLayout>
 									<Button Command="{Binding ClientDirectionsCommand}"
 											BackgroundColor="Transparent"
 											HorizontalOptions="Center"

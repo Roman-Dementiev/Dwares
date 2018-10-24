@@ -244,6 +244,18 @@ namespace Dwares.Dwarf.Runtime
 			return methodInfo;
 		}
 
+		public static object InvokeMethod(object target, string methodName, out bool invoked)
+		{
+			var methodInfo = GetMethod(target, methodName, cNoParams, null, false);
+			if (methodInfo != null) {
+				invoked = true;
+				return methodInfo?.Invoke(target, new object[] { });
+			} else {
+				invoked = false;
+				return null;
+			}
+		}
+
 		public static object InvokeMethod(object target, string methodName, bool required = true)
 		{
 			var methodInfo = GetMethod(target, methodName, cNoParams, null, required);

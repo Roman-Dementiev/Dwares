@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using Dwares.Dwarf.Collections;
 using Dwares.Druid.Support;
 using ACE.Models;
+
 
 namespace ACE.ViewModels
 {
@@ -17,9 +19,16 @@ namespace ACE.ViewModels
 			base(parentScope)
 		{
 			Items = items ?? new ObservableCollection<Item>();
+
+			//Items = new SortedCollection<Item>(items);
 		}
 
 		public ObservableCollection<Item> Items { get; }
+
+		// TODO
+		public Thickness PanelMargin { get; set; } = new Thickness(0, 2, 0, 0);
+		public Color PanelBackgroundColor { get; set; } = Color.LightGray;
+		public Color PanelOutlineColor { get; set; } = Color.Black;
 
 		object selectedItem;
 		public object SelectedItem {
@@ -57,7 +66,7 @@ namespace ACE.ViewModels
 				var args = new SelectedItemChangedEventArgs(SelectedItem);
 				SelectedItemChangedEvent(args);
 			}
+			UpdateCommands();
 		}
 	}
-
 }

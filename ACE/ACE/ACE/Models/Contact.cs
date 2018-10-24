@@ -1,6 +1,7 @@
 ﻿using System;
-using Xamarin.Forms;
+using System.Collections.Generic;
 using System.Threading;
+using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid.Services;
 using Dwares.Dwarf.Toolkit;
@@ -15,11 +16,26 @@ namespace ACE.Models
 		Office
 	}
 
+	public static class Tag
+	{
+		public const string Wheelchair = "Wheelchair";
+		public const string Escort = "Escort";
+	}
+
 	public class Contact: PropertyNotifier
 	{
 		public Contact(ContactType type)
 		{
 			ContactType = type;
+
+			Tags = new Tags();
+			//Tags.TagChanged += (s, e) => {
+			//	if (e.Tag == Tag.Wheelchair) {
+			//		RaisePropertyChanged(nameof(Wheelchair));
+			//	} else if (e.Tag == Tag.Escort) {
+			//		RaisePropertyChanged(nameof(Escort));
+			//	}
+			//};
 		}
 
 		public override string ToString()
@@ -92,6 +108,22 @@ namespace ACE.Models
 			}
 		}
 
+		public Tags Tags { get; }
+
+		//HashSet<string> tags = new HashSet<string>();
+		//public bool HasTag(string tag) => tags.Contains(tag);
+		//public bool AddTag(string tag) => tags.Add(tag);
+		//public bool RemoveTag(string tag) => tags.Remove(tag);
+		
+		//public void SetTag(string tag, bool onOff)
+		//{
+		//	if (onOff) {
+		//		tags.Add(tag);
+		//	} else {
+		//		tags.Remove(tag);
+		//	}
+		//}
+
 		public static string NameAndDescription(string name, string desription)
 		{
 			if (String.IsNullOrEmpty(desription)) {
@@ -153,22 +185,15 @@ namespace ACE.Models
 
 		public async void Directions()
 		{
-			//Uri uri = new Uri("bingmaps:?rtp=adr.Mountain%20View,%20CA~adr.San%20Francisco,%20CA&amp;mode=d&amp;trfc=1");
-			//await MapSvc.OpenMapUri(uri);
-
-			//await MapSvc.OpenAddress("122 Ridge Road Lyndhurst NJ 07071");
-			await MapSvc.OpenAddress("4143 Paul street Philadelphia PA 19124");
-			//await MapSvc.OpenDirections("4143 Paul street Philadelphia PA 19124", "10162 Bustleton Ave Philadelphia PA 19116");
-			//await MapSvc.OpenDirections("10162 Bustleton Ave Philadelphia PA 19116", null);
-
-			//await MapSvc.OpenDirections(null, Address);
+			string address = Address;
+			await MapSvc.OpenDirections(null, address);
 		}
 
 			public bool NeedUpdate(string newName = null, string newAddress = null)
 		{
 			return
 				(!String.IsNullOrEmpty(newName) && newName != Name) ||
-				(!String.IsNullOrEmpty(newAddress) && newAddress != Address);
+				(!String.IsNullOrEmpty(newAddress) && Strings.CompareLines(newAddress, Address) != 0);
 		}
 
 		public void Update(string newName = null, string newAddress = null)

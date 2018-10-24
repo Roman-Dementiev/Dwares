@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Dwares.Dwarf.Runtime;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Dwarf
@@ -45,6 +46,33 @@ namespace Dwares.Dwarf
 		public static bool IsNullOrEmpty(object obj) => IsNullOrEmpty(obj, false);
 		public static bool IsNullOrBlank(object obj) => IsNullOrEmpty(obj, true);
 
+		public static string CapitalizeFirstLetter(string str)
+		{
+			if (!String.IsNullOrEmpty(str) && Char.IsLower(str[0])) {
+				return Char.ToUpper(str[0]) + str.Substring(1);
+			} else {
+				return str;
+			}
+		}
+
+		public static string RepleceEol(string str, string newEol = null)
+		{
+			if (String.IsNullOrEmpty(str))
+				return str;
+
+			if (newEol == null)
+				newEol = Environment.NewLine;
+
+			return RegEx.Eol.Replace(str, newEol);
+		}
+
+		public static int CompareLines(string lines1, string lines2, StringComparison comparison = default(StringComparison))
+		{
+			string str1 = RepleceEol(lines1);
+			string str2 = RepleceEol(lines2);
+			return String.Compare(str1, str2, comparison);
+		}
+
 		public static string JoinNonEmpty(IEnumerable parts, string separator, Func<object, string> toString, string prefix = null, string suffix = null)
 		{
 			if (separator == null)
@@ -76,6 +104,18 @@ namespace Dwares.Dwarf
 		}
 
 		public static string JoinNonEmpty(string separator, params object[] parts) => JoinNonEmptyParts(parts, separator);
+
+		//public static string JoinNonEmpty(string separator, params object[] values)
+		//{
+		//	var list = new List<string>();
+		//	foreach (var value in values) {
+		//		if (!IsNullOrEmptyString(value)) {
+		//			list.Add(value.ToString());
+		//		}
+		//	}
+
+		//	return String.Join(separator, list);
+		//}
 
 		public static string NamedValues(
 			IEnumerable<string> names,

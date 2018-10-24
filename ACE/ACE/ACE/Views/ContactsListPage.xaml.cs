@@ -19,9 +19,23 @@ namespace ACE.Views
 
 		public ContactsListPage(ContactType contactType)
 		{
-			BindingContext = viewModel = new ContactsListViewModel(contactType);
+			BindingContext = viewModel = new ContactsListViewModel(this, contactType);
 
 			InitializeComponent();
+
+			if (contactType == ContactType.Client) {
+				sortOrder.ItemsSource = new SortOrder[] {
+					new SortOrder("By First Name"),
+					new SortOrder("By Last Name"),
+					new SortOrder("By Phone Number")
+				};
+			} else {
+				sortOrder.ItemsSource = new SortOrder[] {
+					new SortOrder("By Name"),
+					new SortOrder("By Phone Number")
+				};
+//				sortOrder.ItemsSource = new string[] { "By Name", "By Phone" };
+			}
 		}
 
 		protected override void OnAppearing()
@@ -29,6 +43,24 @@ namespace ACE.Views
 			base.OnAppearing();
 			viewModel.UpdateCommands();
 		}
-	}
 
+		Frame ShownPanel { get; set; }
+
+		void ShowPanel(Frame panel)
+		{
+			if (ShownPanel != null) {
+				ShownPanel.IsVisible = false;
+			}
+
+			ShownPanel = panel;
+			
+			if (panel != null) {
+				panel.IsVisible = true;
+			}
+		}
+
+		public void ShowFindPanel() => ShowPanel(findPanel);
+		public void ShowSortPanel() => ShowPanel(sortPanel);
+		public void HidePanel() => ShowPanel(null);
+	}
 }

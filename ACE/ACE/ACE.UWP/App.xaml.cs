@@ -33,8 +33,8 @@ namespace ACE.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-			MapSvc.Instance = new GoogleMapSvc();
-        }
+			//MapSvc.Instance = new GoogleMapSvc();
+		}
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

@@ -127,7 +127,12 @@
     <Content Include="Images\e109.png" />
     <Content Include="Images\e10a.png" />
     <Content Include="Images\e10b.png" />
+    <Content Include="Images\e11a.png" />
+    <Content Include="Images\e174.png" />
+    <Content Include="Images\escort24.png" />
     <Content Include="Images\phone48.png" />
+    <Content Include="Images\wheelchair24-1.png" />
+    <Content Include="Images\wheelchair24.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
