@@ -14,7 +14,7 @@ namespace Dwares.Dwarf.Toolkit
 
 	public static class RegEx
 	{
-		const string EolPattern = "(\r?\n|\n)";
+		const string EolPattern = "(\r?\n|\r)";
 		const string EmailPattern = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
 		const string PhonePattern = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 		const string USAPhonePattern = @"^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";

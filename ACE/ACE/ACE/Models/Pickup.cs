@@ -9,29 +9,20 @@ namespace ACE.Models
 {
 	public class Pickup: PropertyNotifier, ISelectable
 	{
-		public Contact Client { get; set; }
-		public Contact Office { get; set; }
+		public Contact Client { get; }
+		public Contact Office { get; }
 		public ScheduleTime PickupTime { get; set; }
 		public ScheduleTime AppoitmentTime { get; set; }
-		public bool Wheelchair { get; set; }
-		public bool Escort{ get; set; }
 
-		public Pickup()
+		public Pickup() :
+			this(null, null, new ScheduleTime(), new ScheduleTime())
+		{ }
+
+		public Pickup(Contact client, Contact office, ScheduleTime pickupTime, ScheduleTime appoitmentTime)
 		{
-			Client = new Contact(ContactType.Client);
-			Office = new Contact(ContactType.Office);
+			Client = client ?? new Contact { ContactType = ContactType.Client };
+			Office = office ?? new Contact { ContactType = ContactType.Office };
 
-			Client.PropertyChanged += Client_PropertyChanged;
-			Office.PropertyChanged += Office_PropertyChanged;
-		}
-
-		public Pickup(Contact client, Contact office, ScheduleTime pickupTime, ScheduleTime appoitmentTime, bool wheelchair, bool escort)
-		{
-			Debug.AssertNotNull(client);
-			Debug.AssertNotNull(office);
-
-			Client = client;
-			Office = office;
 			PickupTime = pickupTime;
 			AppoitmentTime = appoitmentTime;
 
@@ -76,7 +67,10 @@ namespace ACE.Models
 				RaisePropertyChanged(nameof(ClientAddress));
 				RaisePropertyChanged(nameof(ShowClientAddress));
 				RaisePropertyChanged(nameof(ShowClientDirections));
-
+			} else if (e.PropertyName == nameof(Contact.Wheelchair)) {
+				RaisePropertyChanged(nameof(Wheelchair));
+			} else if (e.PropertyName == nameof(Contact.Escort)) {
+				RaisePropertyChanged(nameof(Escort));
 			}
 		}
 
@@ -85,8 +79,8 @@ namespace ACE.Models
 			if (e.PropertyName == nameof(Contact.Name)) {
 				RaisePropertyChanged(nameof(OfficeName));
 				RaisePropertyChanged(nameof(ShowOfficeName));
-			} else if (e.PropertyName == nameof(Contact.Phone)) {
-				RaisePropertyChanged(nameof(OfficePhone));
+			//} else if (e.PropertyName == nameof(Contact.Phone)) {
+			//	RaisePropertyChanged(nameof(OfficePhone));
 			} else if (e.PropertyName == nameof(Contact.Address)) {
 				RaisePropertyChanged(nameof(OfficeAddress));
 				RaisePropertyChanged(nameof(ShowOfficeAddress));
@@ -125,6 +119,28 @@ namespace ACE.Models
 				}
 			}
 		}
+
+		public bool Wheelchair {
+			get => Client.Wheelchair;
+			set {
+				if (value != Client.Wheelchair) {
+					Client.Wheelchair = value;
+					//RaisePropertyChanged();
+				}
+			}
+		}
+
+		public bool Escort {
+			get => Client.Escort;
+			set {
+				if (value != Client.Escort) {
+					Client.Escort = value;
+					//RaisePropertyChanged();
+				}
+			}
+		}
+
+
 		public string OfficeName {
 			get => Office.Name;
 			set {
@@ -135,15 +151,16 @@ namespace ACE.Models
 				}
 			}
 		}
-		public string OfficePhone {
-			get => Office.Phone;
-			set {
-				if (value != Office.Phone) {
-					Office.Phone = value;
-					//RaisePropertyChanged();
-				}
-			}
-		}
+		//public string OfficePhone {
+		//	get => Office.Phone;
+		//	set {
+		//		if (value != Office.Phone) {
+		//			Office.Phone = value;
+		//			//RaisePropertyChanged();
+		//		}
+		//	}
+		//}
+
 		public string OfficeAddress {
 			get => Office.Address;
 			set {

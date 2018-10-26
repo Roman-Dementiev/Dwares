@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Collections;
 using Dwares.Druid.Services;
 using Dwares.Dwarf.Toolkit;
 
@@ -24,19 +26,10 @@ namespace ACE.Models
 
 	public class Contact: PropertyNotifier
 	{
-		public Contact(ContactType type)
-		{
-			ContactType = type;
-
-			Tags = new Tags();
-			//Tags.TagChanged += (s, e) => {
-			//	if (e.Tag == Tag.Wheelchair) {
-			//		RaisePropertyChanged(nameof(Wheelchair));
-			//	} else if (e.Tag == Tag.Escort) {
-			//		RaisePropertyChanged(nameof(Escort));
-			//	}
-			//};
-		}
+		//public Contact()
+		//{
+		//	//ContactType = type;
+		//}
 
 		public override string ToString()
 		{
@@ -45,7 +38,7 @@ namespace ACE.Models
 				skipNull: true);
 		}
 
-		public ContactType ContactType { get; private set;  }
+		public ContactType ContactType { get; set;  }
 		public bool IsClient => ContactType == ContactType.Client;
 		public bool IsFacility => ContactType == ContactType.Office;
 		public bool IsCompany => ContactType == ContactType.ACE;
@@ -108,21 +101,35 @@ namespace ACE.Models
 			}
 		}
 
-		public Tags Tags { get; }
+		public Tags Tags { get; } = new Tags();
+		public bool HasTag(string tag) => Tags.HasTag(tag);
+		public void SetTag(string tag, bool onOff, [CallerMemberName] string propertyName = "")
+		{
+			if (onOff != HasTag(tag)) {
+				Tags.SwitchTag(tag, onOff);
+				RaisePropertyChanged(propertyName);
+			}
+		}
+		public void AddTags(string[] tags)
+		{
+			foreach (var tag in tags) {
+				Tags.AddTag(tag);
+			}
+		}
+		public string[] GetTags()
+		{
+			return  Collection.ToArray(Tags.GetTags());
+		}
 
-		//HashSet<string> tags = new HashSet<string>();
-		//public bool HasTag(string tag) => tags.Contains(tag);
-		//public bool AddTag(string tag) => tags.Add(tag);
-		//public bool RemoveTag(string tag) => tags.Remove(tag);
-		
-		//public void SetTag(string tag, bool onOff)
-		//{
-		//	if (onOff) {
-		//		tags.Add(tag);
-		//	} else {
-		//		tags.Remove(tag);
-		//	}
-		//}
+		public bool Wheelchair {
+			get => HasTag(Tag.Wheelchair);
+			set => SetTag(Tag.Wheelchair, value);
+		}
+
+		public bool Escort {
+			get => HasTag(Tag.Escort);
+			set => SetTag(Tag.Escort, value);
+		}
 
 		public static string NameAndDescription(string name, string desription)
 		{
@@ -196,12 +203,16 @@ namespace ACE.Models
 				(!String.IsNullOrEmpty(newAddress) && Strings.CompareLines(newAddress, Address) != 0);
 		}
 
-		public void Update(string newName = null, string newAddress = null)
+		public void Update(string newName = null, string newAddress = null, bool? wheelchair = null, bool? escort = null)
 		{
 			if (!String.IsNullOrEmpty(newName))
 				Name = newName;
 			if (!String.IsNullOrEmpty(newAddress))
 				Address = newAddress;
+			if (wheelchair != null)
+				Wheelchair = (bool)wheelchair;
+			if (escort != null)
+				Escort = (bool)escort;
 		}
 	}
 }

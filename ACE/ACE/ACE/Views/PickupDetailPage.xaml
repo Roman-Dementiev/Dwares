@@ -44,7 +44,7 @@
 					   VerticalOptions="Center"
 					   />
 				<TimePicker x:Name="pickupTime"
-							Time="{Binding PickupTime}"
+							Time="{Binding PickupTime, Mode=TwoWay}"
 							/>
 			</StackLayout>
 			<Label Text="Name"/>
@@ -80,10 +80,10 @@
 
 			<StackLayout Orientation="Horizontal">
 				<ui:CheckBoxView Text="Wheelchair"
-								 IsChecked="{Binding Wheelchair}"
+								 IsChecked="{Binding Wheelchair, Mode=TwoWay}"
 								 />
 				<ui:CheckBoxView Text="Escort"
-								 IsChecked="{Binding Escort}"
+								 IsChecked="{Binding Escort, Mode=TwoWay}"
 								 />
 			</StackLayout>
 
@@ -95,13 +95,9 @@
 					   VerticalOptions="Center"
 					   />
 				<TimePicker x:Name="AppoitmentTime"
-							Time="{Binding AppoitmentTime}"
+							Time="{Binding AppoitmentTime, Mode=TwoWay}"
 							/>
 			</StackLayout>
-			<!--<Entry x:Name="officeName"
-				   Placeholder="Enter Office Name"
-				   Text="{Binding OfficeName}"
-				   />-->
 			<ui:AutoSuggestEntry x:Name="officeName"
 								 Placeholder="Enter Office Name"
 								 Text="{Binding OfficeName, Mode=TwoWay}"
@@ -110,9 +106,7 @@
 								 AutoSuggestionSelected="OnOfficeNameSelected"
 								 />
 
-			<!--<Entry Placeholder="Enter Office Phone"
-								 Keyboard="Telephone"/>-->
-			<ui:AutoSuggestEntry x:Name="officePhone"
+			<!--<ui:AutoSuggestEntry x:Name="officePhone"
 								 Placeholder="Enter Office Phone Number"
 								 Text="{Binding OfficePhone, Mode=TwoWay}"
 								 Keyboard="Telephone"
@@ -120,11 +114,11 @@
 								 SuggestionSource="{Binding OfficePhoneSuggestions}"
 								 AutoSuggestionSelected="OnOfficePhoneSelected"
 								 SelectExactMatch="True"
-								 />
+								 />-->
 
 			<Editor x:Name="officeAddress"
 					HeightRequest="50"
-					Text="{Binding OfficeAddress}"
+					Text="{Binding OfficeAddress, Mode=TwoWay}"
 					/>
 		</StackLayout>
 	</ContentPage.Content>

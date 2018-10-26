@@ -34,6 +34,8 @@ namespace ACE.ViewModels
 				Name = source.Name;
 				Phone = source.Phone;
 				Address = source.Address;
+				Wheelchair = source.Wheelchair;
+				Escort = source.Escort;
 				Comment = source.Comment;
 			}
 		}
@@ -45,22 +47,29 @@ namespace ACE.ViewModels
 		public string Phone { get; set; }
 		public string Address { get; set; }
 		public string Comment { get; set; }
+		public bool Wheelchair { get; set; }
+		public bool Escort { get; set; }
 
 		protected override async Task DoAccept()
 		{
 			if (Source == null) {
-				var newContact = new Contact(ContactType) {
+				var newContact = new Contact {
+					ContactType = this.ContactType,
 					Name = this.Name,
 					Phone = this.Phone,
 					Address = this.Address,
+					Wheelchair = this.Wheelchair,
+					Escort = this.Escort,
 					Comment = this.Comment
 				};
 
-				await AppData.NewContact(newContact);
+				await AppData.NewContact(newContact, false);
 			} else {
 				Source.Name = this.Name;
 				Source.Phone = this.Phone;
 				Source.Address = this.Address;
+				Source.Wheelchair = this.Wheelchair;
+				Source.Escort = this.Escort;
 				Source.Comment = this.Comment;
 			}
 

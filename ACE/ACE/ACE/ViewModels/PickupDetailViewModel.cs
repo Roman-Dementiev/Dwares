@@ -20,7 +20,7 @@ namespace ACE.ViewModels
 			clientAddress = new Field<string>();
 			officeAddress = new Field<string>();
 			clientPhone = new PhoneField("Client phone number is invalid", "Client phone number is required");
-			officePhone = new PhoneField("Office phone number is invalid");
+			//officePhone = new PhoneField("Office phone number is invalid");
 			pickupTime = new TimeField();
 			appoitmentTime = new TimeField();
 			wheelchair = new Field<bool>();
@@ -30,7 +30,7 @@ namespace ACE.ViewModels
 				clientName.Value = source.ClientName;
 				officeName.Value = source.OfficeName;
 				clientPhone.Value = source.ClientPhone;
-				officePhone.Value = source.OfficePhone;
+				//officePhone.Value = source.OfficePhone;
 				clientAddress.Value = source.ClientAddress;
 				officeAddress.Value = source.OfficeAddress;
 				pickupTime.Value = source.PickupTime.TimeSpan;
@@ -44,7 +44,7 @@ namespace ACE.ViewModels
 				appoitmentTime.Value = appoitment.TimeSpan;
 			}
 
-			validatables = new Validatables(clientPhone, clientAddress, officePhone, officeAddress);
+			validatables = new Validatables(clientPhone, clientAddress, /*officePhone,*/ officeAddress);
 		}
 
 		public Pickup Source { get;}
@@ -75,11 +75,11 @@ namespace ACE.ViewModels
 			set => SetProperty(officeName, value);
 		}
 
-		PhoneField officePhone;
-		public string OfficePhone {
-			get => officePhone;
-			set => SetProperty(officePhone, value);
-		}
+		//PhoneField officePhone;
+		//public string OfficePhone {
+		//	get => officePhone;
+		//	set => SetProperty(officePhone, value);
+		//}
 
 		Field<string> officeAddress;
 		public string OfficeAddress {
@@ -170,8 +170,8 @@ namespace ACE.ViewModels
 			ClientName = client.Name;
 			ClientPhone = client.Phone;
 			ClientAddress = client.Address;
-			Wheelchair = client.Tags.HasTag(Tag.Wheelchair);
-			Escort = client.Tags.HasTag(Tag.Escort);
+			Wheelchair = client.Wheelchair;
+			Escort = client.Escort;
 		}
 
 		public void OnOfficeSelected(Contact office)
@@ -180,7 +180,7 @@ namespace ACE.ViewModels
 				return;
 
 			OfficeName = office.Name;
-			OfficePhone = office.Phone;
+			//OfficePhone = office.Phone;
 			OfficeAddress = office.Address;
 		}
 
@@ -196,10 +196,10 @@ namespace ACE.ViewModels
 						return false;
 				}
 
-				var office = AppData.GetContactByPhone(OfficePhone);
+				var office = AppData.GetContactByName(OfficeName);
 				if (office != null) {
 					if (office.NeedUpdate(OfficeName, OfficeAddress)) {
-						bool update = await Alerts.ConfirmAlert("Office name or address is different from the record.\nDo you want update office information?");
+						bool update = await Alerts.ConfirmAlert("Office address is different from the record.\nDo you want update office information?");
 						if (!update)
 							return false;
 					}
@@ -214,47 +214,46 @@ namespace ACE.ViewModels
 			if (Source == null) {
 				var client = AppData.GetContactByPhone(ClientPhone);
 				if (client == null) {
-					client = new Contact(ContactType.Client) {
+					client = new Contact {
+						ContactType = ContactType.Client,
 						Name = ClientName,
 						Phone = clientPhone,
 						Address = ClientAddress,
+						Wheelchair = Wheelchair,
+						Escort = Escort
 					};
-					client.Tags.SetTag(Tag.Wheelchair, Wheelchair);
-					client.Tags.SetTag(Tag.Escort, Escort);
 
-					await AppData.NewContact(client);
+					await AppData.NewContact(client, false);
 				} else {
-					client.Update(newName: ClientName, newAddress: ClientAddress);
+					client.Update(ClientName, ClientAddress, Wheelchair, Escort);
 				}
 
-				var office = AppData.GetContactByPhone(OfficePhone);
+				var office = AppData.GetContactByName(OfficeName);
 				if (office == null) {
-					office = new Contact(ContactType.Office) {
+					office = new Contact {
+						ContactType = ContactType.Office,
 						Name = OfficeName,
-						Phone = OfficePhone,
+						//Phone = OfficePhone,
 						Address = OfficeAddress,
 					};
 
-					if (!String.IsNullOrEmpty(OfficePhone)) {
-						await AppData.NewContact(office);
+					if (!String.IsNullOrEmpty(OfficeName) /*|| !String.IsNullOrEmpty(OfficePhone)*/) {
+						await AppData.NewContact(office, false);
 					}
 				} else {
-					office.Update(newName: OfficeName, newAddress: OfficeAddress);
+					office.Update(OfficeName, OfficeAddress);
 				}
 
 				var newPickup = new Pickup(client, office, 
 					(ScheduleTime)PickupTime,
-					(ScheduleTime)AppoitmentTime,
-					Wheelchair, Escort);
+					(ScheduleTime)AppoitmentTime);
 
 				await AppData.NewPickup(newPickup, false);
 			} else {
-				Source.Client?.Update(newAddress: ClientAddress);
-				Source.Office?.Update(newAddress: OfficeAddress);
+				Source.Client.Update(newAddress: ClientAddress, wheelchair: Wheelchair, escort: Escort);
+				Source.Office.Update(newAddress: OfficeAddress);
 				Source.PickupTime = (ScheduleTime)PickupTime;
 				Source.AppoitmentTime = (ScheduleTime)AppoitmentTime;
-				Source.Wheelchair = wheelchair;
-				Source.Escort = escort;
 			}
 
 			await AppData.SaveAsync();

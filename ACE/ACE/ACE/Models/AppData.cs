@@ -54,10 +54,13 @@ namespace ACE.Models
 			latestPickup.Unset();
 		}
 
-		public static async Task NewContact(Contact newContact)
+		public static async Task NewContact(Contact newContact, bool save)
 		{
 			AddContact(Contacts, newContact);
-			await SaveAsync();
+
+			if (save) {
+				await SaveAsync();
+			}
 		}
 
 		//public static async Task ReplaceContact(Contact newContact, Contact oldContact)
@@ -187,6 +190,18 @@ namespace ACE.Models
 
 			appoitmentTime = new ScheduleTime(pickupTime, new TimeSpan(hours: 1, minutes: 0, seconds: 0));
 			return true;
+		}
+
+		public static Contact GetContactByName(string name)
+		{
+			if (String.IsNullOrEmpty(name))
+				return null;
+
+			foreach (var contact in Contacts) {
+				if (contact.Name == name)
+					return contact;
+			}
+			return null;
 		}
 
 		public static Contact GetContactByPhone(string phone)

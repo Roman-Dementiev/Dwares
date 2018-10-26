@@ -48,10 +48,12 @@
 				<RowDefinition Height="Auto" />
 				<!-- 5: Address Entry-->
 				<RowDefinition Height="Auto" />
-				<!-- 6: Comment Label-->
+				<!-- 6: Tags -->
 				<RowDefinition Height="Auto" />
-				<!-- 7: Comment Entry-->
-				<RowDefinition Height="Auto" />
+				<!-- 7: Comment Label-->
+				<!--<RowDefinition Height="Auto" />-->
+				<!-- 8: Comment Entry-->
+				<!--<RowDefinition Height="Auto" />-->
 			</Grid.RowDefinitions>
 
 			<Grid.ColumnDefinitions>
@@ -63,7 +65,7 @@
 				   />
 			<Entry Grid.Row="1" Grid.Column="0"
 				   Placeholder="Enter Name"
-				   Text="{Binding Name}"
+				   Text="{Binding Name, Mode=TwoWay}"
 				   />
 
 			<Label Grid.Row="2" Grid.Column="0"
@@ -72,7 +74,7 @@
 			<Entry Grid.Row="3" Grid.Column="0"
 				   Placeholder="Enter Phone Number"
 				   Keyboard="Telephone"
-				   Text="{Binding Phone}"
+				   Text="{Binding Phone, Mode=TwoWay}"
 				   />
 
 			<Label Grid.Row="4" Grid.Column="0"
@@ -80,16 +82,27 @@
 				   />
 			<Editor Grid.Row="5" Grid.Column="0"
 					HeightRequest="75"
-					Text="{Binding Address}"
+					Text="{Binding Address, Mode=TwoWay}"
 					/>
 
-			<Label Grid.Row="6" Grid.Column="0"
+			<StackLayout Grid.Row="6" Grid.Column="0"
+						 Orientation="Horizontal"
+						 >
+				<ui:CheckBoxView Text="Wheelchair"
+								 IsChecked="{Binding Wheelchair, Mode=TwoWay}"
+								 />
+				<ui:CheckBoxView Text="Escort"
+								 IsChecked="{Binding Escort, Mode=TwoWay}"
+								 />
+			</StackLayout>
+
+			<!--<Label Grid.Row="7" Grid.Column="0"
 				   Text="Notes"
 				   />
-			<Editor Grid.Row="7" Grid.Column="0"
+			<Editor Grid.Row="8" Grid.Column="0"
 					HeightRequest="75"
 					Text="{Binding Comment}"
-					/>
+					/>-->
 		</Grid>
 	</ContentPage.Content>
 	

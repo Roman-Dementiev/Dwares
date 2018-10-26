@@ -58,21 +58,47 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
-		public static T[] ToArray<T>(IList<T> collection)
+		//public static T[] ToArray<T>(IList<T> collection)
+		//{
+		//	if (collection == null)
+		//		return null;
+
+		//	int count = collection.Count;
+		//	T[] array = new T[count];
+		//	for (int i = 0; i < count; i++) {
+		//		array[i] = collection[i];
+		//	}
+		//	return array;
+		//}
+
+		public static T[] ToArray<T>(ICollection<T> collection)
 		{
 			if (collection == null)
 				return null;
 
-			int count = collection.Count;
-			T[] array = new T[count];
-			for (int i = 0; i < count; i++) {
-				array[i] = collection[i];
+			T[] array = new T[collection.Count];
+			int i = 0;
+			foreach (var item in collection) {
+				array[i++] = item;
 			}
 			return array;
 		}
 
+		//public static T[] ToArray<T>(IReadOnlyCollection<T> collection)
+		//{
+		//	if (collection == null)
+		//		return null;
+
+		//	T[] array = new T[collection.Count];
+		//	int i = 0;
+		//	foreach (var item in collection) {
+		//		array[i++] = item;
+		//	}
+		//	return array;
+		//}
+
 		// TODO
-		public static int BinarySearch<T>(IList<T> collection, T item, IComparer<T> comparer)
+		public static int BinarySearch<T>(ICollection<T> collection, T item, IComparer<T> comparer)
 		{
 			T[] items = ToArray(collection);
 			return Array.BinarySearch(items, item, comparer);

@@ -31,12 +31,13 @@ namespace ACE.Models
 			public string Address { get; set; }
 			public string AltAddress { get; set; }
 			public string Comment { get; set; }
+			public string[] Tags { get; set; }
 		}
 
 		class PickupRec
 		{
 			public string ClientPhone { get; set; }
-			public string OfficePhone { get; set; }
+			public string OfficeName { get; set; }
 			public DateTime PickupTime { get; set; }
 			public DateTime AppoitmentTime { get; set; }
 		}
@@ -73,26 +74,26 @@ namespace ACE.Models
 			}
 
 			if (json.Contacts.Length == 0) {
-				json.Contacts = new ContactRec[] {
-					new ContactRec { ContactType = ContactType.ACE, Name = "Alla", Phone = "267-938-1300" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Semen", Phone = "215-715-8551" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Oleg", Phone = "267-255-0268" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Pavel", Phone = "267-761-7237" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Alexander", Phone = "267-679-5955" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Volodya", Phone = "267-469-7961" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Carlos", Phone = "267-269-8448" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "Rita", Phone = "267-778-7146" },
-					new ContactRec { ContactType = ContactType.ACE, Name = "ACE", Phone = "267-709-9702" , Address =  ACEAddress },
+				//json.Contacts = new ContactRec[] {
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Alla", Phone = "267-938-1300" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Semen", Phone = "215-715-8551" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Oleg", Phone = "267-255-0268" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Pavel", Phone = "267-761-7237" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Alexander", Phone = "267-679-5955" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Volodya", Phone = "267-469-7961" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Carlos", Phone = "267-269-8448" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "Rita", Phone = "267-778-7146" },
+				//	new ContactRec { ContactType = ContactType.ACE, Name = "ACE", Phone = "267-709-9702" , Address =  ACEAddress },
 
-					new ContactRec { ContactType = ContactType.Office, Name = "Temple University Hospital", ShortName = "Temple Univ", Phone = "(215) 707-2000", Address =  "3401 N Broad St\nPhiladelphia, PA 19140" },
-					new ContactRec { ContactType = ContactType.Office, Name = "Temple University Boyer Pavillion", ShortName = "Temple Boyer", Phone = "(215) 707-6000", Address =  "3509 N Broad St\nPhiladelphia, PA 19140" },
-					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Broad Street", ShortName = "Einstein Broad St", Phone = "(215) 457-7700", Address =  "4817 North Broad Street\nPhiladelphia, PA 19141" },
-					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Old York Road", ShortName = "Einstein Old York Rd", Phone = "(215) 924-1234", Address =  "5325  North Broad Street\nPhiladelphia, PA 19141" },
-					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Medical Center", ShortName = "Einstein Frankford", Phone = "(215) 456-7890", Address =  "7131 Frankford Ave\nPhiladelphia, PA 19135" },
-					new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Mayfair ", ShortName = "Einstein Mayfair", Phone = "(215) 332-4164", Address =  "5501 Old York Rd\n Philadelphia, PA 19141" }
-				};
+				//	new ContactRec { ContactType = ContactType.Office, Name = "Temple University Hospital", ShortName = "Temple Univ", Phone = "(215) 707-2000", Address =  "3401 N Broad St\nPhiladelphia, PA 19140" },
+				//	new ContactRec { ContactType = ContactType.Office, Name = "Temple University Boyer Pavillion", ShortName = "Temple Boyer", Phone = "(215) 707-6000", Address =  "3509 N Broad St\nPhiladelphia, PA 19140" },
+				//	new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Broad Street", ShortName = "Einstein Broad St", Phone = "(215) 457-7700", Address =  "4817 North Broad Street\nPhiladelphia, PA 19141" },
+				//	new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Old York Road", ShortName = "Einstein Old York Rd", Phone = "(215) 924-1234", Address =  "5325  North Broad Street\nPhiladelphia, PA 19141" },
+				//	new ContactRec { ContactType = ContactType.Office, Name = "Einstein Medical Center", ShortName = "Einstein Frankford", Phone = "(215) 456-7890", Address =  "7131 Frankford Ave\nPhiladelphia, PA 19135" },
+				//	new ContactRec { ContactType = ContactType.Office, Name = "Einstein Physicians Mayfair ", ShortName = "Einstein Mayfair", Phone = "(215) 332-4164", Address =  "5501 Old York Rd\n Philadelphia, PA 19141" }
+				//};
 
-				await SaveJsonAsync(json, filename);
+				//await SaveJsonAsync(json, filename);
 			}
 
 			return json;
@@ -157,7 +158,8 @@ namespace ACE.Models
 				if (convert != null) {
 					convert.ConvertContact?.Invoke(rec);
 				}
-				var newContact = new Contact(rec.ContactType) {
+				var newContact = new Contact {
+					ContactType = rec.ContactType,
 					Name = rec.Name,
 					ShortName = rec.ShortName,
 					Phone = rec.Phone,
@@ -166,6 +168,9 @@ namespace ACE.Models
 					AltAddress = rec.AltAddress,
 					Comment = rec.Comment
 				};
+				if (rec.Tags != null) {
+					newContact.AddTags(rec.Tags);
+				}
 				AddContact(contacts, newContact);
 			}
 
@@ -179,16 +184,11 @@ namespace ACE.Models
 				if (client == null)
 					continue;
 
-				var office = AppData.GetContactByPhone(rec.OfficePhone);
-				if (office == null)
-					continue;
+				var office = AppData.GetContactByName(rec.OfficeName);
+				//if (office == null)
+				//	continue;
 
-				AddPickup(pickups, new Pickup {
-					Client = client,
-					Office = office,
-					PickupTime = rec.PickupTime,
-					AppoitmentTime = rec.AppoitmentTime
-				});
+				AddPickup(pickups, new Pickup(client, office, rec.PickupTime, rec.AppoitmentTime));
 			}
 
 			if (convert != null) {
@@ -210,6 +210,7 @@ namespace ACE.Models
 					AltPhone = c.AltPhone,
 					Address = c.Address,
 					AltAddress = c.AltAddress,
+					Tags = c.GetTags(),
 					Comment = c.Comment
 				};
 			}
@@ -220,7 +221,7 @@ namespace ACE.Models
 				var p = AppData.Pickups[i];
 				pickups[i] = new PickupRec {
 					ClientPhone = p.Client.Phone,
-					OfficePhone = p.Office.Phone,
+					OfficeName = p.Office.Phone,
 					PickupTime = p.PickupTime,
 					AppoitmentTime = p.AppoitmentTime
 				};
