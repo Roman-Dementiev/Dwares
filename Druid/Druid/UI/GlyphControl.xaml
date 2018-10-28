@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Dwares.Druid.UI.GlyphControl">
+  <ContentView.Content>
+		<StackLayout x:Name="layout" Orientation="Horizontal">
+			<Label x:Name="glyph" />
+			<Label x:Name="text" />
+		</StackLayout>
+	</ContentView.Content>
+	
+	<ContentView.GestureRecognizers>
+		<TapGestureRecognizer Tapped="OnTapped" />
+	</ContentView.GestureRecognizers>
+</ContentView>

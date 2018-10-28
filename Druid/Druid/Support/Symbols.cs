@@ -783,10 +783,15 @@ namespace Dwares.Druid.Support
 		//
 		// Summary:
 		//     E295
-		Preview = 58005
-	}
-	
+		Preview = 58005,
 
+
+		UpArrow = 0xF0AD,
+		DownArrow = 0xF0AE,
+
+	}
+
+	/*
 	public class SumbolImageSource
 	{
 		public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
@@ -807,7 +812,6 @@ namespace Dwares.Druid.Support
 		public string Filename()
 		{
 			var filename = String.Format(FilenameFormat, Symbol, (int)Symbol);
-			Debug.Print("Symbol={0} Filenabe={1}", Symbol, filename);
 			return filename;
 		}
 
@@ -817,6 +821,28 @@ namespace Dwares.Druid.Support
 
 		public static implicit operator FileImageSource(SumbolImageSource source) => source?.ImageSource;
 	}
+	*/
+
+	public class SumbolImageSource: ActionImageSourceBase
+	{
+		public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
+			Default = "{0:g}.png",
+			Android = "ic_action_{0:g}.png",
+			iOS = "{0:g}.png",
+			UWP = "Images/{1:x4}.png"
+		};
+
+		public SumbolImageSource(SymbolEx symbol) :
+			base(DefaultFilenameFormat)
+		{
+			Symbol = symbol;
+		}
+
+		public SymbolEx Symbol { get; }
+		public override string Action => Symbol.Name();
+		public override string Filename => String.Format(FilenameFormat, Symbol, (int)Symbol);
+	}
+
 
 	public static class Symbols
 	{
@@ -838,6 +864,12 @@ namespace Dwares.Druid.Support
 		public static string Name(this SymbolEx symbol)
 		{
 			return Enums.GetName(symbol);
+		}
+
+		public static string Glyph(this SymbolEx symbol)
+		{
+			char ch= (char)symbol;
+			return ch.ToString();
 		}
 
 		public static FileImageSource ImageSource(this SymbolEx symbol)

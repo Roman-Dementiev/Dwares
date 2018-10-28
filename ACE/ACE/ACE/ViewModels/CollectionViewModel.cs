@@ -14,16 +14,16 @@ namespace ACE.ViewModels
 	public class CollectionViewModel<Item> : BindingScope
 	{
 		public event SelectedItemChangedHandler SelectedItemChangedEvent;
-	
+
+		protected CollectionViewModel() : base(null) { }
+
 		public CollectionViewModel(BindingScope parentScope, ObservableCollection<Item> items = null) :
 			base(parentScope)
 		{
 			Items = items ?? new ObservableCollection<Item>();
-
-			//Items = new SortedCollection<Item>(items);
 		}
 
-		public ObservableCollection<Item> Items { get; }
+		public ObservableCollection<Item> Items { get; protected set; }
 
 		// TODO
 		public Thickness PanelMargin { get; set; } = new Thickness(0, 2, 0, 0);

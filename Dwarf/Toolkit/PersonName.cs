@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace Dwares.Dwarf.Toolkit
 {
@@ -63,5 +62,9 @@ namespace Dwares.Dwarf.Toolkit
 
 		public static implicit operator string(PersonName name) => name.FullName;
 		public static implicit operator PersonName(string name) => new PersonName(name);
+
+		public static string GetFirstName(string fullName) => new PersonName(fullName).FirstName;
+		public static string GetSecondName(string fullName) => new PersonName(fullName).SecondName;
+		public static string GetLastName(string fullName) => new PersonName(fullName).LastName;
 	}
 }

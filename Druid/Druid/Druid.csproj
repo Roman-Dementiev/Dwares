@@ -17,10 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="UI\CheckBoxView.xaml">
+    <EmbeddedResource Update="UI\GlyphControl.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="UI\SymbolView.xaml">
+    <EmbeddedResource Update="UI\ToggleImage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

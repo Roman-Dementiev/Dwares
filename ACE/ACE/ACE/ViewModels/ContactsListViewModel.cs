@@ -4,78 +4,74 @@ using System.Collections.Specialized;
 using Xamarin.Forms;
 using ACE.Models;
 using ACE.Views;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
 using Dwares.Druid.Support;
 
 
 namespace ACE.ViewModels
 {
-	// TODO
-	public class SortOrder
-	{
-		public SortOrder(string name)
-		{
-			Name = name;
-		}
-
-		public string Name { get; }
-		public override string ToString() => Name;
-	}
-
 	public class ContactsListViewModel : CollectionViewModel<Contact>
 	{
 		public ContactsListViewModel(ContactsListPage page, ContactType contactType) :
-			base(AppScope)
+			base(AppScope, new SortedCollection<Contact>(AppData.Contacts, 
+				(c1, c2) => String.Compare(c1.Name, c2.Name),
+				(contact) => contact.ContactType==contactType))
 		{
 			Page = page;
 			ContactType = contactType;
 			Callable = (contactType == ContactType.ACE);
+			Contacts = Items as SortedCollection<Contact>;
 
-			ResetContacts();
-
-			AppData.Contacts.CollectionChanged += All_CollectionChanged;
+			if (contactType == ContactType.Client) {
+				SortOrders = new ContactSortOrder[] {
+					new SortByFirstName(),
+					new SortByLastName(),
+					new SortByPhone()
+				};
+			} else {
+				SortOrders = new ContactSortOrder[] {
+					new SortByName(),
+					new SortByPhone()
+				};
+			}
+			// TODO?: Preferences
+			SelectedSortOrder = SortOrders[0];
 		}
 
 		ContactsListPage Page { get; }
-		public ObservableCollection<Contact> Contacts => Items;
+		public SortedCollection<Contact> Contacts { get; }
 		public ContactType ContactType { get; }
 		public bool Callable { get; set; }
 
-		private void ResetContacts()
-		{
-			Contacts.Clear();
+		public ContactSortOrder[] SortOrders { get; }
 
-			foreach (var contact in AppData.Contacts) {
-				if (contact.ContactType == ContactType) {
-					Contacts.Add(contact);
+		ContactSortOrder selectedSortOrder;
+		public ContactSortOrder SelectedSortOrder {
+			get => selectedSortOrder;
+			set {
+				if (value != selectedSortOrder) {
+					value.Descending = Contacts.Descending;
+					selectedSortOrder = value;
+					Contacts.Comparer = selectedSortOrder;
 				}
 			}
 		}
 
-		private void All_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-			case NotifyCollectionChangedAction.Add:
-				foreach (var item in e.NewItems) {
-					if (item is Contact contact && contact.ContactType == ContactType) {
-						Contacts.Add(contact);
-					}
-				}
-				break;
+		//bool descending;
+		//public bool Descending {
+		//	get => descending;
+		//	set {
+		//		if (value != descending) {
+		//			value = descending;
+		//			Contacts.Descending = descending;
+		//		}
+		//	}
+		//}
 
-			case NotifyCollectionChangedAction.Remove:
-				foreach (var item in e.OldItems) {
-					if (item is Contact contact) {
-						Contacts.Remove(contact);
-					}
-				}
-				break;
-
-			default:
-				ResetContacts();
-				break;
-			}
+		public bool Descending {
+			get => Contacts.Descending;
+			set => Contacts.Descending = value;
 		}
 
 		public void OnShowSortPanel()

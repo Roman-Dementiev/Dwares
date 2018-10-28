@@ -24,7 +24,7 @@ namespace Dwares.Druid.Support
 			set { SetProperty(ref title, value); }
 		}
 
-		public BindingScope ParentScope { get; set; }
+		public BindingScope ParentScope { get; protected set; }
 		object IDescendant.Parent => ParentScope;
 
 		IWritExecutor writExecutor = null;

@@ -10,19 +10,33 @@ namespace Dwares.Dwarf.Collections
 	{
 		//public SourcedCollection() { }
 
-		public SourcedCollection(ObservableCollection<T> source)
+		protected SourcedCollection(ObservableCollection<T> source, Func<T, bool> criterion, bool collect)
 		{
-			Source = source;
+			SetSource(source, criterion, collect);
+		}
+
+		public SourcedCollection(ObservableCollection<T> source, Func<T, bool> criterion = null) :
+			this(source, criterion, true)
+		{
 		}
 
 		ObservableCollection<T> source = null;
 		public ObservableCollection<T> Source {
 			get => source;
-			set => SetSource(value);
+			set => SetSource(value, Criterion, true);
 		}
 
-		public virtual void SetSource(ObservableCollection<T> source)
+		Func<T, bool> criterion = null;
+		public Func<T, bool> Criterion {
+			get => criterion;
+			set => SetSource(Source, value, true);
+		}
+
+		protected virtual void SetSource(ObservableCollection<T> source, Func<T, bool> criterion, bool recollect)
 		{
+			if (source == this.source && criterion == this.criterion)
+				return;
+
 			if (this.source != null) {
 				this.source.CollectionChanged -= OnSourceCollectionChanged;
 			}
@@ -30,11 +44,24 @@ namespace Dwares.Dwarf.Collections
 			ClearThis();
 
 			this.source = source;
+			this.criterion = criterion;
 
 			if (source != null) {
 				source.CollectionChanged += OnSourceCollectionChanged;
 
-				AddItems(source, false);
+				if (recollect) {
+					Recollect(false);
+				}
+			}
+		}
+
+		protected virtual void Recollect(bool clear)
+		{
+			if (clear) {
+				ClearThis();
+			}
+			if (Source != null) {
+				AddToThis(Source);
 			}
 		}
 
@@ -43,61 +70,68 @@ namespace Dwares.Dwarf.Collections
 			switch (e.Action)
 			{
 			case NotifyCollectionChangedAction.Add:
-				AddItems(e.NewItems, false);
+				AddToThis(e.NewItems);
 				break;
 
 			case NotifyCollectionChangedAction.Remove:
-				RemoveItems(e.OldItems, false);
+				RemoveFromThis(e.OldItems);
 				break;
 
 			case NotifyCollectionChangedAction.Replace:
-				RemoveItems(e.OldItems, false);
-				AddItems(e.NewItems, false);
+				RemoveFromThis(e.OldItems);
+				AddToThis(e.NewItems);
 				break;
 
 			case NotifyCollectionChangedAction.Reset:
-				Clear(false);
-				AddItems(Source, false);
+				Recollect(true);
 				break;
 			}
 		}
 
-		public new void Add(T item) => Add(item, true);
-
-		public void Add(T item, bool addToSource)
+		public virtual bool Match(T item)
 		{
-			if (addToSource && Source != null) {
-				Source.Add(item);
-				return;
+			if (Criterion != null) {
+				return Criterion(item);
+			} else {
+				return true;
 			}
+		}
 
-			AddToThis(item);
+		public new virtual void Add(T item)
+		{
+			if (Source != null) {
+				Source.Add(item);
+			} else {
+				AddToThis(item);
+			}
 		}
 
 		protected virtual void AddToThis(T item)
 		{
-			base.Add(item);
+			if (Match(item)) {
+				base.Add(item);
+			}
 		}
 
-		public void AddItems(IEnumerable items, bool addToSource)
+		protected void AddToThis(IEnumerable items)
 		{
+			if (items == null)
+				return;
+
 			foreach (var obj in items) {
 				if (obj is T item) {
-					Add(item, addToSource);
+					AddToThis(item);
 				}
 			}
 		}
 
-		public new void Remove(T item) => Remove(item, true);
-
-		public void Remove(T item, bool removeFromSource)
+		public new void Remove(T item)
 		{
-			if (removeFromSource && Source != null) {
+			if (Source != null) {
 				Source.Remove(item);
-				return;
+			} else {
+				RemoveFromThis(item);
 			}
-
-			RemoveFromThis(item);
 		}
 
 		protected virtual void RemoveFromThis(T item)
@@ -105,25 +139,27 @@ namespace Dwares.Dwarf.Collections
 			base.Remove(item);
 		}
 
-		public void RemoveItems(IEnumerable items, bool removeFromSource)
+		protected void RemoveFromThis(IEnumerable items)
 		{
+			if (items == null)
+				return;
+			
 			foreach (var obj in items) {
 				if (obj is T item) {
-					Remove(item, removeFromSource);
+					RemoveFromThis(item);
 				}
 			}
 		}
 
-		public new void Clear() => Clear(true);
-
-		public void Clear(bool removeFromSource)
+		public new void Clear()
 		{
-			if (removeFromSource && Source != null) {
-				Source.Clear();
-				return;
+			if (Source != null) {
+				foreach (var item in Items) {
+					Source.Remove(item);
+				}
+			} else {
+				ClearThis();
 			}
-
-			ClearThis();
 		}
 
 		protected virtual void ClearThis()

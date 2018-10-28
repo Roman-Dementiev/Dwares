@@ -25,8 +25,8 @@ namespace ACE
 			Navigator.Initialize();
 		}
 
-		public static new App Current => Application.Current as App;
-		public static Page CurrentPage => Current.mainPage.CurrentPage;
+		//public static new App Current => Application.Current as App;
+		//public static Page CurrentPage => Current.mainPage.CurrentPage;
 
 		protected override async void OnStart()
 		{

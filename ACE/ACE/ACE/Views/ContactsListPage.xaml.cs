@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Druid.UI;
 using ACE.Models;
 using ACE.ViewModels;
 
@@ -11,7 +12,6 @@ namespace ACE.Views
 	public partial class ContactsListPage : ContentPage
 	{
 		ContactsListViewModel viewModel;
-		public ContactsListViewModel ViewModel => viewModel;
 
 		//public ContactsListPage() : this(ContactType.Member) { }
 
@@ -23,19 +23,12 @@ namespace ACE.Views
 
 			InitializeComponent();
 
-			if (contactType == ContactType.Client) {
-				sortOrder.ItemsSource = new SortOrder[] {
-					new SortOrder("By First Name"),
-					new SortOrder("By Last Name"),
-					new SortOrder("By Phone Number")
-				};
-			} else {
-				sortOrder.ItemsSource = new SortOrder[] {
-					new SortOrder("By Name"),
-					new SortOrder("By Phone Number")
-				};
-//				sortOrder.ItemsSource = new string[] { "By Name", "By Phone" };
-			}
+			//descendigCheck.CheckedChanged += OnDescendingChanged;
+		}
+
+		private void OnDescendingChanged(object sender, CheckedChangedEventArgs e)
+		{
+			viewModel.Descending = e.IsChecked;
 		}
 
 		protected override void OnAppearing()

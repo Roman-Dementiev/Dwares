@@ -4,19 +4,20 @@
 			 xmlns:local="clr-namespace:ACE"
 			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 			 xmlns:vm="clr-namespace:ACE.ViewModels"
+			 xmlns:sup="clr-namespace:Dwares.Druid.Support;assembly=Druid"
 			 x:Class="ACE.Views.ContactsListPage"
 			 x:Name="page">
 
 	<ContentPage.Resources>
-		<!--<ResourceDictionary>
-			<vm:PhoneToVisibleConverter x:Key="phoneToVisible" />
-		</ResourceDictionary>-->
+		<ResourceDictionary>
+			<!--<vm:PhoneToVisibleConverter x:Key="phoneToVisible" />-->
+		</ResourceDictionary>
 	</ContentPage.Resources>
 	
 
 	<ContentPage.ToolbarItems>
 		<ui:ToolbarItemEx Text="Sort" Symbol="Sort" Writ="ShowSortPanel" />
-		<ui:ToolbarItemEx Text="Find" Symbol="Find" Writ="ShowFindPanel" />
+		<!--<ui:ToolbarItemEx Text="Find" Symbol="Find" Writ="ShowFindPanel" />-->
 		<ui:ToolbarItemEx Text="Add" Symbol="Add" Writ="AddContact" />
 		<ui:ToolbarItemEx Text="Edit" Symbol="Edit" Writ="EditContact" />
 		<ui:ToolbarItemEx Text="Delete" Symbol="Delete" Writ="DeleteContact" />
@@ -84,19 +85,34 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
-				<ui:SymbolImage Grid.Row="0" Grid.Column="0" 
+				<!--<ui:SymbolImage Grid.Row="0" Grid.Column="0" 
 								VerticalOptions="Center"
 								WidthRequest="16"
 								HeightRequest="16"
 								Symbol="Sort"
-								/>
+								/>-->
+				<Label Grid.Row="0" Grid.Column="0"
+					   VerticalOptions="Center"
+					   Text="Sort:"
+					   />
 				<Picker Grid.Row="0" Grid.Column="1"
-						x:Name="sortOrder" 
 						VerticalOptions="Center"
+						ItemsSource="{Binding SortOrders}"
+						SelectedItem="{Binding SelectedSortOrder}"
 						/>
-				<ui:SymbolImage x:Name="close" Grid.Row="0" Grid.Column="2" 
+				<Image Source="" />
+				<ui:ToggleImage Grid.Row="0" Grid.Column="2" 
+								VerticalOptions="Center"
+								CheckedActionImage="descending"
+								UncheckedActionImage="ascending"
+								IsChecked="false"
+								CheckedChanged="OnDescendingChanged"
+								/>
+				<ui:SymbolImage x:Name="close" Grid.Row="0" Grid.Column="4" 
 								VerticalOptions="Center"
 								WidthRequest="16"
 								HeightRequest="16"

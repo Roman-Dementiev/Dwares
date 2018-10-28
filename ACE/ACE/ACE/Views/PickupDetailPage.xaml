@@ -79,12 +79,12 @@
 					/>
 
 			<StackLayout Orientation="Horizontal">
-				<ui:CheckBoxView Text="Wheelchair"
-								 IsChecked="{Binding Wheelchair, Mode=TwoWay}"
-								 />
-				<ui:CheckBoxView Text="Escort"
-								 IsChecked="{Binding Escort, Mode=TwoWay}"
-								 />
+				<ui:CheckBoxGlyph Text="Wheelchair"
+								  IsChecked="{Binding Wheelchair, Mode=TwoWay}"
+								  />
+				<ui:CheckBoxGlyph Text="Escort"
+								  IsChecked="{Binding Escort, Mode=TwoWay}"
+								  />
 			</StackLayout>
 
 			<Label Text=""/>

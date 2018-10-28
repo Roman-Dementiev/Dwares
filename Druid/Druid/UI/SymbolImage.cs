@@ -24,7 +24,7 @@ namespace Dwares.Druid.UI
 		SymbolEx symbol;
 		public SymbolEx Symbol {
 			get => symbol;
-			set {			writ = new WritMixin(this);
+			set {
 				if (value != symbol) {
 					symbol = value;
 					Source = value.ImageSource();
