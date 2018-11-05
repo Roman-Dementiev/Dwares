@@ -3,7 +3,7 @@ using System.Threading;
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Essential
 {
 	public abstract class ActionImageSourceBase
 	{
@@ -35,7 +35,7 @@ namespace Dwares.Druid.Support
 
 		//public ActionImageSource() : base(null) { }
 
-		public ActionImageSource(string action) : 
+		public ActionImageSource(string action) :
 			base(DefaultFilenameFormat)
 		{
 			Action = action;

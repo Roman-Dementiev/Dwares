@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Dwares.Druid.Support;
+using Dwares.Druid.Essential;
 
 
 namespace Dwares.Druid.UI

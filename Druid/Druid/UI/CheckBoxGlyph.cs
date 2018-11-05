@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Dwares.Druid.Support;
+using Dwares.Druid.Essential;
 
 
 namespace Dwares.Druid.UI

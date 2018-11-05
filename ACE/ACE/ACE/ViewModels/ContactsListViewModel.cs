@@ -13,13 +13,14 @@ namespace ACE.ViewModels
 {
 	public class ContactsListViewModel : CollectionViewModel<Contact>
 	{
-		public ContactsListViewModel(ContactsListPage page, ContactType contactType) :
+		public ContactsListViewModel(ContactsListPage page, ContactType contactType, bool switchable = false) :
 			base(AppScope, new SortedCollection<Contact>(AppData.Contacts, 
 				(c1, c2) => String.Compare(c1.Name, c2.Name),
 				(contact) => contact.ContactType==contactType))
 		{
 			Page = page;
 			ContactType = contactType;
+			Switchable = switchable;
 			Callable = (contactType == ContactType.ACE);
 			Contacts = Items as SortedCollection<Contact>;
 
@@ -43,6 +44,7 @@ namespace ACE.ViewModels
 		public SortedCollection<Contact> Contacts { get; }
 		public ContactType ContactType { get; }
 		public bool Callable { get; set; }
+		public bool Switchable { get; set; }
 
 		public ContactSortOrder[] SortOrders { get; }
 
@@ -57,17 +59,6 @@ namespace ACE.ViewModels
 				}
 			}
 		}
-
-		//bool descending;
-		//public bool Descending {
-		//	get => descending;
-		//	set {
-		//		if (value != descending) {
-		//			value = descending;
-		//			Contacts.Descending = descending;
-		//		}
-		//	}
-		//}
 
 		public bool Descending {
 			get => Contacts.Descending;
@@ -109,7 +100,13 @@ namespace ACE.ViewModels
 
 		public async void OnDeleteContact()
 		{
-			await AppData.RemoveContact(Selected);
+			if (Selected == null)
+				return;
+
+			var message = String.Format("Do you want to delete contact for\n{0}?", Selected.Title);
+			if (await Alerts.ConfirmAlert(message)) {
+				await AppData.RemoveContact(Selected);
+			}
 		}
 
 		public override void UpdateCommands()

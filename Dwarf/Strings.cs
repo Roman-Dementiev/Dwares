@@ -267,6 +267,11 @@ namespace Dwares.Dwarf
 			return NamedValues(names, values, separator, null, prefix, suffix, skipVoid: false, skipNull: skipNull);
 		}
 
+		public static string Properties(object target)
+		{
+			return Properties(target, (IEnumerable<string>)null);
+		}
+
 		public static string Properties(object target, params string[] names)
 		{
 			return Properties(target, (IEnumerable<string>)names);

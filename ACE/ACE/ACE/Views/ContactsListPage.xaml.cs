@@ -17,9 +17,9 @@ namespace ACE.Views
 
 		public ContactsListPage(int contactType) : this((ContactType)contactType) { }
 
-		public ContactsListPage(ContactType contactType)
+		public ContactsListPage(ContactType contactType, bool switchable = false)
 		{
-			BindingContext = viewModel = new ContactsListViewModel(this, contactType);
+			BindingContext = viewModel = new ContactsListViewModel(this, contactType, switchable);
 
 			InitializeComponent();
 

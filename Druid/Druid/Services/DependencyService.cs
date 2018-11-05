@@ -15,9 +15,9 @@ namespace Dwares.Druid.Services
 			GetOnly
 		};
 
-		public static TService GetInstance(ref DependencyService<TService> instance)
+		public static TService GetInstance(ref DependencyService<TService> instance, bool required = true)
 		{
-			var _instance = LazyInitializer.EnsureInitialized(ref instance);
+			var _instance = LazyInitializer.EnsureInitialized(ref instance, () => new DependencyService<TService>(true, required));
 			return _instance.Service;
 		}
 
@@ -27,12 +27,12 @@ namespace Dwares.Druid.Services
 			_instance.Set(service);
 		}
 
-		public DependencyService() : this(true) { }
+		public DependencyService() : this(true, true) { }
 
-		public DependencyService(bool init)
+		public DependencyService(bool init, bool required=true)
 		{
 			if (init) {
-				service = TryGet(true);
+				service = TryGet(required);
 			}
 		}
 

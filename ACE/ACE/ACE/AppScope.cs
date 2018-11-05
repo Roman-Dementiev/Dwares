@@ -34,5 +34,11 @@ namespace ACE
 			Debug.Print("OnRestore()");
 			await AppData.RestoreAsync();
 		}
+
+		[System.Diagnostics.Conditional("DEBUG")]
+		public void OnSelectDevice()
+		{
+			Debug.Print("AppScope.OnSelectDevice()");
+		}
 	}
 }

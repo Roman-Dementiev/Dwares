@@ -9,7 +9,7 @@ namespace Dwares.Dwarf.Toolkit
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+		protected void FirePropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			if (PropertyChanged != null) {
 				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -34,7 +34,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage = value;
-			RaisePropertyChanged(propertyName);
+			FirePropertyChanged(propertyName);
 			return true;
 		}
 
@@ -46,7 +46,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage.Value = value;
-			RaisePropertyChanged(propertyName);
+			FirePropertyChanged(propertyName);
 			return true;
 		}
 

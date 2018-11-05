@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 x:Class="ACE.Views.RoutePage"
+			 x:Name="page">
+
+	<ContentPage.ToolbarItems>
+		<ui:ToolbarItemEx Text="Delete" Symbol="Delete" Writ="DeleteContact" />
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
+	</ContentPage.ToolbarItems>
+
+	<ListView Grid.Row="1"
+				  Margin="0"
+				  VerticalOptions="FillAndExpand"
+				  HorizontalOptions="FillAndExpand"
+				  SeparatorVisibility="None"
+				  ItemsSource="{Binding Contacts}"
+				  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+				  HasUnevenRows="True"
+				  >
+
+		<ListView.ItemTemplate>
+			<DataTemplate>
+				<ViewCell>
+					<ContentView Padding="0">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<StackLayout Grid.Row="0" Grid.Column="1"
+										 Orientation="Vertical"
+										 VerticalOptions="Start"
+										 >
+								<Label x:Name="name"
+									   FontSize="Default"
+									   FontAttributes="Bold"
+									   Text="{Binding Name}"
+									   IsVisible="{Binding HasName}"
+									   />
+								<Label x:Name="address"
+									   Text="{Binding Address}"
+									   />
+							</StackLayout>
+							<BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+									 Color="Black"
+									 HeightRequest="1"
+									 />
+						</Grid>
+					</ContentView>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+	</ListView>
+
+</ContentPage>

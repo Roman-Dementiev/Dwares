@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ACE.Models
+namespace Dwares.Dwarf.Toolkit
 {
 	public interface ISelectable
 	{

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Essential
 {
 	public enum SymbolEx
 	{
@@ -791,63 +790,11 @@ namespace Dwares.Druid.Support
 
 	}
 
-	/*
-	public class SumbolImageSource
-	{
-		public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
-			Default = "{0:g}.png",
-			Android = "ic_action_{0:g}.png",
-			iOS = "{0:g}.png",
-			UWP = "Images/{1:x4}.png"
-		};
-
-		public SumbolImageSource(SymbolEx symbol)
-		{
-			Symbol = symbol;
-		}
-
-		public SymbolEx Symbol { get; }
-		public string FilenameFormat { get; set; } = DefaultFilenameFormat;
-
-		public string Filename()
-		{
-			var filename = String.Format(FilenameFormat, Symbol, (int)Symbol);
-			return filename;
-		}
-
-		FileImageSource imageSource;
-		public FileImageSource ImageSource => LazyInitializer.EnsureInitialized(ref imageSource,
-			() => new FileImageSource { File = Filename() });
-
-		public static implicit operator FileImageSource(SumbolImageSource source) => source?.ImageSource;
-	}
-	*/
-
-	public class SumbolImageSource: ActionImageSourceBase
-	{
-		public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
-			Default = "{0:g}.png",
-			Android = "ic_action_{0:g}.png",
-			iOS = "{0:g}.png",
-			UWP = "Images/{1:x4}.png"
-		};
-
-		public SumbolImageSource(SymbolEx symbol) :
-			base(DefaultFilenameFormat)
-		{
-			Symbol = symbol;
-		}
-
-		public SymbolEx Symbol { get; }
-		public override string Action => Symbol.Name();
-		public override string Filename => String.Format(FilenameFormat, Symbol, (int)Symbol);
-	}
-
 
 	public static class Symbols
 	{
 		static Dictionary<string, SymbolEx> symbolsByName = null;
-		public static Dictionary<string, SymbolEx> SymbolsByName 
+		public static Dictionary<string, SymbolEx> SymbolsByName
 			=> LazyInitializer.EnsureInitialized(ref symbolsByName,
 			() => Enums.GetValueByNameDictionary<SymbolEx>());
 
@@ -868,7 +815,7 @@ namespace Dwares.Druid.Support
 
 		public static string Glyph(this SymbolEx symbol)
 		{
-			char ch= (char)symbol;
+			char ch = (char)symbol;
 			return ch.ToString();
 		}
 

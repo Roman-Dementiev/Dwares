@@ -181,6 +181,10 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\BingMapsRESTToolkit-dev\Source\BingMapsRESTToolkit.Standard\BingMapsRESTToolkit.Standard.csproj">
+      <Project>{3a6e8b29-c1a1-4997-a9de-74973405e4a1}</Project>
+      <Name>BingMapsRESTToolkit.Standard</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Druid\Druid.UWP\Druid.UWP.csproj">
       <Project>{0b5041da-67d1-4d61-b874-645bc54ffa60}</Project>
       <Name>Druid.UWP</Name>
@@ -188,6 +192,14 @@
     <ProjectReference Include="..\..\..\Druid\Druid\Druid.csproj">
       <Project>{a953d6bc-0f57-4b96-9f22-36338c57a143}</Project>
       <Name>Druid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Drums\Drums.UWP\Drums.UWP.csproj">
+      <Project>{c03426a1-fdb2-4374-a0b5-1dab38de6eab}</Project>
+      <Name>Drums.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Drums\Drums\Drums.csproj">
+      <Project>{ec888482-c21b-4840-aa9a-a401677b15f1}</Project>
+      <Name>Drums</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Dwarf\Dwarf.csproj">
       <Project>{53da1e6d-067b-419b-b9dc-e2fd24a21ffe}</Project>

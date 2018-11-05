@@ -1,7 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace Dwares.Druid.Support
+
+namespace Dwares.Druid.Essential
 {
 	public class OnPlatform<T>
 	{

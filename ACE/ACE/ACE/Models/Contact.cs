@@ -7,6 +7,7 @@ using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
 using Dwares.Druid.Services;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Drums;
 
 
 namespace ACE.Models
@@ -24,7 +25,7 @@ namespace ACE.Models
 		public const string Escort = "Escort";
 	}
 
-	public class Contact: PropertyNotifier
+	public class Contact: PropertyNotifier, ILocation
 	{
 		//public Contact()
 		//{
@@ -48,7 +49,7 @@ namespace ACE.Models
 			get => name;
 			set {
 				if (SetProperty(ref name, value)) {
-					RaisePropertyChanged(nameof(HasName));
+					FirePropertyChanged(nameof(HasName));
 				}
 			}
 		}
@@ -64,7 +65,7 @@ namespace ACE.Models
 			get => phone;
 			set {
 				if (SetProperty(ref phone, value)) {
-					RaisePropertyChanged(nameof(HasPhone));
+					FirePropertyChanged(nameof(HasPhone));
 				}
 			}
 		}
@@ -80,10 +81,12 @@ namespace ACE.Models
 			get => address;
 			set {
 				if (SetProperty(ref address, value)) {
-					RaisePropertyChanged(nameof(HasAddress));
+					FirePropertyChanged(nameof(HasAddress));
 				}
 			}
 		}
+
+		public ICoordinate Coordinate { get; set;  }
 
 		string altAddress;
 		public string AltAddress {
@@ -96,7 +99,7 @@ namespace ACE.Models
 			get => comment;
 			set {
 				if (SetProperty(ref comment, value)) {
-					RaisePropertyChanged(nameof(HasComment));
+					FirePropertyChanged(nameof(HasComment));
 				}
 			}
 		}
@@ -107,7 +110,7 @@ namespace ACE.Models
 		{
 			if (onOff != HasTag(tag)) {
 				Tags.SwitchTag(tag, onOff);
-				RaisePropertyChanged(propertyName);
+				FirePropertyChanged(propertyName);
 			}
 		}
 		public void AddTags(string[] tags)
@@ -129,6 +132,16 @@ namespace ACE.Models
 		public bool Escort {
 			get => HasTag(Tag.Escort);
 			set => SetTag(Tag.Escort, value);
+		}
+
+		public string Title {
+			get {
+				if (!String.IsNullOrEmpty(Name))
+					return Name;
+				if (!String.IsNullOrEmpty(Phone))
+					return Phone;
+				return "?";
+			}
 		}
 
 		public static string NameAndDescription(string name, string desription)
@@ -193,7 +206,11 @@ namespace ACE.Models
 		public async void Directions()
 		{
 			string address = Address;
-			await MapSvc.OpenDirections(null, address);
+
+			var info = await Drum.GetRouteInfo("4143 Paul St Philadelphia PA 19124", address);
+			Debug.Print("Contact.Directions(): RouteInfo={0}", info);
+
+			await Drum.OpenDirections(null, address);
 		}
 
 			public bool NeedUpdate(string newName = null, string newAddress = null)

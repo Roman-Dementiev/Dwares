@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Dwares.Druid.Support;
+using Dwares.Druid.Essential;
 
 
 namespace Dwares.Druid.UI

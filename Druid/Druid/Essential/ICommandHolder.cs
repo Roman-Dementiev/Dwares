@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Essential
 {
 	public interface ICommandHolder
 	{

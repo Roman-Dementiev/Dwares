@@ -57,34 +57,34 @@ namespace ACE.Models
 		private void Client_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(Contact.Name)) {
-				RaisePropertyChanged(nameof(ClientName));
-				RaisePropertyChanged(nameof(ShowClientName));
+				FirePropertyChanged(nameof(ClientName));
+				FirePropertyChanged(nameof(ShowClientName));
 			}
 			else if (e.PropertyName == nameof(Contact.Phone)) {
-				RaisePropertyChanged(nameof(ClientPhone));
+				FirePropertyChanged(nameof(ClientPhone));
 			}
 			else if (e.PropertyName == nameof(Contact.Address)) {
-				RaisePropertyChanged(nameof(ClientAddress));
-				RaisePropertyChanged(nameof(ShowClientAddress));
-				RaisePropertyChanged(nameof(ShowClientDirections));
+				FirePropertyChanged(nameof(ClientAddress));
+				FirePropertyChanged(nameof(ShowClientAddress));
+				FirePropertyChanged(nameof(ShowClientDirections));
 			} else if (e.PropertyName == nameof(Contact.Wheelchair)) {
-				RaisePropertyChanged(nameof(Wheelchair));
+				FirePropertyChanged(nameof(Wheelchair));
 			} else if (e.PropertyName == nameof(Contact.Escort)) {
-				RaisePropertyChanged(nameof(Escort));
+				FirePropertyChanged(nameof(Escort));
 			}
 		}
 
 		private void Office_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(Contact.Name)) {
-				RaisePropertyChanged(nameof(OfficeName));
-				RaisePropertyChanged(nameof(ShowOfficeName));
+				FirePropertyChanged(nameof(OfficeName));
+				FirePropertyChanged(nameof(ShowOfficeName));
 			//} else if (e.PropertyName == nameof(Contact.Phone)) {
 			//	RaisePropertyChanged(nameof(OfficePhone));
 			} else if (e.PropertyName == nameof(Contact.Address)) {
-				RaisePropertyChanged(nameof(OfficeAddress));
-				RaisePropertyChanged(nameof(ShowOfficeAddress));
-				RaisePropertyChanged(nameof(ShowOfficeDirections));
+				FirePropertyChanged(nameof(OfficeAddress));
+				FirePropertyChanged(nameof(ShowOfficeAddress));
+				FirePropertyChanged(nameof(ShowOfficeDirections));
 
 			}
 		}

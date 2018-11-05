@@ -47,6 +47,23 @@ namespace ACE.Models
 		static ObservableCollection<Pickup> pickups = null;
 		public static ObservableCollection<Pickup> Pickups => LazyInitializer.EnsureInitialized(ref pickups);
 
+		static Route route = null;
+		public static Route Route => LazyInitializer.EnsureInitialized(ref route, () => new Route(ACE));
+
+		static Contact _ACE = null;
+		public static Contact ACE {
+			get {
+				if (_ACE == null) {
+					_ACE = new Contact {
+						ContactType = ContactType.ACE,
+						Name = "ACE",
+						Address = "10162 Bustleton Ave, Philadelphia PA 19116"
+					};
+				}
+				return _ACE;
+			}
+		}
+
 		private static void Clear()
 		{
 			contacts?.Clear();
@@ -62,25 +79,6 @@ namespace ACE.Models
 				await SaveAsync();
 			}
 		}
-
-		//public static async Task ReplaceContact(Contact newContact, Contact oldContact)
-		//{
-		//	AddContact(Contacts, newContact, oldContact);
-
-		//	if (oldContact != null) {
-		//		var pickups = Pickups;
-		//		foreach (var pickup in pickups) {
-		//			if (pickup.Client == oldContact) {
-		//				pickup.Client = newContact;
-		//			}
-		//			if (pickup.Office == oldContact) {
-		//				pickup.Office = newContact;
-		//			}
-		//		}
-		//	}
-
-		//	await SaveAsync();
-		//}
 
 		static void AddContact(ObservableCollection<Contact> contacts, Contact newContact, Contact oldContact = null)
 		{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
-using Dwares.Dwarf.Collections;
+using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Support;
 using ACE.Models;
 
