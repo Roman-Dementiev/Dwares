@@ -79,11 +79,21 @@ namespace Dwares.Drums
 			return Instance.Service.GetRouteInfo(options ?? Instance.DefaultOptions, waypoints);
 		}
 
+		public static Task<IRouteInfo> GetRouteInfo(ILocation from, ILocation dest, IRouteOptions options = null)
+		{
+			var waypoints = new Waypoint[] {
+				new Waypoint(WaypointType.SatrtPoint, from),
+				new Waypoint(WaypointType.EndPoint, dest)
+			};
+
+			return GetRouteInfo(options, waypoints);
+		}
+
 		public static Task<IRouteInfo> GetRouteInfo(string from, string dest, IRouteOptions options = null)
 		{
 			var waypoints = new Waypoint[] {
-				new Waypoint { Address = from, WaypointType = WaypointType.SatrtPoint },
-				new Waypoint { Address = dest, WaypointType = WaypointType.EndPoint }
+				new Waypoint(WaypointType.SatrtPoint) { Address = from  },
+				new Waypoint(WaypointType.EndPoint) { Address = dest }
 			};
 
 			return GetRouteInfo(options, waypoints);

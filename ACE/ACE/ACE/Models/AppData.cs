@@ -54,21 +54,15 @@ namespace ACE.Models
 		public static Contact ACE {
 			get {
 				if (_ACE == null) {
+					//TODO
 					_ACE = new Contact {
 						ContactType = ContactType.ACE,
 						Name = "ACE",
-						Address = "10162 Bustleton Ave, Philadelphia PA 19116"
+						Address = "10162 Bustleton Ave\nPhiladelphia PA 19116"
 					};
 				}
 				return _ACE;
 			}
-		}
-
-		private static void Clear()
-		{
-			contacts?.Clear();
-			pickups?.Clear();
-			latestPickup.Unset();
 		}
 
 		public static async Task NewContact(Contact newContact, bool save)
@@ -97,74 +91,46 @@ namespace ACE.Models
 		public static async Task NewPickup(Pickup newPickup, bool save)
 		{
 			AddPickup(Pickups, newPickup);
+			AddRouteRun(Route, newPickup);
 
 			if (save) {
 				await SaveAsync();
 			}
 		}
 
-		//public static async Task ReplacePickup(Pickup newPickup, Pickup oldPickup)
-		//{
-		//	AddPickup(Pickups, newPickup, oldPickup);
-
-		//	if (oldPickup == null) {
-		//		var client = GetContactByPhone(newPickup.ClientPhone);
-		//		if (client == null) {
-		//			contacts.Add(newPickup.Client);
-		//		} else {
-		//			AddContactInfo(client, newPickup.Client);
-		//		}
-
-		//		var office = GetContactByPhone(newPickup.OfficePhone);
-		//		if (office == null) {
-		//			contacts.Add(newPickup.Office);
-		//		} else {
-		//			AddContactInfo(office, newPickup.Office);
-		//		}
-		//	}
-
-		//	await SaveAsync();
-
-		//}
-
 		static void AddPickup(ObservableCollection<Pickup> pickups, Pickup newPickup, Pickup oldPickup = null)
 		{
 			Debug.Trace(@class, nameof(AddPickup), "{0}", newPickup);
 			pickups.AddOrReplace(newPickup, oldPickup);
-			//Debug.Print("Pickup {0}: {1}, Count={2}", oldPickup==null ? "added" : "replaced",  newPickup.ClientPhone, Contacts.Count);
 
 			if (!latestPickup.IsSet || newPickup.PickupTime.IsAfter(latestPickup.DateTime)) {
 				latestPickup = newPickup.PickupTime;
 			}
 		}
 
-		//static void AddContactInfo(Contact contact, Contact newContact)
-		//{
-		//	if (newContact.ContactType != contact.ContactType) {
-		//		// TODO
-		//		return;
-		//	}
+		public static async Task ClearSchedule(bool save = true)
+		{
+			route?.Clear();
+			pickups?.Clear();
+			latestPickup.Unset();
 
-		//	if (String.IsNullOrEmpty(contact.Name)) {
-		//		contact.Name = newContact.Name;
-		//	} else if (!String.IsNullOrEmpty(newContact.Name) && newContact.Name != contact.Name) {
-		//		// TODO
-		//		return;
-		//	}
+			if (save) {
+				await SaveAsync();
+			}
+		}
 
-		//	if (String.IsNullOrEmpty(contact.Address)) {
-		//		contact.Address = newContact.Address;
-		//	} else if (!String.IsNullOrEmpty(newContact.Address) && newContact.Address != contact.Address) {
-		//		// TODO
-		//	}
+		public static async Task NewSchedule(DateTime startDate, TimeSpan startTime)
+		{
+			await ClearSchedule(false);
 
-		//	if (String.IsNullOrEmpty(contact.AltPhone)) {
-		//		contact.AltPhone = newContact.AltPhone;
-		//	}
-		//	if (String.IsNullOrEmpty(contact.AltAddress)) {
-		//		contact.AltPhone = newContact.AltAddress;
-		//	}
-		//}
+
+		}
+
+		static void AddRouteRun(Route route, Run run)
+		{
+			route.AddRun(run);
+		}
+
 
 		public static async Task RemovePickup(Pickup pickup)
 		{

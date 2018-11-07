@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Dwares.Druid.Essential;
-
+using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Drums
 {
@@ -27,6 +27,14 @@ namespace Dwares.Drums
 		{
 		}
 
+		public Coordinate(ICoordinate c)
+		{
+			if (c != null) {
+				Latitude = c.Latitude;
+				Longitude = c.Longitude;
+			}
+		}
+
 		#endregion
 
 		#region Public Properties
@@ -37,7 +45,7 @@ namespace Dwares.Drums
 		public new double Latitude {
 			get => base.Latitude;
 			set {
-				if (!double.IsNaN(value) && value <= 90 && value >= -90) {
+				if (IsValidLatitude(value)) {
 					//Only need to keep the first 5 decimal places. Any more just adds more data being passed around.
 					base.Latitude = Math.Round(value, 5, MidpointRounding.AwayFromZero);
 				}
@@ -50,7 +58,7 @@ namespace Dwares.Drums
 		public new double Longitude {
 			get => base.Longitude;
 			set {
-				if (!double.IsNaN(value) && value <= 180 && value >= -180) {
+				if (IsValidLongitude(value)) {
 					//Only need to keep the first 5 decimal places. Any more just adds more data being passed around.
 					Longitude = Math.Round(value, 5, MidpointRounding.AwayFromZero);
 				}
@@ -79,7 +87,7 @@ namespace Dwares.Drums
 		/// <returns>A boolean indicating if the two coordinates are equal.</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj != null && obj is Coordinate c) {
+			if (obj != null && obj is ICoordinate c) {
 				return Equals(c, 6);
 			}
 
@@ -92,7 +100,7 @@ namespace Dwares.Drums
 		/// <param name="c">Coordinate to compare to.</param>
 		/// <param name="decimals">The number of decimal places to compare to.</param>
 		/// <returns>A boolean indicating if the two coordinates are equal.</returns>
-		public bool Equals(Coordinate c, int decimals)
+		public bool Equals(ICoordinate c, int decimals)
 		{
 			return Math.Round(Latitude, decimals) == Math.Round(c.Latitude, decimals) && Math.Round(Longitude, decimals) == Math.Round(c.Longitude, decimals);
 		}
@@ -118,4 +126,5 @@ namespace Dwares.Drums
 			return new GeoPosition { Latitude = c.Latitude, Longitude = c.Longitude };
 		}
 	}
+
 }

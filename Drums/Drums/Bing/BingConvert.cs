@@ -18,15 +18,16 @@ namespace Dwares.Drums.Bing
 
 		public static TimeSpan Duration(double duration, TimeUnitType unit)
 		{
+			TimeSpan result;
 			if (unit == TimeUnitType.Second) {
-				int sec = (int)Math.Truncate(duration);
-				int ms = (int)Math.Truncate((duration - sec) * 1000);
-				return new TimeSpan(0, 0, sec, ms);
+				int sec = (int)Math.Round(duration);
+				result = new TimeSpan(0, 0, 0, sec);
 			} else {
 				int min = (int)Math.Truncate(duration);
 				int sec = (int)Math.Truncate((duration - min) * 60);
-				return new TimeSpan(0, min, sec);
+				result = new TimeSpan(0, 0, min, sec);
 			}
+			return result;
 		}
 
 		public static TravelModeType TravelMode(IRouteOptions options)

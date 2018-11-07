@@ -35,7 +35,7 @@ namespace Dwares.Drums.Bing
 			}
 		}
 
-		Drums.RouteLeg[] legs;
+		readonly Drums.RouteLeg[] legs;
 		public IEnumerable<IRouteLeg> Legs => legs;
 	}
 }

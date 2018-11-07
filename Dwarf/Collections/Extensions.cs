@@ -26,8 +26,7 @@ namespace Dwares.Dwarf.Collections
 
 		public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) where TValue: new()
 		{
-			TValue value;
-			if (!dict.TryGetValue(key, out value)) {
+			if (!dict.TryGetValue(key, out var value)) {
 				value = new TValue();
 				dict.Add(key, value);
 			}

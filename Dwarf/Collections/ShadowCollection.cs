@@ -98,6 +98,15 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
+		protected void ResetShadows()
+		{
+			Clear();
+
+			if (Source != null) {
+				AddShadows(Source);
+			}
+		}
+
 		private void SourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
@@ -117,6 +126,10 @@ namespace Dwares.Dwarf.Collections
 
 			case NotifyCollectionChangedAction.Move:
 				MoveShadows(e.OldStartingIndex, e.NewStartingIndex, e.OldItems.Count);
+				break;
+			
+			default:
+				ResetShadows();
 				break;
 			}
 		}

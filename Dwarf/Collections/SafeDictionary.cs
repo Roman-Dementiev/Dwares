@@ -124,8 +124,7 @@ namespace Dwares.Dwarf.Collections
 
 		public void Set(TKey key, TValue value)
 		{
-			TValue oldValue;
-			if (Set(key, value, out oldValue)) {
+			if (Set(key, value, out var oldValue)) {
 				Release(oldValue);
 			}
 		}
@@ -183,13 +182,13 @@ namespace Dwares.Dwarf.Collections
 
 		public bool Remove(TKey key)
 		{
-			TValue value;
-			if (Remove(key, out value)) {
+			if (Remove(key, out var value)) {
 				if (value is IDisposable disposable) {
 					disposable.Dispose();
 				}
 				return true;
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
@@ -224,8 +223,7 @@ namespace Dwares.Dwarf.Collections
 
 		public void Clear()
 		{
-			Disposables disposables;
-			Clear(out disposables);
+			Clear(out var disposables);
 			disposables?.Dispose();
 		}
 

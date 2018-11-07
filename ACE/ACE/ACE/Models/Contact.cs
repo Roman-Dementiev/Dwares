@@ -86,7 +86,11 @@ namespace ACE.Models
 			}
 		}
 
-		public ICoordinate Coordinate { get; set;  }
+		Coordinate coordinate;
+		public ICoordinate Coordinate {
+			get => coordinate;
+			set => SetProperty(ref coordinate, new Coordinate(value));
+		}
 
 		string altAddress;
 		public string AltAddress {

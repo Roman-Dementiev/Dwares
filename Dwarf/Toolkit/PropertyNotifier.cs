@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -40,9 +41,9 @@ namespace Dwares.Dwarf.Toolkit
 
 		protected bool SetProperty<T>(IValueHolder<T> storage, T value, [CallerMemberName]string propertyName = "")
 		{
-			//if (EqualityComparer<T>.Default.Equals(storage.Value, value))
+			//if (Object.Equals(storage.Value, value))
 			//	return false;
-			if (Object.Equals(storage.Value, value))
+			if (EqualityComparer<T>.Default.Equals(storage.Value, value))
 				return false;
 
 			storage.Value = value;

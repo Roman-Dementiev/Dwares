@@ -6,6 +6,12 @@ namespace Dwares.Drums
 {
 	public class Waypoint : Location, IWaypoint
 	{
-		public WaypointType WaypointType { get; set; }
+		public Waypoint(WaypointType type, ILocation location = null) :
+			base(location)
+		{
+			WaypointType = type;
+		}
+
+		public WaypointType WaypointType { get; }
 	}
 }

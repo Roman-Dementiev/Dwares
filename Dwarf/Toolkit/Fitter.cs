@@ -54,8 +54,7 @@ namespace Dwares.Dwarf.Toolkit
 			}
 			else if (result == ProbeResult.CanExpand && Mode != FitMode.Shrink) {
 				do {
-					TValue newValue;
-					if (!TryExpand(value, out newValue))
+					if (!TryExpand(value, out var newValue))
 						return true;
 
 					result = probe(newValue);

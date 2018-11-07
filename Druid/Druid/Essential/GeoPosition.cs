@@ -1,5 +1,5 @@
 ﻿using System;
-using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Druid.Essential
@@ -30,27 +30,6 @@ namespace Dwares.Druid.Essential
 		// Android: ACCURACY_HI, POWER_HI   (0-100m)
 		// UWP:     High                    (<=10m)
 		Best
-	}
-
-	public class GeoCoordinate
-	{
-		public GeoCoordinate() { }
-
-		public GeoCoordinate(double latitude, double longitude, double? altitude = null)
-		{
-			Latitude = latitude;
-			Longitude = longitude;
-			Altitude = altitude;
-		}
-
-		public double Latitude { get; set; }
-		public double Longitude { get; set; }
-		public double? Altitude { get; set; }
-
-		public override string ToString()
-		{
-			return Strings.Properties(this, skipNull: true);
-		}
 	}
 
 	public class GeoPosition : GeoCoordinate

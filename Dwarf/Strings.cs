@@ -309,8 +309,8 @@ namespace Dwares.Dwarf
 		public static string FirstLine(string str) => FirstPart(str, lineEndings);
 		public static string FirstWord(string str) => FirstPart(str, wordEndings);
 
-		static char[] lineEndings = new char[] { '\n', '\r' }; // TODO
-		static char[] wordEndings = new char[] { ' ', '\t', '\n', '\r' }; // TODO
+		static readonly char[] lineEndings = new char[] { '\n', '\r' }; // TODO
+		static readonly char[] wordEndings = new char[] { ' ', '\t', '\n', '\r' }; // TODO
 	}
 }
  

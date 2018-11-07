@@ -121,6 +121,7 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
+    <Content Include="Images\ACE24.png" />
     <Content Include="Images\ascending.png" />
     <Content Include="Images\descending.png" />
     <Content Include="Images\directions24.png" />
@@ -129,10 +130,14 @@
     <Content Include="Images\e109.png" />
     <Content Include="Images\e10a.png" />
     <Content Include="Images\e10b.png" />
+    <Content Include="Images\e10f.png" />
     <Content Include="Images\e11a.png" />
     <Content Include="Images\e174.png" />
     <Content Include="Images\escort24.png" />
+    <Content Include="Images\home24.png" />
+    <Content Include="Images\office24.png" />
     <Content Include="Images\phone48.png" />
+    <Content Include="Images\van24.png" />
     <Content Include="Images\wheelchair24-1.png" />
     <Content Include="Images\wheelchair24.png" />
     <Content Include="Images\_blank.png" />

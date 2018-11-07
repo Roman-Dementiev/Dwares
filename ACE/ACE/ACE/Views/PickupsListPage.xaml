@@ -19,6 +19,7 @@
 		<ui:ToolbarItemEx Text="Add" Symbol="Add" Writ="AddPickup" />
 		<ui:ToolbarItemEx Text="Edit" Symbol="Edit" Writ="EditPickup" />
 		<ui:ToolbarItemEx Text="Delete" Symbol="Delete" Writ="DeletePickup" />
+		<ui:ToolbarItemEx Order="Secondary" Text="New Schedule" Writ="NewSchedule" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
 	</ContentPage.ToolbarItems>

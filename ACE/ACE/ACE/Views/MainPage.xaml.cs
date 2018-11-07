@@ -36,8 +36,9 @@ namespace ACE.Views
 			}
 
 			foreach (var page in pages) {
-				var navigationPage = new NavigationPage(page);
-				navigationPage.Title = page.Title;
+				var navigationPage = new NavigationPage(page) {
+					Title = page.Title
+				};
 				//navigationPage.Icon = new Xamarin.Forms.OnPlatform<FileImageSource> {  iOS = "tab_feed.png"}
 				Children.Add(navigationPage);
 			}

@@ -148,12 +148,16 @@ namespace ACE.Models
 
 		private static async Task LoadAsync(string filename, Convert convert)
 		{
-			Clear();
+			//	await ClearSchedule();
 
-			var json = await LoadJsonAsync(filename ?? kFilename);
 			var contacts = Contacts;
 			var pickups = Pickups;
+			var route = Route;
 
+			await ClearSchedule(false);
+			contacts.Clear();
+
+			var json = await LoadJsonAsync(filename ?? kFilename);
 			foreach (var rec in json.Contacts) {
 				if (convert != null) {
 					convert.ConvertContact?.Invoke(rec);
@@ -188,7 +192,10 @@ namespace ACE.Models
 				//if (office == null)
 				//	continue;
 
-				AddPickup(pickups, new Pickup(client, office, rec.PickupTime, rec.AppoitmentTime));
+				var pickup = new Pickup(client, office, rec.PickupTime, rec.AppoitmentTime);
+				AddPickup(pickups, pickup);
+				AddRouteRun(route, pickup);
+				
 			}
 
 			if (convert != null) {

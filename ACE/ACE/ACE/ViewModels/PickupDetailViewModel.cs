@@ -38,8 +38,7 @@ namespace ACE.ViewModels
 				wheelchair.Value = source.Wheelchair;
 				escort.Value = source.Escort;
 			} else {
-				ScheduleTime pickup, appoitment;
-				AppData.EstimateNextPickup(out pickup, out appoitment);
+				AppData.EstimateNextPickup(out var pickup, out var appoitment);
 				pickupTime.Value = pickup.TimeSpan;
 				appoitmentTime.Value = appoitment.TimeSpan;
 			}

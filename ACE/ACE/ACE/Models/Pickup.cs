@@ -3,11 +3,12 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Drums;
 
 
 namespace ACE.Models
 {
-	public class Pickup: PropertyNotifier, ISelectable
+	public class Pickup: Run, ISelectable
 	{
 		public Contact Client { get; }
 		public Contact Office { get; }
@@ -37,21 +38,22 @@ namespace ACE.Models
 				skipNull: true);
 		}
 
-		bool isSelected;
-		public bool IsSelected {
-			get => isSelected;
-			set {
-				if (value != isSelected) {
-					isSelected = value;
+		public override string OriginName => ClientName;
+		public override ILocation Origin => Client;
+		public override ScheduleTime? OriginTime => PickupTime;
 
-					PropertiesChanged(
-						nameof(IsSelected),
-						nameof(ShowOfficeInfo),
-						nameof(ShowOfficeName),
-						nameof(ShowOfficeAddress)
-						);
-				}
-			}
+		public override string DestinationName => OfficeName;
+		public override ILocation Destination => Office;
+		public override ScheduleTime? DestinationTime => AppoitmentTime;
+
+		protected override void OnSelectedChanged()
+		{
+			PropertiesChanged(
+				nameof(IsSelected),
+				nameof(ShowOfficeInfo),
+				nameof(ShowOfficeName),
+				nameof(ShowOfficeAddress)
+				);
 		}
 
 		private void Client_PropertyChanged(object sender, PropertyChangedEventArgs e)
