@@ -7,14 +7,13 @@ namespace Dwares.Druid.Essential
 {
 	public abstract class ActionImageSourceBase
 	{
-		public ActionImageSourceBase(string filenameFormat)
+		public ActionImageSourceBase(string filenameFormat = null)
 		{
 			FilenameFormat = filenameFormat;
 		}
 
-		public abstract string Action { get; }
+		//public abstract string Icon { get; }
 		public string FilenameFormat { get; set; }
-
 		public abstract string Filename { get; }
 
 		FileImageSource imageSource;
@@ -33,30 +32,30 @@ namespace Dwares.Druid.Essential
 			UWP = "Images/{0}.png"
 		};
 
-		//public ActionImageSource() : base(null) { }
+		//public ActionImageSource() { }
 
-		public ActionImageSource(string action) :
-			base(DefaultFilenameFormat)
+		//public ActionImageSource(string icon) : this(icon, null) { }
+
+		public ActionImageSource(string icon, string filenameFormat = null) :
+			base(filenameFormat)
 		{
-			Action = action;
+			Icon = icon;
 		}
 
-		//public ActionImageSource(string action, string filenameFormat) :
-		//	base(filenameFormat)
-		//{
-		//	Action = action;
-		//}
-
-		public override string Action { get; }
+		public string Icon { get; }
 
 		public override string Filename {
-			get => String.Format(FilenameFormat, Action);
+			get {
+				var format = FilenameFormat ?? DefaultFilenameFormat;
+				return String.Format(format, Icon);
+			}
 		}
 
-		//FileImageSource imageSource;
-		//public FileImageSource ImageSource => LazyInitializer.EnsureInitialized(ref imageSource,
-		//	() => new FileImageSource { File = Filename });
-
-		//public static implicit operator FileImageSource(ActionImageSource source) => source?.ImageSource;
+		public static ActionImageSource ForIcon(string icon, string filenameFormat = null)
+		{
+			if (String.IsNullOrEmpty(icon))
+				return null;
+			return new ActionImageSource(icon, filenameFormat);
+		}
 	}
 }

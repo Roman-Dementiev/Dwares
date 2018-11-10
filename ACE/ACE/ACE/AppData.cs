@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using Dwares.Dwarf;
+using ACE.Models;
 
-namespace ACE.Models
+namespace ACE
 {
 	public static partial class Extensions
 	{
@@ -36,10 +36,6 @@ namespace ACE.Models
 	{
 		static ClassRef @class = new ClassRef(typeof(AppData));
 
-		static Settings settings = new Settings {
-			CanDeleteCompanyContacts = false
-		};
-
 		static ObservableCollection<Contact> contacts = null;
 		public static ObservableCollection<Contact> Contacts => LazyInitializer.EnsureInitialized(ref contacts);
 
@@ -48,22 +44,16 @@ namespace ACE.Models
 		public static ObservableCollection<Pickup> Pickups => LazyInitializer.EnsureInitialized(ref pickups);
 
 		static Route route = null;
-		public static Route Route => LazyInitializer.EnsureInitialized(ref route, () => new Route(ACE));
+		public static Route Route => LazyInitializer.EnsureInitialized(ref route, () => {
+			//TODO
+			var ACE = new Contact {
+				ContactType = ContactType.ACE,
+				Name = "ACE",
+				Address = "10162 Bustleton Ave\nPhiladelphia PA 19116"
+			};
+			return new Route(ACE);
+		});
 
-		static Contact _ACE = null;
-		public static Contact ACE {
-			get {
-				if (_ACE == null) {
-					//TODO
-					_ACE = new Contact {
-						ContactType = ContactType.ACE,
-						Name = "ACE",
-						Address = "10162 Bustleton Ave\nPhiladelphia PA 19116"
-					};
-				}
-				return _ACE;
-			}
-		}
 
 		public static async Task NewContact(Contact newContact, bool save)
 		{
@@ -110,8 +100,8 @@ namespace ACE.Models
 
 		public static async Task ClearSchedule(bool save = true)
 		{
-			route?.Clear();
-			pickups?.Clear();
+			Route.Clear();
+			Pickups.Clear();
 			latestPickup.Unset();
 
 			if (save) {
@@ -121,9 +111,11 @@ namespace ACE.Models
 
 		public static async Task NewSchedule(DateTime startDate, TimeSpan startTime)
 		{
-			await ClearSchedule(false);
+			if (Pickups.Count > 0 || Route.Count > 0) {
+				await ClearSchedule();
+			}
 
-
+			Route.NewRoute(startDate.Add(startTime));
 		}
 
 		static void AddRouteRun(Route route, Run run)
@@ -135,6 +127,8 @@ namespace ACE.Models
 		public static async Task RemovePickup(Pickup pickup)
 		{
 			if (Pickups.Remove(pickup)) {
+				Route.Remove(pickup.PickupStop);
+				Route.Remove(pickup.DropoffStop);
 				await SaveAsync();
 			}
 		}
@@ -180,13 +174,24 @@ namespace ACE.Models
 			return null;
 		}
 
+		public static Contact GetContact(string name, string phone)
+		{
+			foreach (var contact in Contacts) {
+				if (!String.IsNullOrEmpty(phone) && contact.Phone == phone)
+					return contact;
+				if (!String.IsNullOrEmpty(name) && contact.Name == name)
+					return contact;
+			}
+			return null;
+		}
+
 		public static bool CanDelete(Contact contact)
 		{
 			if (contact == null)
 				return false;
 
 			if (contact.ContactType == ContactType.ACE)
-				return settings.CanDeleteCompanyContacts;
+				return Settings.CanDeleteCompanyContacts;
 
 			return !IsEngaged(contact);
 		}

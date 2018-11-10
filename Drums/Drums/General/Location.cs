@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BingMapsRESTToolkit;
+using System.Threading.Tasks;
 
 
 namespace Dwares.Drums
@@ -24,7 +22,13 @@ namespace Dwares.Drums
 
 		//public string Landmark { get; set; }
 		public string Address { get; set; }
-		public Coordinate Coordinate { get; }
+		public Coordinate Coordinate { get; set; }
 		ICoordinate ILocation.Coordinate => Coordinate;
+
+		public static async Task<Location> GetCurrentLocation()
+		{
+			var coord = await Coordinate.GetCurrentCoordinate();
+			return new Location { Coordinate = coord };
+		}
 	}
 }

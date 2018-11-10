@@ -32,12 +32,9 @@ namespace ACE.ViewModels
 			set => SetProperty(time, value);
 		}
 
-		protected override Task DoAccept()
+		protected override async Task DoAccept()
 		{
-			var route = AppData.Route;
-			route.NewRoute(Date.Add(Time));
-
-			return null;
+			await AppData.NewSchedule(Date, Time);
 		}
 	}
 }

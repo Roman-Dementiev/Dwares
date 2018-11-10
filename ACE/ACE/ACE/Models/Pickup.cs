@@ -41,10 +41,12 @@ namespace ACE.Models
 		public override string OriginName => ClientName;
 		public override ILocation Origin => Client;
 		public override ScheduleTime? OriginTime => PickupTime;
+		public RouteStop PickupStop => OriginStop;
 
 		public override string DestinationName => OfficeName;
 		public override ILocation Destination => Office;
 		public override ScheduleTime? DestinationTime => AppoitmentTime;
+		public RouteStop DropoffStop => DestinationStop;
 
 		protected override void OnSelectedChanged()
 		{

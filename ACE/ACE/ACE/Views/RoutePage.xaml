@@ -6,7 +6,6 @@
 			 x:Name="page">
 
 	<ContentPage.ToolbarItems>
-		<!--<ui:ToolbarItemEx Text="Delete" Symbol="Delete" Writ="DeleteContact" />-->
 		<ui:ToolbarItemEx Order="Secondary" Text="New Schedule" Writ="NewSchedule" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
@@ -36,17 +35,40 @@
 								<RowDefinition Height="*" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 							<StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
 										 Orientation="Vertical"
 										 >
 								<ui:ActionImage Margin="0,6"
-												Action="{Binding Icon}" 
+												Icon="{Binding Icon}" 
+												Command="{Binding ShowDirectionsCommand}"
 												HorizontalOptions="{Binding IconLayout}"
 												/>
-								<Label Text="{Binding EstimatedDuration}"
+								<Label Text="{Binding TimeTillArrive}"
 									   HorizontalOptions="Center"
 									   />
+								<!--<ui:ActionImage Icon="go42" 
+												Command="{Binding GoCommand}"
+												IsVisible="{Binding IsReadyToGo}"
+												HorizontalOptions="Center"
+												/>
+								<ui:ActionImage Icon="here42" 
+												Command="{Binding ArriveCommand}"
+												IsVisible="{Binding IsEnroute}"
+												HorizontalOptions="Center"
+												/>-->
+								<ui:ActionImage Icon="go42" 
+												Writ="GoToNextStop"
+												IsVisible="{Binding IsReadyToGo}"
+												HorizontalOptions="Center"
+												/>
+								<ui:ActionImage Icon="here42" 
+												Writ="ArriveAtNextStop"
+												IsVisible="{Binding IsEnroute}"
+												HorizontalOptions="Center"
+												/>
+
 							</StackLayout>
 							<StackLayout Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
 										 Orientation="Vertical"
@@ -63,18 +85,20 @@
 							<StackLayout Grid.Row="0" Grid.Column="2"
 										 Orientation="Vertical"
 										 >
-								<!--<Label Text="{Binding ScheduledTime}"
-									   IsVisible="True"
-									   />-->
-								<Label Text="{Binding EstimatedArrival}"
+								<Label Text="{Binding ArriveTime}"
 									   IsVisible="True"
 									   />
 							</StackLayout>
 							<Label Grid.Row="1" Grid.Column="2"
-								   Text="{Binding EstimatedDeparture}"
+								   Text="{Binding DepartTime}"
 								   IsVisible="True"
 								   />
-							<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+							<StackLayout Grid.Row="2" Grid.Column="1"
+										 Orientation="Horizontal"
+										 IsVisible="{Binding IsSelected}"
+										 >
+							</StackLayout>
+							<BoxView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
 									 Color="Black"
 									 HeightRequest="1"
 									 />

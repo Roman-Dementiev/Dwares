@@ -125,6 +125,7 @@
     <Content Include="Images\ascending.png" />
     <Content Include="Images\descending.png" />
     <Content Include="Images\directions24.png" />
+    <Content Include="Images\done32.png" />
     <Content Include="Images\e104.png" />
     <Content Include="Images\e107.png" />
     <Content Include="Images\e109.png" />
@@ -134,6 +135,9 @@
     <Content Include="Images\e11a.png" />
     <Content Include="Images\e174.png" />
     <Content Include="Images\escort24.png" />
+    <Content Include="Images\go42.png" />
+    <Content Include="Images\go48.png" />
+    <Content Include="Images\here42.png" />
     <Content Include="Images\home24.png" />
     <Content Include="Images\office24.png" />
     <Content Include="Images\phone48.png" />
@@ -197,10 +201,6 @@
     <ProjectReference Include="..\..\..\Druid\Druid\Druid.csproj">
       <Project>{a953d6bc-0f57-4b96-9f22-36338c57a143}</Project>
       <Name>Druid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Drums\Drums.UWP\Drums.UWP.csproj">
-      <Project>{c03426a1-fdb2-4374-a0b5-1dab38de6eab}</Project>
-      <Name>Drums.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Drums\Drums\Drums.csproj">
       <Project>{ec888482-c21b-4840-aa9a-a401677b15f1}</Project>

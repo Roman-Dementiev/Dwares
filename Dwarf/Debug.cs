@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dwares.Dwarf.Toolkit;
+using System.Runtime.CompilerServices;
 using Dwares.Dwarf.Runtime;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Dwarf
@@ -62,6 +63,22 @@ namespace Dwares.Dwarf
 		{
 			Print(ExceptionCaughtFormat, ex);
 		}
+
+		//[System.Diagnostics.Conditional("DEBUG")]
+		//public static void MethodMessage(string message = null, [CallerMemberName] string method = null)
+		//{
+		//	if (string.IsNullOrWhiteSpace(message)) {
+		//		if (method == null)
+		//			return;
+		//		message = $"[{method}]";
+		//	}
+		//	else {
+		//		if (!string.IsNullOrEmpty(method))
+		//			message = $"[{method}]: {message}";
+		//	}
+			
+		//	System.Diagnostics.Debug.WriteLine(message);
+		//}
 
 		[System.Diagnostics.Conditional("DEBUG")]
 		public static void Print(string message)

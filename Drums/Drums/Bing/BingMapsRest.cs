@@ -1,84 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Druid.Services;
 using BingMapsRESTToolkit;
 
 
 namespace Dwares.Drums.Bing
 {
-	public class BingMapsRest : IMapService
+	public class BingMapsREST : MapService
 	{
-		const string BingMapsKey = "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa";
+		//const string BingMapsKey = "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa";
+		static string bingMapsKey;
+		static string BingMapsKey {
+			get => LazyInitializer.EnsureInitialized(ref bingMapsKey, () => {
+				return Preferences.Get("BingMaps.Key", string.Empty);
+			});
+		}
 
-	//	public async Task Something()
-	//	{
-	//		Debug.Print("BingMapsRest.Something()");
+		public BingMapsREST() : base(nameof(BingMapsREST)) { }
 
-	//		var r = new RouteRequest() {
-	//			RouteOptions = new RouteOptions() {
-	//				Avoid = new List<AvoidType>()
-	//	{
-	//					AvoidType.MinimizeTolls
-	//				},
-	//				TravelMode = TravelModeType.Driving,
-	//				DistanceUnits = DistanceUnitType.Miles,
-	//				Heading = 45,
-	//				RouteAttributes = new List<RouteAttributeType>()
-	//	{
-	//					RouteAttributeType.RoutePath
-	//				},
-	//				Optimize = RouteOptimizationType.TimeWithTraffic
-	//			},
-	//			Waypoints = new List<SimpleWaypoint>()
-	//{
-	//				new SimpleWaypoint(){
-	//					Address = "Seattle, WA"
-	//				},
-	//				new SimpleWaypoint(){
-	//					Address = "Bellevue, WA",
-	//					IsViaPoint = true
-	//				},
-	//				new SimpleWaypoint(){
-	//					Address = "Redmond, WA"
-	//				}
-	//			},
-	//			BingMapsKey = BingMapsKey
-	//		};
-
-	//		await ProcessSomething(r);
-	//	}
-
-	//	private async Task ProcessSomething(BaseRestRequest request)
-	//	{
-	//		try {
-	//			//Execute the request.
-	//			var response = await request.Execute();
-				
-	//			var resourses = response?.ResourceSets;
-	//			if (resourses != null && resourses.Length > 0) {
-	//				var resourceSet = resourses[0];
-	//				var resource = resourceSet.Resources[0];
-	//				Debug.Print("BingMapsRest.ProcessRequest() - resource={0}", resource);
-	//				if (resource is Route route) {
-	//					Debug.Print("TravelDistance = {0}{1} TravelDuration {2}{3} TrafficCongestion={4}",
-	//						route.TravelDistance, route.DistanceUnit,
-	//						route.TravelDuration, route.DurationUnit,
-	//						route.TrafficCongestion
-	//						);
-	//				}
-	//			} else {
-	//				Debug.Print("BingMapsRest.ProcessRequest() - Response is empty");
-	//			}
-	//		}
-	//		catch (Exception ex) {
-	//			Debug.ExceptionCaught(ex);
-	//			//MessageBox.Show(ex.Message);
-	//		}
-	//	}
-
-		public async Task<IRouteInfo> GetRouteInfo(IRouteOptions options, IEnumerable<IWaypoint> waypoints)
+		public override async Task<IRouteInfo> GetRouteInfo(IEnumerable<IWaypoint> waypoints, IRouteOptions options)
 		{
 			var request = new RouteRequest()
 			{
@@ -98,7 +42,11 @@ namespace Dwares.Drums.Bing
 
 			var route = await ProcessRequest<Route>(request);
 
-			return new BingRouteInfo(route);
+			if (route != null) {
+				return new BingRouteInfo(route);
+			} else {
+				return null;
+			}
 		}
 
 

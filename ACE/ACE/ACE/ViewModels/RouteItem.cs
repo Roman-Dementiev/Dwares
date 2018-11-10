@@ -1,9 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Essential;
+using Dwares.Drums;
 using ACE.Models;
+
 
 namespace ACE.ViewModels
 {
@@ -14,16 +17,23 @@ namespace ACE.ViewModels
 			RouteStop = routeStop ?? throw new ArgumentNullException(nameof(routeStop));
 			RouteStop.PropertyChanged += RouteStop_PropertyChanged;
 
-			EstimatedDuration = DurationToString(RouteStop.EstimatedDuration);
+			TimeTillArrive = DurationToString(RouteStop.TimeTillArrive);
 			//EstimatedStart = ScheduleTimeToString(RouteStop.EstimatedStart);
-			EstimatedArrival = ScheduleTimeToString(RouteStop.EstimatedArrival);
-			EstimatedDeparture = ScheduleTimeToString(RouteStop.EstimatedDeparture);
+			ArriveTime = ScheduleTimeToString(RouteStop.ArriveTime);
+			DepartTime = ScheduleTimeToString(RouteStop.DepartTime);
+				
+			ShowDirectionsCommand = new Command(OnShowDirections, CanShowDirections);
+			GoCommand = new Command(OnGo, CanGo);
+			ArriveCommand = new Command(OnArrive, CanArrive);
 		}
 
 		public RouteStop RouteStop { get; }
 
 		public string Icon {
 			get {
+				if (RouteStop.State == RouteStopState.Arrived)
+					return "done32";
+
 				switch (RouteStop.RouteStopType)
 				{
 					case RouteStopType.HomePickup:
@@ -59,28 +69,29 @@ namespace ACE.ViewModels
 		public string Name => RouteStop.Name;
 		public string Address => String.IsNullOrEmpty(RouteStop.Address) ? "???" : RouteStop.Address;
 
-		string estimatedDuration;
-		public string EstimatedDuration {
-			get => estimatedDuration;
-			private set => SetProperty(ref estimatedDuration, value);
+		public RouteStopState State => RouteStop.State;
+		public bool IsReadyToGo => State == RouteStopState.ReadyToGo;
+		public bool IsEnroute => State == RouteStopState.EnRoute;
+		public bool IsArrived => State == RouteStopState.Arrived;
+
+		public bool IsUpdatable => RouteStop.IsUpdatable;
+
+		string timeTillArrive;
+		public string TimeTillArrive {
+			get => timeTillArrive;
+			private set => SetProperty(ref timeTillArrive, value);
 		}
 
-		//string estimatedStart;
-		//public string EstimatedStart {
-		//	get => estimatedStart;
-		//	private set => SetProperty(ref estimatedStart, value);
-		//}
-
-		string estimatedArrival;
-		public string EstimatedArrival {
-			get => estimatedArrival;
-			private set => SetProperty(ref estimatedArrival, value);
+		string arriveTime;
+		public string ArriveTime {
+			get => arriveTime;
+			private set => SetProperty(ref arriveTime, value);
 		}
 
-		string estimatedDeparture;
-		public string EstimatedDeparture {
-			get => estimatedDeparture;
-			private set => SetProperty(ref estimatedDeparture, value);
+		string departTime;
+		public string DepartTime {
+			get => departTime;
+			private set => SetProperty(ref departTime, value);
 		}
 
 		string DurationToString(TimeSpan? duration)
@@ -120,21 +131,25 @@ namespace ACE.ViewModels
 			{
 				PropertiesChanged(nameof(Name), nameof(HasName));
 			}
-			else if (e.PropertyName == nameof(RouteStop.Updating) || e.PropertyName == nameof(RouteStop.EstimatedDuration))
+			else if (e.PropertyName == nameof(RouteStop.State))
 			{
-				EstimatedDuration = DurationToString(RouteStop.EstimatedDuration);
+				PropertiesChanged(nameof(State), nameof(Icon), nameof(IsReadyToGo), nameof(IsEnroute), nameof(IsArrived));
+			}
+			else if (e.PropertyName == nameof(RouteStop.Updating) || e.PropertyName == nameof(RouteStop.TimeTillArrive))
+			{
+				TimeTillArrive = DurationToString(RouteStop.TimeTillArrive);
 			}
 			//else if (e.PropertyName == nameof(RouteStop.EstimatedStart))
 			//{
 			//	EstimatedStart = ScheduleTimeToString(RouteStop.EstimatedStart);
 			//}
-			else if (e.PropertyName == nameof(RouteStop.EstimatedArrival))
+			else if (e.PropertyName == nameof(RouteStop.ArriveTime))
 			{
-				EstimatedArrival = ScheduleTimeToString(RouteStop.EstimatedArrival);
+				ArriveTime = ScheduleTimeToString(RouteStop.ArriveTime);
 			}
-			else if (e.PropertyName == nameof(RouteStop.EstimatedDeparture))
+			else if (e.PropertyName == nameof(RouteStop.DepartTime))
 			{
-				EstimatedDeparture = ScheduleTimeToString(RouteStop.EstimatedDeparture);
+				DepartTime = ScheduleTimeToString(RouteStop.DepartTime);
 			}
 			else {
 				FirePropertyChanged(e.PropertyName);
@@ -148,6 +163,42 @@ namespace ACE.ViewModels
 		//		//TODO
 		//		);
 		//}
+
+		public Command ShowDirectionsCommand { get; }
+		public Command GoCommand { get; }
+		public Command ArriveCommand { get; }
+
+
+		public bool CanShowDirections()
+		{
+			return RouteStop.Location.IsValidLocation() && RouteStop.State != RouteStopState.Arrived;
+		}
+
+		public async void OnShowDirections()
+		{
+			if (CanShowDirections()) {
+				await AppData.Route.ShowDirections(RouteStop);
+			}
+		}
+
+
+		public bool CanGo() => IsReadyToGo;
+
+		public async void OnGo()
+		{
+			if (IsReadyToGo) {
+				await AppData.Route.GoTo(RouteStop);
+			}
+		}
+
+		public bool CanArrive() => IsEnroute;
+
+		public async void OnArrive()
+		{
+			if (IsEnroute) {
+				await AppData.Route.Arrive(RouteStop);
+			}
+		}
 
 	}
 }

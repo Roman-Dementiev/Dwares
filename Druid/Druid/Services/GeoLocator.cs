@@ -16,12 +16,12 @@ namespace Dwares.Druid.Services
 		static DependencyService<IGeoLocator> instance;
 		public static IGeoLocator Instance => DependencyService<IGeoLocator>.GetInstance(ref instance);
 
-		public static async Task<GeoPosition> GetLocation()
+		public static async Task<GeoPosition> GetPosition()
 		{
 			return await Instance.GetPosition();
 		}
 
-		public static async Task<GeoPosition> GetLocation(GeolocationAccuracy accuracy, TimeSpan? timeout = null)
+		public static async Task<GeoPosition> GetPosition(GeolocationAccuracy accuracy, TimeSpan? timeout = null)
 		{
 			return await Instance.GetPosition(accuracy, timeout ?? TimeSpan.Zero);
 		}

@@ -8,6 +8,7 @@ namespace Dwares.Dwarf.Runtime
 	public static class Reflection
 	{
 		public static readonly Type[] cNoParams = new Type[0];
+		public static readonly object[] cNoArgs = new object[0];
 
 		public static TResult EvalForType<TResult>(Type type, Func<Type, TResult> eval) where TResult : class
 		{
@@ -249,7 +250,7 @@ namespace Dwares.Dwarf.Runtime
 			var methodInfo = GetMethod(target, methodName, cNoParams, null, false);
 			if (methodInfo != null) {
 				invoked = true;
-				return methodInfo?.Invoke(target, new object[] { });
+				return methodInfo?.Invoke(target, cNoArgs);
 			} else {
 				invoked = false;
 				return null;

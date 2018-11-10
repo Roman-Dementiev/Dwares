@@ -1,5 +1,5 @@
 ﻿using System;
-//using Dwares.Dwarf;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Runtime;
 using Dwares.Dwarf.Toolkit;
 
@@ -24,13 +24,13 @@ namespace Dwares.Druid.Support
 		public object ExecuteWrit(string writ)
 		{
 			var methodName = ExecuteMethodName(writ);
-			return Invoke(methodName, writ, out var invoked);
+			return Invoke(methodName, out var invoked);
 		}
 
 		public bool CanExecuteWrit(string writ)
 		{
 			var methodName = CanExecuteMethodName(writ);
-			var result = Invoke(methodName, writ, out var invoked);
+			var result = Invoke(methodName, out var invoked);
 			if (!invoked) {
 				return true;
 			}
@@ -42,7 +42,7 @@ namespace Dwares.Druid.Support
 			}
 		}
 
-		protected object Invoke(string methodName, string writ, out bool invoked)
+		protected object Invoke(string methodName, out bool invoked)
 		{
 			for (var target = Target; target != null; target = Descendant.GetParent(target))
 			{

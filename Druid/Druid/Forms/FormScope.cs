@@ -49,7 +49,7 @@ namespace Dwares.Druid.Forms
 		}
 
 
-		public virtual async void OnAccept()
+		public virtual async Task OnAccept()
 		{
 			bool valid = await Validate();
 			if (!valid)
@@ -63,7 +63,7 @@ namespace Dwares.Druid.Forms
 			await Navigator.PopPage();
 		}
 
-		public virtual async void OnCancel()
+		public virtual async Task OnCancel()
 		{
 			await OnDismiss();
 		}

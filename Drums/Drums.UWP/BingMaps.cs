@@ -21,7 +21,7 @@ namespace Dwares.Drums.UWP
 		}
 	}
 
-	public class BingMapsRest : Dwares.Drums.Bing.BingMapsRest
+	public class BingMapsRest : Dwares.Drums.Bing.BingMapsREST
 	{
 
 	}

@@ -1,6 +1,8 @@
 ﻿using System;
 using Dwares.Druid.Support;
+using Dwares.Druid.Services;
 using Dwares.Dwarf;
+using Dwares.Drums;
 using ACE.Models;
 using ACE.Views;
 
@@ -14,6 +16,12 @@ namespace ACE
 		public AppScope() : 
 			base(null)
 		{
+			Preferences.DefaultShare = "Dwares.ACE";
+			Preferences.Set("BingMaps.Key", "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa");
+			Maps.InitAll();
+			//Maps.InitDefault();
+			Settings.SelectMaps();
+
 			Debug.EnableTracing(@class);
 		}
 
@@ -30,6 +38,7 @@ namespace ACE
 			Debug.Trace(@class, nameof(OnSettings));
 
 			var page = new SettingsPage();
+			//var page = new SettingsTabsPage();
 			await Navigator.PushModal(page);
 		}
 

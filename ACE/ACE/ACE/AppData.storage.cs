@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Dwares.Dwarf;
 using Dwares.Druid.Services;
+using ACE.Models;
 
 
-namespace ACE.Models
+namespace ACE
 {
 	public static partial class AppData
 	{
@@ -36,8 +37,10 @@ namespace ACE.Models
 
 		class PickupRec
 		{
+			public string ClientName { get; set; }
 			public string ClientPhone { get; set; }
 			public string OfficeName { get; set; }
+			public string OfficePhone { get; set; }
 			public DateTime PickupTime { get; set; }
 			public DateTime AppoitmentTime { get; set; }
 		}
@@ -184,11 +187,11 @@ namespace ACE.Models
 					convert.ConvertPickup?.Invoke(rec);
 				}
 
-				var client = AppData.GetContactByPhone(rec.ClientPhone);
+				var client = GetContact(rec.ClientName, rec.ClientPhone);
 				if (client == null)
 					continue;
 
-				var office = AppData.GetContactByName(rec.OfficeName);
+				var office = GetContact(rec.OfficeName, rec.OfficeName);
 				//if (office == null)
 				//	continue;
 
@@ -227,8 +230,10 @@ namespace ACE.Models
 			for (int i = 0; i < pickupCount; i++) {
 				var p = AppData.Pickups[i];
 				pickups[i] = new PickupRec {
+					ClientName = p.ClientName,
 					ClientPhone = p.Client.Phone,
-					OfficeName = p.Office.Phone,
+					OfficeName = p.Office.Name,
+					OfficePhone = p.Office.Phone,
 					PickupTime = p.PickupTime,
 					AppoitmentTime = p.AppoitmentTime
 				};

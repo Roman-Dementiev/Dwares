@@ -12,15 +12,21 @@ namespace Dwares.Druid.Essential
 			UWP = "Images/{1:x4}.png"
 		};
 
-		public SumbolImageSource(SymbolEx symbol) :
-			base(DefaultFilenameFormat)
+		public SumbolImageSource(SymbolEx symbol, string filenameFormat = null) :
+			base(filenameFormat)
 		{
 			Symbol = symbol;
 		}
 
 		public SymbolEx Symbol { get; }
-		public override string Action => Symbol.Name();
-		public override string Filename => String.Format(FilenameFormat, Symbol, (int)Symbol);
+		//public override string Icon => Symbol.Name();
+
+		public override string Filename {
+			get {
+				var format = FilenameFormat ?? DefaultFilenameFormat;
+				return String.Format(format, Symbol, (int)Symbol);
+			}
+		}
 	}
 
 }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Globalization;
-using Dwares.Druid.Essential;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Druid.Essential;
+using Dwares.Druid.Services;
+
 
 namespace Dwares.Drums
 {
@@ -124,6 +127,12 @@ namespace Dwares.Drums
 		public static implicit operator GeoPosition(Coordinate c)
 		{
 			return new GeoPosition { Latitude = c.Latitude, Longitude = c.Longitude };
+		}
+
+		public static async Task<Coordinate> GetCurrentCoordinate()
+		{
+			var geoPosition = await GeoLocator.GetPosition();
+			return new Coordinate(geoPosition.Latitude, geoPosition.Longitude);
 		}
 	}
 

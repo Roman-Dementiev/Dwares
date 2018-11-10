@@ -15,6 +15,14 @@ namespace ACE.Models
 		OfficeDropoff
 	}
 
+	public enum RouteStopState
+	{
+		Pending,
+		ReadyToGo,
+		EnRoute,
+		Arrived
+	}
+
 	public class RouteStop: PropertyNotifier
 	{
 		public static readonly TaskQueue Updates = new TaskQueue();
@@ -22,19 +30,30 @@ namespace ACE.Models
 		public RouteStop(RouteStopType type, string name, ILocation location, ILocation origin, ScheduleTime? scheduledTime)
 		{
 			RouteStopType = type;
+			State = RouteStopState.Pending;
 			Name = name;
 			Origin = origin;
 			Location = location ?? throw new ArgumentNullException(nameof(Location));
 			ScheduledTime = scheduledTime;
 		}
 
-		public RouteStopType RouteStopType { get; }
-
 		public string Name { get; }
+		public ILocation Location { get; }
 		public string Address => Location.Address;
 
-		public ILocation Origin { get; }
-		public ILocation Location { get; }
+		public RouteStopType RouteStopType { get; }
+		
+		RouteStopState state;
+		public RouteStopState State {
+			get => state;
+			set => SetProperty(ref state, value);
+		}
+
+		ILocation origin;
+		public ILocation Origin {
+			get => origin;
+			set => SetProperty(ref origin, value);
+		}
 
 		ScheduleTime? scheduledTime;
 		public ScheduleTime? ScheduledTime {
@@ -42,46 +61,39 @@ namespace ACE.Models
 			set => SetProperty(ref scheduledTime, value);
 		}
 
-		TimeSpan? estimatedDuration;
-		public TimeSpan? EstimatedDuration {
-			get => estimatedDuration;
-			set => SetProperty(ref estimatedDuration, value);
+		ScheduleTime? startTime;
+		public ScheduleTime? SrartTime {
+			get => startTime;
+			set => SetProperty(ref startTime, value);
 		}
 
-		//ScheduleTime? estimatedStart;
-		//public ScheduleTime? EstimatedStart {
-		//	get => estimatedStart;
-		//	set => SetProperty(ref estimatedStart, value);
+		TimeSpan? timeTillArrive;
+		public TimeSpan? TimeTillArrive {
+			get => timeTillArrive;
+			set => SetProperty(ref timeTillArrive, value);
+		}
+
+
+		ScheduleTime? arriveTime;
+		public ScheduleTime? ArriveTime {
+			get => arriveTime;
+			set => SetProperty(ref arriveTime, value);
+		}
+
+		ScheduleTime? departTime;
+		public ScheduleTime? DepartTime {
+			get => departTime;
+			set => SetProperty(ref departTime, value);
+		}
+
+		//ScheduleTime? actualStart;
+		//public ScheduleTime? ActualStart {
+		//	get => actualStart;
+		//	set => SetProperty(ref actualStart, value);
 		//}
-
-		ScheduleTime? estimatedArrival;
-		public ScheduleTime? EstimatedArrival {
-			get => estimatedArrival;
-			set => SetProperty(ref estimatedArrival, value);
-		}
-
-		ScheduleTime? estimatedDeparture;
-		public ScheduleTime? EstimatedDeparture {
-			get => estimatedDeparture;
-			set => SetProperty(ref estimatedDeparture, value);
-		}
-
-		public bool Started => ActualStart != null;
-		public ScheduleTime? ActualStart { get; private set; }
 
 		//public TimeSpan? RemaningTime{ get; }
 	
-		public void Start()
-		{
-			if (Started)
-				return;
-
-			ActualStart = ScheduleTime.Now;
-			PropertiesChanged(nameof(Started), nameof(ActualStart));
-
-			// TODO
-		}
-
 		public bool IsUpdatable {
 			get => Origin?.IsValidLocation() == true && Location.IsValidLocation();
 		}
@@ -101,9 +113,9 @@ namespace ACE.Models
 		private async void Update()
 		{
 			if (IsUpdatable) {
-				var info = await Drum.GetRouteInfo(Origin, Location);
+				var info = await Maps.GetRouteInfo(Origin, Location);
 				if (info != null) {
-					EstimatedDuration = info.TravelTime;
+					TimeTillArrive = info.TravelTime;
 					AppData.Route.OnStopUpdated(this);
 				}
 			}
@@ -117,5 +129,6 @@ namespace ACE.Models
 				UpdateId = Updates.AddTask(Update);
 			}
 		}
+
 	}
 }

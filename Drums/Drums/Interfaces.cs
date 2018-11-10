@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Drums
-{
+{using Dwares.Dwarf.Collections;
 	public enum TravelMode
 	{
 		Driving,
@@ -84,15 +85,17 @@ namespace Dwares.Drums
 		IEnumerable<IRouteLeg> Legs { get; }
 	}
 
-	public interface IMapService
+	public interface IMapService : INameHolder
 	{
-		Task<IRouteInfo> GetRouteInfo(IRouteOptions options, IEnumerable<IWaypoint> waypoints);
+		Task<IRouteInfo> GetRouteInfo(IEnumerable<IWaypoint> waypoints, IRouteOptions options);
 	}
 
-	public interface IMapApplication
+	public interface IMapApplication : INameHolder
 	{
 		Task OpenAddress(string address);
 		Task OpenDirections(string from, string dest);
+	
+		Task OpenDirections(ILocation from, ILocation dest, IRouteOptions options);
 	}
 
 

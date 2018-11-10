@@ -211,10 +211,10 @@ namespace ACE.Models
 		{
 			string address = Address;
 
-			var info = await Drum.GetRouteInfo("4143 Paul St Philadelphia PA 19124", address);
+			var info = await Maps.GetRouteInfo("4143 Paul St Philadelphia PA 19124", address);
 			Debug.Print("Contact.Directions(): RouteInfo={0}", info);
 
-			await Drum.OpenDirections(null, address);
+			await Maps.OpenDirections(null, address);
 		}
 
 			public bool NeedUpdate(string newName = null, string newAddress = null)

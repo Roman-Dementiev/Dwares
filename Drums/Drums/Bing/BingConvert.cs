@@ -50,7 +50,7 @@ namespace Dwares.Drums.Bing
 		{
 			var optimization = options?.Optimization;
 			if (optimization == null || optimization == Drums.Optimization.Default) {
-				optimization = Drum.Instance.DefaultOptions.Optimization;
+				optimization = Maps.DefaultOptions.Optimization;
 			}
 
 			switch (optimization)
@@ -71,7 +71,7 @@ namespace Dwares.Drums.Bing
 		public static List<AvoidType> Avoid(IRouteOptions options)
 		{
 			if (options == null) {
-				options = Drum.Instance.DefaultOptions;
+				options = Maps.DefaultOptions;
 			}
 
 			var list = new List<AvoidType>();

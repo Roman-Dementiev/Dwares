@@ -8,21 +8,21 @@ namespace Dwares.Druid.UI
 {
 	public class ButtonEx : Button, ICommandHolder
 	{
+		WritMixin wmix;
+
 		public ButtonEx()
 		{
-			writ = new WritMixin(this);
+			wmix = new WritMixin(this);
 		}
 
-		WritMixin writ;
-
 		public WritCommand WritCommand {
-			get => writ.WritCommand;
-			set => writ.WritCommand = value;
+			get => wmix.WritCommand;
+			set => wmix.WritCommand = value;
 		}
 
 		public string Writ {
-			get => writ.Writ;
-			set => writ.Writ = value;
+			get => wmix.Writ;
+			set => wmix.Writ = value;
 		}
 	}
 }

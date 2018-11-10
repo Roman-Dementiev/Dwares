@@ -40,7 +40,16 @@ namespace Dwares.Druid.Support
 		}
 
 		public static string Platform => Instance.Platform;
+		public static bool Is_iOS => Platform == Device.iOS;
+		public static bool Is_UWP => Platform == Device.UWP;
+		public static bool Is_Android => Platform == Device.Android;
+
 		public static TargetIdiom Idiom => Instance.Idiom;
+		public static bool IsPhone = Idiom == TargetIdiom.Phone;
+		public static bool IsTablet = Idiom == TargetIdiom.Tablet;
+		public static bool IsDesktop = Idiom == TargetIdiom.Desktop;
+		public static bool IsTV = Idiom == TargetIdiom.TV;
+
 		//public static DeviceInfo Info => Instance.Info;
 		public static Size PixelScreenSize => Instance.PixelScreenSize;
 		public static Size ScaledScreenSize => Instance.ScaledScreenSize;

@@ -5,8 +5,6 @@ using ACE.Views;
 using ACE.Models;
 using Dwares.Dwarf;
 using Dwares.Druid.Support;
-//using Dwares.Drums;
-//using Dwares.Drums.Bing;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
