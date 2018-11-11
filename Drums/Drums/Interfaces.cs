@@ -5,7 +5,7 @@ using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Drums
-{using Dwares.Dwarf.Collections;
+{
 	public enum TravelMode
 	{
 		Driving,

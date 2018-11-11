@@ -40,7 +40,7 @@ namespace ACE
 
 		protected override async void OnStart()
 		{
-			await AppData.LoadAsync();
+			await AppStorage.LoadAsync();
 		}
 
 		protected override void OnSleep()

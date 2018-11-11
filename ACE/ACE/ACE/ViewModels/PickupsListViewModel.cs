@@ -12,7 +12,7 @@ namespace ACE.ViewModels
 	public class PickupsListViewModel: CollectionViewModel<Pickup>
 	{
 		public PickupsListViewModel() :
-			base(AppScope, AppData.Pickups)
+			base(AppScope, AppData.Schedule)
 		{
 		}
 
@@ -32,7 +32,9 @@ namespace ACE.ViewModels
 
 		public async void OnDeletePickup()
 		{
-			await AppData.RemovePickup(Selected);
+			if (AppData.Schedule.Remove(Selected)) {
+				await AppStorage.SaveAsync();
+			}
 		}
 
 		public bool CanDeletePickup() => HasSelected();

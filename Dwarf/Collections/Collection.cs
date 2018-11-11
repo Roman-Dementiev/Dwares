@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
 
 namespace Dwares.Dwarf.Collections
 {
@@ -96,6 +96,18 @@ namespace Dwares.Dwarf.Collections
 		//	}
 		//	return array;
 		//}
+
+		public static void AddOrReplace<T>(this IList<T> collection, T newItem, T oldItem)
+		{
+			int index = collection.IndexOf(oldItem);
+			if (index >= 0) {
+				collection.RemoveAt(index);
+				collection.Insert(index, newItem);
+			}
+			else {
+				collection.Add(newItem);
+			}
+		}
 
 		// TODO
 		public static int BinarySearch<T>(ICollection<T> collection, T item, IComparer<T> comparer)

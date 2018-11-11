@@ -20,7 +20,7 @@ namespace ACE.ViewModels
 			TimeTillArrive = DurationToString(RouteStop.TimeTillArrive);
 			//EstimatedStart = ScheduleTimeToString(RouteStop.EstimatedStart);
 			ArriveTime = ScheduleTimeToString(RouteStop.ArriveTime);
-			DepartTime = ScheduleTimeToString(RouteStop.DepartTime);
+			DepartTime = ScheduleTimeToString(RouteStop.LeaveTime);
 				
 			ShowDirectionsCommand = new Command(OnShowDirections, CanShowDirections);
 			GoCommand = new Command(OnGo, CanGo);
@@ -99,7 +99,7 @@ namespace ACE.ViewModels
 			if (duration == null) {
 				if (RouteStop.Origin == null) {
 					return String.Empty;
-				} else if (RouteStop.Updating) {
+				} else if (RouteStop.TimeTillArrive == null) {
 					return StdGlyph.BlackHourglass;
 				} else {
 					return"-";
@@ -135,7 +135,7 @@ namespace ACE.ViewModels
 			{
 				PropertiesChanged(nameof(State), nameof(Icon), nameof(IsReadyToGo), nameof(IsEnroute), nameof(IsArrived));
 			}
-			else if (e.PropertyName == nameof(RouteStop.Updating) || e.PropertyName == nameof(RouteStop.TimeTillArrive))
+			else if (e.PropertyName == nameof(RouteStop.TimeTillArrive))
 			{
 				TimeTillArrive = DurationToString(RouteStop.TimeTillArrive);
 			}
@@ -147,9 +147,9 @@ namespace ACE.ViewModels
 			{
 				ArriveTime = ScheduleTimeToString(RouteStop.ArriveTime);
 			}
-			else if (e.PropertyName == nameof(RouteStop.DepartTime))
+			else if (e.PropertyName == nameof(RouteStop.LeaveTime))
 			{
-				DepartTime = ScheduleTimeToString(RouteStop.DepartTime);
+				DepartTime = ScheduleTimeToString(RouteStop.LeaveTime);
 			}
 			else {
 				FirePropertyChanged(e.PropertyName);

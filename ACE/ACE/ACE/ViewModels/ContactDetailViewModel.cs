@@ -63,7 +63,7 @@ namespace ACE.ViewModels
 					Comment = this.Comment
 				};
 
-				await AppData.NewContact(newContact, false);
+				AppData.Contacts.Add(newContact);
 			} else {
 				Source.Name = this.Name;
 				Source.Phone = this.Phone;
@@ -73,7 +73,7 @@ namespace ACE.ViewModels
 				Source.Comment = this.Comment;
 			}
 
-			await AppData.SaveAsync();
+			await AppStorage.SaveAsync();
 		}
 	}
 }

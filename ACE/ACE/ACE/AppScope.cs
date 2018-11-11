@@ -17,6 +17,7 @@ namespace ACE
 			base(null)
 		{
 			Preferences.DefaultShare = "Dwares.ACE";
+			//Preferences.Clear();
 			Preferences.Set("BingMaps.Key", "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa");
 			Maps.InitAll();
 			//Maps.InitDefault();
@@ -46,24 +47,25 @@ namespace ACE
 		{
 			Debug.Trace(@class, nameof(OnBackup));
 
-			await AppData.BackupAsync();
+			await AppStorage.BackupAsync();
 		}
 
 		public async void OnRestore()
 		{
 			Debug.Trace(@class, nameof(OnRestore));
 
-			await AppData.RestoreAsync();
+			await AppStorage.RestoreAsync();
 		}
 
 		public async void OnNewSchedule()
 		{
 			Debug.Trace(@class, nameof(OnNewSchedule));
 
-			if (AppData.Pickups.Count > 0) {
+			if (AppData.Schedule.Count > 0) {
 				bool clear = await Alerts.ConfirmAlert("Current schedule is not empty\n.Do you want to clear it?");
 				if (clear) {
-					await AppData.ClearSchedule();
+					AppData.Schedule.Clear();
+					await AppStorage.SaveAsync();
 				} else
 					return;
 			}

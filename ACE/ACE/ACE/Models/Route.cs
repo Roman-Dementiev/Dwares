@@ -29,6 +29,7 @@ namespace ACE.Models
 		public RouteStop LastStop => Collection.Last((IList<RouteStop>)this);
 		public ILocation LastLocation => LastStop?.Location;
 
+		public RouteStop ArrivedStop { get; set; }
 		// ReadyToGo or EnRoute
 		public RouteStop NextStop { get; set; }
 
@@ -36,7 +37,7 @@ namespace ACE.Models
 		{
 			Clear();
 			StartTime = startTime;
-			StartStop.DepartTime = null;
+			StartStop.LeaveTime = null;
 			StartStop.State = RouteStopState.ReadyToGo;
 			NextStop = StartStop;
 			Add(StartStop);
@@ -47,10 +48,10 @@ namespace ACE.Models
 			base.Clear();
 		}
 
-		public new void Add(RouteStop routeStop)
+		public new async void Add(RouteStop routeStop)
 		{
 			base.Add(routeStop);
-			routeStop.EnqueueUpdate();
+			await Update();
 		}
 
 		public new void Remove(RouteStop routeStop)
@@ -62,15 +63,54 @@ namespace ACE.Models
 			if (index < 0)
 				return;
 
-			RemoveAt(index);
+			RemoveRange(index, 1);
 		}
 
 		public new void RemoveAt(int index)
 		{
-			base.RemoveAt(index);
+			if (index >= 0 && index < Count) {
+				RemoveRange(index, 1);
+			}
+		}
 
-			#error TODO
-			RecalculateTimes(index);
+		public void RemoveStops(RouteStop firstStop, RouteStop secondStop)
+		{
+			int index = IndexOf(firstStop);
+			if (index > 0) {
+				if (index < Count-1 && this[index+1] == secondStop) {
+					RemoveRange(index, 2);
+					return;
+				}
+				RemoveRange(index, 1);
+			}
+
+			Remove(secondStop);
+		}
+
+		private void RemoveRange(int firstIndex, int count)
+		{
+			Debug.Assert(firstIndex >= 0 && count > 0 && firstIndex+count <= Count);
+
+			for (int i = 0; i < count; i++) {
+				base.RemoveAt(firstIndex);
+			}
+
+			ResetEstimations(firstIndex);
+		}
+
+		private void ResetEstimations(int srartIndex)
+		{
+			for (int i = srartIndex; i < Count; i++) {
+				var stop = this[i];
+				var state = stop.State;
+
+				if (state < RouteStopState.EnRoute)
+					stop.StartTime = null;
+				if (state < RouteStopState.Arrived)
+					stop.ArriveTime = null;
+				if (state < RouteStopState.Left)
+					stop.LeaveTime = null;
+			}
 		}
 
 		public async void AddRun(Run run, bool update = true)
@@ -78,8 +118,8 @@ namespace ACE.Models
 			if (StartTime == null) {
 				StartTime = DateTime.Now;
 			}
-			if (StartStop.DepartTime == null) {
-				StartStop.DepartTime = StartTime;
+			if (StartStop.LeaveTime == null) {
+				StartStop.LeaveTime = (DateTime)StartTime;
 			}
 			if (Count == 0) {
 				StartStop.State = RouteStopState.ReadyToGo;
@@ -96,69 +136,162 @@ namespace ACE.Models
 			run.DestinationStop = dropoffStop;
 
 			if (update) {
-				await RouteStop.Updates.Run();
+				await Update();
 			}
 		}
 
-		public void OnStopUpdated(RouteStop stop)
+		bool needUpdateAll;
+		bool updating;
+
+		public async Task Update(bool updateAll = false)
 		{
-			int index = IndexOf(stop);
-			if (index <= 0)
+			needUpdateAll |= updateAll;
+			if (updating)
 				return;
 
-			RecalculateTimes(index);
+			updating = true;
+			try {
+				await RunUpdate(false);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+			}
+			finally {
+				updating = false;
+				needUpdateAll = false;
+			}
 		}
 
-		//Suspender recalcilateSuspender;
-		//int recalculateFromIndex = 0;
-
-		//public void SuspendRecalculate() => recalcilateSuspender.Suspend();
-		//public void ResumeRecalculate() => recalcilateSuspender.Resume();
-
-		//void RequestRecalculate(int fromIndex = 1)
-		//{
-		//	Debug.Assert(fromIndex > 0 && fromIndex < Count);
-
-		//	if (recalculateFromIndex == 0 || fromIndex < recalculateFromIndex) {
-		//		recalculateFromIndex = fromIndex;
-		//	}
-		//	recalcilateSuspender.RequestAction();
-		//}
-
-		public void UpdateEstimations(bool recalculate = true)
+		public void UpdateEstimations(bool update = true)
 		{
 			AddDrivingTime = new TimeSpan(0, Settings.AddDrivingTime, 0);
 			AddDrivingTimeWithTrafic = new TimeSpan(0, Settings.AddDrivingTimeWithTrafic, 0);
 			DefaultStopTime = new TimeSpan(0, Settings.DefaultStopTime, 0);
 			WheelchairStopTime = new TimeSpan(0, Settings.WheelchairStopTime, 0);
 
-			if (recalculate) {
-				RecalculateTimes();
+			if (update) {
+				var task = RunUpdate(true);
+				Debug.Assert(task.IsCompleted);
 			}
 		}
 
-		void RecalculateTimes(int fromIndex = 1)
+		private async Task RunUpdate(bool estimateOnly)
 		{
-			if (fromIndex <= 0 || fromIndex >= Count)
-				return;
+			bool repeat;
+			do {
+				bool forceUpdates;
+				if (estimateOnly) {
+					forceUpdates = false;
+				} else {
+					forceUpdates = needUpdateAll;
+					needUpdateAll = false;
+				}
+				repeat = false;
 
-			var index = fromIndex;
-			var stop = this[index];
-			var departure = this[index-1].DepartTime;
-			while (departure != null && stop.TimeTillArrive != null) {
-				var arrival = new ScheduleTime((ScheduleTime)departure, (TimeSpan)stop.TimeTillArrive);
-				departure = new ScheduleTime(arrival, DefaultStopTime);
-				// TODO: adjust departure to RouteStop.SheduledTime and wheelchair
+				int index;
+				ScheduleTime? startTme = null;
+				if (ArrivedStop != null) {
+					index = IndexOf(ArrivedStop);
+					Debug.Assert(index >= 0);
 
-				stop.ArriveTime = arrival;
-				stop.DepartTime = departure;
+					startTme = ArrivedStop.LeaveTime;
+					index++;
+				}
+				else if (NextStop != null) {
+					index = IndexOf(NextStop);
+					Debug.Assert(index >= 0);
 
-				if (++index == Count)
-					break;
-				stop = this[index];
+					startTme = NextStop.StartTime;
+				} else {
+					Debug.Fail();
+					index = 0;
+				}
+
+				for  ( ; index < Count; index++)
+				{
+					var stop = this[index];
+					if (stop.State >= RouteStopState.Arrived) {
+						Debug.Fail();
+						startTme = stop.LeaveTime;
+						continue;
+					}
+
+					if (stop.StartTime == null) {
+						stop.StartTime = startTme;
+					}
+
+					bool updated = false;
+					if (!estimateOnly) {
+						if (forceUpdates || stop.TimeTillArrive == null || stop.State == RouteStopState.EnRoute) {
+							updated = await stop.UpdateTimeTillArrive();
+							if (updated) {
+								stop.ArriveTime = null;
+								stop.LeaveTime = null;
+
+								ResetEstimations(index+1);
+								//for (int i = index+1; i < Count; i++) {
+								//	var s = this[i];
+								//	s.StartTime = null;
+								//	s.ArriveTime = null;
+								//	s.LeaveTime = null;
+								//}
+							}
+						}
+					}
+
+					if ((estimateOnly || stop.ArriveTime == null) && StartTime != null && stop.TimeTillArrive != null) {
+						stop.ArriveTime = new ScheduleTime((ScheduleTime)StartTime, (TimeSpan)stop.TimeTillArrive);
+					}
+
+					if ((estimateOnly || stop.LeaveTime == null) && stop.ArriveTime != null) {
+						var defaultStopTime = new TimeSpan(0, Settings.DefaultStopTime, 0);
+						stop.LeaveTime = new ScheduleTime((ScheduleTime)stop.ArriveTime, defaultStopTime);
+						// TODO: adjust departure to RouteStop.SheduledTime and wheelchair
+					}
+
+
+					if (updated || needUpdateAll) {
+						repeat = true;
+						break;
+					}
+
+					startTme = stop.LeaveTime;
+				}
 			}
-
+			while (repeat);
 		}
+
+		//public void OnStopUpdated(RouteStop stop)
+		//{
+		//	int index = IndexOf(stop);
+		//	if (index <= 0)
+		//		return;
+
+		//	RecalculateTimes(index);
+		//}
+
+		//void RecalculateTimes(int fromIndex = 1)
+		//{
+		//	if (fromIndex <= 0 || fromIndex >= Count)
+		//		return;
+
+		//	var index = fromIndex;
+		//	var stop = this[index];
+		//	var departure = this[index-1].LeaveTime;
+		//	while (departure != null && stop.TimeTillArrive != null) {
+		//		var arrival = new ScheduleTime((ScheduleTime)departure, (TimeSpan)stop.TimeTillArrive);
+		//		departure = new ScheduleTime(arrival, DefaultStopTime);
+		//		// TODO: adjust departure to RouteStop.SheduledTime and wheelchair
+
+		//		stop.ArriveTime = arrival;
+		//		stop.LeaveTime = departure;
+
+		//		if (++index == Count)
+		//			break;
+		//		stop = this[index];
+		//	}
+
+		//}
 
 		public async Task ShowDirections(RouteStop stop)
 		{
@@ -196,25 +329,15 @@ namespace ACE.Models
 			if (index < 0 || stop.State != RouteStopState.ReadyToGo)
 				return;
 
-			stop.SrartTime = ScheduleTime.Now;
+			ArrivedStop = null;
+			stop.StartTime = ScheduleTime.Now;
 			stop.State = RouteStopState.EnRoute;
 
-			ILocation from;
 			if (index > 0) {
 				var prevStop = this[index-1];
-				prevStop.DepartTime = stop.SrartTime;
-				from = prevStop.Location;
-			} else {
-				from = null;
+				prevStop.State = RouteStopState.Left;
+				prevStop.LeaveTime = stop.StartTime;
 			}
-			if (from == null) {
-				from = await Location.GetCurrentLocation();
-			}
-
-			var dest = stop.Location;
-			if (dest == null)
-				return;
-			// TODO
 		}
 
 		public async Task Arrive(RouteStop stop)
@@ -223,15 +346,29 @@ namespace ACE.Models
 			if (index < 0 || stop.State != RouteStopState.EnRoute)
 				return;
 
-			stop.ArriveTime = ScheduleTime.Now;
+			var now = ScheduleTime.Now;
+			ArrivedStop = stop;
+			stop.ArriveTime = now;
 			stop.State = RouteStopState.Arrived;
+			stop.LeaveTime = EstimateLeaveTime(now);
 
-			if (index < Count-1) {
-				NextStop = this[index+1];
+			if (++index < Count) {
+				NextStop = this[index];
 				NextStop.State = RouteStopState.ReadyToGo;
+				NextStop.StartTime = stop.LeaveTime;
 			} else {
 				NextStop = null;
 			}
+
+			await Update();
+		}
+
+		public ScheduleTime EstimateLeaveTime(ScheduleTime arriveTime)
+		{
+			var leaveTime = new ScheduleTime(arriveTime, DefaultStopTime);
+			// TODO: adjust departure to RouteStop.SheduledTime and wheelchair
+
+			return leaveTime;
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace ACE.ViewModels
 				wheelchair.Value = source.Wheelchair;
 				escort.Value = source.Escort;
 			} else {
-				AppData.EstimateNextPickup(out var pickup, out var appoitment);
+				AppData.Schedule.EstimateNextPickup(out var pickup, out var appoitment);
 				pickupTime.Value = pickup.TimeSpan;
 				appoitmentTime.Value = appoitment.TimeSpan;
 			}
@@ -153,8 +153,8 @@ namespace ACE.ViewModels
 
 		public void UpdateAutoSuggestions()
 		{
-			var clients = AppData.GetClients();
-			var offices = AppData.GetOffices();
+			var clients = AppData.Contacts.GetClients();
+			var offices = AppData.Contacts.GetOffices();
 			ClientNameSuggestions = GetNameSuggestions(clients);
 			OfficeNameSuggestions = GetNameSuggestions(offices);
 			ClientPhoneSuggestions = GetPhoneSuggestions(clients);
@@ -188,14 +188,14 @@ namespace ACE.ViewModels
 			bool valid = await base.Validate();
 
 			if (valid  && Source == null) {
-				var client = AppData.GetContactByPhone(ClientPhone);
+				var client = AppData.Contacts.GetContactByPhone(ClientPhone);
 				if (client != null && client.NeedUpdate(ClientName, ClientAddress)) {
 					bool update = await Alerts.ConfirmAlert("Client name or address is different from the record.\nDo you want to update client information?");
 					if (!update)
 						return false;
 				}
 
-				var office = AppData.GetContactByName(OfficeName);
+				var office = AppData.Contacts.GetContactByName(OfficeName);
 				if (office != null) {
 					if (office.NeedUpdate(OfficeName, OfficeAddress)) {
 						bool update = await Alerts.ConfirmAlert("Office address is different from the record.\nDo you want update office information?");
@@ -211,7 +211,7 @@ namespace ACE.ViewModels
 		protected override async Task DoAccept()
 		{
 			if (Source == null) {
-				var client = AppData.GetContactByPhone(ClientPhone);
+				var client = AppData.Contacts.GetContactByPhone(ClientPhone);
 				if (client == null) {
 					client = new Contact {
 						ContactType = ContactType.Client,
@@ -222,12 +222,12 @@ namespace ACE.ViewModels
 						Escort = Escort
 					};
 
-					await AppData.NewContact(client, false);
+					AppData.Contacts.Add(client);
 				} else {
 					client.Update(ClientName, ClientAddress, Wheelchair, Escort);
 				}
 
-				var office = AppData.GetContactByName(OfficeName);
+				var office = AppData.Contacts.GetContactByName(OfficeName);
 				if (office == null) {
 					office = new Contact {
 						ContactType = ContactType.Office,
@@ -237,7 +237,7 @@ namespace ACE.ViewModels
 					};
 
 					if (!String.IsNullOrEmpty(OfficeName) /*|| !String.IsNullOrEmpty(OfficePhone)*/) {
-						await AppData.NewContact(office, false);
+						AppData.Contacts.Add(office);
 					}
 				} else {
 					office.Update(OfficeName, OfficeAddress);
@@ -247,7 +247,7 @@ namespace ACE.ViewModels
 					(ScheduleTime)PickupTime,
 					(ScheduleTime)AppoitmentTime);
 
-				await AppData.NewPickup(newPickup, false);
+				AppData.Schedule.Add(newPickup);
 			} else {
 				Source.Client.Update(newAddress: ClientAddress, wheelchair: Wheelchair, escort: Escort);
 				Source.Office.Update(newAddress: OfficeAddress);
@@ -255,7 +255,7 @@ namespace ACE.ViewModels
 				Source.AppoitmentTime = (ScheduleTime)AppoitmentTime;
 			}
 
-			await AppData.SaveAsync();
+			await AppStorage.SaveAsync();
 		}
 	}
 }

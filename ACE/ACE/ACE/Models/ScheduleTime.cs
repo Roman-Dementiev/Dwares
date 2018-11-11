@@ -72,6 +72,13 @@ namespace ACE.Models
 		public void Set(int hour, int minute, int second = 0) => dt = new DateTime(hour, minute, second);
 		public void Unset() => dt = DateTime.MinValue;
 
+		//public void Add(TimeSpan span)
+		//{
+		//	if (IsSet) {
+		//		dt = dt.Add(span);
+		//	}
+		//}
+
 		public static implicit operator ScheduleTime(DateTime time) => new ScheduleTime(time);
 		public static implicit operator DateTime(ScheduleTime time) => time.dt;
 
@@ -92,5 +99,16 @@ namespace ACE.Models
 		public bool? IsAfter(ScheduleTime time) => time.IsSet ? (bool?)IsAfter(time.dt) : null;
 		public bool IsBefore(DateTime time) => DateTime.Compare(dt, time) < 0;
 		public bool? IsBefore(ScheduleTime time) => time.IsSet ? (bool?)IsBefore(time.dt) : null;
+
+	
+		//public static ScheduleTime? Add(ScheduleTime? time, TimeSpan? span)
+		//{
+		//	if (time == null || span == null)
+		//		return time;
+
+		//	var result = (ScheduleTime)time;
+		//	result.Add((TimeSpan)span);
+		//	return result;
+		//}
 	}
 }

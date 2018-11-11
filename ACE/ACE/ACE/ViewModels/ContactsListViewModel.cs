@@ -96,16 +96,29 @@ namespace ACE.ViewModels
 			}
 		}
 
-		public bool CanDeleteContact() => AppData.CanDelete(Selected);
+		public bool CanDeleteContact()
+		{
+			var contact = Selected;
+			if (contact == null)
+				return false;
+
+			if (contact.ContactType == ContactType.ACE)
+				return Settings.CanDeleteCompanyContacts;
+
+			return !AppData.Schedule.IsEngaged(contact);
+		}
 
 		public async void OnDeleteContact()
 		{
-			if (Selected == null)
+			var contact = Selected;
+			if (contact == null)
 				return;
 
-			var message = String.Format("Do you want to delete contact for\n{0}?", Selected.Title);
+			var message = String.Format("Do you want to delete contact for\n{0}?", contact.Title);
 			if (await Alerts.ConfirmAlert(message)) {
-				await AppData.RemoveContact(Selected);
+				if (AppData.Contacts.Remove(contact)) {
+					await AppStorage.SaveAsync();
+				}
 			}
 		}
 

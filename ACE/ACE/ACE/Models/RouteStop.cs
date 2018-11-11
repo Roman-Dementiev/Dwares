@@ -20,13 +20,12 @@ namespace ACE.Models
 		Pending,
 		ReadyToGo,
 		EnRoute,
-		Arrived
+		Arrived,
+		Left
 	}
 
 	public class RouteStop: PropertyNotifier
 	{
-		public static readonly TaskQueue Updates = new TaskQueue();
-
 		public RouteStop(RouteStopType type, string name, ILocation location, ILocation origin, ScheduleTime? scheduledTime)
 		{
 			RouteStopType = type;
@@ -62,7 +61,7 @@ namespace ACE.Models
 		}
 
 		ScheduleTime? startTime;
-		public ScheduleTime? SrartTime {
+		public ScheduleTime? StartTime {
 			get => startTime;
 			set => SetProperty(ref startTime, value);
 		}
@@ -80,55 +79,51 @@ namespace ACE.Models
 			set => SetProperty(ref arriveTime, value);
 		}
 
-		ScheduleTime? departTime;
-		public ScheduleTime? DepartTime {
-			get => departTime;
-			set => SetProperty(ref departTime, value);
+		ScheduleTime? leaveTime;
+		public ScheduleTime? LeaveTime {
+			get => leaveTime;
+			set => SetProperty(ref leaveTime, value);
 		}
 
-		//ScheduleTime? actualStart;
-		//public ScheduleTime? ActualStart {
-		//	get => actualStart;
-		//	set => SetProperty(ref actualStart, value);
-		//}
-
-		//public TimeSpan? RemaningTime{ get; }
 	
 		public bool IsUpdatable {
 			get => Origin?.IsValidLocation() == true && Location.IsValidLocation();
 		}
 
-		ulong updateId;
-		private ulong UpdateId {
-			get => updateId;
-			set {
-				if (SetProperty(ref updateId, value)) {
-					FirePropertyChanged(nameof(Updating));
-				}
-			}
-		}
-
-		public bool Updating => UpdateId > 0;
-
-		private async void Update()
+		public async Task<bool> UpdateTimeTillArrive()
 		{
 			if (IsUpdatable) {
 				var info = await Maps.GetRouteInfo(Origin, Location);
 				if (info != null) {
 					TimeTillArrive = info.TravelTime;
-					AppData.Route.OnStopUpdated(this);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public async Task<bool> Update(bool forceMapsRequest, bool forceCalculation)
+		{
+			bool updated = false;
+			if (forceMapsRequest || TimeTillArrive == null || State == RouteStopState.EnRoute) {
+				updated = await UpdateTimeTillArrive();
+				if (updated) {
+					ArriveTime = null;
+					LeaveTime = null;
 				}
 			}
 
-			UpdateId = 0;
-		}
-
-		public void EnqueueUpdate()
-		{
-			if (IsUpdatable) {
-				UpdateId = Updates.AddTask(Update);
+			if ((forceCalculation || ArriveTime == null) && StartTime != null && TimeTillArrive != null) {
+				ArriveTime = new ScheduleTime((ScheduleTime)StartTime, (TimeSpan)TimeTillArrive);
 			}
-		}
 
+			if ((forceCalculation || LeaveTime == null) && ArriveTime != null) {
+				var defaultStopTime = new TimeSpan(0, Settings.DefaultStopTime, 0);
+				LeaveTime = new ScheduleTime((ScheduleTime)ArriveTime, defaultStopTime);
+				// TODO: adjust departure to RouteStop.SheduledTime and wheelchair
+			}
+
+			return updated;
+		}
 	}
 }

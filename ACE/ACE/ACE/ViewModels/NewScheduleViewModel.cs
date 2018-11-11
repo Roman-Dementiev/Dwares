@@ -34,7 +34,8 @@ namespace ACE.ViewModels
 
 		protected override async Task DoAccept()
 		{
-			await AppData.NewSchedule(Date, Time);
+			AppData.Schedule.NewSchedule(Date, Time);
+			await AppStorage.SaveAsync();
 		}
 	}
 }

@@ -2,14 +2,14 @@
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Dwares.Dwarf;
 using Dwares.Druid.Services;
+using Dwares.Dwarf;
 using ACE.Models;
-
+using System.Collections.Generic;
 
 namespace ACE
 {
-	public static partial class AppData
+	public static class AppStorage
 	{
 #if DEBUG
 		const StorageLocation kStorageLocation = StorageLocation.Pictures;
@@ -41,6 +41,7 @@ namespace ACE
 			public string ClientPhone { get; set; }
 			public string OfficeName { get; set; }
 			public string OfficePhone { get; set; }
+			public string OfficeAddress { get; set; }
 			public DateTime PickupTime { get; set; }
 			public DateTime AppoitmentTime { get; set; }
 		}
@@ -101,7 +102,7 @@ namespace ACE
 
 			return json;
 		}
-	
+
 		static async Task SaveJsonAsync(Json json, string filename)
 		{
 			try {
@@ -153,11 +154,11 @@ namespace ACE
 		{
 			//	await ClearSchedule();
 
-			var contacts = Contacts;
-			var pickups = Pickups;
-			var route = Route;
+			var contacts = AppData.Contacts;
+			var schedule = AppData.Schedule;
+			var route = AppData.Route;
 
-			await ClearSchedule(false);
+			schedule.Clear();
 			contacts.Clear();
 
 			var json = await LoadJsonAsync(filename ?? kFilename);
@@ -178,27 +179,33 @@ namespace ACE
 				if (rec.Tags != null) {
 					newContact.AddTags(rec.Tags);
 				}
-				AddContact(contacts, newContact);
+				contacts.Add(newContact);
 			}
 
-			foreach (var rec in json.Pickups)
-			{
+			foreach (var rec in json.Pickups) {
 				if (convert != null) {
 					convert.ConvertPickup?.Invoke(rec);
 				}
 
-				var client = GetContact(rec.ClientName, rec.ClientPhone);
+				var client = contacts.GetContact(rec.ClientName, rec.ClientPhone);
 				if (client == null)
 					continue;
 
-				var office = GetContact(rec.OfficeName, rec.OfficeName);
-				//if (office == null)
-				//	continue;
+				var office = contacts.GetContact(rec.OfficeName, rec.OfficeName);
+				if (office == null) {
+					office = new Contact {
+						ContactType = ContactType.Office,
+						Name = rec.OfficeName,
+						Phone = rec.OfficePhone,
+						Address = rec.OfficeAddress
+					};
+					contacts.Add(office);
+				}
 
 				var pickup = new Pickup(client, office, rec.PickupTime, rec.AppoitmentTime);
-				AddPickup(pickups, pickup);
-				AddRouteRun(route, pickup);
-				
+				schedule.Add(pickup);
+				route.AddRun(pickup);
+
 			}
 
 			if (convert != null) {
@@ -208,11 +215,13 @@ namespace ACE
 
 		public static async Task SaveAsync(string filename = null)
 		{
-			var contactCount = AppData.Contacts.Count;
-			var contacts = new ContactRec[contactCount];
-			for (int i = 0; i < contactCount; i++) {
-				var c = AppData.Contacts[i];
-				contacts[i] = new ContactRec {
+			var contacts = new List<ContactRec>();
+			foreach (var c in AppData.Contacts)
+			{
+				if (string.IsNullOrEmpty(c.Name) && string.IsNullOrEmpty(c.Phone))
+					continue;
+
+				contacts.Add(new ContactRec {
 					ContactType = c.ContactType,
 					Name = c.Name,
 					ShortName = c.ShortName,
@@ -222,27 +231,27 @@ namespace ACE
 					AltAddress = c.AltAddress,
 					Tags = c.GetTags(),
 					Comment = c.Comment
-				};
+				});
 			}
 
-			var pickupCount = AppData.Pickups.Count;
-			var pickups = new PickupRec[pickupCount];
-			for (int i = 0; i < pickupCount; i++) {
-				var p = AppData.Pickups[i];
-				pickups[i] = new PickupRec {
+			var pickups = new List<PickupRec>();
+			foreach (var p in AppData.Schedule)
+			{
+				pickups.Add(new PickupRec {
 					ClientName = p.ClientName,
 					ClientPhone = p.Client.Phone,
 					OfficeName = p.Office.Name,
 					OfficePhone = p.Office.Phone,
+					OfficeAddress = p.Office.Address,
 					PickupTime = p.PickupTime,
 					AppoitmentTime = p.AppoitmentTime
-				};
+				});
 			}
 
-			var json = new Json{
+			var json = new Json {
 				Version = kVersion1,
-				Contacts = contacts,
-				Pickups = pickups
+				Contacts = contacts.ToArray(),
+				Pickups = pickups.ToArray()
 			};
 
 			await SaveJsonAsync(json, filename ?? kFilename);
