@@ -27,7 +27,8 @@ namespace ACE.Views
 				};
 			} else {
 				pages = new Page[] {
-					new PickupsListPage() { Title = "Pickups" },
+					//new PickupsListPage() { Title = "Pickups" },
+					new SchedulePage() { Title = "Schedule" },
 					new RoutePage() { Title = "Route" },
 					new ContactsListPage(ContactType.ACE) { Title = "ACE" },
 					new ContactsListPage(ContactType.Client) { Title = "Clients" },
