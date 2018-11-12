@@ -8,7 +8,7 @@ namespace ACE.Models
 {
 	public class Schedule : ObservableCollection<Pickup>
 	{
-		ScheduleTime latestPickupTime = new ScheduleTime();
+		ScheduleTime? latestPickupTime = null;
 
 		public Schedule()
 		{
@@ -37,7 +37,7 @@ namespace ACE.Models
 		{
 			base.Clear();
 			Route.Clear();
-			latestPickupTime.Unset();
+			latestPickupTime = null;
 		}
 
 		public new void Add(Pickup pickup)
@@ -45,10 +45,9 @@ namespace ACE.Models
 			base.Add(pickup);
 			Route.AddRun(pickup);
 
-			if (!latestPickupTime.IsSet || pickup.PickupTime.IsAfter(latestPickupTime.DateTime)) {
+			if (latestPickupTime == null || pickup.PickupTime.IsAfter((ScheduleTime)latestPickupTime)) {
 				latestPickupTime = pickup.PickupTime;
 			}
-
 		}
 
 		public new bool Remove(Pickup pickup)
@@ -64,18 +63,20 @@ namespace ACE.Models
 
 		public bool EstimateNextPickup(out ScheduleTime pickupTime, out ScheduleTime appoitmentTime)
 		{
-			if (!latestPickupTime.IsSet) {
+			if (latestPickupTime == null) {
 				pickupTime = new ScheduleTime(DateTime.Now.Hour, 30);
-			}
-			else if (latestPickupTime.Minute < 30) {
-				pickupTime = new ScheduleTime(latestPickupTime.Hour, 30);
-			}
-			else if (latestPickupTime.Hour < 23) {
-				pickupTime = new ScheduleTime(latestPickupTime.Hour + 1, 0);
-			}
-			else {
-				pickupTime = appoitmentTime = ScheduleTime.Tomorrow;
-				return false;
+			} else {
+				var latest = (ScheduleTime)latestPickupTime;
+				if (latest.Minute < 30) {
+					pickupTime = new ScheduleTime(latest.Hour, 30);
+				}
+				else if (latest.Hour < 23) {
+					pickupTime = new ScheduleTime(latest.Hour + 1, 0);
+				}
+				else {
+					pickupTime = appoitmentTime = ScheduleTime.Tomorrow;
+					return false;
+				}
 			}
 
 			appoitmentTime = new ScheduleTime(pickupTime, new TimeSpan(hours: 1, minutes: 0, seconds: 0));

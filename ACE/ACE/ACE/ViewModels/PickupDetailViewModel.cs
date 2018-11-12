@@ -27,20 +27,20 @@ namespace ACE.ViewModels
 			escort = new Field<bool>();
 
 			if (source != null) {
-				clientName.Value = source.ClientName;
-				officeName.Value = source.OfficeName;
-				clientPhone.Value = source.ClientPhone;
-				//officePhone.Value = source.OfficePhone;
-				clientAddress.Value = source.ClientAddress;
-				officeAddress.Value = source.OfficeAddress;
-				pickupTime.Value = source.PickupTime.TimeSpan;
-				appoitmentTime.Value = source.AppoitmentTime.TimeSpan ;
-				wheelchair.Value = source.Wheelchair;
-				escort.Value = source.Escort;
+				clientName.Value = source.Client.Name;
+				officeName.Value = source.Office.Name;
+				clientPhone.Value = source.Client.Phone;
+				//officePhone.Value = source.Office.Phone;
+				clientAddress.Value = source.Client.Address;
+				officeAddress.Value = source.Office.Address;
+				pickupTime.Value = source.PickupTime.Time;
+				appoitmentTime.Value = source.AppoitmentTime.Time;
+				wheelchair.Value = source.Client.Wheelchair;
+				escort.Value = source.Client.Escort;
 			} else {
 				AppData.Schedule.EstimateNextPickup(out var pickup, out var appoitment);
-				pickupTime.Value = pickup.TimeSpan;
-				appoitmentTime.Value = appoitment.TimeSpan;
+				pickupTime.Value = pickup.Time;
+				appoitmentTime.Value = appoitment.Time;
 			}
 
 			validatables = new Validatables(clientPhone, clientAddress, /*officePhone,*/ officeAddress);
@@ -244,15 +244,15 @@ namespace ACE.ViewModels
 				}
 
 				var newPickup = new Pickup(client, office, 
-					(ScheduleTime)PickupTime,
-					(ScheduleTime)AppoitmentTime);
+					new ScheduleTime(PickupTime),
+					new ScheduleTime(AppoitmentTime));
 
 				AppData.Schedule.Add(newPickup);
 			} else {
 				Source.Client.Update(newAddress: ClientAddress, wheelchair: Wheelchair, escort: Escort);
 				Source.Office.Update(newAddress: OfficeAddress);
-				Source.PickupTime = (ScheduleTime)PickupTime;
-				Source.AppoitmentTime = (ScheduleTime)AppoitmentTime;
+				Source.PickupTime = new ScheduleTime(PickupTime);
+				Source.AppoitmentTime = new ScheduleTime(AppoitmentTime);
 			}
 
 			await AppStorage.SaveAsync();

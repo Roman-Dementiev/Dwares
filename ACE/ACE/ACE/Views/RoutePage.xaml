@@ -43,21 +43,11 @@
 								<ui:ActionImage Margin="0,6"
 												Icon="{Binding Icon}" 
 												Command="{Binding ShowDirectionsCommand}"
-												HorizontalOptions="{Binding IconLayout}"
+												HorizontalOptions="Center"
 												/>
 								<Label Text="{Binding TimeTillArrive}"
 									   HorizontalOptions="Center"
 									   />
-								<!--<ui:ActionImage Icon="go42" 
-												Command="{Binding GoCommand}"
-												IsVisible="{Binding IsReadyToGo}"
-												HorizontalOptions="Center"
-												/>
-								<ui:ActionImage Icon="here42" 
-												Command="{Binding ArriveCommand}"
-												IsVisible="{Binding IsEnroute}"
-												HorizontalOptions="Center"
-												/>-->
 								<ui:ActionImage Icon="go42" 
 												Writ="GoToNextStop"
 												IsVisible="{Binding IsReadyToGo}"

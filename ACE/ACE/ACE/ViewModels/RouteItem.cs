@@ -22,9 +22,7 @@ namespace ACE.ViewModels
 			ArriveTime = ScheduleTimeToString(RouteStop.ArriveTime);
 			DepartTime = ScheduleTimeToString(RouteStop.LeaveTime);
 				
-			ShowDirectionsCommand = new Command(OnShowDirections, CanShowDirections);
-			GoCommand = new Command(OnGo, CanGo);
-			ArriveCommand = new Command(OnArrive, CanArrive);
+	//		ShowDirectionsCommand = new Command(OnShowDirections, CanShowDirections);
 		}
 
 		public RouteStop RouteStop { get; }
@@ -48,23 +46,6 @@ namespace ACE.ViewModels
 			}
 		}
 
-		//public LayoutOptions IconLayout {
-		//	get {
-		//		switch (RouteStop.RouteStopType)
-		//		{
-		//			case RouteStopType.HomePickup:
-		//			case RouteStopType.OfficePickup:
-		//				return LayoutOptions.Start;
-		//			case RouteStopType.HomeDropoff:
-		//			case RouteStopType.OfficeDropoff:
-		//				return LayoutOptions.End;
-		//			default:
-		//				return LayoutOptions.Center;
-		//		}
-		//	}
-		//}
-		public LayoutOptions IconLayout => LayoutOptions.Center;
-
 		public bool HasName => !String.IsNullOrEmpty(Name);
 		public string Name => RouteStop.Name;
 		public string Address => String.IsNullOrEmpty(RouteStop.Address) ? "???" : RouteStop.Address;
@@ -73,8 +54,6 @@ namespace ACE.ViewModels
 		public bool IsReadyToGo => State == RouteStopState.ReadyToGo;
 		public bool IsEnroute => State == RouteStopState.EnRoute;
 		public bool IsArrived => State == RouteStopState.Arrived;
-
-		public bool IsUpdatable => RouteStop.IsUpdatable;
 
 		string timeTillArrive;
 		public string TimeTillArrive {
@@ -117,7 +96,7 @@ namespace ACE.ViewModels
 
 		static string ScheduleTimeToString(ScheduleTime? time)
 		{
-			if (time?.IsSet == true) {
+			if (time != null) {
 				return ((ScheduleTime)time).ToString();
 			} else {
 				return String.Empty;
@@ -139,10 +118,6 @@ namespace ACE.ViewModels
 			{
 				TimeTillArrive = DurationToString(RouteStop.TimeTillArrive);
 			}
-			//else if (e.PropertyName == nameof(RouteStop.EstimatedStart))
-			//{
-			//	EstimatedStart = ScheduleTimeToString(RouteStop.EstimatedStart);
-			//}
 			else if (e.PropertyName == nameof(RouteStop.ArriveTime))
 			{
 				ArriveTime = ScheduleTimeToString(RouteStop.ArriveTime);
@@ -164,10 +139,7 @@ namespace ACE.ViewModels
 		//		);
 		//}
 
-		public Command ShowDirectionsCommand { get; }
-		public Command GoCommand { get; }
-		public Command ArriveCommand { get; }
-
+		//public Command ShowDirectionsCommand { get; }
 
 		public bool CanShowDirections()
 		{
@@ -180,25 +152,5 @@ namespace ACE.ViewModels
 				await AppData.Route.ShowDirections(RouteStop);
 			}
 		}
-
-
-		public bool CanGo() => IsReadyToGo;
-
-		public async void OnGo()
-		{
-			if (IsReadyToGo) {
-				await AppData.Route.GoTo(RouteStop);
-			}
-		}
-
-		public bool CanArrive() => IsEnroute;
-
-		public async void OnArrive()
-		{
-			if (IsEnroute) {
-				await AppData.Route.Arrive(RouteStop);
-			}
-		}
-
 	}
 }

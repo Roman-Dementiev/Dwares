@@ -16,6 +16,7 @@ namespace ACE.ViewModels
 		{
 		}
 
+
 		public ObservableCollection<Pickup> Pickups => Items;
 
 		public async void OnAddPickup() => await AddOrEdit(null);

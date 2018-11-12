@@ -204,17 +204,16 @@ namespace ACE.Models
 
 		public async void Call()
 		{
-			await PhoneDialer.DialAsync(Phone, Name);
+			if (!string.IsNullOrEmpty(Phone)) {
+				await PhoneDialer.DialAsync(Phone, Name);
+			}
 		}
 
 		public async void Directions()
 		{
-			string address = Address;
-
-			var info = await Maps.GetRouteInfo("4143 Paul St Philadelphia PA 19124", address);
-			Debug.Print("Contact.Directions(): RouteInfo={0}", info);
-
-			await Maps.OpenDirections(null, address);
+			if (!string.IsNullOrEmpty(Address)) {
+				await Maps.OpenDirections(null, Address);
+			}
 		}
 
 			public bool NeedUpdate(string newName = null, string newAddress = null)

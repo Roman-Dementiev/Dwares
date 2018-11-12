@@ -17,7 +17,7 @@ namespace ACE.ViewModels
 
 		public void OnShowDirections()
 		{
-			Debug.Print("RouteViewModel.OnShowDirections()");
+			//Debug.Print("RouteViewModel.OnShowDirections()");
 
 			if (Selected != null) {
 				Selected.OnShowDirections();
@@ -26,24 +26,25 @@ namespace ACE.ViewModels
 
 		public bool CanShowDirections()
 		{
-			Debug.Print("RouteViewModel.CanShowDirections()");
+			//Debug.Print("RouteViewModel.CanShowDirections()");
 
 			if (Selected != null) {
 				return Selected.CanShowDirections();
-			} else {
+			}
+			else {
 				return false;
 			}
 		}
 
 		public async void OnGoToNextStop()
 		{
-			Debug.Print("RouteViewModel.OnGoToNextStop*()");
+			//Debug.Print("RouteViewModel.OnGoToNextStop*()");
 			await AppData.Route.GoToNextStop();
 		}
 
 		public async void OnArriveAtNextStop()
 		{
-			Debug.Print("RouteViewModel.OnArriveAtNextStop*()");
+			//Debug.Print("RouteViewModel.OnArriveAtNextStop*()");
 			await AppData.Route.ArriveAtNextStop();
 		}
 

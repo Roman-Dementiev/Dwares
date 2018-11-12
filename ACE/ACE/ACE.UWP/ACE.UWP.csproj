@@ -142,7 +142,6 @@
     <Content Include="Images\office24.png" />
     <Content Include="Images\phone48.png" />
     <Content Include="Images\van24.png" />
-    <Content Include="Images\wheelchair24-1.png" />
     <Content Include="Images\wheelchair24.png" />
     <Content Include="Images\_blank.png" />
     <Content Include="Properties\Default.rd.xml" />

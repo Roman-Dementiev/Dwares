@@ -21,7 +21,8 @@ namespace ACE.Views
 			Page[] pages;
 			if (false/*DeviceEx.Idiom == TargetIdiom.Phone*/) {
 				pages = new Page[] {
-					new PickupsListPage() { Title = "Pickups" },
+					//new PickupsListPage() { Title = "Pickups" },
+					new SchedulePage() { Title = "Schedule" },
 					new RoutePage() { Title = "Route" },
 					new ContactsListPage(ContactType.ACE, true) { Title = "Contacts" },
 				};

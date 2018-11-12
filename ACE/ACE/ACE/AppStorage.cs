@@ -238,7 +238,7 @@ namespace ACE
 			foreach (var p in AppData.Schedule)
 			{
 				pickups.Add(new PickupRec {
-					ClientName = p.ClientName,
+					ClientName = p.Client.Name,
 					ClientPhone = p.Client.Phone,
 					OfficeName = p.Office.Name,
 					OfficePhone = p.Office.Phone,
