@@ -5,7 +5,7 @@ using Xamarin.Forms;
 using Dwares.Dwarf;
 
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public enum SymbolEx
 	{

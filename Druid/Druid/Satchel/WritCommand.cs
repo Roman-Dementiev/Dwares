@@ -2,9 +2,10 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 using Dwares.Dwarf;
+using Dwares.Druid;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Satchel
 {
 	public class WritCommand: ICommand //Xamarin.Forms.Command
 	{

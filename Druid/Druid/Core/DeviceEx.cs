@@ -6,7 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid
 {
 	public interface IDevice
 	{

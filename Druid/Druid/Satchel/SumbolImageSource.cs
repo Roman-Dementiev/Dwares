@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public class SumbolImageSource : ActionImageSourceBase
 	{

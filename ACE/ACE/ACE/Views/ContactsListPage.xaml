@@ -4,7 +4,6 @@
 			 xmlns:local="clr-namespace:ACE"
 			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 			 xmlns:vm="clr-namespace:ACE.ViewModels"
-			 xmlns:sup="clr-namespace:Dwares.Druid.Support;assembly=Druid"
 			 x:Class="ACE.Views.ContactsListPage"
 			 x:Name="page">
 

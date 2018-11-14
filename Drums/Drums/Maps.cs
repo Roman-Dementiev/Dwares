@@ -4,8 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dwares.Dwarf.Collections;
 using Dwares.Dwarf.Toolkit;
-using Dwares.Druid.Support;
-using Dwares.Dwarf;
+using Dwares.Druid;
 using Dwares.Drums.Bing;
 using Dwares.Drums.Google;
 

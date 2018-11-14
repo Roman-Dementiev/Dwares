@@ -1,5 +1,5 @@
 ﻿using System;
-using Dwares.Druid.Support;
+using Dwares.Druid;
 using Dwares.Druid.Services;
 using Dwares.Dwarf;
 using Dwares.Drums;

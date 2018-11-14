@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public static class StdGlyph
 	{

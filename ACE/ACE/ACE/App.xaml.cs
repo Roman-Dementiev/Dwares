@@ -4,7 +4,7 @@ using Xamarin.Forms.Xaml;
 using ACE.Views;
 using ACE.Models;
 using Dwares.Dwarf;
-using Dwares.Druid.Support;
+using Dwares.Druid;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]

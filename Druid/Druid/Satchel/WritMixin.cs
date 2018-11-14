@@ -1,9 +1,9 @@
 ﻿using System;
 using Dwares.Dwarf;
-using Dwares.Druid.Essential;
+using Dwares.Druid.Satchel;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Satchel
 {
 	internal class WritMixin
 	{

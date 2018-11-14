@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Dwares.Dwarf.Runtime;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Satchel
 {
 	[Flags]
 	public enum AutoSuggestionsMatchMode

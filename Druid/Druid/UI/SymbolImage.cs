@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Dwares.Druid.Support;
-using Dwares.Druid.Essential;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid.UI

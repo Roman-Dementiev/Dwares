@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public interface ICommandHolder
 	{

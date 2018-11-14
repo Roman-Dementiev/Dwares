@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
-using Dwares.Druid.Essential;
+using Dwares.Druid.Satchel;
 using Dwares.Druid.Services;
 using Xamarin.Forms;
 

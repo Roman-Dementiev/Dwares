@@ -2,7 +2,7 @@
 using Dwares.Dwarf.Toolkit;
 
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public enum GeolocationAccuracy
 	{

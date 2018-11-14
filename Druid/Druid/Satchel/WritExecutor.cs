@@ -4,7 +4,7 @@ using Dwares.Dwarf.Runtime;
 using Dwares.Dwarf.Toolkit;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid.Satchel
 {
 	public interface IWritExecutor
 	{

@@ -2,10 +2,10 @@
 using System.Threading;
 using Xamarin.Forms;
 using Dwares.Dwarf.Toolkit;
-using Dwares.Dwarf.Runtime;
+using Dwares.Druid.Satchel;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid
 {
 	public class BindingScope : PropertyNotifier, IDescendant
 	{

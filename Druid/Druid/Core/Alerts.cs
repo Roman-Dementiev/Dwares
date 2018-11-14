@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid
 {
 	public enum AlertPlacement
 	{

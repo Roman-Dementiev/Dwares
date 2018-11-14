@@ -3,7 +3,7 @@ using System.Threading;
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public abstract class ActionImageSourceBase
 	{

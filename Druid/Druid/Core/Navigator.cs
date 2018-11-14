@@ -5,7 +5,7 @@ using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
 
 
-namespace Dwares.Druid.Support
+namespace Dwares.Druid
 {
 	public static class Navigator
 	{

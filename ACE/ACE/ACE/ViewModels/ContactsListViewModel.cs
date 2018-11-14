@@ -5,8 +5,9 @@ using Xamarin.Forms;
 using ACE.Models;
 using ACE.Views;
 using Dwares.Dwarf;
+using Dwares.Druid;
+using Dwares.Druid.Satchel;
 using Dwares.Dwarf.Collections;
-using Dwares.Druid.Support;
 
 
 namespace ACE.ViewModels

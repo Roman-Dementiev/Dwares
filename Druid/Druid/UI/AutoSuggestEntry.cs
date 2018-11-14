@@ -1,6 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
-using Dwares.Druid.Support;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid.UI

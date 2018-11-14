@@ -2,7 +2,7 @@
 //using Xamarin.Forms;
 
 
-//namespace Dwares.Druid.Support
+//namespace Dwares.Druid.Satchel
 //{
 //	public class Message<TSender> where TSender : class
 //	{

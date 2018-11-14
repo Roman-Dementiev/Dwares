@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 
 
-namespace Dwares.Druid.Essential
+namespace Dwares.Druid.Satchel
 {
 	public class OnPlatform<T>
 	{
