@@ -16,27 +16,39 @@ namespace ACE.ViewModels
 		//ClassRef @class = new ClassRef(typeof(ScheduleViewModel));
 
 		public ScheduleViewModel() :
-			//base(AppScope, AppData.Schedule)
 			base(AppScope, new ScheduleItems())
 		{
 			//Debug.EnableTracing(@class);
 		}
 
-		public ObservableCollection<ScheduleItem> Pickups => Items;
+		//public ObservableCollection<ScheduleItem> Pickups => Items;
 
-		public async void OnAddPickup()
+		public async void OnNewAppoitment()
 		{
-			var page = new PickupDetailPage(null);
+			//var page = new PickupDetailPage(null);
+			var page = new RunDetailPage();
+			page.Scope = new AppoitmentViewModel(null);
+
 			await Navigator.PushModal(page);
 
 		}
 
-		public bool CanEditPickup() => HasSelected();
+		public bool CanEdit() => HasSelected();
 
-		public async void OnEditPickup()
+		public async void OnEdit()
 		{
 			if (Selected != null) {
-				var page = new PickupDetailPage(Selected.Source);
+				//var page = new PickupDetailPage(Selected.Source);
+				var page = new RunDetailPage();
+
+				if (Selected.Source.SheduleRunType == SheduleRunType.Appoitment) {
+					page.Scope = new AppoitmentViewModel(Selected.Source);
+				} else {
+					// TODO
+					Debug.Fail();
+					return;
+				}
+
 				await Navigator.PushModal(page);
 			}
 		}
@@ -58,10 +70,10 @@ namespace ACE.ViewModels
 		}
 	}
 
-	internal class ScheduleItems : ShadowCollection<ScheduleItem, Pickup>
+	internal class ScheduleItems : ShadowCollection<ScheduleItem, ScheduleRun>
 	{
 		public ScheduleItems() :
-			base(AppData.Schedule, pickup => new ScheduleItem(pickup))
+			base(AppData.Schedule, scheduleRun => new ScheduleItem(scheduleRun))
 		{ }
 	}
 

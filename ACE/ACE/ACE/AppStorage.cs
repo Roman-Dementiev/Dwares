@@ -35,28 +35,29 @@ namespace ACE
 			public string[] Tags { get; set; }
 		}
 
-		class PickupRec
+		class ScheduleRec
 		{
+			public string Type { get; set; }
 			public string ClientName { get; set; }
 			public string ClientPhone { get; set; }
 			public string OfficeName { get; set; }
 			public string OfficePhone { get; set; }
 			public string OfficeAddress { get; set; }
 			public DateTime PickupTime { get; set; }
-			public DateTime AppoitmentTime { get; set; }
+			public DateTime DropoffTime { get; set; }
 		}
 
 		struct Json
 		{
 			public int Version { get; set; }
 			public ContactRec[] Contacts { get; set; }
-			public PickupRec[] Pickups { get; set; }
+			public ScheduleRec[] Schedule { get; set; }
 		}
 
 		class Convert
 		{
 			public Action<ContactRec> ConvertContact { get; set; }
-			public Action<PickupRec> ConvertPickup { get; set; }
+			public Action<ScheduleRec> ConvertSchedule { get; set; }
 		}
 
 		static async Task<Json> LoadJsonAsync(string filename)
@@ -72,8 +73,8 @@ namespace ACE
 				Debug.ExceptionCaught(ex);
 				json = new Json {
 					Version = kVersion1,
-					Pickups = new PickupRec[0],
-					Contacts = new ContactRec[0]
+					Contacts = new ContactRec[0],
+					Schedule = new ScheduleRec[0]
 				};
 			}
 
@@ -152,6 +153,10 @@ namespace ACE
 
 		private static async Task LoadAsync(string filename, Convert convert)
 		{
+			if (filename == null) {
+				filename = kFilename;
+			}
+
 			//	await ClearSchedule();
 
 			var contacts = AppData.Contacts;
@@ -161,51 +166,59 @@ namespace ACE
 			schedule.Clear();
 			contacts.Clear();
 
-			var json = await LoadJsonAsync(filename ?? kFilename);
-			foreach (var rec in json.Contacts) {
-				if (convert != null) {
-					convert.ConvertContact?.Invoke(rec);
+			var json = await LoadJsonAsync(filename);
+
+			if (json.Contacts != null) {
+				foreach (var rec in json.Contacts) {
+					if (convert != null) {
+						convert.ConvertContact?.Invoke(rec);
+					}
+					var newContact = new Contact {
+						ContactType = rec.ContactType,
+						Name = rec.Name,
+						ShortName = rec.ShortName,
+						Phone = rec.Phone,
+						AltPhone = rec.AltPhone,
+						Address = rec.Address,
+						AltAddress = rec.AltAddress,
+						Comment = rec.Comment
+					};
+					if (rec.Tags != null) {
+						newContact.AddTags(rec.Tags);
+					}
+					contacts.Add(newContact);
 				}
-				var newContact = new Contact {
-					ContactType = rec.ContactType,
-					Name = rec.Name,
-					ShortName = rec.ShortName,
-					Phone = rec.Phone,
-					AltPhone = rec.AltPhone,
-					Address = rec.Address,
-					AltAddress = rec.AltAddress,
-					Comment = rec.Comment
-				};
-				if (rec.Tags != null) {
-					newContact.AddTags(rec.Tags);
-				}
-				contacts.Add(newContact);
 			}
 
-			foreach (var rec in json.Pickups) {
-				if (convert != null) {
-					convert.ConvertPickup?.Invoke(rec);
+			if (json.Schedule != null) {
+				foreach (var rec in json.Schedule)
+				{
+					// TODO
+					if (rec.Type != SheduleRunType.Appoitment.ToString())
+						continue;
+
+					if (convert != null) {
+						convert.ConvertSchedule?.Invoke(rec);
+					}
+
+					var client = contacts.GetContact(rec.ClientName, rec.ClientPhone);
+					if (client == null)
+						continue;
+
+					var office = contacts.GetContact(rec.OfficeName, rec.OfficeName);
+					if (office == null) {
+						office = new Contact {
+							ContactType = ContactType.Office,
+							Name = rec.OfficeName,
+							Phone = rec.OfficePhone,
+							Address = rec.OfficeAddress
+						};
+						contacts.Add(office);
+					}
+
+					var appoitment = new Appoitment(client, office, rec.PickupTime, rec.DropoffTime);
+					schedule.Add(appoitment);
 				}
-
-				var client = contacts.GetContact(rec.ClientName, rec.ClientPhone);
-				if (client == null)
-					continue;
-
-				var office = contacts.GetContact(rec.OfficeName, rec.OfficeName);
-				if (office == null) {
-					office = new Contact {
-						ContactType = ContactType.Office,
-						Name = rec.OfficeName,
-						Phone = rec.OfficePhone,
-						Address = rec.OfficeAddress
-					};
-					contacts.Add(office);
-				}
-
-				var pickup = new Pickup(client, office, rec.PickupTime, rec.AppoitmentTime);
-				schedule.Add(pickup);
-				route.AddRun(pickup);
-
 			}
 
 			if (convert != null) {
@@ -221,7 +234,7 @@ namespace ACE
 				if (string.IsNullOrEmpty(c.Name) && string.IsNullOrEmpty(c.Phone))
 					continue;
 
-				contacts.Add(new ContactRec {
+				var rec = new ContactRec {
 					ContactType = c.ContactType,
 					Name = c.Name,
 					ShortName = c.ShortName,
@@ -231,27 +244,30 @@ namespace ACE
 					AltAddress = c.AltAddress,
 					Tags = c.GetTags(),
 					Comment = c.Comment
-				});
+				};
+				contacts.Add(rec);
 			}
 
-			var pickups = new List<PickupRec>();
+			var schedule = new List<ScheduleRec>();
 			foreach (var p in AppData.Schedule)
 			{
-				pickups.Add(new PickupRec {
+				var rec = new ScheduleRec {
+					Type = p.SheduleRunType.ToString(),
 					ClientName = p.Client.Name,
 					ClientPhone = p.Client.Phone,
 					OfficeName = p.Office.Name,
 					OfficePhone = p.Office.Phone,
 					OfficeAddress = p.Office.Address,
 					PickupTime = p.PickupTime,
-					AppoitmentTime = p.AppoitmentTime
-				});
+					DropoffTime = p.DropoffTime
+				};
+				schedule.Add(rec);
 			}
 
 			var json = new Json {
 				Version = kVersion1,
 				Contacts = contacts.ToArray(),
-				Pickups = pickups.ToArray()
+				Schedule = schedule.ToArray()
 			};
 
 			await SaveJsonAsync(json, filename ?? kFilename);

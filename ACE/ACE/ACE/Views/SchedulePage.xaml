@@ -12,8 +12,8 @@
 	</ui:ContentPageEx.Resources>-->
 
 	<ui:ContentPageEx.ToolbarItems>
-		<ui:ToolbarItemEx Text="Add" Symbol="Add" Writ="AddPickup" />
-		<ui:ToolbarItemEx Text="Edit" Symbol="Edit" Writ="EditPickup" />
+		<ui:ToolbarItemEx Text="Add" Symbol="Add" Writ="NewAppoitment" />
+		<ui:ToolbarItemEx Text="Edit" Symbol="Edit" Writ="Edit" />
 		<ui:ToolbarItemEx Text="Delete" Symbol="Delete" Writ="DeletePickup" />
 		<ui:ToolbarItemEx Order="Secondary" Text="New Schedule" Writ="NewSchedule" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
@@ -25,7 +25,7 @@
 					  VerticalOptions="FillAndExpand"
 					  HorizontalOptions="FillAndExpand"
 					  SeparatorVisibility="None"
-					  ItemsSource="{Binding Pickups}"
+					  ItemsSource="{Binding Items}"
 					  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 					  HasUnevenRows="True">
 
@@ -44,20 +44,7 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<!--<Button Grid.Row="0" Grid.Column="0"
-										HorizontalOptions="Center"
-										VerticalOptions="Center"
-										BackgroundColor="Transparent"
-										Command="{Binding CallClientCommand}"
-										>
-								<Button.Image>
-									<OnPlatform x:TypeArguments="FileImageSource"
-														iOS="phone.png"
-														WinPhone="Images/phone48.png"
-														Android="ic_action_phone.png"
-														/>
-								</Button.Image>
-							</Button>-->
+
 							<StackLayout Grid.Row="0" Grid.Column="0"
 										 Orientation="Vertical" >
 								<Label Text="{Binding PickupTimeString}" />
@@ -68,10 +55,11 @@
 							</StackLayout>
 							<StackLayout Grid.Row="1" Grid.Column="0"
 										 Orientation="Vertical"
-										 IsVisible="{Binding ShowOfficeInfo}"
+										 IsVisible="{Binding ShowDropoffInfo}"
 										 >
-								<Label Text="{Binding AppoitmentTimeString}" />
+								<Label Text="{Binding DropoffTimeString}" />
 							</StackLayout>
+							
 							<StackLayout Grid.Row="0" Grid.Column="1"
 										 Orientation="Vertical"
 										 HorizontalOptions="Fill"
@@ -102,89 +90,21 @@
 									   IsVisible="{Binding ShowClientAddress}"
 									   />
 							</StackLayout>
-							<!--<StackLayout Grid.Row="0" Grid.Column="2"
-										 Orientation="Vertical"
-										 >
-								<Label Text="{Binding PickupTimeString}"
-										   />
-								<StackLayout Orientation="Horizontal"
-											 HorizontalOptions="Center"
-											 >
-									<Image IsVisible="{Binding Wheelchair}"
-											   WidthRequest="16"
-											   HeightRequest="16">
-										<Image.Source>
-											<OnPlatform x:TypeArguments="FileImageSource"
-															iOS="wheelchair.png"
-															WinPhone="Images/wheelchair24.png"
-															Android="ic_action_wheelchair.png"
-															/>
-										</Image.Source>
-									</Image>
-									<Image IsVisible="{Binding Escort}"
-											   WidthRequest="16"
-											   HeightRequest="16">
-										<Image.Source>
-											<OnPlatform x:TypeArguments="FileImageSource"
-															iOS="escort.png"
-															WinPhone="Images/escort24.png"
-															Android="ic_action_escort.png"
-															/>
-										</Image.Source>
-									</Image>
-								</StackLayout>
-								<Button Command="{Binding ClientDirectionsCommand}"
-											BackgroundColor="Transparent"
-											HorizontalOptions="Center"
-											VerticalOptions="Center"
-											IsVisible="{Binding ShowClientDirections}"
-											>
-									<Button.Image>
-										<OnPlatform x:TypeArguments="FileImageSource"
-														iOS="directions.png"
-														WinPhone="Images/directions24.png"
-														Android="ic_action_directions.png"
-														/>
-									</Button.Image>
-								</Button>
-							</StackLayout>-->
+							
 							<StackLayout Grid.Row="1" Grid.Column="1"
-											 Orientation="Vertical"
-											 HorizontalOptions="Fill"
-											 VerticalOptions="Center"
-											 IsVisible="{Binding ShowOfficeInfo}"
-											 >
-								<Label Text="To:"
-										   FontAttributes="Bold"
-										   />
-								<Label Text="{Binding OfficeName}"
-										   IsVisible="{Binding ShowOfficeName}"
-										   />
-								<Label Text="{Binding OfficeAddress}"
-										   IsVisible="{Binding ShowOfficeAddress}"
-										   />
+										 Orientation="Vertical"
+										 HorizontalOptions="Fill"
+										 VerticalOptions="Center"
+										 IsVisible="{Binding ShowDropoffInfo}"
+										 >
+								<Label Text="To:" FontAttributes="Bold" />
+								<Label Text="{Binding DropoffStopName}"
+									   IsVisible="{Binding ShowDropoffStopName}"
+									   />
+								<Label Text="{Binding DropoffAddress}"
+									   IsVisible="{Binding ShowDropoffAddress}"
+									   />
 							</StackLayout>
-							<!--<StackLayout Grid.Row="1" Grid.Column="2"
-											 Orientation="Vertical"
-											 IsVisible="{Binding ShowOfficeInfo}"
-											 >
-								<Label Text="{Binding AppoitmentTimeString}"
-										   />
-								<Button Command="{Binding OfficeDirectionsCommand}"
-											BackgroundColor="Transparent"
-											HorizontalOptions="Center"
-											VerticalOptions="Center"
-											IsVisible="{Binding ShowOfficeDirections}"
-											>
-									<Button.Image>
-										<OnPlatform x:TypeArguments="FileImageSource"
-														iOS="directions.png"
-														WinPhone="Images/directions24.png"
-														Android="ic_action_directions.png"
-														/>
-									</Button.Image>
-								</Button>
-							</StackLayout>-->
 							<BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
 									 Color="Black"
 									 HeightRequest="1"

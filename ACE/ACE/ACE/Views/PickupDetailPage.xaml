@@ -6,7 +6,6 @@
 			 Title="Pickup Details"
 			 >
 
-
 	<ContentPage.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary"
 						  Text="Accept" 

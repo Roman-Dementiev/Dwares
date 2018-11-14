@@ -26,7 +26,7 @@ namespace ACE.Models
 
 	public class RouteStop: PropertyNotifier
 	{
-		public RouteStop(RouteStopType type, string name, ILocation location, ILocation origin, ScheduleTime? scheduledTime)
+		public RouteStop(RouteStopType type, string name, ILocation location, ScheduleTime? scheduledTime)
 		{
 			RouteStopType = type;
 			State = RouteStopState.Pending;
@@ -36,12 +36,33 @@ namespace ACE.Models
 			ScheduledTime = scheduledTime;
 		}
 
-		public string Name { get; }
-		public ILocation Location { get; }
-		public string Address => Location.Address;
-
 		public RouteStopType RouteStopType { get; }
-		
+
+		string name;
+		public string Name {
+			get => name;
+			set => SetProperty(ref name, value);
+		}
+
+		public string Address {
+			get => Location.Address;
+			set {
+				if (value != Location?.Address) {
+					Location = new Location { Address = value };
+				}
+			}
+		}
+
+		ILocation location;
+		public ILocation Location {
+			get => location;
+			private set {
+				if (SetProperty(ref location, value)) {
+					FirePropertyChanged(Address);
+				}
+			}
+		}
+
 		RouteStopState state;
 		public RouteStopState State {
 			get => state;

@@ -25,7 +25,7 @@ namespace ACE.Models
 		public const string Escort = "Escort";
 	}
 
-	public class Contact: PropertyNotifier, ILocation
+	public class Contact: PropertyNotifier
 	{
 		//public Contact()
 		//{
@@ -86,10 +86,10 @@ namespace ACE.Models
 			}
 		}
 
-		Coordinate coordinate;
-		public ICoordinate Coordinate {
-			get => coordinate;
-			set => SetProperty(ref coordinate, new Coordinate(value));
+		ILocation location;
+		public ILocation Location {
+			get => LazyInitializer.EnsureInitialized(ref location, () => new Location() { Address = this.Address });
+			set => SetProperty(ref location, value);
 		}
 
 		string altAddress;

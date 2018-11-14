@@ -73,4 +73,25 @@ namespace Dwares.Druid.Forms
 			await Navigator.PopPage();
 		}
 	}
+
+	public class FormScope<TSource> : FormScope
+	{
+		public FormScope() { }
+
+		public FormScope(TSource source)
+		{
+			Source = source;
+		}
+
+		public FormScope(BindingScope parentScope, TSource source) :
+			base(parentScope)
+		{
+			Source = source;
+		}
+
+		public TSource Source { get; protected set; }
+
+		public bool IsNew => Source == null;
+		public bool IsEditing => Source != null;
+	}
 }

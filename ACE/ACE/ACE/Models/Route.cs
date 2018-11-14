@@ -15,7 +15,7 @@ namespace ACE.Models
 	{
 		public Route(Contact startPoint)
 		{
-			StartStop = new RouteStop(RouteStopType.Endpoint, startPoint.Name, startPoint, null, null);
+			StartStop = new RouteStop(RouteStopType.Endpoint, startPoint.Name, startPoint.Location, null);
 			UpdateEstimations(false);
 		}
 
@@ -50,6 +50,9 @@ namespace ACE.Models
 
 		public new async void Add(RouteStop routeStop)
 		{
+			if (Count > 0) {
+				routeStop.Origin = LastStop.Location;
+			}
 			base.Add(routeStop);
 			await Update();
 		}
@@ -113,7 +116,7 @@ namespace ACE.Models
 			}
 		}
 
-		public async void AddRun(Run run, bool update = true)
+		public async void AddRun(ScheduleRun run, bool update = true)
 		{
 			if (StartTime == null) {
 				StartTime = DateTime.Now;
@@ -127,13 +130,8 @@ namespace ACE.Models
 				Add(StartStop);
 			}
 
-			var pickupStop = new RouteStop(RouteStopType.HomePickup, run.OriginName, run.Origin, LastLocation, run.OriginTime);
-			var dropoffStop = new RouteStop(RouteStopType.OfficeDropoff, run.DestinationName, run.Destination, run.Origin, run.DestinationTime);
-			Add(pickupStop);
-			Add(dropoffStop);
-
-			run.OriginStop = pickupStop;
-			run.DestinationStop = dropoffStop;
+			Add(run.PickupStop);
+			Add(run.DropoffStop);
 
 			if (update) {
 				await Update();

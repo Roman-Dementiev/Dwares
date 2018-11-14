@@ -14,11 +14,11 @@ namespace ACE.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class PickupsListPage : ContentPage
 	{
-		PickupsListViewModel viewModel;
+		//PickupsListViewModel viewModel;
 
 		public PickupsListPage ()
 		{
-			BindingContext = viewModel = new PickupsListViewModel();
+			//BindingContext = viewModel = new PickupsListViewModel();
 
 			InitializeComponent();
 		}
@@ -26,7 +26,7 @@ namespace ACE.Views
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			viewModel.UpdateCommands();
+			//viewModel.UpdateCommands();
 		}
 
 	}

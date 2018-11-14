@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ACE.Models
 {
-	public class Schedule : ObservableCollection<Pickup>
+	public class Schedule : ObservableCollection<ScheduleRun>
 	{
 		ScheduleTime? latestPickupTime = null;
 
@@ -40,21 +40,21 @@ namespace ACE.Models
 			latestPickupTime = null;
 		}
 
-		public new void Add(Pickup pickup)
+		public new void Add(ScheduleRun run)
 		{
-			base.Add(pickup);
-			Route.AddRun(pickup);
+			base.Add(run);
+			Route.AddRun(run);
 
-			if (latestPickupTime == null || pickup.PickupTime.IsAfter((ScheduleTime)latestPickupTime)) {
-				latestPickupTime = pickup.PickupTime;
+			if (latestPickupTime == null || run.PickupTime.IsAfter((ScheduleTime)latestPickupTime)) {
+				latestPickupTime = run.PickupTime;
 			}
 		}
 
-		public new bool Remove(Pickup pickup)
+		public new bool Remove(ScheduleRun run)
 		{
-			if (base.Remove(pickup)) {
-				Route.Remove(pickup.PickupStop);
-				Route.Remove(pickup.DropoffStop);
+			if (base.Remove(run)) {
+				Route.Remove(run.PickupStop);
+				Route.Remove(run.DropoffStop);
 				return true;
 			} else {
 				return false;
@@ -83,7 +83,7 @@ namespace ACE.Models
 			return true;
 		}
 
-		bool ContactIsEngaged(Contact contact, Func<Pickup, bool> isEngaged)
+		bool ContactIsEngaged(Contact contact, Func<ScheduleRun, bool> isEngaged)
 		{
 			if (contact.ContactType != ContactType.Client && contact.ContactType != ContactType.Office)
 				return false;

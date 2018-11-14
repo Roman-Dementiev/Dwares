@@ -15,26 +15,26 @@ namespace ACE.Views
 	{
 		ClassRef @class = new ClassRef(typeof(PickupDetailPage));
 
-		PickupDetailViewModel viewModel;
+		//PickupDetailViewModel viewModel;
 
-		public PickupDetailPage(Pickup pickup)
-		{
-			BindingContext = viewModel = new PickupDetailViewModel(pickup);
+		//public PickupDetailPage(Pickup pickup)
+		//{
+		//	BindingContext = viewModel = new PickupDetailViewModel(pickup);
 
-			try {
-				InitializeComponent();
-			} catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-				throw;
-			}
+		//	try {
+		//		InitializeComponent();
+		//	} catch (Exception ex) {
+		//		Debug.ExceptionCaught(ex);
+		//		throw;
+		//	}
 
-			//Debug.EnableTracing(@class);
+		//	//Debug.EnableTracing(@class);
 
-			//clientName.AutoSuggestionSelected += OnAutoSuggestionSelected;
-			//officeName.AutoSuggestionSelected += OnAutoSuggestionSelected;
-			//clientPhone.AutoSuggestionSelected += OnAutoSuggestionSelected;
-			//officePhone.AutoSuggestionSelected += OnAutoSuggestionSelected;
-		}
+		//	//clientName.AutoSuggestionSelected += OnAutoSuggestionSelected;
+		//	//officeName.AutoSuggestionSelected += OnAutoSuggestionSelected;
+		//	//clientPhone.AutoSuggestionSelected += OnAutoSuggestionSelected;
+		//	//officePhone.AutoSuggestionSelected += OnAutoSuggestionSelected;
+		//}
 
 		[System.Diagnostics.Conditional("DEBUG")]
 		private void TraceAutoSuggestionSelected(AutoSuggestionSelectedEventArgs e, [CallerMemberName] string method ="")
@@ -49,44 +49,44 @@ namespace ACE.Views
 
 		private void OnClientNameSelected(object sender, AutoSuggestionSelectedEventArgs e)
 		{
-			TraceAutoSuggestionSelected(e);
+			//TraceAutoSuggestionSelected(e);
 
-			if (e.SelectedItem is Contact contact) {
-				viewModel.OnClientSelected(contact);
-			}
+			//if (e.SelectedItem is Contact contact) {
+			//	viewModel.OnClientSelected(contact);
+			//}
 		}
 
 		private void OnClientPhoneSelected(object sender, AutoSuggestionSelectedEventArgs e)
 		{
-			TraceAutoSuggestionSelected(e);
+			//TraceAutoSuggestionSelected(e);
 
-			if (e.SelectedItem is Contact contact) {
-				viewModel.OnClientSelected(contact);
-			}
+			//if (e.SelectedItem is Contact contact) {
+			//	viewModel.OnClientSelected(contact);
+			//}
 		}
 
 		private void OnOfficeNameSelected(object sender, AutoSuggestionSelectedEventArgs e)
 		{
-			TraceAutoSuggestionSelected(e);
+			//TraceAutoSuggestionSelected(e);
 
-			if (e.SelectedItem is Contact contact) {
-				viewModel.OnOfficeSelected(contact);
-			}
+			//if (e.SelectedItem is Contact contact) {
+			//	viewModel.OnOfficeSelected(contact);
+			//}
 		}
 
 		private void OnOfficePhoneSelected(object sender, AutoSuggestionSelectedEventArgs e)
 		{
-			TraceAutoSuggestionSelected(e);
+			//TraceAutoSuggestionSelected(e);
 
-			if (e.SelectedItem is Contact contact) {
-				viewModel.OnOfficeSelected(contact);
-			}
+			//if (e.SelectedItem is Contact contact) {
+			//	viewModel.OnOfficeSelected(contact);
+			//}
 		}
 
 		protected override void OnAppearing()
 		{
-			base.OnAppearing();
-			viewModel.UpdateAutoSuggestions();
+			//base.OnAppearing();
+			//viewModel.UpdateAutoSuggestions();
 		}
 	}
 }
