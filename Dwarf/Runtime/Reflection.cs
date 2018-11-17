@@ -348,5 +348,22 @@ namespace Dwares.Dwarf.Runtime
 
 			return ParametersNames(methodInfo);
 		}
+
+		public static ConstructorInfo GetDefaultConstructor(Type type, bool publicOnly = true)
+		{
+			var typeInfo = type.GetTypeInfo();
+
+			var constructors = typeInfo.DeclaredConstructors;
+			foreach (var ctor in constructors)
+			{
+				if (ctor.GetParameters().Length == 0) {
+					if (publicOnly && !ctor.IsPublic)
+						break;
+					return ctor;
+				}
+			}
+
+			return null;
+		}
 	}
 }

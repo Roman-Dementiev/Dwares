@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if IoC
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
@@ -119,3 +120,4 @@ namespace Dwares.Dwarf.Runtime
 		// TODO
 	}
 }
+#endif

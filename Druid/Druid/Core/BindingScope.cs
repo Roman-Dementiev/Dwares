@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Xamarin.Forms;
+using Dwares.Dwarf.Runtime;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Satchel;
 
@@ -65,6 +66,29 @@ namespace Dwares.Druid
 		public virtual void UpdateCommands()
 		{
 		}
+
+		public T CreateBindable<T>() where T : BindableObject
+		{
+			var obj = ClassFactory.Create<T>(GetType());
+			if (obj != null) {
+				obj.BindingContext = this;
+			}
+			return obj;
+		}
+
+		public Page CreatePage() => CreateBindable<Page>();
+
+		public static T CreateBindable<T>(Type scopeType) where T : BindableObject
+		{
+			var obj = ClassFactory.Create<T>(scopeType);
+			if (obj != null) {
+				var scope = ClassFactory.Construct(scopeType);
+				obj.BindingContext = scope;
+			}
+			return obj;
+		}
+
+		public static Page CreatePage(Type scopeType) => CreateBindable<Page>(scopeType);
 	}
 
 	public static partial class Extensions
