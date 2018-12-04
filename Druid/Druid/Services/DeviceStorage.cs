@@ -20,17 +20,24 @@ namespace Dwares.Druid.Services
 	{
 		string Name { get; }
 		DateTime DateCreated { get; }
+
+		Task WriteBytesAsync(byte[] buffer);
+		Task WriteTextAsync(string text);
+		Task<string> ReadTextAsync();
 	}
 
 	public interface IDeviceFolder
 	{
-		Task<bool> ExistsAsync(string filename);
+		Task<bool> FileExistsAsync(string filename);
 		Task<DateTime> DateCreatedAsync(string filename);
 		Task WriteTextAsync(string filename, string text);
 		Task<string> ReadTextAsync(string filename);
 		Task<IEnumerable<string>> ListFileNamesAsync();
 		Task<IEnumerable<IDeviceFile>> ListFilesAsync();
 		Task DeleteAsync(string filename);
+
+		Task<IDeviceFile> CreateFileAsync(string filename, bool replace);
+		Task<IDeviceFile> GetFileAsync(string filename);
 	}
 
 	public interface IDeviceStorage

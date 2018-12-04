@@ -11,11 +11,11 @@ namespace Dwares.Druid.UI
 {
 	public class CanvasView : SKCanvasView
 	{
-		public static ClassRef @class => new ClassRef(typeof(CanvasView));
+		static new ClassRef @class => new ClassRef(typeof(CanvasView));
 
 		public CanvasView()
 		{
-			Debug.EnableTracing(@class);
+			//Debug.EnableTracing(@class);
 		}
 
 		public virtual IRatio<int> AspectRatio { get => Rational.None; }

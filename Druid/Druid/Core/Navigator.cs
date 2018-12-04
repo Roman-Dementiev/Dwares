@@ -130,22 +130,22 @@ namespace Dwares.Druid
 			return Navigation != null;
 		}
 
-		public static async Task NavigateTo(Page page)
-		{
-			await PushPage(page, false, true);
-		}
+		//public static async Task NavigateTo(Page page)
+		//{
+		//	await PushPage(page, false);
+		//}
 
 		//public static async void NavigateBack()
 		//{
 		//	await PopPageAsync();
 		//}
 
-		public static async Task PushModal(Page page, bool asNavigationPage=true)
+		public static async Task PushModal(Page page)
 		{
-			await PushPage(page, true, asNavigationPage);
+			await PushPage(page, true);
 		}
 
-		public static async Task PushPage(Page page, bool modal, bool asNavigatopPage)
+		public static async Task PushPage(Page page, bool modal = false)
 		{
 			if (page == null)
 				return;
@@ -158,10 +158,6 @@ namespace Dwares.Druid
 			if (!modal && HasModal) {
 				Debug.Fail("Can not navigate to modeless page while in modal");
 				return;
-			}
-
-			if (asNavigatopPage) {
-				page = new NavigationPage(page);
 			}
 
 			if (modal) {

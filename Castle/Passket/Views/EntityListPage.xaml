@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  Title="{Binding Title}"
+				  x:Class="Passket.Views.EntityListPage">
+
+	<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<Style TargetType="Label" x:Key="nameStyle">
+				<Setter Property="Margin" Value="2,0" />
+				<Setter Property="FontAttributes" Value="Bold" />
+			</Style>
+			<Style TargetType="Label" x:Key="infoStyle">
+				<Setter Property="Margin" Value="2,0" />
+				<Setter Property="FontSize" Value="14" />
+			</Style>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Frame Grid.Row="0"
+			   x:Name="somePanel"
+			   IsVisible="False"
+			   />
+
+
+		<ListView Grid.Row="1"
+				  x:Name="listView"
+				  ItemsSource= "{Binding Items}"
+				  SeparatorVisibility= "None"
+				  ItemSelected="ListView_ItemSelected"
+				  >
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<!--<ContentView>-->
+						<StackLayout Orientation= "Horizontal"
+									 Margin="0, 4"
+									 >
+							<ui:ActionImage Icon= "{Binding Icon}"
+											VerticalOptions="Center"
+											Margin="2"
+											WidthRequest="40"
+											HeightRequest="40"
+											/>
+							<StackLayout Orientation="Vertical"
+										 VerticalOptions="Center"
+										 >
+								<Label Text= "{Binding Name}" 
+								   Style="{StaticResource Key=nameStyle}"
+								   />
+								<Label Text= "{Binding Info}" 
+								   Style="{StaticResource Key=infoStyle}"
+								   />
+							</StackLayout>
+						</StackLayout>
+						<!--</ContentView>-->
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+	</Grid>
+</ui:ContentPageEx>
+	

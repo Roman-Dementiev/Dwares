@@ -6,7 +6,7 @@ namespace $rootnamespace$
 {
 	public class $safeitemname$
 	{
-		//ClassRef @class = new ClassRef(typeof($safeitemname$));
+		//static ClassRef @class = new ClassRef(typeof($safeitemname$));
 
 		public $safeitemname$()
 		{

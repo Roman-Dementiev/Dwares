@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Runtime;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Satchel;
@@ -10,19 +11,16 @@ namespace Dwares.Druid
 {
 	public class BindingScope : PropertyNotifier, IDescendant
 	{
+		static readonly ClassRef @class = new ClassRef(typeof(BindingScope));
+		
 		public static BindingScope AppScope {
 			get => Application.Current?.BindingContext as BindingScope;
 		}
 
 		public BindingScope(BindingScope parentScope)
 		{
+			Debug.EnableTracing(@class);
 			ParentScope = parentScope;
-		}
-
-		string title = string.Empty;
-		public string Title {
-			get { return title; }
-			set { SetProperty(ref title, value); }
 		}
 
 		public BindingScope ParentScope { get; protected set; }
@@ -69,7 +67,7 @@ namespace Dwares.Druid
 
 		public T CreateBindable<T>() where T : BindableObject
 		{
-			var obj = ClassFactory.Create<T>(GetType());
+			var obj = ClassLocator.Create<T>(GetType());
 			if (obj != null) {
 				obj.BindingContext = this;
 			}
@@ -80,15 +78,20 @@ namespace Dwares.Druid
 
 		public static T CreateBindable<T>(Type scopeType) where T : BindableObject
 		{
-			var obj = ClassFactory.Create<T>(scopeType);
+			var obj = ClassLocator.Create<T>(scopeType);
 			if (obj != null) {
-				var scope = ClassFactory.Construct(scopeType);
+				var scope = ClassLocator.Construct(scopeType);
 				obj.BindingContext = scope;
 			}
 			return obj;
 		}
 
-		public static Page CreatePage(Type scopeType) => CreateBindable<Page>(scopeType);
+		public static Page CreatePage(Type scopeType)
+		{
+			var page = CreateBindable<Page>(scopeType);
+			Debug.Trace(@class, nameof(CreatePage), "scopeType={0} => {1}", scopeType, page);
+			return page;
+		}
 	}
 
 	public static partial class Extensions

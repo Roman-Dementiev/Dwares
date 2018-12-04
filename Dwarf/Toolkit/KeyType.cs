@@ -7,10 +7,10 @@ namespace Dwares.Dwarf.Toolkit
 	{
 		protected KeyType() { }
 
-		protected KeyType(TKey key)
-		{
-			Key = key;
-		}
+		//protected KeyType(TKey key)
+		//{
+		//	Key = key;
+		//}
 
 		public TKey Key { get; protected set; }
 
@@ -18,11 +18,14 @@ namespace Dwares.Dwarf.Toolkit
 		{
 			return new T { Key = key };
 		}
+
+		public override string ToString() => Key.ToString();
 	}
 
 	public class KeyType : KeyType<string>
 	{
 		protected KeyType() { }
+		//protected KeyType(string key) : base(key) { }
 	}
 
 

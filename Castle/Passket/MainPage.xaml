@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:CarouselPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				   x:Class="Passket.MainPage">
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<ui:CarouselPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:CarouselPageEx.ToolbarItems>
+
+	<ContentPage>
+		<Label Text="Page 1" />
+	</ContentPage>
+	<ContentPage>
+		<Label Text="Page 2" />
+	</ContentPage>
+	<ContentPage>
+		<Label Text="Page 3" />
+	</ContentPage>
+
+</ui:CarouselPageEx>
+	

@@ -46,6 +46,7 @@
       <DependentUpon>DruidContentPage.xaml</DependentUpon>
     </None>
     <None Include="DwarfClass.cs" />
+    <Compile Include="DruidViewModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Parameters.cs" />
@@ -55,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="csharp.png" />
+    <Content Include="druid.png" />
+    <Content Include="dwarf.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DruidContentPage.xaml">

@@ -23,6 +23,39 @@ namespace Dwares.Druid.UWP
 
 		public string Name => file.Name;
 		public DateTime DateCreated => file.DateCreated.DateTime;
+
+		public async Task WriteBytesAsync(byte[] buffer)
+		{
+			try {
+				await FileIO.WriteBytesAsync(file, buffer);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+			}
+
+		}
+
+		public async Task WriteTextAsync(string text)
+		{
+			try {
+				await FileIO.WriteTextAsync(file, text);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+			}
+		}
+
+		public async Task<string> ReadTextAsync()
+		{
+			try {
+				return await FileIO.ReadTextAsync(file);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+				return null;
+			}
+
+		}
 	}
 
 	class DeviceFolder : IDeviceFolder
@@ -34,7 +67,7 @@ namespace Dwares.Druid.UWP
 			this.folder = folder;
 		}
 
-		public async Task<bool> ExistsAsync(string filename)
+		public async Task<bool> FileExistsAsync(string filename)
 		{
 			try {
 				var storageFile = await folder.GetFileAsync(filename);
@@ -53,7 +86,8 @@ namespace Dwares.Druid.UWP
 					return storageFile.DateCreated.DateTime;
 				}
 			}
-			catch {
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
 			}
 			return new DateTime(0);
 		}
@@ -61,7 +95,7 @@ namespace Dwares.Druid.UWP
 		public async Task WriteTextAsync(string filename, string text)
 		{
 			try {
-				IStorageFile storageFile = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+				var storageFile = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
 				await FileIO.WriteTextAsync(storageFile, text);
 			}
 			catch (Exception ex) {
@@ -72,7 +106,7 @@ namespace Dwares.Druid.UWP
 		public async Task<string> ReadTextAsync(string filename)
 		{
 			try {
-				IStorageFile storageFile = await folder.GetFileAsync(filename);
+				var storageFile = await folder.GetFileAsync(filename);
 				if (storageFile != null) {
 					return await FileIO.ReadTextAsync(storageFile);
 				} else {
@@ -88,7 +122,7 @@ namespace Dwares.Druid.UWP
 		public async Task<IEnumerable<string>> ListFileNamesAsync()
 		{
 			try {
-				IEnumerable<string> filenames =
+				var filenames =
 					from storageFile in await folder.GetFilesAsync()
 					select storageFile.Name;
 
@@ -122,7 +156,7 @@ namespace Dwares.Druid.UWP
 		public async Task DeleteAsync(string filename)
 		{
 			try {
-				StorageFile storageFile = await folder.GetFileAsync(filename);
+				var storageFile = await folder.GetFileAsync(filename);
 				await storageFile.DeleteAsync();
 			}
 			catch (Exception ex) {
@@ -130,6 +164,30 @@ namespace Dwares.Druid.UWP
 			}
 		}
 
+		public async Task<IDeviceFile> CreateFileAsync(string filename, bool replace)
+		{
+			try {
+				var option = replace ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.OpenIfExists;
+				var storageFile = await folder.CreateFileAsync(filename, option);
+				return new DeviceFile(storageFile);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+				return null;
+			}
+		}
+
+		public async Task<IDeviceFile> GetFileAsync(string filename)
+		{
+			try {
+				var storageFile = await folder.GetFileAsync(filename);
+				return new DeviceFile(storageFile);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+				return null;
+			}
+		}
 	}
 
 	public class DeviceStorage : IDeviceStorage
