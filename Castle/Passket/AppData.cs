@@ -4,9 +4,10 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
-using Dwares.Druid.Services;
+using Dwares.Druid;
 using Passket.Models;
 using Passket.Storage;
+
 
 namespace Passket
 {
@@ -19,13 +20,6 @@ namespace Passket
 			get => LazyInitializer.EnsureInitialized(ref instance);
 		}
 
-#if DEBUG
-		const StorageLocation cLocation = StorageLocation.Pictures;
-#else
-		const StorageLocation cLocation = StorageLocation.AppData;
-#endif
-		const string cFilename = "Passket.json";
-
 		AppStorage storage;
 		uint lastId = 0;
 
@@ -37,22 +31,34 @@ namespace Passket
 		public AppData()
 		{
 			//Debug.EnableTracing(@class);
+
+		#if DEBUG
+			//DataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+#else
+			DataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+#endif
 		}
+
+		//const string cFilename = "MyPassket.passket";
+		//public string DataFolder { get; }
+		const string cPassketPath = "@MyPictures/MyPassket.passket";
 
 		public async void Initialize()
 		{
+			//var path = Path.Combine(DataFolder, cFilename);
+			//storage = new JsonStorage(path);
+			storage = new JsonStorage(cPassketPath);
+
 			try {
-				var folder = await DeviceStorage.GetFolder(cLocation);
-				bool exists = await folder.FileExistsAsync(cFilename);
-				if (exists) {
-					var file = await folder.GetFileAsync(cFilename);
-					storage = new JsonStorage(file);
+				if (await storage.Exists()) {
 					await storage.Load();
-				} else {
-					var file = await folder.CreateFileAsync(cFilename, true);
-					storage = new JsonStorage(file);
+					return;
 				}
-			} catch (Exception ex) {
+				//else {
+				//	File.Create(path);
+				//}
+			}
+			catch (Exception ex) {
 				Debug.ExceptionCaught(ex);
 			}
 

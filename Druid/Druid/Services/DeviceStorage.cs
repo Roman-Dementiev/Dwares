@@ -32,6 +32,7 @@ namespace Dwares.Druid.Services
 		Task<DateTime> DateCreatedAsync(string filename);
 		Task WriteTextAsync(string filename, string text);
 		Task<string> ReadTextAsync(string filename);
+		//Task<byte[]> ReadBytesAsync(string filename);
 		Task<IEnumerable<string>> ListFileNamesAsync();
 		Task<IEnumerable<IDeviceFile>> ListFilesAsync();
 		Task DeleteAsync(string filename);

@@ -13,8 +13,8 @@ namespace Passket.Storage
 	{
 		//static ClassRef @class = new ClassRef(typeof(JsonStorage));
 
-		public JsonStorage(IDeviceFile file) :
-			base(file)
+		public JsonStorage(string path) :
+			base(path)
 		{
 			//Debug.EnableTracing(@class);
 		}
@@ -30,8 +30,13 @@ namespace Passket.Storage
 		protected override Task Deserialize(Stream input)
 		{
 			var serializer = new DataContractJsonSerializer(typeof(SData));
-			SData json = (SData)serializer.ReadObject(input);
+			var data = (SData)serializer.ReadObject(input);
 			
+			foreach (var spat in data.Patterns) {
+				var pattern = spat;
+				AppData.Patterns.Add(pattern);
+			}
+
 			return Task.CompletedTask;
 		}
 	}

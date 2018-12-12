@@ -11,6 +11,24 @@ namespace Dwares.Dwarf
 			return Enum.GetName(typeof(T), value);
 		}
 
+		public static T Parse<T>(string name) where T : struct
+		{
+			var parsed = Enum.Parse(typeof(T), name);
+			return (T)parsed;
+		}
+
+		public static bool TryParse<T>(string name, out T value) where T : struct
+		{
+			var parsed = Enum.Parse(typeof(T), name);
+			if (parsed is T val) {
+				value = val;
+				return true;
+			} 
+
+			value = default(T);
+			return false;
+		}
+
 		public static Dictionary<string, T> GetValueByNameDictionary<T>()
 		{
 			var type = typeof(T);

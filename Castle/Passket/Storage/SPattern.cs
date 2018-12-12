@@ -54,5 +54,21 @@ namespace Passket.Storage
 
 			return spat;
 		}
+
+		public static implicit operator Pattern(SPattern spat)
+		{
+			var pattern = new Pattern();
+
+			for (int i = 0; i < spat.Fields.Length; i++) {
+				var sf = spat.Fields[i];
+				var field = new Pattern.Field {
+					Name = sf.Name,
+					Kind = EntryKind.ForKey(sf.Kind)
+				};
+				pattern.Fields.Add(field);
+			}
+
+			return pattern;
+		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Xamarin.Forms;
@@ -110,6 +111,24 @@ namespace Dwares.Druid.UWP
 				if (storageFile != null) {
 					return await FileIO.ReadTextAsync(storageFile);
 				} else {
+					return null;
+				}
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+				return null;
+			}
+		}
+
+		public async Task<byte[]> ReadBytesAsync(string filename)
+		{
+			try {
+				var storageFile = await folder.GetFileAsync(filename);
+				if (storageFile != null) {
+					var text = await FileIO.ReadTextAsync(storageFile);
+					return Encoding.UTF8.GetBytes(text);
+				}
+				else {
 					return null;
 				}
 			}

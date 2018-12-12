@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Dwares.Dwarf.Toolkit
 {
@@ -12,6 +12,8 @@ namespace Dwares.Dwarf.Toolkit
 		//	Key = key;
 		//}
 
+		public override string ToString() => Key.ToString();
+
 		public TKey Key { get; protected set; }
 
 		public static T Create<T>(TKey key) where T : KeyType<TKey>, new()
@@ -19,7 +21,24 @@ namespace Dwares.Dwarf.Toolkit
 			return new T { Key = key };
 		}
 
-		public override string ToString() => Key.ToString();
+		public static T Create<T>(TKey key, Dictionary<TKey, T> dict) where T : KeyType<TKey>, new()
+		{
+			var value = new T { Key = key };
+			if (dict != null) {
+				dict.Add(key, value);
+
+			}
+			return value;
+		}
+
+		public static T ForKey<T>(TKey key, Dictionary<TKey, T> dict) where T : KeyType<TKey>, new()
+		{
+			if (dict.ContainsKey(key)) {
+				return dict[key];
+			} else {
+				return null;
+			}
+		}
 	}
 
 	public class KeyType : KeyType<string>

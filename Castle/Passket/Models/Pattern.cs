@@ -9,7 +9,7 @@ namespace Passket.Models
 	{
 		//static ClassRef @class = new ClassRef(typeof(Pattern));
 
-		public struct Field
+		public class Field
 		{
 			public string Name { get; set; }
 			public EntryKind Kind { get; set; }
@@ -51,7 +51,7 @@ namespace Passket.Models
 			return -1;
 		}
 
-		public Field? GetField(string name)
+		public Field GetField(string name)
 		{
 			foreach (var field in Fields) {
 				if (field.Name == name)

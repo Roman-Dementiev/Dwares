@@ -15,6 +15,7 @@ namespace Passket.Storage
 			//Debug.EnableTracing(@class);
 		}
 
+		public abstract Task<bool> Exists();
 		public abstract Task Load();
 		public abstract Task Save();
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using Dwares.Dwarf.Toolkit;
 
 
@@ -17,6 +19,10 @@ namespace Passket.Models
 		public static readonly EntryKind PINCode = Create(nameof(PINCode));
 		public static readonly EntryKind Hint = Create(nameof(Hint));
 
-		public static EntryKind Create(string key) => Create<EntryKind>(key);
+		public static EntryKind ForKey(string key) => ForKey<EntryKind>(key, Dict);
+		public static EntryKind Create(string key) => Create<EntryKind>(key, Dict);
+
+		static Dictionary<string, EntryKind> dict;
+		static Dictionary<string, EntryKind> Dict => LazyInitializer.EnsureInitialized(ref dict);
 	}
 }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
-using Dwares.Druid.Services;
+using Dwares.Druid;
 using System.Runtime.Serialization;
 
 
@@ -13,14 +13,14 @@ namespace Passket.Storage
 	{
 		//static ClassRef @class = new ClassRef(typeof(SerialStorage));
 
-		public SerialStorage(IDeviceFile file)
+		public SerialStorage(string path)
 		{
 			//Debug.EnableTracing(@class);
 
-			File = file ?? throw new ArgumentNullException(nameof(file));
+			Path = path ?? throw new ArgumentNullException(nameof(path));
 		}
 
-		public IDeviceFile File { get; }
+		public string Path { get; }
 
 		protected virtual Encoding Encoding {
 			get => Encoding.UTF8;
@@ -29,10 +29,15 @@ namespace Passket.Storage
 		protected abstract Task Serialize(Stream output);
 		protected abstract Task Deserialize(Stream input);
 
+		public override async Task<bool> Exists()
+		{
+			return await Files.FileExists(Path);
+		}
+
 		public override async Task Load()
 		{
-			var text = await File.ReadTextAsync();
-			using (var stream = new MemoryStream(Encoding.GetBytes(text))) {
+			var bytes = await Files.ReadAllBytes(Path);
+			using (var stream = new MemoryStream(bytes)) {
 				await Deserialize(stream);
 			}
 		}
@@ -44,7 +49,7 @@ namespace Passket.Storage
 				await stream.FlushAsync();
 
 				var bytes = stream.ToArray();
-				await File.WriteBytesAsync(bytes);
+				await Files.WriteAllBytes(Path, bytes);
 			}
 		}
 	}

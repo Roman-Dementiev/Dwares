@@ -15,6 +15,9 @@ namespace Passket.Storage
 		[DataMember(Name = "Patterns", EmitDefaultValue = false)]
 		public SPattern[] Patterns { get; set; }
 
+		[DataMember(Name = "Records", EmitDefaultValue = false)]
+		public SRecord[] Records { get; set; }
+
 		public SData(string version)
 		{
 			Version = version;
@@ -23,6 +26,12 @@ namespace Passket.Storage
 			Patterns = new SPattern[patterns.Count];
 			for (int i = 0; i < patterns.Count; i++) {
 				Patterns[i] = patterns[i];
+			}
+
+			var records = AppData.Records;
+			Records = new SRecord[records.Count];
+			for (int i = 0; i < records.Count; i++) {
+				Records[i] = records[i];
 			}
 		}
 	}
