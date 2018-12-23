@@ -17,7 +17,7 @@ namespace Dwares.Druid
 			{
 				var deviceFolder = await AsDeviceFolder(folder);
 				if (deviceFolder != null) {
-					return await deviceFolder.FileExistsAsync(path);
+					return await deviceFolder.FileExists(path);
 				}
 
 				var folderPath = Environment.GetFolderPath(folder);
@@ -35,7 +35,7 @@ namespace Dwares.Druid
 			{
 				var deviceFolder = await AsDeviceFolder(folder);
 				if (deviceFolder != null) {
-					var text =  await deviceFolder.ReadTextAsync(path);
+					var text =  await deviceFolder.ReadText(path);
 					return Encoding.UTF8.GetBytes(text);
 				}
 
@@ -53,7 +53,7 @@ namespace Dwares.Druid
 				var deviceFolder = await AsDeviceFolder(folder);
 				if (deviceFolder != null) {
 					var text = Encoding.UTF8.GetString(bytes);
-					await deviceFolder.WriteTextAsync(path, text);
+					await deviceFolder.WriteText(path, text);
 					return;
 				}
 
@@ -99,19 +99,11 @@ namespace Dwares.Druid
 				switch (folder)
 				{
 				case Environment.SpecialFolder.ApplicationData:
-					return await DeviceStorage.GetFolder(StorageLocation.AppData);
-
 				case Environment.SpecialFolder.MyDocuments:
-					return await DeviceStorage.GetFolder(StorageLocation.Documents);
-
 				case Environment.SpecialFolder.MyMusic:
-					return await DeviceStorage.GetFolder(StorageLocation.Music);
-
 				case Environment.SpecialFolder.MyPictures:
-					return await DeviceStorage.GetFolder(StorageLocation.Pictures);
-
 				case Environment.SpecialFolder.MyVideos:
-					return await DeviceStorage.GetFolder(StorageLocation.Videos);
+					return await DeviceStorage.GetFolder(folder);
 				}
 			}
 

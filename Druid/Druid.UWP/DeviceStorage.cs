@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,51 +14,53 @@ using Dwares.Druid.Services;
 
 namespace Dwares.Druid.UWP
 {
-	class DeviceFile : IDeviceFile
-	{
-		StorageFile file;
+	using StorageLocation = Environment.SpecialFolder;
 
-		public DeviceFile(StorageFile file)
-		{
-			this.file = file;
-		}
+	//class DeviceFile : IDeviceFile
+	//{
+	//	StorageFile file;
 
-		public string Name => file.Name;
-		public DateTime DateCreated => file.DateCreated.DateTime;
+	//	public DeviceFile(StorageFile file)
+	//	{
+	//		this.file = file;
+	//	}
 
-		public async Task WriteBytesAsync(byte[] buffer)
-		{
-			try {
-				await FileIO.WriteBytesAsync(file, buffer);
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-			}
+	//	public string Name => file.Name;
+	//	public DateTime DateCreated => file.DateCreated.DateTime;
 
-		}
+	//	public async Task WriteBytesAsync(byte[] buffer)
+	//	{
+	//		try {
+	//			await FileIO.WriteBytesAsync(file, buffer);
+	//		}
+	//		catch (Exception ex) {
+	//			Debug.ExceptionCaught(ex);
+	//		}
 
-		public async Task WriteTextAsync(string text)
-		{
-			try {
-				await FileIO.WriteTextAsync(file, text);
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-			}
-		}
+	//	}
 
-		public async Task<string> ReadTextAsync()
-		{
-			try {
-				return await FileIO.ReadTextAsync(file);
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-				return null;
-			}
+	//	public async Task WriteTextAsync(string text)
+	//	{
+	//		try {
+	//			await FileIO.WriteTextAsync(file, text);
+	//		}
+	//		catch (Exception ex) {
+	//			Debug.ExceptionCaught(ex);
+	//		}
+	//	}
 
-		}
-	}
+	//	public async Task<string> ReadTextAsync()
+	//	{
+	//		try {
+	//			return await FileIO.ReadTextAsync(file);
+	//		}
+	//		catch (Exception ex) {
+	//			Debug.ExceptionCaught(ex);
+	//			return null;
+	//		}
+
+	//	}
+	//}
 
 	class DeviceFolder : IDeviceFolder
 	{
@@ -68,170 +71,255 @@ namespace Dwares.Druid.UWP
 			this.folder = folder;
 		}
 
-		public async Task<bool> FileExistsAsync(string filename)
+		string[] SplitPath(string path, bool isFolder)
 		{
-			try {
-				var storageFile = await folder.GetFileAsync(filename);
-				return storageFile != null;
-			}
-			catch {
-				return false;
-			}
-		}
+			if (path == null)
+				throw new ArgumentNullException(nameof(path));
 
-		public async Task<DateTime> DateCreatedAsync(string filename)
-		{
-			try {
-				var storageFile = await folder.GetFileAsync(filename);
-				if (storageFile != null) {
-					return storageFile.DateCreated.DateTime;
+			var split = path.Split('/', '\\');
+			
+			for (int i = 0; i < split.Length; i++) {
+				if (split[i].Length == 0) {
+					if (isFolder && i == split.Length-1)
+						return split.Slice(0, i);
+
+					throw new ArgumentException("Path contains empty element", nameof(path));
 				}
 			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-			}
-			return new DateTime(0);
+
+			if (split.Length == 0 && !isFolder)
+				throw new ArgumentException("Empty file path", nameof(path));
+
+			return split;
 		}
 
-		public async Task WriteTextAsync(string filename, string text)
+		async Task<StorageFolder> GetStorageFolder(string path, bool create, bool throwErrors)
 		{
-			try {
-				var storageFile = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
-				await FileIO.WriteTextAsync(storageFile, text);
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-			}
+			var names = SplitPath(path, true);
+
+			return await GetStorageFolder(names, names.Length, create, throwErrors);
 		}
 
-		public async Task<string> ReadTextAsync(string filename)
+		async Task<StorageFolder> GetStorageFolder(string[] names, int count, bool create, bool throwErrors)
 		{
 			try {
-				var storageFile = await folder.GetFileAsync(filename);
-				if (storageFile != null) {
-					return await FileIO.ReadTextAsync(storageFile);
-				} else {
-					return null;
+				var folder = this.folder;
+				for (int i = 0; i < count; i++) {
+					var subFolder = await folder.GetFolderAsync(names[i]);
+					if (subFolder == null) {
+						if (create) {
+							subFolder = await folder.CreateFolderAsync(names[i]);
+							if (subFolder == null) {
+								var path = string.Join('/', names, 0, i+1);
+								throw new FileNotFoundException("Can not create folder", path);
+							}
+						}
+						else {
+							var path = string.Join('/', names, 0, i+1);
+							throw new FileNotFoundException("Folder not found", path);
+						}
+					}
+
+					folder = subFolder;
 				}
+
+				return folder;
 			}
 			catch (Exception ex) {
+				if (throwErrors)
+					throw;
 				Debug.ExceptionCaught(ex);
 				return null;
 			}
 		}
 
-		public async Task<byte[]> ReadBytesAsync(string filename)
+		//public async Task<StorageFile> CreateStorageFile(string path, bool replace, bool throwErrors)
+		//{
+
+		//}
+
+		public async Task<StorageFile> CreateStorageFile(StorageFolder folder, string filename, bool replace, bool throwErrors)
 		{
 			try {
-				var storageFile = await folder.GetFileAsync(filename);
-				if (storageFile != null) {
-					var text = await FileIO.ReadTextAsync(storageFile);
-					return Encoding.UTF8.GetBytes(text);
+				var options = replace ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.FailIfExists;
+				return await folder.CreateFileAsync(filename, options);
+			}
+			catch (Exception ex) {
+				if (throwErrors)
+					throw;
+				Debug.ExceptionCaught(ex);
+				return null;
+			}
+		}
+
+		public async Task<StorageFile> GetStorageFile(string path, bool create, bool throwErrors)
+		{
+			var names = SplitPath(path, false);
+			var folder = await GetStorageFolder(names, names.Length-1, create, throwErrors);
+			var filename = names[names.Length-1];
+
+			try {
+				return await folder.GetFileAsync(filename);
+			}
+			catch (Exception ex) {
+				if (ex is FileNotFoundException && create) {
+					return await CreateStorageFile(folder, filename, true, throwErrors);
 				}
-				else {
-					return null;
-				}
-			}
-			catch (Exception ex) {
+				if (throwErrors)
+					throw;
 				Debug.ExceptionCaught(ex);
 				return null;
 			}
 		}
 
-		public async Task<IEnumerable<string>> ListFileNamesAsync()
+		public async Task<IDeviceFolder> GetFolder(string path, bool create, bool throwErrors)
 		{
-			try {
-				var filenames =
-					from storageFile in await folder.GetFilesAsync()
-					select storageFile.Name;
-
-				return filenames;
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+			var names = SplitPath(path, true);
+			var folder = await GetStorageFolder(names, names.Length, create, throwErrors);
+			if (folder != null) {
+				return new DeviceFolder(folder);
+			} else {
 				return null;
 			}
 		}
 
-		public async Task<IEnumerable<IDeviceFile>> ListFilesAsync()
+		public async Task<bool> FileExists(string path)
 		{
-			try {
-				//IEnumerable<StorageFile>storageFiles =
-				//	from storageFile in await folder.GetFilesAsync() select storageFile;
-				var storageFiles = await folder.GetFilesAsync();
+			var file = await GetStorageFile(path, false, false);
+			return file != null;
+		}
 
-				var files = new List<DeviceFile>();
-				foreach (var storageFile in storageFiles) {
-					files.Add(new DeviceFile(storageFile));
-				}
-				return files;
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-				return null;
+		public async Task CreateFile(string path, bool replace)
+		{
+			var names = SplitPath(path, false);
+			var folder = await GetStorageFolder(names, names.Length-1, replace, true);
+			var filename = names[names.Length-1];
+
+			await CreateStorageFile(folder, filename, replace, true);
+		}
+
+		public async Task DeleteFile(string path)
+		{
+			var file = await GetStorageFile(path, false, false);
+			if (file != null) {
+				await file.DeleteAsync();
 			}
 		}
 
-		public async Task DeleteAsync(string filename)
+		public async Task<DateTime> DateCreated(string path)
 		{
-			try {
-				var storageFile = await folder.GetFileAsync(filename);
-				await storageFile.DeleteAsync();
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+			var file = await GetStorageFile(path, false, false);
+			if (file != null) {
+				return file.DateCreated.DateTime;
+			} else {
+				return new DateTime(0);
 			}
 		}
 
-		public async Task<IDeviceFile> CreateFileAsync(string filename, bool replace)
+		public async Task WriteText(string path, string text)
 		{
-			try {
-				var option = replace ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.OpenIfExists;
-				var storageFile = await folder.CreateFileAsync(filename, option);
-				return new DeviceFile(storageFile);
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-				return null;
-			}
+			var file = await GetStorageFile(path, true, true);
+			await FileIO.WriteTextAsync(file, text);
 		}
 
-		public async Task<IDeviceFile> GetFileAsync(string filename)
+		public async Task<string> ReadText(string path)
 		{
-			try {
-				var storageFile = await folder.GetFileAsync(filename);
-				return new DeviceFile(storageFile);
-			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
-				return null;
-			}
+			var file = await GetStorageFile(path, true, true);
+			return await FileIO.ReadTextAsync(file);
 		}
+
+		public async Task<byte[]> ReadBytes(string path)
+		{
+			var file = await GetStorageFile(path, true, true);
+			var text = await FileIO.ReadTextAsync(file);
+			return Encoding.UTF8.GetBytes(text);
+		}
+
+		//public async Task<IEnumerable<string>> ListFileNamesAsync()
+		//{
+		//	try {
+		//		var filenames =
+		//			from storageFile in await folder.GetFilesAsync()
+		//			select storageFile.Name;
+
+		//		return filenames;
+		//	}
+		//	catch (Exception ex) {
+		//		Debug.ExceptionCaught(ex);
+		//		return null;
+		//	}
+		//}
+
+		//public async Task<IEnumerable<IDeviceFile>> ListFilesAsync()
+		//{
+		//	try {
+		//		//IEnumerable<StorageFile>storageFiles =
+		//		//	from storageFile in await folder.GetFilesAsync() select storageFile;
+		//		var storageFiles = await folder.GetFilesAsync();
+
+		//		var files = new List<DeviceFile>();
+		//		foreach (var storageFile in storageFiles) {
+		//			files.Add(new DeviceFile(storageFile));
+		//		}
+		//		return files;
+		//	}
+		//	catch (Exception ex) {
+		//		Debug.ExceptionCaught(ex);
+		//		return null;
+		//	}
+		//}
+
+		//public async Task<IDeviceFile> CreateFileAsync(string filename, bool replace)
+		//{
+		//	try {
+		//		var option = replace ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.OpenIfExists;
+		//		var storageFile = await folder.CreateFileAsync(filename, option);
+		//		return new DeviceFile(storageFile);
+		//	}
+		//	catch (Exception ex) {
+		//		Debug.ExceptionCaught(ex);
+		//		return null;
+		//	}
+		//}
+
+		//public async Task<IDeviceFile> GetFileAsync(string filename)
+		//{
+		//	try {
+		//		var storageFile = await folder.GetFileAsync(filename);
+		//		return new DeviceFile(storageFile);
+		//	}
+		//	catch (Exception ex) {
+		//		Debug.ExceptionCaught(ex);
+		//		return null;
+		//	}
+		//}
 	}
 
 	public class DeviceStorage : IDeviceStorage
 	{
-		public async Task<IDeviceFolder> GetFolder(string path, StorageLocation location = StorageLocation.AppData, bool create = true)
+		public async Task<IDeviceFolder> GetFolder(string path, StorageLocation location, bool create)
 		{
 			try {
 				StorageFolder folder;
 				switch (location) {
-				case StorageLocation.Documents:
-#if FIXED_AccessToDocumentsFolder //TODO: Permission/Capabilities to access Documents folders ?
+				case StorageLocation.MyDocuments:
 					folder = KnownFolders.DocumentsLibrary;
 					break;
-#endif
-				case StorageLocation.Pictures:
+
+				case StorageLocation.MyPictures:
 					folder = KnownFolders.PicturesLibrary;
 					break;
 
-				case StorageLocation.Music:
+				case StorageLocation.MyMusic:
 					folder = KnownFolders.MusicLibrary;
 					break;
 
-				case StorageLocation.Videos:
+				case StorageLocation.MyVideos:
 					folder = KnownFolders.VideosLibrary;
 					break;
+				
+
+				// TODO
 
 				default:
 					folder = ApplicationData.Current.LocalFolder;
