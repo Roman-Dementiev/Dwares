@@ -3,7 +3,7 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 
 
-namespace Passket
+namespace Rookie
 {
 	public class AppScope : BindingScope
 	{
