@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{7EBD81CD-D689-49AC-95C2-14647C6DF947}</ProjectGuid>
+    <ProjectGuid>{2ABE5518-B06E-471E-9846-0340201DE14F}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rookie.UWP</RootNamespace>
@@ -18,7 +18,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Rookie.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>6D36E0289638354351DB19569018689BCA8047C3</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>85D22A92361AB0704817966B53C1637F946C718E</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -97,6 +97,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SecureStorage.cs" />
+    <Compile Include="Services\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -131,6 +133,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Images\e109.png" />
+    <Content Include="Images\e10a.png" />
+    <Content Include="Images\e10b.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -144,8 +149,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
+    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1009999" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Druid\Druid.UWP\Druid.UWP.csproj">
@@ -153,15 +158,15 @@
       <Name>Druid.UWP</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Druid\Druid\Druid.csproj">
-      <Project>{04fbac13-77e0-4fec-8210-baeca0901034}</Project>
+      <Project>{da1fd3ed-875f-44ce-8f9a-859f6a7f80cd}</Project>
       <Name>Druid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj">
-      <Project>{d18c23ca-067f-4342-84aa-2fe4b4df2173}</Project>
+      <Project>{e5e39a56-5570-4acf-9154-06d59aa41e8a}</Project>
       <Name>Dwarf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rookie\Rookie.csproj">
-      <Project>{5A9BFC5C-B943-4FC4-98A0-FD9997F1E09B}</Project>
+      <Project>{D64164D4-1AFF-4435-B99C-9C2F62A34DDA}</Project>
       <Name>Rookie</Name>
     </ProjectReference>
   </ItemGroup>

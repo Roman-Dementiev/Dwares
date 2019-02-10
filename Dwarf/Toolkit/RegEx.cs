@@ -35,6 +35,24 @@ namespace Dwares.Dwarf.Toolkit
 		static Regex extPhone;
 		public static Regex ExtPhone => LazyInit(ref extPhone, ExtPhonePattern);
 
+		public static bool IsValidPattern(string pattern)
+		{
+			Regex regex;
+			return IsValidPattern(pattern, out regex);
+		}
+
+		public static bool IsValidPattern(string pattern, out Regex regex)
+		{
+			try {
+				regex = new Regex(pattern);
+				return true;
+			}
+			catch (Exception ex) {
+				regex = null;
+				return false;
+			}
+		}
+
 		public static Regex PhoneRegex(PhoneFormat format)
 		{
 			switch (format)

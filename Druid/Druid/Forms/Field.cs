@@ -6,80 +6,99 @@ using Dwares.Dwarf.Validation;
 
 namespace Dwares.Druid.Forms
 {
-	public class Field<T> : Validatable<T>, IValueHolder<T>
+	public interface IField
 	{
-		public const string IsRequiredMessage = "Field is Required";
+		bool isValid { get; }
+	}
 
-		public Field() { }
-
-		public Field(bool required)
+	public class Field<T> : Validatable<T>, IValueHolder<T>, ITextHolder
+	{
+		public Field(bool required = false)
 		{
-			if (required) {
-				SetRequired(true);
-			}
+			IsRequired = required;
 		}
 
-		public Field(string isRequiredMessage)
-		{
-			if (isRequiredMessage != null) {
-				SetRequired(true, isRequiredMessage);
-			}
-		}
-
-		ValidationRule<T> isRequiredRule;
-
+		bool isRequired;
 		bool IsRequired {
-			get => isRequiredRule != null;
-			set => SetRequired(false);
+			get => isRequired;
+			set => SetProperty(ref isRequired, value);
 		}
 
-		public void SetRequired(bool required, string message = null)
-		{
-			if (required) {
-				if (isRequiredRule != null) {
-					if (message != null) {
-						if (message.Length == 0)
-							message = IsRequiredMessage;
-						isRequiredRule.ValidationMessage = message;
-					}
-				} else {
-					if (String.IsNullOrEmpty(message))
-						message = IsRequiredMessage;
-					isRequiredRule = new IsNotNullOrEmptyRule<T>(message);
-					AddRule(isRequiredRule);
+		public override T Value {
+			get => _value;
+			set {
+				if (SetProperty(ref _value, value)) {
+					isValid = null;
+					PropertiesChanged(nameof(IsValid), nameof(Text));
 				}
-			} else if (isRequiredRule != null) {
-				RemoveRule(isRequiredRule);
-				isRequiredRule = null;
 			}
 		}
 
-		protected override bool DoValidation(bool allRules)
-		{
-			if (Strings.IsNullOrEmpty(Value) && !IsRequired)
-				return true;
+		string text;
+		public virtual string Text {
+			get => text ?? _value?.ToString();
+			set {
+				if (SetProperty(ref text, value)) {
+					isValid = null;
+					PropertiesChanged(nameof(IsValid), nameof(Value));
+				}
+			}
+		}
 
-			return base.DoValidation(allRules);
+		public override Exception Validate()
+		{
+			if (text != null) {
+				try {
+					ConvertFromText();
+				}
+				catch (Exception exc) {
+					return new ValidationError(ValidationMessages.InvalidType, exc);
+				}
+			}
+
+			if (IsRequired && Strings.IsNullOrEmpty(Value)) {
+				return new FieldIsRequiredError(MsgFieldIsRequired);
+			}
+
+			return base.Validate();
+		}
+
+		protected virtual void ConvertFromText()
+		{
+			var value = Convert.ChangeType(text, typeof(T));
+			Value = (T)value;
+		}
+
+		string msgFieldIsRequired;
+		public string MsgFieldIsRequired {
+			get => msgFieldIsRequired ?? ValidationMessages.FieldIsRequired;
+			set => msgFieldIsRequired = value;
+		}
+
+		string msgInvalidType;
+		public string MsgInvalidType {
+			get => msgInvalidType ?? ValidationMessages.InvalidType;
+			set => msgInvalidType = value;
 		}
 	}
 
-	public class ClassField<T> : Field<T> where T: class, new()
-	{
-		public ClassField()
-		{
-			Value = new T();
-		}
+	//public class ClassField<T> : Field<T> where T: class, new()
+	//{
+	//	public ClassField()
+	//	{
+	//		Value = new T();
+	//	}
 
-		public ClassField(bool required) :
-			base(required)
-		{
-			Value = new T();
-		}
+	//	public ClassField(bool required) :
+	//		base(required)
+	//	{
+	//		Value = new T();
+	//	}
 
-		public ClassField(string isRequiredMessage) :
-			base(isRequiredMessage)
-		{
-			Value = new T();
-		}
-	}
+	//	public ClassField(string isRequiredMessage) :
+	//		base(isRequiredMessage)
+	//	{
+	//		Value = new T();
+	//	}
+	//}
 }

@@ -4,13 +4,9 @@ using System.Text;
 
 namespace Dwares.Druid.Forms
 {
-	public class TimeField : Field<TimeSpan>
+	public class TimeField : RangedField<TimeSpan>
 	{
-		public TimeField() { }
-
-		public TimeField(bool required) : base(required) { }
-
-		public TimeField(string isRequiredMessage) : base(isRequiredMessage) { }
+		public TimeField(bool required = false) : base(required) { }
 
 	}
 }

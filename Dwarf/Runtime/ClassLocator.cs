@@ -74,7 +74,7 @@ namespace Dwares.Dwarf.Runtime
 		{
 			var ctor = Reflection.GetDefaultConstructor(type);
 			if (ctor != null) {
-				return ctor.Invoke(Reflection.cNoArgs);
+					return ctor.Invoke(Reflection.cNoArgs);
 			}
 			else {
 				return null;

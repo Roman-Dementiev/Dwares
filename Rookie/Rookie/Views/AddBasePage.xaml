@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  Title="{Binding Title}"
+				  x:Class="Dwares.Rookie.Views.AddBasePage">
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
+	</ui:ContentPageEx.ToolbarItems>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="8" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Label Grid.Row="1" Grid.Column="1" Text="Year" FontAttributes="Bold" />
+		<Entry Grid.Row="2" Grid.Column="1" Text="{Binding YearText, Mode=TwoWay}" Keyboard="Numeric" />
+
+
+		<ui:CheckMark Grid.Row="4" Grid.Column="1" Text="Full Year" IsEnabled="{Binding FullYearEnabled}" IsChecked="{Binding FullYear, Mode=TwoWay}" />
+		<Picker Grid.Row="5" Grid.Column="1" IsEnabled="{Binding MonthEnabled}" SelectedIndex="{Binding MonthIndex, Mode=TwoWay}">
+			<Picker.Items>
+				<x:String>January</x:String>
+				<x:String>February</x:String>
+				<x:String>March</x:String>
+				<x:String>April</x:String>
+				<x:String>May</x:String>
+				<x:String>June</x:String>
+				<x:String>July</x:String>
+				<x:String>August</x:String>
+				<x:String>September</x:String>
+				<x:String>October</x:String>
+				<x:String>November</x:String>
+				<x:String>December</x:String>
+			</Picker.Items>
+		</Picker>
+
+		<Label Grid.Row="7" Grid.Column="1" Text="Bese Id" FontAttributes="Bold" />
+		<Entry Grid.Row="8" Grid.Column="1" Text="{Binding BaseId, Mode=TwoWay}" />
+	</Grid>
+</ui:ContentPageEx>
+	

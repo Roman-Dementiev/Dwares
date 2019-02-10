@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 x:Class="Dwares.Rookie.Views.LoginPage">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Picker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+				Title="Driver"
+				ItemsSource="{Binding Accounts}"
+				SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+				>
+		</Picker>
+
+		<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+			   HorizontalOptions="Start"
+			   Text="Password"
+			   />
+		<Entry Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="2"
+			   Text="{Binding Password, Mode=TwoWay}"
+			   IsPassword="True"
+			   />
+
+		<!--<ui:CheckBoxGlyph Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+						  Text="Remember password"
+						  />-->
+
+		<ui:ButtonEx  Grid.Row="5" Grid.Column="1"
+					  HorizontalOptions="Center"
+					  WidthRequest="90"
+					  Text="Login"
+					  Writ="Login"
+					  IsEnabled="{Binding HasUserSelected}"
+					  />
+		
+		<ui:ButtonEx Grid.Row="5" Grid.Column="2"
+					 HorizontalOptions="Center"
+					 WidthRequest="90"
+					 Text="Add"
+					 Writ="AddAccount"
+					 />
+	</Grid>
+</ContentPage>

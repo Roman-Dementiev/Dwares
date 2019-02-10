@@ -9,8 +9,8 @@ namespace Dwares.Druid.Forms
 {
 	public class FormViewModel : ViewModel
 	{
-		public const string ValidationError = "Validation error";
-		protected Validatables validatables = null;
+		//public const string ValidationError = "Validation error";
+		protected Validatables fields = null;
 
 		public FormViewModel() { }
 
@@ -18,39 +18,25 @@ namespace Dwares.Druid.Forms
 			base(parentScope)
 		{ }
 
-		protected virtual bool DoValidate(out IList<string> errors)
-		{
-			if (validatables != null && !validatables.Validate()) {
-				errors = validatables.Errors;
-				return false;
-			}
-
-			errors = null;
-			return true;
-		}
-
 		protected virtual Task DoAccept()
 		{
 			return null;
 		}
 
-		protected virtual async Task<bool> Validate()
+		protected virtual Task<Exception> Validate()
 		{
-			bool valid = DoValidate(out var errors);
-			if (!valid) {
-				var message = Collection.First(errors) ?? ValidationError;
-				await Alerts.ErrorAlert(message);
-			}
-
-			return valid;
+			var error = fields?.Validate();
+			return Task.FromResult(error);
 		}
 
 
 		public virtual async Task OnAccept()
 		{
-			bool valid = await Validate();
-			if (!valid)
+			var error = await Validate();
+			if (error != null) {
+				await Alerts.ErrorAlert(error.Message);
 				return;
+			}
 
 			var task = DoAccept();
 			if (task != null)

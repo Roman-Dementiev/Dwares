@@ -27,19 +27,31 @@ namespace Dwares.Dwarf.Validation
 		public void Add(IEnumerable<IValidatable> list) => this.list.AddRange(list);
 		public bool Remove(IValidatable obj) => list.Remove(obj);
 
-		protected override bool DoValidation(bool allRules)
+		public override Exception Validate()
 		{
-			bool valid = true;
+			Exception error = null;
+			foreach (var item in list) {
+				error = item.Validate();
+				if (error != null)
+					break;
+			}
+			return error;
+		}
 
-			foreach (var obj in list) {
-				if (!obj.Validate(allRules)) {
-					errors.AddRange(obj.Errors);
-					valid = false;
-					if (!allRules)
-						break;
+		public override List<Exception> ValidateAll()
+		{
+			List<Exception> errors = null;
+			foreach (var item in list) {
+				var itemErrors = item.ValidateAll();
+				if (itemErrors != null && itemErrors.Count > 0) {
+					if (errors == null) {
+						errors = itemErrors;
+					} else {
+						errors.AddRange(itemErrors);
+					}
 				}
 			}
-			return valid;
+			return errors;
 		}
 	}
 }

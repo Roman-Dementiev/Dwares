@@ -7,33 +7,19 @@ namespace Dwares.Druid.Forms
 {
 	public class PhoneField<T> : Field<T>
 	{
-		const string InvalidPhoneMessage = "Phone number is invalid";
+		public PhoneField(bool required = false) : this(PhoneFormat.Default, required) { }
 
-		public PhoneField(PhoneFormat format, string isInvalidPhoneMessage, string isRequiredMessage = null) :
-			base(isRequiredMessage)
+		public PhoneField(PhoneFormat format, bool required = false) :
+			base(required)
 		{
-			if (String.IsNullOrEmpty(isInvalidPhoneMessage))
-				isInvalidPhoneMessage = InvalidPhoneMessage;
-
-			rules.Add(new PhoneRule<T>(format, isInvalidPhoneMessage));
+			rules.Add(new PhoneRule(format, ValidationMessages.InvalidPhone));
 		}
 
-		public PhoneField(string isInvalidPhoneMessage, string isRequiredMessage = null) :
-			this(PhoneFormat.Default, isInvalidPhoneMessage, isRequiredMessage)
-		{
-		}
 	}
 
 	public class PhoneField : PhoneField<string>
 	{
-		public PhoneField(PhoneFormat format, string isInvalidPhoneMessage, string isRequiredMessage = null) :
-			base(format, isInvalidPhoneMessage, isRequiredMessage)
-		{
-		}
-
-		public PhoneField(string isInvalidPhoneMessage, string isRequiredMessage = null) :
-			base(isInvalidPhoneMessage, isRequiredMessage)
-		{
-		}
+		public PhoneField(bool required = false) : base(required) { }
+		public PhoneField(PhoneFormat format, bool required = false) : base(format, required) { }
 	}
 }

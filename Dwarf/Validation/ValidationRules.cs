@@ -5,13 +5,13 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Validation
 {
-	public interface IValidationRule<T>
+	public interface IValidationRule
 	{
-		string ValidationMessage { get; set; }
-		bool IsValid(T value);
+		//string ValidationMessage { get; set; }
+		bool IsValid<T>(T value, out string message);
 	}
 
-	public abstract class ValidationRule<T> : IValidationRule<T>
+	public abstract class ValidationRule : IValidationRule
 	{
 		public ValidationRule() { }
 		public ValidationRule(string message)
@@ -20,16 +20,25 @@ namespace Dwares.Dwarf.Validation
 		}
 
 		public string ValidationMessage { get; set; }
-		public virtual bool IsValid(T value)
+
+		public virtual bool IsValid<T>(T value, out string message)
 		{
 			var str = value?.ToString();
-			return Validate(str);
+
+			string _message = null;
+			if (Validate(str, ref _message)) {
+				message = null;
+				return true;
+			} else {
+				message = _message ?? ValidationMessage;
+				return false;
+			}
 		}
 
-		public abstract bool Validate(string value);
+		public abstract bool Validate(string value, ref string message);
 	}
 
-	public class IsNotNullOrEmptyRule<T> : ValidationRule<T>
+	public class IsNotNullOrEmptyRule : ValidationRule
 	{
 		public IsNotNullOrEmptyRule(bool whitespaceIsValid = false)
 		{
@@ -44,7 +53,7 @@ namespace Dwares.Dwarf.Validation
 
 		public bool WhitespaceIsValid { get; set; }
 
-		public override bool Validate(string value)
+		public override bool Validate(string value, ref string message)
 		{
 			if (WhitespaceIsValid) {
 				return !String.IsNullOrEmpty(value);
@@ -54,12 +63,44 @@ namespace Dwares.Dwarf.Validation
 		}
 	}
 
-	public abstract class BaseRegExRule<T> : ValidationRule<T>
+	public class IntegerRule : ValidationRule
+	{
+		public IntegerRule(string message) : this(null, null, message, null) { }
+
+		public IntegerRule(int? minValue, int? maxValue, string message, string outOfRange) :
+			base(message)
+		{
+			MinValue = minValue;
+			MaxValue = maxValue;
+			OutOfRange = outOfRange;
+		}
+
+		public int? MinValue { get; set; }
+		public int? MaxValue { get; set; }
+		public string OutOfRange { get; set; }
+
+		public override bool Validate(string value, ref string message)
+		{
+			int num;
+			if (!int.TryParse(value, out num))
+				return false;
+
+			if ((MinValue != null && num < MinValue) || (MaxValue != null && num > MaxValue)) {
+				message = OutOfRange;
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+
+	public abstract class BaseRegExRule : ValidationRule
 	{
 		public BaseRegExRule() { }
 		public BaseRegExRule(string message) : base(message) { }
 
-		public override bool Validate(string value)
+		public override bool Validate(string value, ref string message)
 		{
 			if (value == null)
 				return false;
@@ -74,7 +115,7 @@ namespace Dwares.Dwarf.Validation
 		}
 	}
 
-	public class RegExRule<T> : BaseRegExRule<T>
+	public class RegExRule : BaseRegExRule
 	{
 		public RegExRule() { }
 		public RegExRule(Regex regex, string message) :
@@ -86,7 +127,7 @@ namespace Dwares.Dwarf.Validation
 		public override Regex Regex { get; set; }
 	}
 
-	public class EmailRule<T> : BaseRegExRule<T>
+	public class EmailRule : BaseRegExRule
 	{
 		public EmailRule() { }
 		public EmailRule(string message) : base(message) { }
@@ -94,7 +135,7 @@ namespace Dwares.Dwarf.Validation
 		public override Regex Regex => RegEx.Email;
 	}
 
-	public class PhoneRule<T> : BaseRegExRule<T>
+	public class PhoneRule : BaseRegExRule
 	{
 		public PhoneRule() { }
 		public PhoneRule(string message) : base(message) { }

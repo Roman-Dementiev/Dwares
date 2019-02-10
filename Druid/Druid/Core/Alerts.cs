@@ -18,6 +18,7 @@ namespace Dwares.Druid
 		public static string ErrorAlertTitle { get; set; } = "Error";
 		public static string ConfirmAlertTitle { get; set; } = "Confirm";
 		//public static string MessageAlertTitle { get; set; } = "Message";
+		public static string DetailsSeparator { get; set; } = ": ";
 
 		public static string DismissString { get; set; } = "OK";
 		public static string AcceptString { get; set; } = "Accept";
@@ -53,7 +54,7 @@ namespace Dwares.Druid
 				title = "";
 			if (message == null)
 				message = "";
-			if (String.IsNullOrEmpty(dismiss))
+			if (string.IsNullOrEmpty(dismiss))
 				dismiss = DismissString;
 
 			await CallerPage.DisplayAlert(title, message, dismiss);
@@ -63,27 +64,45 @@ namespace Dwares.Druid
 		{
 			if (message == null)
 				message = "";
-			if (String.IsNullOrEmpty(accept))
+			if (string.IsNullOrEmpty(accept))
 				accept = AcceptString;
-			if (String.IsNullOrEmpty(cancel))
+			if (string.IsNullOrEmpty(cancel))
 				cancel = CancelString;
 
 			return await CallerPage.DisplayAlert(title, message, accept, cancel);
 		}
 
-		public static async Task ErrorAlert(string message, string dismiss = null)
+		public static Task ErrorAlert(string message, string dismiss = null)
 		{
-			await DisplayAlert(ErrorAlertTitle, message, dismiss);
+			return DisplayAlert(ErrorAlertTitle, message, dismiss);
+		}
+
+		public static Task Error(string messageFormat, params object[] args)
+		{
+			var message = string.Format(messageFormat, args);
+			return ErrorAlert(message);
+		}
+
+		public static Task ErrorDetails(string message, string details, string separator = null)
+		{
+			if (string.IsNullOrEmpty(details)) {
+				return ErrorAlert(message);
+			} else {
+				if (string.IsNullOrEmpty(separator))
+					separator = DetailsSeparator;
+				return ErrorAlert(message+separator+details);
+			}
 		}
 
 		public static async Task<bool> ConfirmAlert(string message, string confirm = null, string reject = null)
 		{
-			if (String.IsNullOrEmpty(confirm))
+			if (string.IsNullOrEmpty(confirm))
 				confirm = ConfirmString;
-			if (String.IsNullOrEmpty(reject))
+			if (string.IsNullOrEmpty(reject))
 				reject = RejectString;
 
-			return await DisplayAlert("Confirm", message, confirm, reject);
+			return await DisplayAlert(ConfirmAlertTitle, message, confirm, reject);
 		}
+
 	}
 }

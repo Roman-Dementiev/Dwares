@@ -2,7 +2,9 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid;
-using Rookie.ViewModels;
+using Dwares.Druid.Services;
+using Dwares.Rookie.ViewModels;
+using Dwares.Rookie;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -14,16 +16,19 @@ namespace Rookie
 		{
 			InitializeComponent();
 
-			BindingContext = new AppScope();
-			//AppData.Instance.Initialize();
+			SecureStorage.Initialize("Dwares.Rookie.Secure");
 
 			this.AddDefaultViewLocators();
-			this.InitMainPageWithNavigation(typeof(TripsSheetViewModel));
+			this.InitMainPageWithNavigation(typeof(LoginViewModel));
+
+			//MainPage = new NavigationPage(new LoginPage());;
+			//Navigator.Initialize();
 		}
 
-		protected override void OnStart()
+		protected override async void OnStart()
 		{
 			// Handle when your app starts
+			await AppData.Instance.Initialize(reset: false);
 		}
 
 		protected override void OnSleep()

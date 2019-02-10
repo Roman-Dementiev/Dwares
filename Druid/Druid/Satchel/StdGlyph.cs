@@ -6,6 +6,9 @@ namespace Dwares.Druid.Satchel
 {
 	public static class StdGlyph
 	{
+		public const string CircleBullet = "\x07";
+		public const string EmptyBullet = "\x09";
+
 		public const string UpArrow = "\u2B06";
 		public const string DownArrow = "\u2B07";
 		public const string FilledUpwardsArrow = "\x1E";
@@ -15,6 +18,17 @@ namespace Dwares.Druid.Satchel
 		public const string CheckedBallot = "\u2611";
 		public const string BoldCheckedBallot = "\U0001F5F9";
 		public const string HeavyCheckedBallot = "\u2705";
+
+		public const string CircleBallot = "\u2022";
+		public const string TriangleBallot = "\u2023";
+		public const string HypenBallot = "\u2043";
+		public const string LeftwardsBallot = "\u204C";
+		public const string RightwardsBallot = "\u204D";
+		public const string InverseBallot = "\u25D8";
+		public const string WhiteBallot = "\u25E6";
+		public const string WhitePointBallot = "\u29BE";
+		public const string BlackPointBallot = "\u29BF";
+		//public const string TestBallot = "\u29B4";
 
 		public const string WhiteHourglass = "\u29D6";
 		public const string BlackHourglass = "\u29D7";

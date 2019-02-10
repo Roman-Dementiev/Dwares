@@ -1,4 +1,4 @@
-﻿using System;
+﻿	using System;
 using System.Threading;
 using Xamarin.Forms;
 using Dwares.Dwarf;
@@ -13,10 +13,6 @@ namespace Dwares.Druid
 	{
 		static readonly ClassRef @class = new ClassRef(typeof(BindingScope));
 		
-		public static BindingScope AppScope {
-			get => Application.Current?.BindingContext as BindingScope;
-		}
-
 		public BindingScope(BindingScope parentScope)
 		{
 			Debug.EnableTracing(@class);
@@ -30,6 +26,10 @@ namespace Dwares.Druid
 		public IWritExecutor WritExecutor {
 			get => LazyInitializer.EnsureInitialized(ref writExecutor, () => new WritExecutor(this));
 			set => writExecutor = value;
+		}
+
+		public static BindingScope AppScope {
+			get => Application.Current?.BindingContext as BindingScope;
 		}
 
 		public static BindingScope GetObjectScope(object obj)

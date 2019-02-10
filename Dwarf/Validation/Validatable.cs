@@ -6,22 +6,89 @@ namespace Dwares.Dwarf.Validation
 {
 	public class Validatable<T> : BaseValidatable
 	{
-		protected readonly List<IValidationRule<T>> rules;
+		protected List<IValidationRule> rules;
 
-		public Validatable()
+		public Validatable() { }
+
+		public Validatable(IValidationRule rule)
 		{
-			rules = new List<IValidationRule<T>>();
+			AddRule(rule);
 		}
 
-		public Validatable(IValidationRule<T> rule) :
-			this()
-		{
-			rules.Add(rule);
+
+		protected T _value;
+		public virtual T Value {
+			get => _value;
+			set {
+				if (SetProperty(ref _value, value)) {
+					isValid = null;
+					PropertiesChanged(nameof(IsValid));
+				}
+			}
 		}
 
-		public Validatable(IEnumerable<IValidationRule<T>> rules)
+		public void AddRule(IValidationRule rule)
 		{
-			this.rules = new List<IValidationRule<T>>(rules);
+			if (rule != null) {
+				if (rules == null) {
+					rules = new List<IValidationRule>();
+				}
+				rules.Add(rule);
+			}
+		}
+
+		public void RemoveRule(IValidationRule rule)
+		{
+			if (rule != null && rules != null) {
+				rules.Remove(rule);
+			}
+		}
+
+		public override Exception Validate()
+		{
+			if (rules != null) {
+				try {
+					foreach (var rule in rules) {
+						string message;
+						if (!rule.IsValid(Value, out message)) {
+							return new ValidationError(message);
+						}
+					}
+				} catch (Exception exc) {
+					return exc;
+				}
+			}
+			return null;
+		}
+
+		public override List<Exception> ValidateAll()
+		{
+			List<Exception> errors = null;
+			if (rules != null) {
+				foreach (var rule in rules) {
+					try {
+						string message;
+						if (!rule.IsValid(Value, out message)) {
+							if (errors == null) {
+								errors = new List<Exception>();
+							}
+							errors.Add(new ValidationError(message));
+						}
+					} catch (Exception exc) {
+						if (errors == null) {
+							errors = new List<Exception>();
+						}
+						errors.Add(exc);
+					}
+				}
+			}
+			return errors;
+
+		}
+
+		public Validatable(IEnumerable<IValidationRule> rules)
+		{
+			this.rules = new List<IValidationRule>(rules);
 		}
 
 		public static implicit operator T(Validatable<T> validatable)
@@ -34,42 +101,5 @@ namespace Dwares.Dwarf.Validation
 		//	return new Validatable<T>() { Value = value };
 		//}
 
-
-		private T value;
-		public T Value {
-			get => this.value;
-			set => SetProperty(ref this.value, value);
-		}
-
-		public void AddRule(IValidationRule<T> rule)
-		{
-			if (rule != null) {
-				rules.Add(rule);
-			}
-		}
-
-		public void RemoveRule(IValidationRule<T> rule)
-		{
-			if (rule != null) {
-				rules.Remove(rule);
-			}
-		}
-
-		protected override bool DoValidation(bool allRules)
-		{
-			var errors = Errors;
-			bool valid = true;
-
-			foreach (var rule in rules) {
-				if (!rule.IsValid(value)) {
-					errors.Add(rule.ValidationMessage);
-					valid = false;
-
-					if (!allRules)
-						break;
-				}
-			}
-			return valid;
-		}
 	}
 }

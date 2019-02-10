@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4BF998AA-115E-4D26-A548-97A0DD115940}</ProjectGuid>
+    <ProjectGuid>{E967500E-BD93-49AB-A740-30FEB791F342}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
     <OutputType>Exe</OutputType>
@@ -148,20 +148,12 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xamarin.Forms" Version="3.3.0.967583" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\Druid\Druid\Druid.csproj">
-      <Project>{04fbac13-77e0-4fec-8210-baeca0901034}</Project>
-      <Name>Druid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Dwarf\Dwarf.csproj">
-      <Project>{d18c23ca-067f-4342-84aa-2fe4b4df2173}</Project>
-      <Name>Dwarf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Rookie\Rookie.csproj">
-      <Project>{5A9BFC5C-B943-4FC4-98A0-FD9997F1E09B}</Project>
+      <Project>{D64164D4-1AFF-4435-B99C-9C2F62A34DDA}</Project>
       <Name>Rookie</Name>
     </ProjectReference>
   </ItemGroup>

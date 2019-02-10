@@ -19,6 +19,14 @@ namespace Dwares.Dwarf
 		public static List<string> EmptyList = new List<string>();
 		public static string[] EmptyArray = new string[0];
 
+		public static string IfNotEmpty(string arg, string argName, string message=null)
+		{
+			if (string.IsNullOrEmpty(arg))
+				throw new ArgumentNullException(argName, message);
+
+			return arg;
+		}
+
 		public static bool IsNullOrEmptyString(object obj)
 		{
 			if (obj == null)

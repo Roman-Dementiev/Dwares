@@ -51,5 +51,49 @@ namespace Dwares.Dwarf.Toolkit
 			return true;
 		}
 
+		protected bool SeTextProperty(ITextHolder storage, string text, [CallerMemberName]string propertyName = "")
+		{
+			if (storage.Text == text)
+				return false;
+
+			storage.Text = text;
+			FirePropertyChanged(propertyName);
+			return true;
+		}
+
+		protected bool SetPropertyEx<T>(ref T storage, T value, params string[] changedProperties)
+		{
+			//if (EqualityComparer<T>.Default.Equals(oldValue,, value))
+			//	return false;
+			if (Object.Equals(storage, value))
+				return false;
+
+			storage = value;
+			PropertiesChanged(changedProperties);
+			return true;
+		}
+
+		protected bool SetPropertyEx<T>(IValueHolder<T> storage, T value, params string[] changedProperties)
+		{
+			//if (Object.Equals(storage.Value, value))
+			//	return false;
+			if (EqualityComparer<T>.Default.Equals(storage.Value, value))
+				return false;
+
+			storage.Value = value;
+			PropertiesChanged(changedProperties);
+			return true;
+		}
+
+		protected bool SeTexttPropertyEx(ITextHolder storage, string text, params string[] changedProperties)
+		{
+			if (storage.Text == text)
+				return false;
+
+			storage.Text = text;
+			PropertiesChanged(changedProperties);
+			return true;
+		}
+
 	}
 }
