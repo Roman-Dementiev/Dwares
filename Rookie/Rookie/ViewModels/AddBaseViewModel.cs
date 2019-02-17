@@ -4,7 +4,7 @@ using Dwares.Dwarf.Validation;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Forms;
-using Dwares.Rookie.Data;
+using Dwares.Rookie.Bases;
 
 
 namespace Dwares.Rookie.ViewModels
@@ -15,6 +15,8 @@ namespace Dwares.Rookie.ViewModels
 
 		IntegerField year;
 		TextField baseId;
+		TripBase db;
+
 
 		public AddBaseViewModel()
 		{
@@ -24,7 +26,6 @@ namespace Dwares.Rookie.ViewModels
 
 			year = new IntegerField(null, null);
 			baseId = new TextField();
-
 			fields = new Validatables(year, baseId);
 
 			Year = 2019;
@@ -76,21 +77,19 @@ namespace Dwares.Rookie.ViewModels
 			set => SetProperty(baseId, value);
 		}
 
-		TripBase db;
-
 		protected override async Task<Exception> Validate()
 		{
 			var error = await base.Validate();
 			if (error != null)
 				return error;
 
-			error = AppData.CheckBaseIsNew(Year, Month, BaseId);
+			error = AppScope.CheckBaseIsNew(Year, Month, BaseId);
 			if (error != null)
 				return error;
 
 			try {
-				db = new TripBase(AppData.ApiKey, BaseId, Year, Month);
-				await db.ProbeTable(TripBase.TableTrips);
+				db = new TripBase(Rookie.AppScope.ApiKey, BaseId, Year, Month);
+				await db.TripsTable.Probe();
 			} catch (Exception exc) {
 				error = new DwarfException("Can not connect to database", exc);
 				db = null;
@@ -102,7 +101,7 @@ namespace Dwares.Rookie.ViewModels
 		{
 			Debug.AssertNotNull(db);
 
-			await AppData.Instance.AddBase(Year, Month, db);
+			await Rookie.AppScope.Instance.AddBase(db, Year, Month);
 		}
 	}
 

@@ -1,193 +1,134 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Net.Http;
-//using System.Threading.Tasks;
-//using System.Web;
-//using Newtonsoft.Json;
-//using Dwares.Dwarf;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
+using Newtonsoft.Json;
+using Dwares.Dwarf;
 
-//namespace Dwares.Rookie.Airtable
-//{
-//	public class AirTable
-//	{
-//		//static ClassRef @class = new ClassRef(typeof(AirTable));
+namespace Dwares.Rookie.Airtable
+{
+	public class AirTable<TRecord> where TRecord : AirRecord
+	{
+		//static ClassRef @class = new ClassRef(typeof(AirTable));
 
-//		public AirTable(AirBase airBase, string tableName)
-//		{
-//			//Debug.EnableTracing(@class);
+		static HttpMethod HttpMethod_Patch = new HttpMethod("PATCH");
 
-//			Base = airBase ?? throw new ArgumentNullException(nameof(airBase));
-//			Name = Strings.IfNotEmpty(tableName, nameof(tableName));
-//		}
+		public AirTable(AirBase airBase, string tableName)
+		{
+			//Debug.EnableTracing(@class);
+			Guard.ArgumentNotNull(airBase, nameof(airBase));
+			Guard.ArgumentNotEmpty(tableName, nameof(tableName));
 
-//		public AirBase Base { get; }
-//		public string Name { get; }
+			Base = airBase;
+			Name = tableName;
+		}
 
-//		public async Task<AirRecordList> ListRecords(QyeryBuilder queryBuilder)
-//		{
-//		//	AirRecordList recordList = null;
-//			var uri = queryBuilder.GetUri(Base.BaseId, Name);
-			
-//			var response = await AirClient.GetAsync(Base.ApiKey, uri);
-//			var recordList = JsonConvert.DeserializeObject<AirRecordList>(response.Body);
-//			return recordList;
-//		}
+		public virtual Task Initialize()
+		{
+			return Task.CompletedTask;
+		}
 
-//		//private Uri BuildUriForListRecords(
-//		//	string offset,
-//		//	IEnumerable<string> fields,
-//		//	string filterByFormula,
-//		//	int? maxRecords,
-//		//	int? pageSize,
-//		//	IEnumerable<AirSort> sort,
-//		//	string view)
-//		//{
-//		//	var uriBuilder = new UriBuilder(AirClient.AIRTABLE_API_URL + Base.BaseId + "/" + Name);
+		public AirBase Base { get; }
+		public string Name { get; }
 
-//		//	if (!string.IsNullOrEmpty(offset)) {
-//		//		AddParametersToQuery(ref uriBuilder, $"offset={HttpUtility.UrlEncode(offset)}");
-//		//	}
+		public virtual async Task<Exception> Probe(bool throwErrors = true)
+		{
+			try {
+				await ListRecords(1);
+				return null;
+			}
+			catch (Exception exc) {
+				if (throwErrors)
+					throw exc;
+				return exc;
+			}
+		}
 
-//		//	if (fields != null) {
-//		//		string flattenFieldsParam = QueryParamHelper.FlattenFieldsParam(fields);
-//		//		AddParametersToQuery(ref uriBuilder, flattenFieldsParam);
-//		//	}
+		public async Task<AirRecordList<TRecord>> ListRecords(QyeryBuilder queryBuilder = null)
+		{
+			if (queryBuilder == null)
+				queryBuilder = new QyeryBuilder { };
 
-//		//	if (!string.IsNullOrEmpty(filterByFormula)) {
-//		//		AddParametersToQuery(ref uriBuilder, $"filterByFormula={HttpUtility.UrlEncode(filterByFormula)}");
-//		//	}
+			var uri = queryBuilder.GetUri(Base.BaseId, Name);
 
-//		//	if (sort != null) {
-//		//		string flattenSortParam = QueryParamHelper.FlattenSortParam(sort);
-//		//		AddParametersToQuery(ref uriBuilder, flattenSortParam);
-//		//	}
+			var response = await AirClient.GetAsync(Base.ApiKey, uri);
+			var recordList = JsonConvert.DeserializeObject<AirRecordList<TRecord>>(response.Body);
 
-//		//	if (!string.IsNullOrEmpty(view)) {
-//		//		AddParametersToQuery(ref uriBuilder, $"view={HttpUtility.UrlEncode(view)}");
-//		//	}
+			recordList.CopyFieldsToProperties();
+			return recordList;
+		}
 
-//		//	if (maxRecords != null) {
-//		//		if (maxRecords <= 0) {
-//		//			throw new ArgumentException("Maximum Number of Records must be > 0", "maxRecords");
-//		//		}
-//		//		AddParametersToQuery(ref uriBuilder, $"maxRecords={maxRecords}");
-//		//	}
+		public async Task<AirRecordList<TRecord>> ListRecords(int maxRecords)
+		{
+			Guard.ArgumentIsInRange(maxRecords, 1, AirClient.MAX_NUMBER_OF_RECORDS_IN_LIST, nameof(maxRecords));
 
-//		//	if (pageSize != null) {
-//		//		if (pageSize <= 0 || pageSize > MAX_PAGE_SIZE) {
-//		//			throw new ArgumentException("Page Size must be > 0 and <= 100", "pageSize");
-//		//		}
-//		//		AddParametersToQuery(ref uriBuilder, $"pageSize={pageSize}");
-//		//	}
-//		//	return uriBuilder.Uri;
-//		//}
+			return await ListRecords(new QyeryBuilder { MaxRecords = maxRecords });
+		}
 
-//		//private async Task<AirException> CheckForAirtableException(HttpResponseMessage response)
-//		//{
-//		//	switch (response.StatusCode)
-//		//	{
-//		//	case System.Net.HttpStatusCode.OK:
-//		//		return null;
 
-//		//	case System.Net.HttpStatusCode.BadRequest:
-//		//		return (new AirtableBadRequestException());
+		public Dictionary<string, object> GetRecordFields(TRecord record, string[] fieldNames)
+		{
+			if (fieldNames == null || fieldNames.Length == 0)
+				return record.Fields;
 
-//		//	case System.Net.HttpStatusCode.Forbidden:
-//		//		return (new AirtableForbiddenException());
+			var fields = new Dictionary<string, object>();
+			foreach (var name in fieldNames) {
+				if (!record.Fields.ContainsKey(name))
+					throw new ArithmeticException(String.Format("Record does not has filed {0}", name));
 
-//		//	case System.Net.HttpStatusCode.NotFound:
-//		//		return (new AirtableNotFoundException());
+				fields.Add(name, record.Fields[name]);
+			}
+			return fields;
+		}
 
-//		//	case System.Net.HttpStatusCode.PaymentRequired:
-//		//		return (new AirtablePaymentRequiredException());
+		async Task<TRecord> CUROperation(HttpMethod method, string recordId, Dictionary<string, object> fields, bool typecast)
+		{
+			var uriStr = AirClient.RecordUri(Base.BaseId, Name, recordId);
+			var fieldsAndTypecast = new FieldsAndTypecast(fields, typecast);
 
-//		//	case System.Net.HttpStatusCode.Unauthorized:
-//		//		return (new AirtableUnauthorizedException());
+			var response = await AirClient.SendAsync(method, Base.ApiKey, new Uri(uriStr), fieldsAndTypecast.ToJson());
+			var record = JsonConvert.DeserializeObject<TRecord>(response.Body);
 
-//		//	case System.Net.HttpStatusCode.RequestEntityTooLarge:
-//		//		return (new AirtableRequestEntityTooLargeException());
+			record.CopyFieldsToProperties();
+			return record;
+		}
 
-//		//	case (System.Net.HttpStatusCode)422:        // There is no HttpStatusCode.InvalidRequest defined in HttpStatusCode Enumeration.
-//		//		var error = await ReadResponseErrorMessage(response);
-//		//		return (new AirtableInvalidRequestException(error));
+		public async Task<TRecord> CreateRecord(Dictionary<string, object> fields, bool typecast = false)
+		{
+			return await CUROperation(HttpMethod.Post, null, fields, typecast);
+		}
 
-//		//	default:
-//		//		throw new AirtableUnrecognizedException(response.StatusCode);
-//		//	}
-//		//}
-//	}
+		public async Task<TRecord> CreateRecord(TRecord record, params string[] fieldNames)
+		{
+			var fields = GetRecordFields(record, fieldNames);
 
-//	//public struct ListParameters
-//	//{
-//	//	public string Offset { get; set; }
-//	//	public IEnumerable<string> Fields { get; set; }
-//	//	public string FilterByFormula { get; set; }
-//	//	public int? MaxRecords { get; set; }
-//	//	public int? PageSize { get; set; } 
-//	//	public IEnumerable<QueryParameters> Sort { get; set; }
-//	//	public string View { get; set; }
+			return await CreateRecord(fields);
+		}
 
-//	//	public Uri GetUri()
-//	//	{
-//	//		var uriBuilder = new UriBuilder(AirClient.AIRTABLE_API_URL + Base.BaseId + "/" + Name);
+		public async Task<TRecord> UpdateRecord(TRecord record, Dictionary<string, object> fields, bool typecast = false)
+		{
+			return await CUROperation(HttpMethod_Patch, record.Id, fields, typecast);
+		}
 
-//	//		if (!string.IsNullOrEmpty(Offset)) {
-//	//			AddParametersToQuery(uriBuilder, "offset", Offset);
-//	//		}
+		public async Task<TRecord> UpdateRecord(TRecord record, params string[] fieldNames)
+		{
+			var fields = GetRecordFields(record, fieldNames);
 
-//	//		if (Fields != null) {
-//	//			string flattenFieldsParam = QueryParamHelper.FlattenFieldsParam(fields);
-//	//			AddParametersToQuery(uriBuilder, flattenFieldsParam);
-//	//		}
+			return await UpdateRecord(record, fields);
+		}
 
-//	//		if (!string.IsNullOrEmpty(FilterByFormula)) {
-//	//			AddParametersToQuery(uriBuilder, "filterByFormula", FilterByFormula);
-//	//		}
+		public async Task CopyRecords(AirTable<TRecord> destTable, IEnumerable<string> fieldNames = null)
+		{
+			var list = await ListRecords();
 
-//	//		if (Sort != null) {
-//	//			string flattenSortParam = QueryParamHelper.FlattenSortParam(Sort);
-//	//			AddParametersToQuery(uriBuilder, flattenSortParam);
-//	//		}
+			foreach (var record in list.Records) {
+				var fields = record.GetFields(fieldNames);
+				await destTable.CreateRecord(fields);
+			}
+		}
 
-//	//		if (!string.IsNullOrEmpty(View)) {
-//	//			AddParametersToQuery(uriBuilder, "view", View);
-//	//		}
-
-//	//		if (MaxRecords != null) {
-//	//			if (MaxRecords <= 0) {
-//	//				throw new ArgumentException("Maximum Number of Records must be > 0", nameof(MaxRecords));
-//	//			}
-//	//			AddParametersToQuery(ref uriBuilder, "maxRecords", MaxRecords, encode:false);
-//	//		}
-
-//	//		if (PageSize != null) {
-//	//			if (PageSize <= 0 || PageSize > MAX_PAGE_SIZE) {
-//	//				throw new ArgumentException("Page Size must be > 0 and <= 100", nameof(PageSize));
-//	//			}
-//	//			AddParametersToQuery(ref uriBuilder, "pageSize", PageSize, encode:false);
-//	//		}
-
-//	//		return uriBuilder.Uri;
-
-//	//	}
-
-//	//	void AddParametersToQuery(UriBuilder uri, string queryToAppend)
-//	//	{
-//	//		if (uri.Query != null && uri.Query.Length > 1) {
-//	//			uri.Query = uri.Query.Substring(1) + "&" + queryToAppend;
-//	//		} else {
-//	//			uri.Query = queryToAppend;
-//	//		}
-//	//	}
-
-//	//	void AddParametersToQuery(UriBuilder uri, string paramName, object value, bool encode = true)
-//	//	{
-//	//		var valueStr = value.ToString();
-//	//		if (encode) {
-//	//			valueStr = HttpUtility.UrlEncode(valueStr);
-//	//		}
-
-//	//		AddParametersToQuery(uri, string.Format("{0}={1}", paramName, valueStr));
-// //		}
-//	//}
-//}
+		public Task CopyRecords(AirTable<TRecord> destTable, params string[] fieldNames)
+			=> CopyRecords(destTable, (IEnumerable<string>)fieldNames);
+	}
+}

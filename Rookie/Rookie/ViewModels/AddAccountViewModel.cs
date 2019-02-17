@@ -61,7 +61,7 @@ namespace Dwares.Rookie.ViewModels
 		{
 			var error = await base.Validate();
 			if (error == null) {
-				error = await AppData.Instance.TryLogin(apiKey, baseId);
+				error = await Rookie.AppScope.Instance.TryLogin(Username, Password, apiKey, baseId, false);
 			}
 			return error;
 		}
@@ -69,7 +69,7 @@ namespace Dwares.Rookie.ViewModels
 		protected override async Task DoAccept()
 		{
 			var account = new Account(AccountType, Username, Password, ApiKey, BaseId);
-			await AppData.AddAccount(account);
+			await AppScope.Instance.AddAccount(account);
 		}
 	}
 }

@@ -11,49 +11,66 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="8" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="100" />
-			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="55" />
+			<ColumnDefinition Width="55" />
+			<ColumnDefinition Width="55" />
+			<ColumnDefinition Width="55" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Picker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+		<Picker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
 				Title="Driver"
 				ItemsSource="{Binding Accounts}"
 				SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
 				>
 		</Picker>
 
-		<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+		<ui:ButtonEx Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1"
+					 HorizontalOptions="Fill"
+					 VerticalOptions="End"
+					 WidthRequest="55"
+					 Text="New"
+					 Writ="AddAccount"
+					 />
+		
+		<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4"
 			   HorizontalOptions="Start"
 			   Text="Password"
 			   />
-		<Entry Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="2"
+		<Entry Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="4"
 			   Text="{Binding Password, Mode=TwoWay}"
 			   IsPassword="True"
 			   />
 
-		<!--<ui:CheckBoxGlyph Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
-						  Text="Remember password"
-						  />-->
+		
+		<!--<Switch Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
+				/>-->
+		<ui:CheckMark Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
+					  Text="Keep logged in"
+					  IsChecked="{Binding KeepLoggedIn, Mode=TwoWay}"
+					  />
 
-		<ui:ButtonEx  Grid.Row="5" Grid.Column="1"
+		<ui:ButtonEx  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
 					  HorizontalOptions="Center"
-					  WidthRequest="90"
+					  WidthRequest="110"
 					  Text="Login"
 					  Writ="Login"
 					  IsEnabled="{Binding HasUserSelected}"
 					  />
 		
-		<ui:ButtonEx Grid.Row="5" Grid.Column="2"
+		<ui:ButtonEx Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
 					 HorizontalOptions="Center"
-					 WidthRequest="90"
-					 Text="Add"
-					 Writ="AddAccount"
+					 WidthRequest="110"
+					 Text="Go To Work"
+					 Writ="GoToWork"
+					 IsEnabled="{Binding HasUserSelected}"
 					 />
+
 	</Grid>
 </ContentPage>

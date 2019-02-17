@@ -13,7 +13,7 @@ namespace Dwares.Druid.Forms
 			get => LazyInitializer.EnsureInitialized(ref messages, () => {
 				var messages = new Vocabulary();
 				messages.Put(cFieldIsRequired, "Field is required");
-				messages.Put(cInvalidType, "Invalid type");
+				messages.Put(cInvalidEntryText, "Entered value is invalid");
 				messages.Put(cFieldIsRequired, "Value out of range");
 				messages.Put(cInvalidPhone, "Phone number is invalid");
 				return messages;
@@ -23,8 +23,8 @@ namespace Dwares.Druid.Forms
 		public const string cFieldIsRequired = nameof(FieldIsRequired);
 		public static string FieldIsRequired => Messages.Get(cFieldIsRequired);
 
-		public const string cInvalidType = nameof(InvalidType);
-		public static string InvalidType => Messages.Get(cInvalidType);
+		public const string cInvalidEntryText = nameof(InvalidEntryText);
+		public static string InvalidEntryText => Messages.Get(cInvalidEntryText);
 
 		public const string cValueOutOfRange = nameof(ValueOutOfRange);
 		public static string ValueOutOfRange => Messages.Get(cValueOutOfRange);

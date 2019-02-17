@@ -133,9 +133,17 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Images\cab.png" />
+    <Content Include="Images\database.png" />
+    <Content Include="Images\driver.png" />
     <Content Include="Images\e109.png" />
     <Content Include="Images\e10a.png" />
     <Content Include="Images\e10b.png" />
+    <Content Include="Images\expenses.png" />
+    <Content Include="Images\gas.png" />
+    <Content Include="Images\home.png" />
+    <Content Include="Images\logout.png" />
+    <Content Include="Images\settings.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

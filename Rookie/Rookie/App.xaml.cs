@@ -16,19 +16,22 @@ namespace Rookie
 		{
 			InitializeComponent();
 
+			BindingContext = new AppScope();
+
 			SecureStorage.Initialize("Dwares.Rookie.Secure");
-
 			this.AddDefaultViewLocators();
-			this.InitMainPageWithNavigation(typeof(LoginViewModel));
-
-			//MainPage = new NavigationPage(new LoginPage());;
-			//Navigator.Initialize();
 		}
 
 		protected override async void OnStart()
 		{
 			// Handle when your app starts
-			await AppData.Instance.Initialize(reset: false);
+			await AppScope.Instance.Initialize(reset: false);
+
+			if (AppScope.IsLoggedIn) {
+				this.InitMainPageWithNavigation(typeof(MainPageViewModel));
+			} else {
+				this.InitMainPageWithNavigation(typeof(LoginViewModel));
+			}
 		}
 
 		protected override void OnSleep()

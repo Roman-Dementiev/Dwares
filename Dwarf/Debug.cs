@@ -59,6 +59,12 @@ namespace Dwares.Dwarf
 		}
 
 		[System.Diagnostics.Conditional("DEBUG")]
+		public static void AssertIsNull(object obj, string message = null, string detailFormat = null, params object[] detailArgs)
+		{
+			Assert(obj == null, message, detailFormat, detailArgs);
+		}
+
+		[System.Diagnostics.Conditional("DEBUG")]
 		public static void ExceptionCaught(Exception ex)
 		{
 			Print(ExceptionCaughtFormat, ex);

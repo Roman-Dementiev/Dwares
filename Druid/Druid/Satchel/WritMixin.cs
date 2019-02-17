@@ -5,7 +5,7 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.Satchel
 {
-	internal class WritMixin
+	public class WritMixin
 	{
 		public WritMixin(ICommandHolder owner)
 		{

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
-using Dwares.Rookie.Data;
+using Dwares.Rookie.Bases;
 
 
 namespace Dwares.Rookie.Models

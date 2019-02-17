@@ -35,7 +35,7 @@ namespace Dwares.Rookie.ViewModels
 			}
 		}
 
-		public ObservableCollection<YearlyTripData> YearlyData => AppData.Data;
+		public ObservableCollection<YearlyTripData> YearlyData => AppScope.Instance.TripData;
 
 		ObservableCollection<MonthlyTripData> monthlyData;
 		public ObservableCollection<MonthlyTripData> MonthlyData {

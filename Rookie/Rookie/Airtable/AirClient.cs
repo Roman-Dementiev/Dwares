@@ -14,6 +14,7 @@ namespace Dwares.Rookie.Airtable
 
 		public const string AIRTABLE_API_URL = "https://api.airtable.com/v0/";
 		public const string AUTHENTICATION_SCHEME = "Bearer";
+		public const int MAX_NUMBER_OF_RECORDS_IN_LIST = 100;
 
 		static AirClient instance;
 		public static AirClient Instance {

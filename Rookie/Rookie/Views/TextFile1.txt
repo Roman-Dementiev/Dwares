@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:views="clr-namespace:Dwares.Rookie.Views"
+			 x:Class="Dwares.Rookie.Views.MainPage"
+			 >
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<views:PicButton Grid.Row="1" Grid.Column="1"
+						 ImageSource="Images/driver.png"
+						 LabelText="Go On Duty"
+						 Writ="GoOnDuty"
+						 />
+
+		<views:PicButton Grid.Row="1" Grid.Column="2"
+						 ImageSource="Images/home.png"
+						 LabelText="Add Trip"
+						 Writ="AddTrip"
+						 />
+
+		<views:PicButton Grid.Row="2" Grid.Column="1"
+						 LabelText="Expenses"
+						 />
+
+		<views:PicButton Grid.Row="2" Grid.Column="2"
+						 LabelText="Databases"
+						 />
+	</Grid>
+</ContentPage>
+
+

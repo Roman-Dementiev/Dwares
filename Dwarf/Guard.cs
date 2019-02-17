@@ -4,7 +4,7 @@ using Dwares.Dwarf;
 
 namespace Dwares.Dwarf
 {
-	public static class Predicate
+	public static class Guard
 	{
 		public static void ArgumentNotNull(object arg, string name, string message = null)
 		{

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  xmlns:views="clr-namespace:Dwares.Rookie.Views"
+				  Title="{Binding Title}"
+				  x:Class="Dwares.Rookie.Views.MainPage">
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<views:PicButton Grid.Row="1" Grid.Column="1"
+						 ImageSource="Images/driver.png"
+						 IsVisible="{Binding NotWorking}"
+						 LabelText="Go To Work"
+						 Writ="GoToWork"
+						 />
+		<views:PicButton Grid.Row="1" Grid.Column="1"
+						 ImageSource="Images/home.png"
+						 IsVisible="{Binding IsWorking}"
+						 LabelText="Go Off Work"
+						 Writ="GoOffWork"
+						 />
+
+		<views:PicButton Grid.Row="1" Grid.Column="2"
+						 ImageSource="Images/cab.png"
+						 LabelText="Add Trip"
+						 IsVisible="{Binding IsWorking}"
+						 Writ="AddTrip"
+						 />
+
+		<views:PicButton Grid.Row="1" Grid.Column="2"
+						 ImageSource="Images/logout.png"
+						 LabelText="Logout"
+						 IsVisible="{Binding NotWorking}"
+						 Writ="Logout"
+						 />
+		
+		<views:PicButton Grid.Row="2" Grid.Column="1"
+						 ImageSource="Images/gas.png"
+						 IsVisible="{Binding IsWorking}"
+						 LabelText="Gas"
+						 Writ="Gas"
+						 />
+
+		<views:PicButton Grid.Row="2" Grid.Column="2"
+						 ImageSource="Images/expenses.png"
+						 IsVisible="{Binding IsWorking}"
+						 LabelText="Expenses"
+						 Writ="Expenses"
+						 />
+
+		<views:PicButton Grid.Row="3" Grid.Column="1"
+						 ImageSource="Images/database.png"
+						 LabelText="Databases"
+						 Writ="SetupBases"
+						 />
+
+		<views:PicButton Grid.Row="3" Grid.Column="2"
+						 ImageSource="Images/settings.png"
+						 LabelText="Setup"
+						 Writ="Setup"
+						 />
+	</Grid>
+</ui:ContentPageEx>
+	

@@ -28,7 +28,7 @@ namespace Dwares.Druid
 			set => writExecutor = value;
 		}
 
-		public static BindingScope AppScope {
+		public static BindingScope ApplicationScope {
 			get => Application.Current?.BindingContext as BindingScope;
 		}
 

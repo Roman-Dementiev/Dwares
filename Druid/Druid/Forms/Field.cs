@@ -52,7 +52,7 @@ namespace Dwares.Druid.Forms
 					ConvertFromText();
 				}
 				catch (Exception exc) {
-					return new ValidationError(ValidationMessages.InvalidType, exc);
+					return new ValidationError(MsgInvalidEntryText, exc);
 				}
 			}
 
@@ -75,10 +75,10 @@ namespace Dwares.Druid.Forms
 			set => msgFieldIsRequired = value;
 		}
 
-		string msgInvalidType;
-		public string MsgInvalidType {
-			get => msgInvalidType ?? ValidationMessages.InvalidType;
-			set => msgInvalidType = value;
+		string msgInvalidEntryText;
+		public string MsgInvalidEntryText {
+			get => msgInvalidEntryText ?? ValidationMessages.InvalidEntryText;
+			set => msgInvalidEntryText = value;
 		}
 	}
 

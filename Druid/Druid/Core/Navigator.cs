@@ -174,7 +174,7 @@ namespace Dwares.Druid
 				if (HasModal) {
 					await Navigation.PopModalAsync(Animated);
 				} else {
-					await Navigation.PopAsync(Animated);
+					var page = await NavigationPage.PopAsync(Animated);
 				}
 			}
 		}
@@ -184,6 +184,19 @@ namespace Dwares.Druid
 			if (Navigation != null) {
 				await Navigation.PopToRootAsync(Animated);
 			}
+		}
+
+		public static void RemovePreviousPage()
+		{
+			if (Navigation != null && Navigation.NavigationStack.Count > 1) {
+				Navigation.RemovePage(Navigation.NavigationStack[Navigation.NavigationStack.Count-2]);
+			}
+		}
+
+		public static async Task ReplaceTopPage(Page page)
+		{
+			await PushPage(page);
+			RemovePreviousPage();
 		}
 
 		//private static void InvokeNavigationPageChanged()

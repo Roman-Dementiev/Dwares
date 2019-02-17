@@ -28,20 +28,26 @@
 			<RowDefinition Height="4" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="100" />
+			<ColumnDefinition Width="100" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Label Grid.Row="1" Grid.Column="1" Text="Year" FontAttributes="Bold" />
-		<Entry Grid.Row="2" Grid.Column="1" Text="{Binding YearText, Mode=TwoWay}" Keyboard="Numeric" />
+		<Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="Year" FontAttributes="Bold" />
+		<Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding YearText, Mode=TwoWay}" Keyboard="Numeric" />
 
 
 		<ui:CheckMark Grid.Row="4" Grid.Column="1" Text="Full Year" IsEnabled="{Binding FullYearEnabled}" IsChecked="{Binding FullYear, Mode=TwoWay}" />
-		<Picker Grid.Row="5" Grid.Column="1" IsEnabled="{Binding MonthEnabled}" SelectedIndex="{Binding MonthIndex, Mode=TwoWay}">
+		<Picker Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+				IsEnabled="{Binding MonthEnabled}"
+				SelectedIndex="{Binding MonthIndex, Mode=TwoWay}"
+				>
 			<Picker.Items>
 				<x:String>January</x:String>
 				<x:String>February</x:String>
@@ -58,8 +64,21 @@
 			</Picker.Items>
 		</Picker>
 
-		<Label Grid.Row="7" Grid.Column="1" Text="Bese Id" FontAttributes="Bold" />
-		<Entry Grid.Row="8" Grid.Column="1" Text="{Binding BaseId, Mode=TwoWay}" />
+		<Label Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="Bese Id" FontAttributes="Bold" />
+		<Entry Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding BaseId, Mode=TwoWay}" />
+
+		<ui:ButtonEx Grid.Row="10" Grid.Column="1"
+					 HorizontalOptions="Center"
+					 WidthRequest="90"
+					 Text="Ok"
+					 Writ="Accept"
+					 />
+		<ui:ButtonEx Grid.Row="10" Grid.Column="2"
+					 HorizontalOptions="Center"
+					 WidthRequest="90"
+					 Text="Cancel"
+					 Writ="Cancel"
+					 />
 	</Grid>
 </ui:ContentPageEx>
 	
