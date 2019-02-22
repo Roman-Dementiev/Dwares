@@ -25,6 +25,10 @@ namespace Dwares.Rookie.Bases
 
 	public class VendorRecord : AirRecord
 	{
+		const string BRAND ="Brand";
+		const string BRANCH = "Branch";
+		const string LOCATION = "Location";
+
 		public string Brand { get; set; }
 		public string Branch { get; set; }
 		public string Location { get; set; }
@@ -32,16 +36,16 @@ namespace Dwares.Rookie.Bases
 
 		public override void CopyFieldsToProperties()
 		{
-			Brand = GetField<string>("Brand");
-			Branch = GetField<string>("Branch");
-			Location = GetField<string>("Location");
+			Brand = GetField<string>(BRAND);
+			Branch = GetField<string>(BRANCH);
+			Location = GetField<string>(LOCATION);
 		}
 
 		public override void CopyPropertiesToFields()
 		{
-			Fields["Brand"] = Brand;
-			Fields["Branch"] = Branch;
-			Fields["Location"] = Location;
+			Fields[BRAND] = Brand;
+			Fields[BRANCH] = Branch;
+			Fields[LOCATION] = Location;
 		}
 	}
 }

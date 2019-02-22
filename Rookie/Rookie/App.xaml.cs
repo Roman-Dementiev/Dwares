@@ -27,6 +27,9 @@ namespace Rookie
 			// Handle when your app starts
 			await AppScope.Instance.Initialize(reset: false);
 
+			//var testPage = new Dwares.Rookie.Views.TestPage();
+			//this.InitMainPageWithNavigation(testPage);
+
 			if (AppScope.IsLoggedIn) {
 				this.InitMainPageWithNavigation(typeof(MainPageViewModel));
 			} else {

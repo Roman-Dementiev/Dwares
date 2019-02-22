@@ -13,11 +13,14 @@ namespace Dwares.Dwarf.Collections
 		void SetBoolean(string key, bool value);
 		bool GetInteger(string key, out int value);
 		void Setinteger(string key, int value);
+
+		void Remove(string key);
 	}
 
 	public interface IPropContainer<TStored>
 	{
 		bool ContainsKey(string key);
+		void Remove(string key);
 		bool GetStored(string key, out TStored stored);
 		void SetStored(string key, TStored stored);
 	}
@@ -35,6 +38,11 @@ namespace Dwares.Dwarf.Collections
 		}
 
 		public IPropContainer<TStored> Container { get; }
+
+		public void Remove(string key)
+		{
+			Container.Remove(key);
+		}
 
 		public virtual bool Get<T>(string key, out T value)
 		{
@@ -123,6 +131,11 @@ namespace Dwares.Dwarf.Collections
 		public void SetStored(string key, TStored value)
 		{
 			this[key] = value;
+		}
+
+		public new void Remove(string key)
+		{
+			base.Remove(key);
 		}
 	}
 }

@@ -45,5 +45,20 @@ namespace Dwares.Dwarf
 
 		public static void ArgumentIsInRange(int arg, int minValue, int maxValue, string name, string message = null)
 			=> ArgumentIsInRange(arg, arg >= minValue && arg <= maxValue, name, message);
+
+
+		public static Exception Verify(bool condition, string errorMessage, bool throwIfError = true)
+		{
+			Debug.Assert(condition, errorMessage);
+			if (condition)
+				return null;
+
+			var exc = new ProgramError(errorMessage);
+			if (throwIfError) {
+				throw exc;
+			} else {
+				return exc;
+			}
+		}
 	}
 }

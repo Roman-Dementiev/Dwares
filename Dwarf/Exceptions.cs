@@ -54,5 +54,13 @@ namespace Dwares.Dwarf
 	{
 		public UserError(string message) : base(message) { }
 		public UserError(string format, params string[] args) : base(string.Format(format, args)) { }
-	}}
+	}
+
+	public class ProgramError : Exception
+	{
+		public ProgramError(string message) : base(message) { }
+		public ProgramError(string format, params string[] args) : base(string.Format(format, args)) { }
+	}
+
+}
 

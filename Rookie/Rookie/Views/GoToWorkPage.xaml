@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
-				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-				  Title="{Binding Title}"
-				  x:Class="Dwares.Rookie.Views.GoToWorkPage">
+<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
+			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			   xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+			   Title="{Binding Title}"
+			   FrameSize="{Binding FrameSize}"
+			   x:Class="Dwares.Rookie.Views.GoToWorkPage">
 
 	<ui:ContentPageEx.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
@@ -13,7 +14,7 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
+			<RowDefinition Height="4" />
 			<!--1: StartTime label-->
 			<RowDefinition Height="Auto" />
 			<!--2: StartTime picker -->
@@ -23,41 +24,38 @@
 			<!--4: Milage entry-->
 			<RowDefinition Height="Auto" />
 			<!--5: empty-->
-			<RowDefinition Height="4" />
+			<RowDefinition Height="*" />
 			<!--6 Buttons-->
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="120" />
-			<ColumnDefinition Width="120" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 
-		<Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="Time" FontAttributes="Bold" />
-		<TimePicker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+		<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Time" FontAttributes="Bold" />
+		<TimePicker Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
 					Time="{Binding Time, Mode=TwoWay}"
 					/>
 
-		<Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="Mileage" FontAttributes="Bold" />
-		<Entry Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+		<Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Mileage" FontAttributes="Bold" />
+		<Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
 			   Text="{Binding MileageText, Mode=TwoWay}"
 			   Keyboard="Numeric"/>
 
-		<ui:ButtonEx Grid.Row="6" Grid.Column="1"
+		<ui:ButtonEx Grid.Row="6" Grid.Column="0"
 					 WidthRequest="100"
 					 HorizontalOptions="Center"
 					 Text="To Work"
 					 Writ="Accept"
 					 />
 
-		<ui:ButtonEx Grid.Row="6" Grid.Column="2"
+		<ui:ButtonEx Grid.Row="6" Grid.Column="1"
 					 WidthRequest="100"
 					 HorizontalOptions="Center"
 					 Text="Cancel"
 					 Writ="Cancel"
 					 />
 	</Grid>
-</ui:ContentPageEx>
+</ui:FramedPage>
 	

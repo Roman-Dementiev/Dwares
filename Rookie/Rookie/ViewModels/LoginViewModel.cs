@@ -10,7 +10,7 @@ using Dwares.Rookie.Models;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class LoginViewModel : ViewModel
+	public class LoginViewModel : FramedFormViewModel
 	{	
 		public LoginViewModel()
 		{
@@ -18,6 +18,8 @@ namespace Dwares.Rookie.ViewModels
 				SelectedUser = AppScope.Instance.GetAccount(AppScope.Driver, null); 
 			}
 		}
+
+		public override double FrameHeight => 240;
 
 		public IList Accounts => AppScope.Instance.Accounts;
 

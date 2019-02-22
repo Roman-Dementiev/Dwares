@@ -20,13 +20,17 @@ namespace Dwares.Rookie.ViewModels
 		}
 
 
-		public bool IsWorking => Rookie.AppScope.Instance.WorkPeriod != null;
-		public bool NotWorking => Rookie.AppScope.Instance.WorkPeriod == null;
+		public bool IsWorking => AppScope.Instance.IsWorking;
+		public bool NotWorking => !AppScope.Instance.IsWorking;
+		public bool HasWorkPeriod => AppScope.Instance.LastPeriod != null;
 
 		private void AppDataPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(Rookie.AppScope.WorkPeriod)) {
+			if (e.PropertyName == nameof(AppScope.IsWorking)) {
 				PropertiesChanged(nameof(IsWorking), nameof(NotWorking));
+			}
+			else if (e.PropertyName == nameof(AppScope.LastPeriod)) {
+				PropertiesChanged(nameof(HasWorkPeriod));
 			}
 		}
 
@@ -34,7 +38,7 @@ namespace Dwares.Rookie.ViewModels
 
 		public async void OnGoToWork()
 		{
-			if (Rookie.AppScope.Instance.TripBase == null) {
+			if (AppScope.Instance.TripBase == null) {
 				await Alerts.Error("There is no database for current month/year");
 				return;
 			}
@@ -57,9 +61,12 @@ namespace Dwares.Rookie.ViewModels
 			await Navigator.ReplaceTopPage(page);
 		}
 
-		public void OnAddTrip()
+		public async void OnAddTrip()
 		{
 			Debug.Print("MainPageViewModel.OnAddTrip");
+
+			var page = CreatePage(typeof(AddTripViewModel));
+			await Navigator.PushPage(page);
 		}
 
 		public async void OnSetupBases()

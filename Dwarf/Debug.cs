@@ -70,6 +70,7 @@ namespace Dwares.Dwarf
 			Print(ExceptionCaughtFormat, ex);
 		}
 
+
 		//[System.Diagnostics.Conditional("DEBUG")]
 		//public static void MethodMessage(string message = null, [CallerMemberName] string method = null)
 		//{

@@ -1,37 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-			 x:Class="Dwares.Rookie.Views.LoginPage">
+<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
+			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			   Title="{Binding Title}"
+			   FrameSize="{Binding FrameSize}"
+			   x:Class="Dwares.Rookie.Views.LoginPage">
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="8" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="55" />
-			<ColumnDefinition Width="55" />
-			<ColumnDefinition Width="55" />
-			<ColumnDefinition Width="55" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 
-		<Picker Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+		<Picker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
 				Title="Driver"
 				ItemsSource="{Binding Accounts}"
 				SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
 				>
 		</Picker>
 
-		<ui:ButtonEx Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1"
+		<ui:ButtonEx Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1"
 					 HorizontalOptions="Fill"
 					 VerticalOptions="End"
 					 WidthRequest="55"
@@ -39,24 +38,21 @@
 					 Writ="AddAccount"
 					 />
 		
-		<Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4"
+		<Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
 			   HorizontalOptions="Start"
 			   Text="Password"
 			   />
-		<Entry Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="4"
+		<Entry Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="4"
 			   Text="{Binding Password, Mode=TwoWay}"
 			   IsPassword="True"
 			   />
 
-		
-		<!--<Switch Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
-				/>-->
-		<ui:CheckMark Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4"
+		<ui:CheckMark Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
 					  Text="Keep logged in"
 					  IsChecked="{Binding KeepLoggedIn, Mode=TwoWay}"
 					  />
 
-		<ui:ButtonEx  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+		<ui:ButtonEx  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
 					  HorizontalOptions="Center"
 					  WidthRequest="110"
 					  Text="Login"
@@ -64,7 +60,7 @@
 					  IsEnabled="{Binding HasUserSelected}"
 					  />
 		
-		<ui:ButtonEx Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2"
+		<ui:ButtonEx Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2"
 					 HorizontalOptions="Center"
 					 WidthRequest="110"
 					 Text="Go To Work"
@@ -73,4 +69,4 @@
 					 />
 
 	</Grid>
-</ContentPage>
+</ui:FramedPage>

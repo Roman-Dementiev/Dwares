@@ -16,6 +16,8 @@ namespace Dwares.Rookie
 		const string keyAccounts = "Accounts";
 		const string keyDriver = "Driver";
 
+		const string propLastPeriod = "LastPeriod";
+		const string propIsWorking = "IsWorking";
 		const string propMileage = "Mileage";
 
 		public static AppScope Instance { get; private set; }
@@ -25,6 +27,10 @@ namespace Dwares.Rookie
 			Debug.AssertIsNull(Instance);
 			Instance = this;
 		}
+
+		public ObservableCollection<TripBase> Bases { get; } = new ObservableCollection<TripBase>();
+		public ObservableCollection<Account> Accounts { get; } = new ObservableCollection<Account>();
+		public ObservableCollection<YearlyTripData> TripData { get; } = new ObservableCollection<YearlyTripData>();
 
 		MainBase mainBase;
 		public MainBase MainBase {
@@ -44,14 +50,16 @@ namespace Dwares.Rookie
 			set => SetProperty(ref templateBase, value);
 		}
 
-		public ObservableCollection<TripBase> Bases { get; } = new ObservableCollection<TripBase>();
-		public ObservableCollection<Account> Accounts { get; } = new ObservableCollection<Account>();
-		public ObservableCollection<YearlyTripData> TripData { get; } = new ObservableCollection<YearlyTripData>();
+		PeriodRecord lastPeriod;
+		public PeriodRecord LastPeriod {
+			get => lastPeriod;
+			set => SetProperty(ref lastPeriod, value);
+		}
 
-		PeriodRecord workPeriod;
-		public PeriodRecord WorkPeriod {
-			get => workPeriod;
-			set => SetProperty(ref workPeriod, value);
+		bool isWorking;
+		public bool IsWorking {
+			get => isWorking;
+			set => SetProperty(ref isWorking, value);
 		}
 
 		public static string Driver { get; private set; }
@@ -139,7 +147,15 @@ namespace Dwares.Rookie
 			await MainBase.Initialize();
 			try {
 				await InitTripBases();
-				//IsLoggedIn = true;
+
+				if (TripBase != null) {
+					var lastPeriodId = MainBase.PropertiiesTable.GetString(propLastPeriod);
+					if (!string.IsNullOrEmpty(lastPeriodId)) {
+						LastPeriod = await TripBase.GetPeriod(lastPeriodId);
+					}
+					//IsWorking = MainBase.PropertiiesTable.GetBoolean(propIsWorking);
+				}
+
 				Driver = username;
 				if (keepLoggedIn) {
 					await SecureStorage.SetAsync(keyDriver, Driver + '|' + password);
@@ -190,15 +206,19 @@ namespace Dwares.Rookie
 
 		public async Task<Exception> GoToWork(DateTime time, int mileage)
 		{
+			Debug.Assert(!IsWorking);
+			if (IsWorking)
+				return new ProgramError("Already working");
+
 			Debug.AssertNotNull(MainBase);
 			Debug.AssertNotNull(TripBase);
-			Debug.AssertIsNull(WorkPeriod);
 
 			try {
-				WorkPeriod = await TripBase.PeriodsTable.StartPeriod(time, mileage);
-				//IsWorking = true;
+				var workPeriod = await TripBase.PeriodsTable.StartPeriod(time, mileage);
+				LastPeriod = workPeriod;
+				IsWorking = true;
 
-				await MainBase.PropertiiesTable.PutValue(propMileage, mileage);
+				await UpdateWorkPeriodProperties(mileage);
 				return null;
 			}
 			catch (Exception exc) {
@@ -209,21 +229,39 @@ namespace Dwares.Rookie
 
 		public async Task<Exception> GoOffWork(DateTime time, int mileage)
 		{
+			Debug.Assert(IsWorking);
+			if (!IsWorking)
+				return new ProgramError("Not working");
+
 			Debug.AssertNotNull(MainBase);
 			Debug.AssertNotNull(TripBase);
-			Debug.AssertNotNull(WorkPeriod);
 
 			try {
-				WorkPeriod = await TripBase.PeriodsTable.FinishPeriod(WorkPeriod, time, mileage);
-				WorkPeriod = null;
-				//IsWorking = false;
-				await MainBase.PropertiiesTable.PutValue(propMileage, mileage);
+				await TripBase.PeriodsTable.FinishPeriod(LastPeriod, time, mileage);
+				IsWorking = false;
+
+				await UpdateWorkPeriodProperties(mileage);
 				return null;
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
 				return exc;
 			}
+		}
+
+		public async Task UpdateWorkPeriodProperties(int mileage)
+		{
+			var properties = MainBase.PropertiiesTable;
+
+			if (LastPeriod != null) {
+				await properties.PutValue(propLastPeriod, LastPeriod.Id);
+			} else {
+				//properties.Remove(propLastPeriod);
+				await properties.PutValue(propLastPeriod, string.Empty);
+			}
+			await properties.PutValue(propIsWorking, IsWorking);
+			await properties.PutValue(propMileage, mileage);
+
 		}
 
 		public async Task InitTripBases()
@@ -234,7 +272,6 @@ namespace Dwares.Rookie
 
 			foreach (var rec in records)
 			{
-
 				if (rec.Year <= 0) {
 					if (rec.Year == 0 && rec.Month == 1) {
 						Debug.Assert(TemplateBase == null);

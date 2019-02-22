@@ -41,10 +41,8 @@ namespace Dwares.Druid
 			AddDefaultViewLocators();
 		}
 
-		public static Page InitMainPageWithNavigation(this Application app, Type viewModelType)
+		public static void InitMainPageWithNavigation(this Application app, Page mainPage)
 		{
-			var mainPage = BindingScope.CreatePage(viewModelType);
-
 			var navPage = new NavigationPage(mainPage) {
 				BarBackgroundColor = Color.DodgerBlue,
 				BarTextColor = Color.White
@@ -52,8 +50,13 @@ namespace Dwares.Druid
 
 			app.MainPage = navPage;
 
-			Navigator.Initialize(navPage);;
+			Navigator.Initialize(navPage);
+		}
 
+		public static Page InitMainPageWithNavigation(this Application app, Type viewModelType)
+		{
+			var mainPage = BindingScope.CreatePage(viewModelType);
+			app.InitMainPageWithNavigation(mainPage);
 			return mainPage;
 		}
 	}

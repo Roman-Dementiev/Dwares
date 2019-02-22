@@ -6,6 +6,7 @@ using System.Web;
 using Newtonsoft.Json;
 using Dwares.Dwarf;
 
+
 namespace Dwares.Rookie.Airtable
 {
 	public class AirTable<TRecord> where TRecord : AirRecord
@@ -43,6 +44,16 @@ namespace Dwares.Rookie.Airtable
 					throw exc;
 				return exc;
 			}
+		}
+
+		public async Task<TRecord> GetRecord(string recordId)
+		{
+			var uri = AirClient.RecordUri(Base.BaseId, Name, recordId);
+
+			var response = await AirClient.GetAsync(Base.ApiKey, uri);
+			var record = JsonConvert.DeserializeObject<TRecord>(response.Body);
+
+			return record;
 		}
 
 		public async Task<AirRecordList<TRecord>> ListRecords(QyeryBuilder queryBuilder = null)
@@ -84,10 +95,10 @@ namespace Dwares.Rookie.Airtable
 
 		async Task<TRecord> CUROperation(HttpMethod method, string recordId, Dictionary<string, object> fields, bool typecast)
 		{
-			var uriStr = AirClient.RecordUri(Base.BaseId, Name, recordId);
+			var uri = AirClient.RecordUri(Base.BaseId, Name, recordId);
 			var fieldsAndTypecast = new FieldsAndTypecast(fields, typecast);
 
-			var response = await AirClient.SendAsync(method, Base.ApiKey, new Uri(uriStr), fieldsAndTypecast.ToJson());
+			var response = await AirClient.SendAsync(method, Base.ApiKey, uri, fieldsAndTypecast.ToJson());
 			var record = JsonConvert.DeserializeObject<TRecord>(response.Body);
 
 			record.CopyFieldsToProperties();
@@ -116,6 +127,13 @@ namespace Dwares.Rookie.Airtable
 			var fields = GetRecordFields(record, fieldNames);
 
 			return await UpdateRecord(record, fields);
+		}
+
+		public async Task DeleteRecord(string recordId)
+		{
+			var uri = AirClient.RecordUri(Base.BaseId, Name, recordId);
+
+			await AirClient.DeleteAsync(Base.ApiKey, uri);
 		}
 
 		public async Task CopyRecords(AirTable<TRecord> destTable, IEnumerable<string> fieldNames = null)

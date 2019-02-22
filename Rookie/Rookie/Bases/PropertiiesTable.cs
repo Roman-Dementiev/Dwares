@@ -40,7 +40,7 @@ namespace Dwares.Rookie.Bases
 		//	return null;
 		//}
 
-		public string GetText(string key)
+		public string GetString(string key)
 		{
 			//var record = GetRecord(key);
 			//if (record != null)
@@ -110,24 +110,37 @@ namespace Dwares.Rookie.Bases
 		{
 			await PutRecord(key, stored);
 		}
+
+		public async void Remove(string key)
+		{
+			if (records.ContainsKey(key)) {
+				var record = records[key];
+				await DeleteRecord(record.Id);
+				records.Remove(key);
+			}
+		}
+
 	}
 
 
 	public class PropertyRecord : AirRecord
 	{
+		const string KEY = "Key";
+		const string VALUE = "Value";
+
 		public string Key { get; set; }
 		public string Value { get; set; }
 
 		public override void CopyFieldsToProperties()
 		{
-			Key = GetField<string>("Key");
-			Value = GetField<string>("Value");
+			Key = GetField<string>(KEY);
+			Value = GetField<string>(VALUE);
 		}
 
 		public override void CopyPropertiesToFields()
 		{
-			Fields["Key"] = Key;
-			Fields["Value"] = Value;
+			Fields[KEY] = Key;
+			Fields[VALUE] = Value;
 		}
 	}
 }

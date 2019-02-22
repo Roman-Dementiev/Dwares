@@ -8,7 +8,7 @@ using Dwares.Dwarf.Validation;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class GoOnOffWorkViewMode : FormViewModel
+	public class GoOnOffWorkViewMode : FramedFormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(GoOnOffWork));
 
@@ -25,6 +25,8 @@ namespace Dwares.Rookie.ViewModels
 			mileage = new IntegerField() { Value = Rookie.AppScope.LastMileage, MsgInvalidEntryText = "Milage must be a positive number" };
 			fields = new Validatables(time, mileage);
 		}
+
+		public override double FrameHeight => 240;
 
 		public TimeSpan Time {
 			get => time;
@@ -43,7 +45,7 @@ namespace Dwares.Rookie.ViewModels
 	}
 
 
-	public class GoToWorkViewModel : StartFinishViewModel
+	public class GoToWorkViewModel : GoOnOffWorkViewMode
 	{
 		//static ClassRef @class = new ClassRef(typeof(GoOnDutyViewModel));
 		public GoToWorkViewModel() :
@@ -51,7 +53,6 @@ namespace Dwares.Rookie.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 		}
-
 
 		protected override async Task DoAccept()
 		{

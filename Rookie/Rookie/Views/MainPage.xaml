@@ -61,16 +61,16 @@
 		
 		<views:PicButton Grid.Row="2" Grid.Column="1"
 						 ImageSource="Images/gas.png"
-						 IsVisible="{Binding IsWorking}"
+						 IsVisible="{Binding HasWorkPeriod}"
 						 LabelText="Gas"
 						 Writ="Gas"
 						 />
 
 		<views:PicButton Grid.Row="2" Grid.Column="2"
 						 ImageSource="Images/expenses.png"
-						 IsVisible="{Binding IsWorking}"
-						 LabelText="Expenses"
-						 Writ="Expenses"
+						 IsVisible="{Binding HasWorkPeriod}"
+						 LabelText="Payment"
+						 Writ="Payment"
 						 />
 
 		<views:PicButton Grid.Row="3" Grid.Column="1"

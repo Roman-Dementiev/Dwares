@@ -38,6 +38,11 @@ namespace Dwares.Rookie.Bases
 
 	public class BaseRecord : AirRecord
 	{
+		const string BASE_ID = "BaseId";
+		const string YEAR = "Year";
+		const string MONTH = "Month";
+		const string NOTES = "NOTES";
+
 		public string BaseId { get; set; }
 		public int Year { get; set; }
 		public int Month { get; set; }
@@ -53,10 +58,10 @@ namespace Dwares.Rookie.Bases
 
 		public override void CopyPropertiesToFields()
 		{
-			Fields["BaseId"] = BaseId;
-			Fields["Year"] = Year;
-			Fields["Month"] = Month;
-			Fields["Notes"] = Notes;
+			Fields[BASE_ID] = BaseId;
+			Fields[YEAR] = Year;
+			Fields[MONTH] = Month;
+			Fields[NOTES] = Notes;
 		}
 	}
 }

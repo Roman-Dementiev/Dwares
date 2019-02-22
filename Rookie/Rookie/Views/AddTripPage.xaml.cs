@@ -8,9 +8,9 @@ using Dwares.Dwarf;
 namespace Dwares.Rookie.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class GoToWorkPage : FramedPage
+	public partial class AddTripPage : FramedPage
 	{
-		public GoToWorkPage()
+		public AddTripPage()
 		{
 			InitializeComponent();
 		}

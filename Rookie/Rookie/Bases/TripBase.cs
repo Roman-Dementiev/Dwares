@@ -35,6 +35,12 @@ namespace Dwares.Rookie.Bases
 			return list.Records;
 		}
 
+		public async Task<PeriodRecord> GetPeriod(string recordId)
+		{
+			var record = await PeriodsTable.GetRecord(recordId);
+			return record;
+		}
+
 		public async Task CopyVendors(MainBase mainBase)
 		{
 			//var vendors = await mainBase.ListVendors();

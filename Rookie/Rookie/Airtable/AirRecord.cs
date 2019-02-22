@@ -32,6 +32,11 @@ namespace Dwares.Rookie.Airtable
 			return null;
 		}
 
+		public void SetField(string fieldName, object value)
+		{
+			Fields[fieldName] = value;
+		}
+
 		public T GetField<T>(string fieldName, T defaultValue=default(T))
 		{
 			var obj = GetField(fieldName);

@@ -9,7 +9,7 @@ using Dwares.Rookie.Bases;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class AddBaseViewModel : FormViewModel
+	public class AddBaseViewModel : FramedFormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(AddBaseViewModel));
 

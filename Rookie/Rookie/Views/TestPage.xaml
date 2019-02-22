@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  Title="{Binding Title}"
+				  x:Class="Dwares.Rookie.Views.TestPage">
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+
+	<Frame OutlineColor="Red"
+			Margin="10"
+			BorderColor="Green"
+			HorizontalOptions="Fill"
+			VerticalOptions="Fill"
+			HasShadow="True"
+			>
+		<StackLayout>
+			<Button Text="Center" Clicked="Center_Clicked" />
+			<Button Text="Extend" Clicked="Extend_Clicked" />
+			<Button Text="Fuul Screen" Clicked="FullScreen_Clicked" />
+		</StackLayout>
+	</Frame>
+</ui:FramedPage>
+	

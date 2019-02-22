@@ -8,7 +8,7 @@ using Dwares.Dwarf;
 namespace Dwares.Rookie.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class GoOffWorkPage : ContentPageEx
+	public partial class GoOffWorkPage : FramedPage
 	{
 		public GoOffWorkPage()
 		{
