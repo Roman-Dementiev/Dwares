@@ -38,7 +38,23 @@ namespace Dwares.Druid.UI
 
 		public View ContentView {
 			get => Frame.Content; 
-			set => Frame.Content = value;
+
+			set {
+				if (value == Frame.Content)
+					return;
+
+				OnPropertyChanging();
+
+				if (BindingContext == Frame?.Content)
+					BindingContext = null;
+
+				Frame.Content = value;
+
+				if (value != null && BindingContext == null)
+					BindingContext = value.BindingContext;
+
+				OnPropertyChanged();
+			}
 		}
 
 		public static readonly BindableProperty BorderColorProperty =
