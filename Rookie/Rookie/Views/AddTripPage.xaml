@@ -5,7 +5,8 @@
 			   xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 			   Title="{Binding Title}"
 			   FrameSize="{Binding FrameSize}"
-			   x:Class="Dwares.Rookie.Views.AddTripPage">
+			   x:Class="Dwares.Rookie.Views.AddTripPage"
+			   >
 
 	<!--<ui:ContentPageEx.Resources>
 		<ResourceDictionary>
@@ -13,22 +14,35 @@
 		</ResourceDictionary>
 	</ui:ContentPageEx.Resources>-->
 
-	<!--<ui:ContentPageEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
-	</ui:ContentPageEx.ToolbarItems>-->
+	<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
+	</ui:ContentPageEx.ToolbarItems>
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="4" />
-			<!-- 1: Trip# label -->
+			<!-- 1: Trip#  -->
 			<RowDefinition Height="Auto" />
-			<!-- 2: Trip# entry -->
+			<!-- 2: Started -->
 			<RowDefinition Height="Auto" />
-			<!-- 3: Started -->
+			<!-- 3: Finished -->
 			<RowDefinition Height="Auto" />
-			<!-- 4: Finished -->
+			<!-- 4: Distance -->
 			<RowDefinition Height="Auto" />
-			<!-- 5: Distance -->
+			<!-- 5: -->
+			<RowDefinition Height="30" />
+			<!-- 6: Meter -->
+			<RowDefinition Height="Auto" />
+			<!-- 7: IsCredit? -->
+			<RowDefinition Height="Auto" />
+			<!-- 8: Cash -->
+			<RowDefinition Height="Auto" />
+			<!-- 9: Tolls-->
+			<RowDefinition Height="Auto" />
+			<!-- 10:  -->
+			<RowDefinition Height="*" />
+			<!-- 11: Buttons-->
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -37,38 +51,88 @@
 			<ColumnDefinition Width="16*" />
 		</Grid.ColumnDefinitions>
 
-		<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
-			   Text="Trip #" />
-		<Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
-			   Text="{Binding TripNumber}"
+		<Label Grid.Row="1" Grid.Column="0"
+			   Text="Trip #: "
+			   HorizontalOptions="End"
+			   VerticalOptions="Center"
+			   />
+		<Entry Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+			   Text="{Binding TripNumberText, Mode=TwoWay}"
 			   />
 
-		<Label Grid.Row="3" Grid.Column="0"
+		<Label Grid.Row="2" Grid.Column="0"
 			   Text="Started: " 
 			   HorizontalOptions="End"
 			   VerticalOptions="Center"
 			   />
-		<TimePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
-					Time="{Binding Started}"
+		<TimePicker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+					Time="{Binding Started, Mode=TwoWay}"
 					/>
 
-		<Label Grid.Row="4" Grid.Column="0"
+		<Label Grid.Row="3" Grid.Column="0"
 			   Text="Finished: " 
 			   HorizontalOptions="End"
 			   VerticalOptions="Center"
 			   />
-		<TimePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
-					Time="{Binding Finished}"
+		<TimePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+					Time="{Binding Finished, Mode=TwoWay}"
 					/>
 
-		<Label Grid.Row="5" Grid.Column="0"
+		<Label Grid.Row="4" Grid.Column="0"
 			   Text="Distance: " 
 			   HorizontalOptions="End"
 			   VerticalOptions="Center"
 			   />
-		<Entry Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
-			   Text="{Binding Distance}"
+		<Entry Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+			   Text="{Binding DistanceText, Mode=TwoWay}"
 			   />
+
+		<Label Grid.Row="6" Grid.Column="0"
+			   Text="Meter: " 
+			   HorizontalOptions="End"
+			   VerticalOptions="Center"
+			   />
+		<Entry Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+			   Text="{Binding MeterText, Mode=TwoWay}"
+			   />
+
+		<ui:CheckMark Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+					  Text="Is Credit"
+					  IsChecked="{Binding IsCredit, Mode=TwoWay}"
+					  />
+
+		<Label Grid.Row="8" Grid.Column="0"
+			   Text="Cash: " 
+			   HorizontalOptions="End"
+			   VerticalOptions="Center"
+			   />
+		<Entry Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"
+			   Text="{Binding CashText, Mode=TwoWay}"
+			   />
+
+		<Label Grid.Row="9" Grid.Column="0"
+			   Text="Tolls: " 
+			   HorizontalOptions="End"
+			   VerticalOptions="Center"
+			   />
+		<Entry Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2"
+			   Text="{Binding TollsText, Mode=TwoWay}"
+			   />
+
+		<ui:ButtonEx Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
+					 WidthRequest="100"
+					 HorizontalOptions="Center"
+					 IsEnabled="{Binding NotBusy}"
+					 Text="Add Trip"
+					 Writ="Accept"
+					 />
+
+		<ui:ButtonEx Grid.Row="11" Grid.Column="2"
+					 WidthRequest="100"
+					 HorizontalOptions="Center"
+					 Text="Cancel"
+					 Writ="Cancel"
+					 />
 	</Grid>
 	
 </ui:FramedPage>

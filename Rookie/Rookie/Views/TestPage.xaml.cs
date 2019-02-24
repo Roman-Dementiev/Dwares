@@ -15,21 +15,26 @@ namespace Dwares.Rookie.Views
 			InitializeComponent();
 
 			FrameSize = new Size(300, 500);
+			FrameMargin = new Thickness(4);
+			BorderColor = Color.Red;
 		}
 
 		private void Center_Clicked(object sender, EventArgs e)
 		{
-			Mode = FramedPageMode.Center;
+			BorderIsVisible = true;
+			FrameIsCentered = true;
 		}
 
 		private void Extend_Clicked(object sender, EventArgs e)
 		{
-			Mode = FramedPageMode.Extend;
+			BorderIsVisible = true;
+			FrameIsCentered = false;
 		}
 
 		private void FullScreen_Clicked(object sender, EventArgs e)
 		{
-			Mode = FramedPageMode.FullScreen;
+			BorderIsVisible = false;
+			//	FrameIsCentered = false;
 		}
 	}
 }

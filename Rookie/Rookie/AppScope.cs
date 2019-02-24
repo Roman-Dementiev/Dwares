@@ -138,6 +138,27 @@ namespace Dwares.Rookie
 		}
 
 
+		public async Task GetLastPeriod()
+		{
+			var lastPeriodId = MainBase.PropertiiesTable.GetString(propLastPeriod);
+			if (string.IsNullOrEmpty(lastPeriodId))
+				return;
+
+			try {
+				LastPeriod = await TripBase.GetPeriod(lastPeriodId);
+
+				//IsWorking = MainBase.PropertiiesTable.GetBoolean(propIsWorking);
+			}
+			catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+			}
+
+			if (LastPeriod != null) {
+				IsWorking = MainBase.PropertiiesTable.GetBoolean(propIsWorking) == true;
+			}
+		}
+
+
 
 		public async Task<Exception> TryLogin(string username, string password, string apiKey, string baseId, bool keepLoggedIn)
 		{
@@ -149,11 +170,7 @@ namespace Dwares.Rookie
 				await InitTripBases();
 
 				if (TripBase != null) {
-					var lastPeriodId = MainBase.PropertiiesTable.GetString(propLastPeriod);
-					if (!string.IsNullOrEmpty(lastPeriodId)) {
-						LastPeriod = await TripBase.GetPeriod(lastPeriodId);
-					}
-					//IsWorking = MainBase.PropertiiesTable.GetBoolean(propIsWorking);
+					await GetLastPeriod();
 				}
 
 				Driver = username;
@@ -370,6 +387,11 @@ namespace Dwares.Rookie
 			}
 
 			Bases.Add(tripBase);
+		}
+
+		public Task AddTrip(TripRecord record)
+		{
+			return TripBase.TripsTable.CreateRecord(record);
 		}
 
 		public int GetIntegerProperty(string key, int defaultValue = 0)

@@ -13,7 +13,7 @@ namespace Dwares.Rookie.ViewModels
 		//static ClassRef @class = new ClassRef(typeof(GoOnOffWork));
 
 		TimeField time;
-		IntegerField mileage;
+		NonNegativeNumberField<int> mileage;
 
 		protected GoOnOffWorkViewMode(string title)
 		{
@@ -21,9 +21,9 @@ namespace Dwares.Rookie.ViewModels
 
 			Title = title;
 
-			time = new TimeField() { Value = DateTime.Now.TimeOfDay };
-			mileage = new IntegerField() { Value = Rookie.AppScope.LastMileage, MsgInvalidEntryText = "Milage must be a positive number" };
-			fields = new Validatables(time, mileage);
+			time = new TimeField("Time") { Value = DateTime.Now.TimeOfDay };
+			mileage = new NonNegativeNumberField<int>("Milage") { Value = AppScope.LastMileage };
+			Fields = new FieldList(time, mileage);
 		}
 
 		public override double FrameHeight => 240;

@@ -3,6 +3,7 @@
 				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  xmlns:local="using:Dwares.Rookie.Views"
 				  Title="{Binding Title}"
 				  x:Class="Dwares.Rookie.Views.TestPage">
 
@@ -17,8 +18,7 @@
 	</ui:ContentPageEx.ToolbarItems>-->
 
 
-	<Frame OutlineColor="Red"
-			Margin="10"
+	<Frame Margin="10"
 			BorderColor="Green"
 			HorizontalOptions="Fill"
 			VerticalOptions="Fill"
@@ -27,7 +27,7 @@
 		<StackLayout>
 			<Button Text="Center" Clicked="Center_Clicked" />
 			<Button Text="Extend" Clicked="Extend_Clicked" />
-			<Button Text="Fuul Screen" Clicked="FullScreen_Clicked" />
+			<Button Text="Full Screen" Clicked="FullScreen_Clicked" />
 		</StackLayout>
 	</Frame>
 </ui:FramedPage>

@@ -8,76 +8,111 @@ namespace Dwares.Druid.Forms
 {
 	public interface IField
 	{
-		bool isValid { get; }
+		bool IsValid { get; }
+		Exception Error { get; }
+		// TODO
 	}
 
-	public class Field<T> : Validatable<T>, IValueHolder<T>, ITextHolder
+	public class Field<T> : IField, IValueHolder<T>, ITextHolder
 	{
-		public Field(bool required = false)
+		public Field(string name)
 		{
-			IsRequired = required;
+			Name = name;
 		}
 
-		bool isRequired;
-		bool IsRequired {
-			get => isRequired;
-			set => SetProperty(ref isRequired, value);
+		public string Name { get; set; }
+		public bool IsRequired { get; set; }
+		public Exception Error { get; protected set; }
+
+		protected bool? isValid = null;
+		public virtual bool IsValid {
+			get {
+				if (isValid == null) {
+					Error = Validate();
+					isValid = Error == null;
+				}
+				return isValid == true;
+			}
 		}
 
-		public override T Value {
+		T _value;
+		public T Value {
 			get => _value;
 			set {
-				if (SetProperty(ref _value, value)) {
+				if (!Equals(value, _value)) {
+					_value = value;
 					isValid = null;
-					PropertiesChanged(nameof(IsValid), nameof(Text));
 				}
 			}
 		}
 
 		string text;
 		public virtual string Text {
-			get => text ?? _value?.ToString();
+			get => text ?? Value?.ToString();
 			set {
-				if (SetProperty(ref text, value)) {
+				if (value != text) {
+					text = value;
 					isValid = null;
-					PropertiesChanged(nameof(IsValid), nameof(Value));
 				}
 			}
 		}
 
-		public override Exception Validate()
+		public static implicit operator T(Field<T> field)
+		{
+			return field.Value;
+		}
+
+		//public static explicit operator Field<T>(T value)
+		//{
+		//	return new Field<T>() { Value = value };
+		//}
+
+		public virtual Exception Validate()
 		{
 			if (text != null) {
 				try {
-					ConvertFromText();
+					ConvertFromText(text);
 				}
 				catch (Exception exc) {
 					return new ValidationError(MsgInvalidEntryText, exc);
 				}
 			}
 
-			if (IsRequired && Strings.IsNullOrEmpty(Value)) {
+			if (IsRequired && IsUnset()) {
 				return new FieldIsRequiredError(MsgFieldIsRequired);
 			}
 
-			return base.Validate();
+			return null;
 		}
 
-		protected virtual void ConvertFromText()
+		protected virtual void ConvertFromText(string text)
 		{
 			var value = Convert.ChangeType(text, typeof(T));
 			Value = (T)value;
 		}
 
+		protected virtual bool IsUnset()
+		{
+			return Strings.IsNullOrEmpty(Value);
+		}
+
+		protected string GetMessage(string message, string messageCode)
+		{
+			if (string.IsNullOrEmpty(message)) {
+				return ValidationMessages.GetMessage(messageCode, Name);
+			}
+			return message;
+		}
+
 		string msgFieldIsRequired;
 		public string MsgFieldIsRequired {
-			get => msgFieldIsRequired ?? ValidationMessages.FieldIsRequired;
+			get => GetMessage(msgFieldIsRequired, ValidationMessages.cFieldIsRequired);
 			set => msgFieldIsRequired = value;
 		}
 
 		string msgInvalidEntryText;
 		public string MsgInvalidEntryText {
-			get => msgInvalidEntryText ?? ValidationMessages.InvalidEntryText;
+			get => GetMessage(msgInvalidEntryText, ValidationMessages.cInvalidEntryText);
 			set => msgInvalidEntryText = value;
 		}
 	}

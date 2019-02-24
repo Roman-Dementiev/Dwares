@@ -12,52 +12,53 @@ namespace Dwares.Rookie.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(AddAccountViewModel));
 
+		TextField username;
+		TextField password;
+		TextField apiKey;
+		TextField baseId;
+		Field<int> accountType;
+
 		public AddAccountViewModel()
 		{
 			//Debug.EnableTracing(@class);
 
 			Title = "Add Account";
 
-			username = new Field<string>(true) { MsgFieldIsRequired = "Driver username is required" };
-			password = new Field<string>();
-			apiKey = new Field<string>(true) { MsgFieldIsRequired = "Api key is required" };
-			baseId = new Field<string>(true) { MsgFieldIsRequired = "Base Id is required" };
-			accountType = new Field<int>();
+			username = new TextField("Driver username") { MsgFieldIsRequired = "Driver username is required" };
+			password = new TextField("Password");
+			apiKey = new TextField("Apt key") { IsRequired = true };
+			baseId = new TextField("Base Id") { IsRequired = true };
+			accountType = new Field<int>("Account type");
 
-			fields = new Validatables(username, password, apiKey, baseId);
+			Fields = new FieldList(username, password, apiKey, baseId, accountType);
 		}
 
-		Field<string> username;
 		public string Username {
 			get => username;
 			set => SetProperty(username, value);
 		}
 
-		Field<string> password;
 		public string Password {
 			get => password;
 			set => SetProperty(password, value);
 		}
 
-		Field<string> apiKey;
 		public string ApiKey {
 			get => apiKey;
 			set => SetProperty(apiKey, value);
 		}
 
-		Field<string> baseId;
 		public string BaseId {
 			get => baseId;
 			set => SetProperty(baseId, value);
 		}
 
-		Field<int> accountType;
 		public int AccountType {
 			get => accountType;
 			set => SetProperty(accountType, value);
 		}
 
-		protected override async Task<Exception> Validate()
+		public override async Task<Exception> Validate()
 		{
 			var error = await base.Validate();
 			if (error == null) {

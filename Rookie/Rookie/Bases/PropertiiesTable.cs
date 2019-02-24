@@ -42,10 +42,6 @@ namespace Dwares.Rookie.Bases
 
 		public string GetString(string key)
 		{
-			//var record = GetRecord(key);
-			//if (record != null)
-			//	return record.Text;
-
 			string value;
 			if (props.GetString(key, out value))
 				return value;
@@ -54,12 +50,16 @@ namespace Dwares.Rookie.Bases
 
 		public int? GetInteger(string key)
 		{
-			//var record = GetRecord(key);
-			//if (record != null)
-			//	return record.Integer;
-
 			int value;
 			if (props.GetInteger(key, out value))
+				return value;
+			return null;
+		}
+
+		public bool? GetBoolean(string key)
+		{
+			bool value;
+			if (props.GetBoolean(key, out value))
 				return value;
 			return null;
 		}
@@ -68,20 +68,25 @@ namespace Dwares.Rookie.Bases
 		{
 			PropertyRecord newRecord;
 
-			if (records.ContainsKey(key)) {
-				var record = records[key];
-				record.Value = value ?? string.Empty;
-				record.CopyPropertiesToFields();
+			try {
+				if (records.ContainsKey(key)) {
+					var record = records[key];
+					record.Value = value ?? string.Empty;
+					record.CopyPropertiesToFields();
 
-				newRecord = await UpdateRecord(record);
-			} else {
-				var record = new PropertyRecord {
-					Key = key,
-					Value = value ?? string.Empty
-				};
-				record.CopyPropertiesToFields();
+					newRecord = await UpdateRecord(record);
+				} else {
+					var record = new PropertyRecord {
+						Key = key,
+						Value = value ?? string.Empty
+					};
+					record.CopyPropertiesToFields();
 
-				newRecord = await CreateRecord(record);
+					newRecord = await CreateRecord(record);
+				}
+			} catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+				return;
 			}
 
 			records[key] = newRecord;

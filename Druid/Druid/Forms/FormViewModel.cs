@@ -1,46 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dwares.Dwarf.Collections;
-using Dwares.Dwarf.Validation;
+using Dwares.Dwarf;
 
 
 namespace Dwares.Druid.Forms
 {
 	public class FormViewModel : ViewModel
 	{
-		//public const string ValidationError = "Validation error";
-		protected Validatables fields = null;
-
 		public FormViewModel() { }
 
 		public FormViewModel(BindingScope parentScope) :
 			base(parentScope)
 		{ }
 
+		public IFiledList Fields { get; protected set; }
+
 		protected virtual Task DoAccept()
 		{
 			return null;
 		}
 
-		protected virtual Task<Exception> Validate()
+		public virtual Task<Exception> Validate()
 		{
-			var error = fields?.Validate();
+			var error = Fields?.Validate();
 			return Task.FromResult(error);
 		}
 
+		public virtual Task<List<Exception>> ValidateAll()
+		{
+			var errors = Fields?.ValidateAll();
+			return Task.FromResult(errors);
+		}
 
 		public virtual async Task OnAccept()
 		{
-			var error = await Validate();
+			Exception error = null;
+			try {
+				IsBusy = true;
+
+				error = await Validate();
+				if (error == null) {
+					var task = DoAccept();
+					if (task != null)
+						await task;
+				}
+			}
+			catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+				error = exc;
+			}
+			finally {
+				IsBusy = false;
+			}
+
 			if (error != null) {
 				await Alerts.ErrorAlert(error.Message);
 				return;
 			}
-
-			var task = DoAccept();
-			if (task != null)
-				await task;
-
 
 			await Navigator.PopPage();
 		}

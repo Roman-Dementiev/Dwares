@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Dwares.Dwarf;
+
 
 namespace Dwares.Druid.Forms
 {
 	public class DateField : RangedField<DateTime>
 	{
-		public DateField(bool required = false) : base(required) { }
-
+		public DateField(string name) : base(name) { }
 	}
 }

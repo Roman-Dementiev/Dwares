@@ -22,6 +22,7 @@ namespace Dwares.Druid
 			get => isBusy;
 			set {
 				if (value != isBusy) {
+					isBusy = value;
 					PropertiesChanged(nameof(IsBusy), nameof(NotBusy));
 				}
 			}

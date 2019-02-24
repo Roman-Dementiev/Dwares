@@ -32,7 +32,8 @@ namespace Rookie
 
 			if (AppScope.IsLoggedIn) {
 				this.InitMainPageWithNavigation(typeof(MainPageViewModel));
-			} else {
+			}
+			else {
 				this.InitMainPageWithNavigation(typeof(LoginViewModel));
 			}
 		}

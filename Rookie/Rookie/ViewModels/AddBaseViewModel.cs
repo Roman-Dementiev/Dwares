@@ -13,7 +13,7 @@ namespace Dwares.Rookie.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(AddBaseViewModel));
 
-		IntegerField year;
+		NumberField<int> year;
 		TextField baseId;
 		TripBase db;
 
@@ -24,9 +24,9 @@ namespace Dwares.Rookie.ViewModels
 
 			Title = "Add Database";
 
-			year = new IntegerField(null, null);
-			baseId = new TextField();
-			fields = new Validatables(year, baseId);
+			year = new NumberField<int>("Year");
+			baseId = new TextField("Base Id");
+			Fields = new FieldList(year, baseId);
 
 			Year = 2019;
 			FullYearEnabled = true;
@@ -77,7 +77,7 @@ namespace Dwares.Rookie.ViewModels
 			set => SetProperty(baseId, value);
 		}
 
-		protected override async Task<Exception> Validate()
+		public override async Task<Exception> Validate()
 		{
 			var error = await base.Validate();
 			if (error != null)

@@ -4,33 +4,21 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.Forms
 {
-	public class RangedField<T> : Field<T> where T : struct, IComparable
+	public class RangedField<T> : NullableField<T> where T : struct, IComparable
 	{
-		//static ClassRef @class = new ClassRef(typeof(NumberField));
-
-		public RangedField(bool required = false) :
-			base(required)
-		{
-			//Debug.EnableTracing(@class);
-		}
-
-		public RangedField(T? minValue, T? maxValue, bool required = false) :
-			base(required)
-		{
-			//Debug.EnableTracing(@class);
-			MinValue = minValue;
-			MaxValue = maxValue;
-		}
+		public RangedField(string name) : base(name) { }
 
 		public T? MinValue { get; set; }
 		public T? MaxValue { get; set; }
+		public T? LowBound { get; set; }
+		public T? HighBound { get; set; }
 
 		public override Exception Validate()
 		{
 			var error = base.Validate();
 			if (error == null) {
 				if (!CheckRange()) {
-					error = new FieldValueOutOfRangeError();
+					error = new FieldValueOutOfRangeError(MsgValueOutOfRange);
 				}
 			}
 			return error;
@@ -38,13 +26,30 @@ namespace Dwares.Druid.Forms
 
 		protected virtual bool CheckRange()
 		{
-			if (MinValue != null && Value.CompareTo(MinValue) < 0)
-				return false;
+			if (Value != null) {
+				var value = (T)Value;
 
-			if (MaxValue != null && Value.CompareTo(MaxValue) > 0)
-				return false;
+				if (MinValue != null && value.CompareTo(MinValue) < 0)
+					return false;
+
+				if (MaxValue != null && value.CompareTo(MaxValue) > 0)
+					return false;
+
+				if (LowBound != null && value.CompareTo(LowBound) <= 0)
+					return false;
+
+				if (HighBound != null && value.CompareTo(HighBound) >= 0)
+					return false;
+			}
 
 			return true;
 		}
+
+		string msgValueOutOfRange;
+		public string MsgValueOutOfRange {
+			get => GetMessage(msgValueOutOfRange, ValidationMessages.cValueOutOfRange);
+			set => msgValueOutOfRange = value;
+		}
+
 	}
 }

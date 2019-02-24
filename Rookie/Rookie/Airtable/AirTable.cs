@@ -112,6 +112,7 @@ namespace Dwares.Rookie.Airtable
 
 		public async Task<TRecord> CreateRecord(TRecord record, params string[] fieldNames)
 		{
+			record.CopyPropertiesToFields();
 			var fields = GetRecordFields(record, fieldNames);
 
 			return await CreateRecord(fields);
