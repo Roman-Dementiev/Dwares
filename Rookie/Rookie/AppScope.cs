@@ -227,7 +227,7 @@ namespace Dwares.Rookie
 			if (IsWorking)
 				return new ProgramError("Already working");
 
-			Debug.AssertNotNull(MainBase);
+			Debug.AssertNotNull(MainBase);	
 			Debug.AssertNotNull(TripBase);
 
 			try {
@@ -317,6 +317,32 @@ namespace Dwares.Rookie
 			}
 
 			return null;
+		}
+
+		MonthlyTripData GetMonthlyTripData(int year, int month)
+		{
+			var yearlyData = GetYearlyTripData(year, false);
+			return yearlyData?.GetMonth(month);
+		}
+
+		public void GetUpcomingMonth(out int year, out int month)
+		{
+			var today = DateTime.Today;
+			year = today.Year;
+			month = today.Month;
+
+			for (;;) {
+				var data = GetMonthlyTripData(year, month);
+				if (data == null)
+					return;
+
+				if (month < 12) {
+					month++;
+				} else {
+					year++;
+					month = 1;
+				}
+			}
 		}
 
 		public static Exception CheckBaseIsNew(int year, int month, string baseId)

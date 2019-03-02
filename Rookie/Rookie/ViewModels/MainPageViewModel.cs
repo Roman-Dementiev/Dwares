@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
 
@@ -38,12 +39,20 @@ namespace Dwares.Rookie.ViewModels
 
 		public async void OnGoToWork()
 		{
+			bool addDatabase = false;
 			if (AppScope.Instance.TripBase == null) {
-				await Alerts.Error("There is no database for current month/year");
-				return;
+				//await Alerts.Error("There is no database for current month/year");
+				addDatabase = await Alerts.ActionAlert(null, "There is no database for current month/year", "Add Database");
+				if (!addDatabase)
+					return;
 			}
 
-			var page = CreatePage(typeof(GoToWorkViewModel));
+			Page page;
+			if (addDatabase) {
+				page = CreatePage(typeof(AddBaseViewModel));
+			} else {
+				page = CreatePage(typeof(GoToWorkViewModel));
+			}
 			await Navigator.PushPage(page);
 		}
 

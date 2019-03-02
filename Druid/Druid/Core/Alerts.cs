@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 
 
 namespace Dwares.Druid
@@ -102,6 +103,18 @@ namespace Dwares.Druid
 				reject = RejectString;
 
 			return await DisplayAlert(ConfirmAlertTitle, message, confirm, reject);
+		}
+
+		public static async Task<bool> ActionAlert(string title, string message, string acrion, string dismiss = null)
+		{
+			//if (string.IsNullOrEmpty(title))
+			//	title = ConfirmString;
+			if (string.IsNullOrEmpty(acrion))
+				acrion = AcceptString;
+			if (string.IsNullOrEmpty(dismiss))
+				dismiss = CancelString;
+
+			return await DisplayAlert(title, message, acrion, dismiss);
 		}
 
 	}

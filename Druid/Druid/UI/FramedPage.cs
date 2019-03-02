@@ -1,6 +1,6 @@
 ﻿using System;
-using Dwares.Dwarf;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 
 
 namespace Dwares.Druid.UI
@@ -12,8 +12,7 @@ namespace Dwares.Druid.UI
 	//	FullScreen
 	//}
 
-	[Xamarin.Forms.ContentProperty("ContentView")]
-	public class FramedPage : ContentPageEx
+	public class FramedPage : DecoratedPage
 	{
 		//static ClassRef @class = new ClassRef(typeof(FramedPage));
 
@@ -28,7 +27,7 @@ namespace Dwares.Druid.UI
 			//Debug.EnableTracing(@class);
 
 			var layoutOptions = DefaultFrameIsCentered ? LayoutOptions.Center : LayoutOptions.Fill;
-			Frame = new Frame() {
+			Frame = new FrameEx() {
 				BorderColor = DefaultBorderColor,
 				CornerRadius = DefaultCornerRadius,
 				Margin = DefaultFrameMargin,
@@ -39,19 +38,31 @@ namespace Dwares.Druid.UI
 			Content = Frame;
 		}
 
-		public Frame Frame { get; }
+		public FrameEx Frame { get; protected set; }
 
-		public View ContentView {
-			get => Frame.Content; 
-
+		public override IContentHolder Decoration { 
+			get => Frame;
 			set {
-				if (value != Frame.Content) {
+				var frame = value as FrameEx;
+				if (frame != Frame) {
 					OnPropertyChanging();
-					Frame.Content = value;
+					Frame = frame;
 					OnPropertyChanged();
 				}
 			}
 		}
+
+		//public View ContentView {
+		//	get => Frame.Content; 
+
+		//	set {
+		//		if (value != Frame.Content) {
+		//			OnPropertyChanging();
+		//			Frame.Content = value;
+		//			OnPropertyChanged();
+		//		}
+		//	}
+		//}
 
 		public static readonly BindableProperty FrameMarginProperty =
 			BindableProperty.Create(

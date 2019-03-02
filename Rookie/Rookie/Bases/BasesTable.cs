@@ -41,7 +41,7 @@ namespace Dwares.Rookie.Bases
 		const string BASE_ID = "BaseId";
 		const string YEAR = "Year";
 		const string MONTH = "Month";
-		const string NOTES = "NOTES";
+		const string NOTES = "Notes";
 
 		public string BaseId { get; set; }
 		public int Year { get; set; }

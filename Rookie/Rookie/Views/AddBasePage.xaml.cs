@@ -8,7 +8,7 @@ using Dwares.Dwarf;
 namespace Dwares.Rookie.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddBasePage : ContentPageEx
+	public partial class AddBasePage : FramedPage
 	{
 		public AddBasePage()
 		{

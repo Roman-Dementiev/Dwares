@@ -72,7 +72,6 @@ namespace Dwares.Rookie.Models
 					MonthlyData[i] = mothlyData;
 					return mothlyData;
 				}
-
 			}
 
 			MonthlyData.Add(mothlyData);
@@ -90,6 +89,18 @@ namespace Dwares.Rookie.Models
 					return data;
 			}
 			return null;
+		}
+
+		public int GetMonthIndex(int month)
+		{
+			if (month < 1 || month > 12)
+				throw new ArgumentOutOfRangeException(nameof(month));
+
+			for (int i = 1; i <= 12; i++) {
+				if (MonthlyData[i].Month == month)
+					return i;
+			}
+			return -1;
 		}
 	}
 }

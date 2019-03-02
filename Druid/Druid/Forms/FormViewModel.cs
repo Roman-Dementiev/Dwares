@@ -42,8 +42,9 @@ namespace Dwares.Druid.Forms
 				error = await Validate();
 				if (error == null) {
 					var task = DoAccept();
-					if (task != null)
+					if (task != null) {
 						await task;
+					}
 				}
 			}
 			catch (Exception exc) {

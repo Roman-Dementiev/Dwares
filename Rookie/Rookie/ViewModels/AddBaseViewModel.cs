@@ -28,14 +28,17 @@ namespace Dwares.Rookie.ViewModels
 			baseId = new TextField("Base Id");
 			Fields = new FieldList(year, baseId);
 
-			Year = 2019;
-			FullYearEnabled = true;
-			FullYear = false;
-			MonthIndex = 3;
-			MonthEnabled = true;
+			int _year, _month;
+			AppScope.Instance.GetUpcomingMonth(out _year, out _month);
 
+			Year = _year;
+			Month = _month;
+			FullYearEnabled = true;
+			MonthEnabled = true;
 			BaseId = "app";
 		}
+
+		public override double FrameHeight => 300;
 
 		public int Year {
 			get => year;
@@ -70,6 +73,11 @@ namespace Dwares.Rookie.ViewModels
 
 		public int Month {
 			get => FullYear ? 0 : MonthIndex+1;
+			set {
+				if (!FullYear) {
+					MonthIndex = value - 1;
+				}
+			}
 		}
 
 		public string BaseId {
@@ -88,7 +96,7 @@ namespace Dwares.Rookie.ViewModels
 				return error;
 
 			try {
-				db = new TripBase(Rookie.AppScope.ApiKey, BaseId, Year, Month);
+				db = new TripBase(AppScope.ApiKey, BaseId, Year, Month);
 				await db.TripsTable.Probe();
 			} catch (Exception exc) {
 				error = new DwarfException("Can not connect to database", exc);
@@ -101,7 +109,10 @@ namespace Dwares.Rookie.ViewModels
 		{
 			Debug.AssertNotNull(db);
 
-			await Rookie.AppScope.Instance.AddBase(db, Year, Month);
+			var error = await AppScope.Instance.AddBase(db, Year, Month);
+			if (error != null) {
+				throw error;
+			}
 		}
 	}
 

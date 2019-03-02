@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
-				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-				  Title="{Binding Title}"
-				  x:Class="Dwares.Rookie.Views.AddBasePage">
+<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
+			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			   xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+			   Title="{Binding Title}"
+			   FrameSize="{Binding FrameSize}"
+			   x:Class="Dwares.Rookie.Views.AddBasePage">
 
 	<!--<ui:ContentPageEx.Resources>
 		<ResourceDictionary>
@@ -19,7 +20,7 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
+			<RowDefinition Height="4" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="8" />
@@ -28,23 +29,19 @@
 			<RowDefinition Height="4" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="4" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="100" />
-			<ColumnDefinition Width="100" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 
-		<Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="Year" FontAttributes="Bold" />
-		<Entry Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding YearText, Mode=TwoWay}" Keyboard="Numeric" />
+		<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Year" FontAttributes="Bold" />
+		<Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding YearText, Mode=TwoWay}" Keyboard="Numeric" />
 
-
-		<ui:CheckMark Grid.Row="4" Grid.Column="1" Text="Full Year" IsEnabled="{Binding FullYearEnabled}" IsChecked="{Binding FullYear, Mode=TwoWay}" />
-		<Picker Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+		<ui:CheckMark Grid.Row="4" Grid.Column="0" Text="Full Year" IsEnabled="{Binding FullYearEnabled}" IsChecked="{Binding FullYear, Mode=TwoWay}" />
+		<Picker Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
 				IsEnabled="{Binding MonthEnabled}"
 				SelectedIndex="{Binding MonthIndex, Mode=TwoWay}"
 				>
@@ -64,21 +61,21 @@
 			</Picker.Items>
 		</Picker>
 
-		<Label Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="Bese Id" FontAttributes="Bold" />
-		<Entry Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding BaseId, Mode=TwoWay}" />
+		<Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Bese Id" FontAttributes="Bold" />
+		<Entry Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding BaseId, Mode=TwoWay}" />
 
-		<ui:ButtonEx Grid.Row="10" Grid.Column="1"
+		<ui:ButtonEx Grid.Row="10" Grid.Column="0"
 					 HorizontalOptions="Center"
 					 WidthRequest="90"
 					 Text="Ok"
 					 Writ="Accept"
 					 />
-		<ui:ButtonEx Grid.Row="10" Grid.Column="2"
+		<ui:ButtonEx Grid.Row="10" Grid.Column="1"
 					 HorizontalOptions="Center"
 					 WidthRequest="90"
 					 Text="Cancel"
 					 Writ="Cancel"
 					 />
 	</Grid>
-</ui:ContentPageEx>
+</ui:FramedPage>
 	

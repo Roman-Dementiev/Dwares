@@ -42,6 +42,7 @@ namespace Dwares.Rookie.ViewModels
 			get => mileage.Text;
 			set => SeTextProperty(mileage, value);
 		}
+
 	}
 
 
@@ -56,7 +57,10 @@ namespace Dwares.Rookie.ViewModels
 
 		protected override async Task DoAccept()
 		{
-			await Rookie.AppScope.Instance.GoToWork(Time, Mileage);
+			var error = await AppScope.Instance.GoToWork(Time, Mileage);
+			if (error != null) {
+				throw error;
+			}
 		}
 	}
 
@@ -72,7 +76,10 @@ namespace Dwares.Rookie.ViewModels
 
 		protected override async Task DoAccept()
 		{
-			await Rookie.AppScope.Instance.GoOffWork(Time, Mileage);
+			var error = await AppScope.Instance.GoOffWork(Time, Mileage);
+			if (error != null) {
+				throw error;
+			}
 		}
 	}
 }

@@ -11,13 +11,18 @@ namespace Dwares.Druid.UI
 		Custom
 	};
 
-	public class ContentPageEx : ContentPage
+	public class ContentPageEx : ContentPage, IContentHolder
 	{
 		public ContentPageEx() { }
 
 		public ContentPageEx(BindingScope scope)
 		{
 			Scope = scope;
+		}
+
+		public virtual View ContentView {
+			get => Content;
+			set => Content = value;
 		}
 
 		public BindingScope Scope {
