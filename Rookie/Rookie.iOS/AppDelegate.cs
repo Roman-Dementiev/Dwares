@@ -4,6 +4,8 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Dwares.Rookie;
+
 
 namespace Rookie.iOS
 {

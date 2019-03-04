@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Templates.DruidForm">
+
+	<!--<forms:FormView.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+	</Grid>
+</forms:FormView>

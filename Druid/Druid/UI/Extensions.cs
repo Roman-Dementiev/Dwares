@@ -14,7 +14,7 @@ namespace Dwares.Druid.UI
 
 			if (viewModelTypes != null) {
 				foreach (var type in viewModelTypes) {
-					var page = BindingScope.CreatePage(type) as T;
+					var page = Forge.CreatePage(type) as T;
 					if (page != null) {
 						multiPage.Children.Add(page);
 					}
@@ -28,7 +28,7 @@ namespace Dwares.Druid.UI
 
 			if (viewModelTypes != null) {
 				foreach (var type in viewModelTypes) {
-					var page = BindingScope.CreatePage(type);
+					var page = Forge.CreatePage(type);
 					if (useNavigationPages) {
 						page = new NavigationPage(page) {
 							Title = page.Title

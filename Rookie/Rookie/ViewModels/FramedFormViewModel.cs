@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class FramedFormViewModel : FormViewModel
+	public class FramedFormViewModel : FormPageViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(FormViewModel));
 

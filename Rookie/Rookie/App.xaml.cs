@@ -2,13 +2,16 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid;
+using Dwares.Druid.UI;
+using Dwares.Druid.Forms;
 using Dwares.Druid.Services;
 using Dwares.Rookie.ViewModels;
+using Dwares.Rookie.Views;
 using Dwares.Rookie;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-namespace Rookie
+namespace Dwares.Rookie
 {
 	public partial class App : Application
 	{
@@ -30,12 +33,13 @@ namespace Rookie
 			//var testPage = new Dwares.Rookie.Views.TestPage();
 			//this.InitMainPageWithNavigation(testPage);
 
+			Page startPage;
 			if (AppScope.IsLoggedIn) {
-				this.InitMainPageWithNavigation(typeof(MainPageViewModel));
+				startPage = CreateForm<HomeViewModel>();
+			} else {
+				startPage = CreateForm<LoginViewModel>();
 			}
-			else {
-				this.InitMainPageWithNavigation(typeof(LoginViewModel));
-			}
+			this.InitMainPageWithNavigation(startPage);
 		}
 
 		protected override void OnSleep()
@@ -46,6 +50,12 @@ namespace Rookie
 		protected override void OnResume()
 		{
 			// Handle when your app resumes
+		}
+
+		public static Page CreateForm<ViewModel>() where ViewModel : ViewModels.FormViewModel
+		{
+			var page = Forge.CreateContentPage<FramedPage>(typeof(ViewModel));
+			return page;
 		}
 	}
 }

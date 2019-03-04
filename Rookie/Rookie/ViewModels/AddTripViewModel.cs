@@ -9,7 +9,7 @@ using Dwares.Rookie.Bases;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class AddTripViewModel : FramedFormViewModel
+	public class AddTripViewModel : FormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(AddTripViewModel));
 

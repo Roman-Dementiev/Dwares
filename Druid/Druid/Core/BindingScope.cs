@@ -1,10 +1,11 @@
-﻿	using System;
+﻿using System;
 using System.Threading;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Runtime;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Satchel;
+using Dwares.Druid.UI;
 
 
 namespace Dwares.Druid
@@ -53,45 +54,70 @@ namespace Dwares.Druid
 
 		public static BindingScope GetCurrentScope()
 		{
-			object page = Navigator.ContentPage;
-			if (page == null) {
-				page = Application.Current.MainPage;
+			//object page = Navigator.ContentPage;
+			//if (page == null) {
+			//	page = Application.Current.MainPage;
+			//}
+
+			//return GetObjectScope(page ?? Application.Current);
+
+			var target = GetTargetElement();
+			return GetObjectScope(target);
+		}
+
+		public static Element GetTargetElement()
+		{
+			Element element = null;
+			var page = Navigator.ContentPage;
+			if (page != null) {
+				if (page is ContentPageEx contentPageEx) {
+					element = contentPageEx.ContentView;
+				}
+				else if (page is ContentPage contentPage) {
+					element = contentPage.Content;
+				}
+
+				if (element == null)
+					element = page;
+			}
+			else {
+				element = Application.Current;
 			}
 
-			return GetObjectScope(page ?? Application.Current);
+			return element;
 		}
 
 		public virtual void UpdateCommands()
 		{
 		}
 
-		public T CreateBindable<T>() where T : BindableObject
-		{
-			var obj = ClassLocator.Create<T>(GetType());
-			if (obj != null) {
-				obj.BindingContext = this;
-			}
-			return obj;
-		}
+		//public T CreateBindable<T>() where T : BindableObject
+		//{
+		//	var obj = ClassLocator.Create<T>(GetType());
+		//	if (obj != null) {
+		//		obj.BindingContext = this;
+		//	}
+		//	return obj;
+		//}
 
-		public Page CreatePage() => CreateBindable<Page>();
+		//public Page CreatePage() => CreateBindable<Page>();
 
-		public static T CreateBindable<T>(Type scopeType) where T : BindableObject
-		{
-			var obj = ClassLocator.Create<T>(scopeType);
-			if (obj != null) {
-				var scope = ClassLocator.Construct(scopeType);
-				obj.BindingContext = scope;
-			}
-			return obj;
-		}
+		//public static T CreateBindable<T>(Type scopeType) where T : BindableObject
+		//{
+		//	var obj = ClassLocator.Create<T>(scopeType);
+		//	if (obj != null) {
+		//		var scope = ClassLocator.Construct(scopeType);
+		//		obj.BindingContext = scope;
+		//	}
+		//	return obj;
+		//}
 
-		public static Page CreatePage(Type scopeType)
-		{
-			var page = CreateBindable<Page>(scopeType);
-			Debug.Trace(@class, nameof(CreatePage), "scopeType={0} => {1}", scopeType, page);
-			return page;
-		}
+		//public static Page CreatePage(Type scopeType)
+		//{
+		//	var page = CreateBindable<Page>(scopeType);
+		//	Debug.Trace(@class, nameof(CreatePage), "scopeType={0} => {1}", scopeType, page);
+		//	return page;
+		//}
 	}
 
 	public static partial class Extensions

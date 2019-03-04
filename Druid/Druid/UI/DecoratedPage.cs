@@ -17,19 +17,28 @@ namespace Dwares.Druid.UI
 
 		public abstract IContentHolder Decoration { get; set; }
 
-		public override View ContentView {
-			get => Decoration?.ContentView;
+		protected override View GetContentView() => Decoration?.ContentView;
 
-			set {
-				if (Decoration == null)
-					return;
-
-				if (value != Decoration.ContentView) {
-					OnPropertyChanging();
-					Decoration.ContentView = value;
-					OnPropertyChanged();
-				}
+		protected override void ChangeContentView(View newContentView)
+		{
+			if (Decoration != null) {
+				Decoration.ContentView = newContentView;
 			}
 		}
+
+		//public override View ContentView {
+		//	get => Decoration?.ContentView;
+
+		//	set {
+		//		if (Decoration == null)
+		//			return;
+
+		//		if (value != Decoration.ContentView) {
+		//			OnPropertyChanging();
+		//			Decoration.ContentView = value;
+		//			OnPropertyChanged();
+		//		}
+		//	}
+		//}
 	}
 }

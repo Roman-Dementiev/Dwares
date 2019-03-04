@@ -1,23 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
-			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-			   xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-			   Title="{Binding Title}"
-			   FrameSize="{Binding FrameSize}"
-			   x:Class="Dwares.Rookie.Views.AddTripPage"
-			   >
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Dwares.Rookie.Views.AddTripForm">
 
-	<!--<ui:ContentPageEx.Resources>
-		<ResourceDictionary>
-			<druid:WritCommand x:Key="About">about</druid:WritCommand>
-		</ResourceDictionary>
-	</ui:ContentPageEx.Resources>-->
-
-	<ui:ContentPageEx.ToolbarItems>
+	<forms:FormView.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
 		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
-	</ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -134,6 +130,4 @@
 					 Writ="Cancel"
 					 />
 	</Grid>
-	
-</ui:FramedPage>
-	
+</forms:FormView>

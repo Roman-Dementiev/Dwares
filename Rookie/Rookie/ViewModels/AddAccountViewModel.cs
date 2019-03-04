@@ -8,7 +8,7 @@ using Dwares.Rookie.Models;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class AddAccountViewModel : FramedFormViewModel
+	public class AddAccountViewModel : FormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(AddAccountViewModel));
 

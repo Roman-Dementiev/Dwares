@@ -1,18 +1,18 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Dwares.Druid.UI;
 using Dwares.Dwarf;
-using Dwares.Rookie.ViewModels;
+using Dwares.Druid.UI;
+using Dwares.Druid.Forms;
+
 
 namespace Dwares.Rookie.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BasesPage : ContentPageEx
+	public partial class LoginForm : FormView
 	{
-		public BasesPage()
+		public LoginForm()
 		{
-			BindingContext = new BasesViewModel();
 			InitializeComponent();
 		}
 	}

@@ -6,18 +6,13 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.Forms
 {
-	public class FormViewModel : ViewModel
+	public class FormPageViewModel : ViewModel
 	{
-		//static ClassRef @class = new ClassRef(typeof(FormViewModel));
-		public const double FitContent = -1;
+		public FormPageViewModel() { }
 
-		public FormViewModel()
-		{
-			//Debug.EnableTracing(@class);
-		}
-
-		public virtual double FormWidth { get; set; } = FitContent;
-		public virtual double FormHeight { get; set; } = FitContent;
+		public FormPageViewModel(BindingScope parentScope) :
+			base(parentScope)
+		{ }
 
 		public IFiledList Fields { get; protected set; }
 
@@ -77,5 +72,26 @@ namespace Dwares.Druid.Forms
 		{
 			await Navigator.PopPage();
 		}
+	}
+
+	public class FormPageViewModel<TSource> : FormPageViewModel
+	{
+		public FormPageViewModel() { }
+
+		public FormPageViewModel(TSource source)
+		{
+			Source = source;
+		}
+
+		public FormPageViewModel(BindingScope parentScope, TSource source) :
+			base(parentScope)
+		{
+			Source = source;
+		}
+
+		public TSource Source { get; protected set; }
+
+		public bool IsNew => Source == null;
+		public bool IsEditing => Source != null;
 	}
 }

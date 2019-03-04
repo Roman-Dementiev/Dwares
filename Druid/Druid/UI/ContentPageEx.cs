@@ -11,7 +11,7 @@ namespace Dwares.Druid.UI
 		Custom
 	};
 
-	public class ContentPageEx : ContentPage, IContentHolder
+	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder
 	{
 		public ContentPageEx() { }
 
@@ -21,8 +21,51 @@ namespace Dwares.Druid.UI
 		}
 
 		public virtual View ContentView {
-			get => Content;
-			set => Content = value;
+			get => GetContentView();
+			set {
+				if (value != ContentView) {
+					OnPropertyChanging();
+
+					if (ToolbarSource != null && ContentView == ToolbarSource) {
+						ToolbarSource = null;
+					}
+
+					ChangeContentView(value);
+
+					var newToolbarSource = value as IToolbarHolder;
+					if (newToolbarSource != null) {
+						ToolbarSource = newToolbarSource;
+					}
+
+					if (value is ITitleHolder titleHolder) {
+						Title = titleHolder.Title;
+					} else {
+						Title = string.Empty;
+					}
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		IToolbarHolder toolbarSource;
+		public virtual IToolbarHolder ToolbarSource {
+			get => toolbarSource;
+			set {
+				if (value != toolbarSource) {
+					OnPropertyChanging();
+					ToolbarItems.Clear();
+					toolbarSource = value;
+
+					var toolbarItems = toolbarSource?.ToolbarItems;
+					if (toolbarItems != null) {
+						foreach (var item in toolbarSource.ToolbarItems) {
+							ToolbarItems.Add(item);
+						}
+					}
+					OnPropertyChanged();
+				}
+			}
 		}
 
 		public BindingScope Scope {
@@ -76,5 +119,8 @@ namespace Dwares.Druid.UI
 			base.OnAppearing();
 			Scope?.UpdateCommands();
 		}
+
+		protected virtual View GetContentView() => Content;
+		protected virtual void ChangeContentView(View newContentView) => Content = newContentView;
 	}
 }

@@ -8,7 +8,7 @@ using Dwares.Dwarf.Validation;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class GoOnOffWorkViewMode : FramedFormViewModel
+	public class GoOnOffWorkViewMode : FormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(GoOnOffWork));
 
@@ -26,7 +26,7 @@ namespace Dwares.Rookie.ViewModels
 			Fields = new FieldList(time, mileage);
 		}
 
-		public override double FrameHeight => 240;
+		public override double FormHeight => FitContent;
 
 		public TimeSpan Time {
 			get => time;

@@ -9,7 +9,7 @@ using Dwares.Rookie.Bases;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class AddBaseViewModel : FramedFormViewModel
+	public class AddBaseViewModel : FormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(AddBaseViewModel));
 
@@ -38,7 +38,8 @@ namespace Dwares.Rookie.ViewModels
 			BaseId = "app";
 		}
 
-		public override double FrameHeight => 300;
+		//public override double FrameHeight => 300;
+		public override double FormHeight => 300;
 
 		public int Year {
 			get => year;

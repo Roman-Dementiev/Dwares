@@ -1,49 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
-			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-			   xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-			   Title="{Binding Title}"
-			   FrameSize="{Binding FrameSize}"
-			   x:Class="Dwares.Rookie.Views.AddAccountPage">
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Dwares.Rookie.Views.AddAccountForm">
 
-	<!--<ui:ContentPageEx.Resources>
-		<ResourceDictionary>
-			<druid:WritCommand x:Key="About">about</druid:WritCommand>
-		</ResourceDictionary>
-	</ui:ContentPageEx.Resources>-->
-
-	<!--<ui:ContentPageEx.ToolbarItems>
+	<forms:FormView.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
 		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
-	</ui:ContentPageEx.ToolbarItems>-->
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="4" />
-			<!-- 1: Username Label -->
+			<!--1: Username Label-->
 			<RowDefinition Height="Auto" />
-			<!-- 2: Username Entry -->
+			<!--2: Username Entry-->
 			<RowDefinition Height="Auto" />
-			<!-- 3: Password Label -->
+			<!--3: Password Label-->
 			<RowDefinition Height="Auto" />
-			<!-- 4: Password Entry -->
+			<!--4: Password Entry-->
 			<RowDefinition Height="Auto" />
-			<!-- 5: ApiKey Label -->
+			<!--5: ApiKey Label-->
 			<RowDefinition Height="Auto" />
-			<!-- 6: ApiKey Entry -->
+			<!--6: ApiKey Entry-->
 			<RowDefinition Height="Auto" />
-			<!-- 7: BaseId Label -->
+			<!--7: BaseId Label-->
 			<RowDefinition Height="Auto" />
-			<!-- 8: BaseId Entry -->
+			<!--8: BaseId Entry-->
 			<RowDefinition Height="Auto" />
-			<!-- 9: AccountType Label -->
+			<!--9: AccountType Label-->
 			<RowDefinition Height="Auto" />
-			<!-- 10: AccountType Picker -->
+			<!--10: AccountType Picker-->
 			<RowDefinition Height="Auto" />
-			<!-- 11: -->
+			<!--11:-->
 			<RowDefinition Height="*" />
-			<!-- 12: Buttons -->
+			<!--12: Buttons-->
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="4" />
 		</Grid.RowDefinitions>
@@ -92,7 +89,7 @@
 				<x:String>Paid (1 Bese per Year)</x:String>
 			</Picker.Items>
 		</Picker>
-		
+
 		<ui:ButtonEx  Grid.Row="12" Grid.Column="0"
 					  HorizontalOptions="Center"
 					  WidthRequest="80"
@@ -106,5 +103,5 @@
 					  Writ="Cancel"
 					  />
 	</Grid>
-</ui:FramedPage>
-	
+
+</forms:FormView>

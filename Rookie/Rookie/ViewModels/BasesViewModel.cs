@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Dwares.Dwarf;
 using Dwares.Druid;
-using System.Collections.ObjectModel;
 using Dwares.Rookie.Models;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class BasesViewModel : ViewModel
+	public class BasesViewModel : FormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(BasesViewModel));
 
@@ -50,7 +49,8 @@ namespace Dwares.Rookie.ViewModels
 		{
 			//Debug.Print("BasesViewModel.OnAdd");
 
-			var page = CreatePage(typeof(AddBaseViewModel));
+			//var page = Forge.CreatePage(typeof(AddBaseViewModel));
+			var page = App.CreateForm<AddBaseViewModel>();
 			await Navigator.PushPage(page);
 		}
 	}

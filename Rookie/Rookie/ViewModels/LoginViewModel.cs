@@ -5,21 +5,22 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Satchel;
 using Dwares.Rookie.Models;
-//using Dwares.Rookie.Views;
 
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class LoginViewModel : FramedFormViewModel
+	public class LoginViewModel : FormViewModel
 	{	
 		public LoginViewModel()
 		{
+			Title = "Login";
+
 			if (AppScope.Driver != null) {
 				SelectedUser = AppScope.Instance.GetAccount(AppScope.Driver, null); 
 			}
 		}
 
-		public override double FrameHeight => 240;
+		public override double FormHeight { get; set; } = FitContent;
 
 		public IList Accounts => AppScope.Instance.Accounts;
 
@@ -51,7 +52,7 @@ namespace Dwares.Rookie.ViewModels
 					return false;
 				}
 
-				var page = CreatePage(typeof(MainPageViewModel));
+				var page = App.CreateForm<HomeViewModel>();
 				await Navigator.ReplaceTopPage(page);
 			}
 			finally {
@@ -70,7 +71,7 @@ namespace Dwares.Rookie.ViewModels
 			await OnLogin();
 
 			if (AppScope.IsLoggedIn) {
-				var page = CreatePage(typeof(GoToWorkViewModel));
+				var page = App.CreateForm<GoToWorkViewModel>();
 				await Navigator.PushPage(page);
 			}
 		}
@@ -79,7 +80,7 @@ namespace Dwares.Rookie.ViewModels
 		{
 			//Debug.Print("LoginViewModel.OnAddAccount");
 
-			var page = CreatePage(typeof(AddAccountViewModel));
+			var page = App.CreateForm<AddAccountViewModel>();
 			await Navigator.PushModal(page);
 		}
 

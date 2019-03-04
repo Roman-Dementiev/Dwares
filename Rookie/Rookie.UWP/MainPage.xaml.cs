@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 namespace Rookie.UWP
 {
     public sealed partial class MainPage
@@ -21,7 +22,7 @@ namespace Rookie.UWP
         {
             this.InitializeComponent();
 
-            LoadApplication(new Rookie.App());
+            LoadApplication(new Dwares.Rookie.App());
         }
     }
 }

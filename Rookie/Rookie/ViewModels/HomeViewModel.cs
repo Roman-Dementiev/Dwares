@@ -3,29 +3,28 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Dwares.Druid.Forms;
 
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class MainPageViewModel : ViewModel
+	public class HomeViewModel : FormViewModel
 	{
-		//static ClassRef @class = new ClassRef(typeof(MainPageViewModel));
+		//static ClassRef @class = new ClassRef(typeof(MainViewModel));
 
-		public MainPageViewModel()
+		public HomeViewModel()
 		{
 			//Debug.EnableTracing(@class);
 
 			Title = "Rookie";
-
-			Rookie.AppScope.Instance.PropertyChanged += AppDataPropertyChanged;
+			AppScope.Instance.PropertyChanged += OnAppScopePropertyChanged;
 		}
-
 
 		public bool IsWorking => AppScope.Instance.IsWorking;
 		public bool NotWorking => !AppScope.Instance.IsWorking;
 		public bool HasWorkPeriod => AppScope.Instance.LastPeriod != null;
 
-		private void AppDataPropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void OnAppScopePropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(AppScope.IsWorking)) {
 				PropertiesChanged(nameof(IsWorking), nameof(NotWorking));
@@ -34,8 +33,6 @@ namespace Dwares.Rookie.ViewModels
 				PropertiesChanged(nameof(HasWorkPeriod));
 			}
 		}
-
-		//public bool CanGoOnDuty() => AppData.TripBase != null;
 
 		public async void OnGoToWork()
 		{
@@ -49,40 +46,36 @@ namespace Dwares.Rookie.ViewModels
 
 			Page page;
 			if (addDatabase) {
-				page = CreatePage(typeof(AddBaseViewModel));
+				page = Forge.CreatePage(typeof(AddBaseViewModel));
 			} else {
-				page = CreatePage(typeof(GoToWorkViewModel));
+				page = App.CreateForm<GoToWorkViewModel>();
 			}
 			await Navigator.PushPage(page);
 		}
 
 		public async void OnGoOffWork()
 		{
-			var page = CreatePage(typeof(GoOffWorkViewModel));
+			var page = App.CreateForm<GoOffWorkViewModel>();
 			await Navigator.PushPage(page);
 		}
 
 		public async void OnLogout()
 		{
-			await Rookie.AppScope.Instance.Logout();
+			await AppScope.Instance.Logout();
 
-			var page = CreatePage(typeof(LoginViewModel));
+			var page = App.CreateForm<LoginViewModel>();
 			await Navigator.ReplaceTopPage(page);
 		}
 
 		public async void OnAddTrip()
 		{
-			Debug.Print("MainPageViewModel.OnAddTrip");
-
-			var page = CreatePage(typeof(AddTripViewModel));
+			var page = App.CreateForm<AddTripViewModel>();
 			await Navigator.PushPage(page);
 		}
 
 		public async void OnSetupBases()
 		{
-			Debug.Print("MainPageViewModel.OnSetupBases");
-
-			var page = CreatePage(typeof(BasesViewModel));
+			var page = App.CreateForm<BasesViewModel>();
 			await Navigator.PushPage(page);
 		}
 	}

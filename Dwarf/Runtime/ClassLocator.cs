@@ -65,21 +65,10 @@ namespace Dwares.Dwarf.Runtime
 
 
 		public object CreateForReference(Type targetType, object reference)
-			=> LocateByReference(targetType, reference, Construct);
+			=> LocateByReference(targetType, reference, Activator.CreateInstance);
 
 		public object CreateForRefType(Type targetType, Type refType)
-			=> LocateByRefType(targetType, refType, Construct);
-
-		public static object Construct(Type type)
-		{
-			var ctor = Reflection.GetDefaultConstructor(type);
-			if (ctor != null) {
-					return ctor.Invoke(Reflection.cNoArgs);
-			}
-			else {
-				return null;
-			}
-		}
+			=> LocateByRefType(targetType, refType, Activator.CreateInstance);
 
 		public static void AddLocator(IClassLocator locator)
 			=> Instance.Add(locator);

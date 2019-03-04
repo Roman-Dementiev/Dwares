@@ -1,16 +1,17 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Dwares.Druid.UI;
 using Dwares.Dwarf;
+using Dwares.Druid.UI;
+using Dwares.Druid.Forms;
 
 
 namespace Dwares.Rookie.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddBasePage : FramedPage
+	public partial class GoToWorkForm : FormView
 	{
-		public AddBasePage()
+		public GoToWorkForm()
 		{
 			InitializeComponent();
 		}

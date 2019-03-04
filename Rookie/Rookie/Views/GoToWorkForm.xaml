@@ -1,23 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
-			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-			   xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-			   Title="{Binding Title}"
-			   FrameSize="{Binding FrameSize}"
-			   x:Class="Dwares.Rookie.Views.GoOffWorkPage">
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Dwares.Rookie.Views.GoToWorkForm">
 
-	<ui:ContentPageEx.ToolbarItems>
+
+	<forms:FormView.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
 		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
-	</ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="4" />
-			<!--1: FinishTime label-->
+			<!--1: StartTime label-->
 			<RowDefinition Height="Auto" />
-			<!--2: FinishTime picker -->
+			<!--2: StartTime picker -->
 			<RowDefinition Height="Auto" />
 			<!--3: Milage label-->
 			<RowDefinition Height="Auto" />
@@ -46,7 +50,7 @@
 		<ui:ButtonEx Grid.Row="6" Grid.Column="0"
 					 WidthRequest="100"
 					 HorizontalOptions="Center"
-					 Text="Off Work"
+					 Text="To Work"
 					 Writ="Accept"
 					 />
 
@@ -57,6 +61,5 @@
 					 Writ="Cancel"
 					 />
 	</Grid>
-	
-</ui:FramedPage>
+</forms:FormView>
 	

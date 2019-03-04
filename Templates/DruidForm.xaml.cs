@@ -2,15 +2,15 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
+using Dwares.Druid.Forms;
 using Dwares.Dwarf;
 
-
-namespace Dwares.Rookie.Views
+namespace $rootnamespace$
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddTripPage : FramedPage
-	{
-		public AddTripPage()
+	public partial class $safeitemname$ : FormView
+{
+		public $safeitemname$()
 		{
 			InitializeComponent();
 		}

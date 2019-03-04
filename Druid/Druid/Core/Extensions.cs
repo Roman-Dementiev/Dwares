@@ -1,6 +1,8 @@
 ﻿using System;
-using Dwares.Dwarf.Runtime;
 using Xamarin.Forms;
+using Dwares.Dwarf.Runtime;
+using Dwares.Druid.Forms;
+
 
 namespace Dwares.Druid
 {
@@ -8,9 +10,17 @@ namespace Dwares.Druid
 	{
 		public static void AddDefaultViewLocators()
 		{
-			ClassLocator.AddLocator(new DefaultClassLocator<Page> {
+			ClassLocator.AddLocator(new DefaultClassLocator<View> {
 				ReferenceClassNameSuffix = "ViewModel",
 				ReferenceNamespaceSuffix = "ViewModels",
+				TargetClassNameSuffix = "View",
+				TargetNamespaceSuffix = "Views"
+			});
+
+			ClassLocator.AddLocator(new DefaultClassLocator<Page> {
+				ReferenceClassNameSuffix = "PageViewModel",
+				ReferenceNamespaceSuffix = "ViewModels",
+				TargetClassNameSuffix = "Page",
 				TargetNamespaceSuffix = "Views"
 			});
 
@@ -21,19 +31,26 @@ namespace Dwares.Druid
 				TargetNamespaceSuffix = "Views"
 			});
 
-			ClassLocator.AddLocator(new DefaultClassLocator<Page> {
-				ReferenceClassNameSuffix = "EditModel",
+			ClassLocator.AddLocator(new DefaultClassLocator<View> {
+				ReferenceClassNameSuffix = "ViewModel",
 				ReferenceNamespaceSuffix = "ViewModels",
-				TargetClassNameSuffix = "EditPage",
+				TargetClassNameSuffix = "Form",
 				TargetNamespaceSuffix = "Views"
 			});
 
-			ClassLocator.AddLocator(new DefaultClassLocator<Page> {
-				ReferenceClassNameSuffix = "EditModel",
-				ReferenceNamespaceSuffix = "ViewModels",
-				TargetClassNameSuffix = "EditForm",
-				TargetNamespaceSuffix = "Views"
-			});
+			//ClassLocator.AddLocator(new DefaultClassLocator<Page> {
+			//	ReferenceClassNameSuffix = "EditModel",
+			//	ReferenceNamespaceSuffix = "ViewModels",
+			//	TargetClassNameSuffix = "EditPage",
+			//	TargetNamespaceSuffix = "Views"
+			//});
+
+			//ClassLocator.AddLocator(new DefaultClassLocator<Page> {
+			//	ReferenceClassNameSuffix = "EditModel",
+			//	ReferenceNamespaceSuffix = "ViewModels",
+			//	TargetClassNameSuffix = "EditForm",
+			//	TargetNamespaceSuffix = "Views"
+			//});
 		}
 
 		public static void AddDefaultViewLocators(this Application app)
@@ -55,7 +72,7 @@ namespace Dwares.Druid
 
 		public static Page InitMainPageWithNavigation(this Application app, Type viewModelType)
 		{
-			var mainPage = BindingScope.CreatePage(viewModelType);
+			var mainPage = Forge.CreatePage(viewModelType);
 			app.InitMainPageWithNavigation(mainPage);
 			return mainPage;
 		}

@@ -1,11 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:FramedPage xmlns="http://xamarin.com/schemas/2014/forms"
-			   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-			   Title="{Binding Title}"
-			   FrameSize="{Binding FrameSize}"
-			   x:Class="Dwares.Rookie.Views.LoginPage">
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Dwares.Rookie.Views.LoginForm">
 
+	<forms:FormView.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>
+	
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="4" />
@@ -37,7 +44,7 @@
 					 Text="New"
 					 Writ="AddAccount"
 					 />
-		
+
 		<Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
 			   HorizontalOptions="Start"
 			   Text="Password"
@@ -59,7 +66,7 @@
 					  Writ="Login"
 					  IsEnabled="{Binding HasUserSelected}"
 					  />
-		
+
 		<ui:ButtonEx Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2"
 					 HorizontalOptions="Center"
 					 WidthRequest="110"
@@ -69,4 +76,5 @@
 					 />
 
 	</Grid>
-</ui:FramedPage>
+</forms:FormView>
+	
