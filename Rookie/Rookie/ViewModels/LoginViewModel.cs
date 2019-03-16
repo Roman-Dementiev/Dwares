@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Dwares.Druid.Forms;
 using Dwares.Druid.Satchel;
 using Dwares.Rookie.Models;
 
@@ -44,21 +45,25 @@ namespace Dwares.Rookie.ViewModels
 		{
 			//Debug.Print("LoginViewModel.OnLogin");
 			
-			IsBusy = true;
+			Exception error = null;
 			try {
-				var exc = await AppScope.Instance.Login(SelectedUser.Username, Password, KeepLoggedIn);
-				if (exc != null) {
-					await Alerts.Error(exc.Message);
-					return false;
-				}
-
-				var page = App.CreateForm<HomeViewModel>();
-				await Navigator.ReplaceTopPage(page);
+				IsBusy = true;
+				error = await AppScope.Instance.Login(SelectedUser.Username, Password, KeepLoggedIn);
+			}
+			catch (Exception exc) {
+				error = exc;
 			}
 			finally {
 				IsBusy = false;
 			}
 
+			if (error != null) {
+				await Alerts.Error(error.Message);
+				return false;
+			}
+
+			var page = App.CreateForm<HomeViewModel>();
+			await Navigator.ReplaceTopPage(page);
 			return true;
 		}
 

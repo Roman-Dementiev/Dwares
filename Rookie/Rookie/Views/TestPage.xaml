@@ -18,7 +18,7 @@
 	</ui:ContentPageEx.ToolbarItems>-->
 
 
-	<Frame Margin="10"
+	<!--<Frame Margin="10"
 			BorderColor="Green"
 			HorizontalOptions="Fill"
 			VerticalOptions="Fill"
@@ -29,6 +29,6 @@
 			<Button Text="Extend" Clicked="Extend_Clicked" />
 			<Button Text="Full Screen" Clicked="FullScreen_Clicked" />
 		</StackLayout>
-	</Frame>
+	</Frame>-->
+
 </ui:FramedPage>
-	

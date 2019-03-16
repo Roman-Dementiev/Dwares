@@ -28,7 +28,11 @@ namespace Dwares.Rookie.Bases
 			var list = await ListRecords();
 
 			foreach (var record in list.Records) {
-				records.Add(record.Key, record);
+				if (string.IsNullOrEmpty(record.Key)) {
+					await DeleteRecord(record.Id);
+				} else {
+					records.Add(record.Key, record);
+				}
 			}
 		}
 
@@ -80,7 +84,6 @@ namespace Dwares.Rookie.Bases
 						Key = key,
 						Value = value ?? string.Empty
 					};
-					record.CopyPropertiesToFields();
 
 					newRecord = await CreateRecord(record);
 				}
@@ -142,10 +145,10 @@ namespace Dwares.Rookie.Bases
 			Value = GetField<string>(VALUE);
 		}
 
-		public override void CopyPropertiesToFields()
+		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames = null)
 		{
-			Fields[KEY] = Key;
-			Fields[VALUE] = Value;
+			SetField(KEY, Key, fieldNames);
+			SetField(VALUE, Value, fieldNames);
 		}
 	}
 }

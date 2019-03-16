@@ -33,7 +33,7 @@ namespace Dwares.Rookie.ViewModels
 
 			Year = _year;
 			Month = _month;
-			FullYearEnabled = true;
+			FullYearEnabled = AppScope.Instance.Account.IsPaidAccount;
 			MonthEnabled = true;
 			BaseId = "app";
 		}

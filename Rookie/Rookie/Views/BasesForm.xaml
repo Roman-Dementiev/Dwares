@@ -16,6 +16,9 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="2" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -24,7 +27,12 @@
 			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 
-		<ListView Grid.Column="0"
+		<Label Grid.Row="1" Grid.Column="0"
+			   Text="Year"
+			   HorizontalOptions="Center"
+			   FontAttributes="Bold"
+			   />
+		<ListView Grid.Row="3" Grid.Column="0"
 				  ItemsSource="{Binding YearlyData}"
 				  SelectedItem="{Binding SelectedYearly}"
 				  >
@@ -42,11 +50,16 @@
 			</ListView.ItemTemplate>
 		</ListView>
 
-		<BoxView Grid.Column="1" 
+		<BoxView Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" 
 				 WidthRequest="1" 
 				 Color="Black" />
 
-		<ListView Grid.Column="2"
+		<Label Grid.Row="1" Grid.Column="2"
+			   Text="Month"
+			   HorizontalOptions="Center"
+			   FontAttributes="Bold"
+			   />
+		<ListView Grid.Row="3 " Grid.Column="2"
 				  ItemsSource="{Binding MonthlyData}"
 				  >
 			<ListView.ItemTemplate>

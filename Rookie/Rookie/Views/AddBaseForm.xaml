@@ -37,7 +37,11 @@
 		<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Year" FontAttributes="Bold" />
 		<Entry Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding YearText, Mode=TwoWay}" Keyboard="Numeric" />
 
-		<ui:CheckMark Grid.Row="4" Grid.Column="0" Text="Full Year" IsEnabled="{Binding FullYearEnabled}" IsChecked="{Binding FullYear, Mode=TwoWay}" />
+		<ui:CheckMark Grid.Row="4" Grid.Column="0" 
+					  Text="Full Year" 
+					  IsVisible="{Binding FullYearEnabled}" 
+					  IsChecked="{Binding FullYear, Mode=TwoWay}"
+					  />
 		<Picker Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
 				IsEnabled="{Binding MonthEnabled}"
 				SelectedIndex="{Binding MonthIndex, Mode=TwoWay}"

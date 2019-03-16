@@ -144,6 +144,7 @@
     <Content Include="Images\home.png" />
     <Content Include="Images\logout.png" />
     <Content Include="Images\settings.png" />
+    <Content Include="Images\wallet.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

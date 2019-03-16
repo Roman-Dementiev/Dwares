@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				xmlns:viewmodels="clr-namespace:Dwares.Rookie.ViewModels"
+				Title="{Binding Title}"
+				x:Class="Dwares.Rookie.Views.LeaseForm">
+
+	<!--<forms:FormView.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>-->
+
+	<!--<forms:FormView.Resources>
+		<viewmodels:LeaseViewModel x:Key="LeaseViewModel" />
+		<viewmodels:GasViewModel x:Key="GasViewModel" />
+	</forms:FormView.Resources>-->
+
+	<!--<forms:FormView.BindingContext>
+		<viewmodels:LeaseViewModel />
+	</forms:FormView.BindingContext>-->
+	
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="4" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+			   FontAttributes="Bold"
+			   Text="Date" />
+		<DatePicker Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+					Date="{Binding Date, Mode=TwoWay}"
+					/>
+
+		<Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+			   FontAttributes="Bold"
+			   Text="Reciept No." />
+		<Entry Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+			   Text="{Binding RecieptNoText, Mode=TwoWay}"
+			   />
+
+		<Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+			   FontAttributes="Bold"
+			   Text="Payment amount" />
+		<Entry Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+			   Text="{Binding AmountText}"
+			   />
+
+		<Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+			   FontAttributes="Bold"
+			   Text="Notes" />
+		<Editor Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+				Text="{Binding Notes}"
+				/>
+
+		<ui:ButtonEx Grid.Row="10" Grid.Column="0"
+					 WidthRequest="100"
+					 HorizontalOptions="Center"
+					 Text="Ok"
+					 Writ="Accept"
+					 />
+
+		<ui:ButtonEx Grid.Row="10" Grid.Column="1"
+					 WidthRequest="100"
+					 HorizontalOptions="Center"
+					 Text="Cancel"
+					 Writ="Cancel"
+					 />
+	</Grid>
+</forms:FormView>

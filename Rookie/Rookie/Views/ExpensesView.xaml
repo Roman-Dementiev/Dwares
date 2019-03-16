@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				xmlns:views="clr-namespace:Dwares.Rookie.Views"
+				xmlns:tvs="clr-namespace:Xam.Plugin.TabView;assembly=Xam.Plugin.TabView"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Dwares.Rookie.Views.ExpensesView">
+
+	<forms:FormView.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>
+
+
+	<ui:TabViewEx x:Name="tabView">
+		<ui:TabViewEx.ItemSource>
+			<ui:TabViewItem HeaderText="Lease"
+							HeaderIcon="Images/expenses.png">
+				<views:LeaseForm />
+			</ui:TabViewItem>
+			<ui:TabViewItem HeaderText="Gas"
+							HeaderIcon="Images/gas.png">
+				<views:GasForm />
+			</ui:TabViewItem>
+			<ui:TabViewItem HeaderText="Other"
+							HeaderIcon="Images/wallet.png">
+				<Label Text="TODO" />
+			</ui:TabViewItem>
+		</ui:TabViewEx.ItemSource>
+	</ui:TabViewEx>
+</forms:FormView>

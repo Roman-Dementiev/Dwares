@@ -16,15 +16,18 @@ namespace Dwares.Druid
 
 	public class MultiPageViewModel : ViewModel
 	{
+		public MultiPageViewModel() : this(ApplicationScope) { }
+
 		public MultiPageViewModel(BindingScope parentScope) :
 			base(parentScope)
 		{
-			PageViewModelTypes = new List<Type>();
+			ViewModelTypes = new List<Type>();
 		}
 
 		//TODO: Make it ObservableCollection ?
-		public List<Type> PageViewModelTypes { get; }
-		
+		public List<Type> ViewModelTypes { get; }
+		public bool ContentViewModels { get; protected set; }
+
 
 		MultiPageTitleMode titleMode;
 		public MultiPageTitleMode TitleMode {

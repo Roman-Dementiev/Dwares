@@ -15,67 +15,59 @@
 	
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 
-		<views:PicButton Grid.Row="1" Grid.Column="1"
+		<views:PicButton Grid.Row="0" Grid.Column="0"
 						 ImageSource="Images/driver.png"
 						 IsVisible="{Binding NotWorking}"
 						 LabelText="Go To Work"
 						 Writ="GoToWork"
 						 />
-		<views:PicButton Grid.Row="1" Grid.Column="1"
+		<views:PicButton Grid.Row="0" Grid.Column="0"
 						 ImageSource="Images/home.png"
 						 IsVisible="{Binding IsWorking}"
 						 LabelText="Go Off Work"
 						 Writ="GoOffWork"
 						 />
 
-		<views:PicButton Grid.Row="1" Grid.Column="2"
-						 ImageSource="Images/cab.png"
-						 LabelText="Add Trip"
-						 IsVisible="{Binding IsWorking}"
-						 Writ="AddTrip"
-						 />
-
-		<views:PicButton Grid.Row="1" Grid.Column="2"
+		<views:PicButton Grid.Row="0" Grid.Column="1"
 						 ImageSource="Images/logout.png"
 						 LabelText="Logout"
 						 IsVisible="{Binding NotWorking}"
 						 Writ="Logout"
 						 />
+		<views:EarningsView Grid.Row="0" Grid.Column="1"
+							HorizontalOptions="Center"
+							VerticalOptions="Center"
+							IsVisible="{Binding IsWorking}"
+							/>
 
-		<views:PicButton Grid.Row="2" Grid.Column="1"
-						 ImageSource="Images/gas.png"
-						 IsVisible="{Binding HasWorkPeriod}"
-						 LabelText="Gas"
-						 Writ="Gas"
+		<views:PicButton Grid.Row="1" Grid.Column="0"
+						 ImageSource="Images/cab.png"
+						 LabelText="Trip"
+						 Writ="AddTrip"
 						 />
 
-		<views:PicButton Grid.Row="2" Grid.Column="2"
+		<views:PicButton Grid.Row="1" Grid.Column="1"
 						 ImageSource="Images/expenses.png"
-						 IsVisible="{Binding HasWorkPeriod}"
-						 LabelText="Payment"
-						 Writ="Payment"
+						 LabelText="Expenses"
+						 Writ="Expenses"
 						 />
-
-		<views:PicButton Grid.Row="3" Grid.Column="1"
+		
+		<views:PicButton Grid.Row="2" Grid.Column="0"
 						 ImageSource="Images/database.png"
 						 LabelText="Databases"
 						 Writ="SetupBases"
 						 />
 
-		<views:PicButton Grid.Row="3" Grid.Column="2"
+		<views:PicButton Grid.Row="2" Grid.Column="1"
 						 ImageSource="Images/settings.png"
 						 LabelText="Setup"
 						 Writ="Setup"

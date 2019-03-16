@@ -10,14 +10,22 @@ namespace Dwares.Druid.Forms
 	{
 		//static ClassRef @class = new ClassRef(typeof(FormViewModel));
 		public const double FitContent = -1;
+		public static double DefaultWidth { get; set; } = FitContent;
+		public static double DefaultHeight { get; set; } = FitContent;
 
 		public FormViewModel()
 		{
 			//Debug.EnableTracing(@class);
 		}
 
-		public virtual double FormWidth { get; set; } = FitContent;
-		public virtual double FormHeight { get; set; } = FitContent;
+		public FormViewModel(BindingScope parentScope) :
+			base(parentScope)
+		{
+			//Debug.EnableTracing(@class);
+		}
+
+		public virtual double FormWidth { get; set; } = DefaultWidth;
+		public virtual double FormHeight { get; set; } = DefaultHeight;
 
 		public IFiledList Fields { get; protected set; }
 
@@ -77,5 +85,26 @@ namespace Dwares.Druid.Forms
 		{
 			await Navigator.PopPage();
 		}
+	}
+
+	public class FormViewModel<TSource> : FormViewModel
+	{
+		public FormViewModel() { }
+
+		public FormViewModel(TSource source)
+		{
+			Source = source;
+		}
+
+		public FormViewModel(BindingScope parentScope, TSource source = default(TSource)) :
+			base(parentScope)
+		{
+			Source = source;
+		}
+
+		public TSource Source { get; protected set; }
+
+		public bool IsNew => Source == null;
+		public bool IsEditing => Source != null;
 	}
 }

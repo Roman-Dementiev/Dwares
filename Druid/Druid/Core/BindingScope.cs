@@ -70,9 +70,12 @@ namespace Dwares.Druid
 			Element element = null;
 			var page = Navigator.ContentPage;
 			if (page != null) {
-				if (page is ContentPageEx contentPageEx) {
-					element = contentPageEx.ContentView;
+				if (page is ITargeting targeting) {
+					element = targeting.GetTargetElement();
 				}
+				//else if (page is ContentPageEx contentPageEx) {
+				//	element = contentPageEx.ContentView;
+				//}
 				else if (page is ContentPage contentPage) {
 					element = contentPage.Content;
 				}
@@ -82,6 +85,25 @@ namespace Dwares.Druid
 			}
 			else {
 				element = Application.Current;
+			}
+
+			while (element != null) {
+				if (element is ITargeting targeting) {
+					var target = targeting.GetTargetElement();
+					if (target != null && target != element) {
+						element = target;
+						continue;
+					}
+				}
+
+				if (element is IContentHolder holder) {
+					if (holder.ContentView != null) {
+						element = holder.ContentView;
+						continue;
+					}
+				}
+
+				break;
 			}
 
 			return element;

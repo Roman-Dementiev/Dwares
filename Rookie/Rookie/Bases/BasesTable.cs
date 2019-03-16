@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
 using Dwares.Dwarf;
@@ -30,9 +31,8 @@ namespace Dwares.Rookie.Bases
 				Month = month,
 				Notes = notes
 			};
-			record.CopyPropertiesToFields();
 
-			return await CreateRecord(record.Fields);
+			return await CreateRecord(record);
 		}
 	}
 
@@ -56,12 +56,12 @@ namespace Dwares.Rookie.Bases
 			Notes = GetField<string>("Notes");
 		}
 
-		public override void CopyPropertiesToFields()
+		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
 		{
-			Fields[BASE_ID] = BaseId;
-			Fields[YEAR] = Year;
-			Fields[MONTH] = Month;
-			Fields[NOTES] = Notes;
+			SetField(BASE_ID, BaseId, fieldNames);
+			SetField(YEAR, Year, fieldNames);
+			SetField(MONTH, Month, fieldNames);
+			SetField(NOTES, Notes, fieldNames);
 		}
 	}
 }

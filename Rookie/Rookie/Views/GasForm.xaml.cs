@@ -10,13 +10,13 @@ using Dwares.Rookie.ViewModels;
 namespace Dwares.Rookie.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BasesForm : FormView
+	public partial class GasForm : FormView
 {
-		public BasesForm()
+		public GasForm()
 		{
 			InitializeComponent();
 
-			BindingContext = new BasesViewModel();
+			BindingContext = new GasViewModel();
 		}
 	}
 }

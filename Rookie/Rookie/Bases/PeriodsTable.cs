@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
 using Dwares.Dwarf;
@@ -11,7 +12,7 @@ namespace Dwares.Rookie.Bases
 		//static ClassRef @class = new ClassRef(typeof(PeriodsTable));
 
 		public PeriodsTable(AirBase airBase) :
-			base(airBase, "Daily")
+			base(airBase, "Periods")
 		{
 			//Debug.EnableTracing(@class);
 		}
@@ -22,7 +23,6 @@ namespace Dwares.Rookie.Bases
 				StartTime = startTime,
 				StartMileage = startMileage,
 			};
-			record.CopyPropertiesToFields();
 
 			record =  await CreateRecord(record, PeriodRecord.START_TIME, PeriodRecord.START_MILEAGE);
 			return record;
@@ -32,10 +32,23 @@ namespace Dwares.Rookie.Bases
 		{
 			record.EndTime = endTime;
 			record.EndMileage = endMileage;
-			record.CopyPropertiesToFields();
 
 			record =  await UpdateRecord(record, PeriodRecord.END_TIME, PeriodRecord.END_MILEAGE);
 			return record;
+		}
+
+		static string PeriodsForDateFormula(string fieldName, DateOnly date)
+		{
+			return $"AND(YEAR({{{fieldName}}}) = {date.Year}, MONTH({{{fieldName}}}) = {date.Month}, DAY({{{fieldName}}}) = {date.Day}";
+		}
+
+		public async Task<PeriodRecord[]> GetPeriodsForDate(DateOnly date)
+		{
+			//string formula = PeriodsForDateFormula(PeriodRecord.START_TIME, date);
+			var field = PeriodRecord.START_TIME;
+			string formula = $"AND(YEAR({{{field}}}) = 2019, MONTH({{{field}}}) = 3, DAY({{{field}}}) = 10)";
+			var list = await FilterRecords(formula);
+			return list.Records;
 		}
 	}
 
@@ -77,18 +90,18 @@ namespace Dwares.Rookie.Bases
 			Expenses = GetField<decimal>(EXPENSES);
 		}
 
-		public override void CopyPropertiesToFields()
+		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
 		{
-			Fields[START_TIME] = StartTime;
-			Fields[END_TIME] = EndTime;
-			Fields[START_MILEAGE] = StartMileage;
-			Fields[END_MILEAGE] = EndMileage;
-			Fields[DISTANCE] = Distance;
-			Fields[CASH] = Cash;
-			Fields[CREDIT] = Credit;
-			Fields[LEASE] = Lease;
-			Fields[GAS] = Gas;
-			Fields[EXPENSES] = Expenses;
+			SetField(START_TIME, StartTime, fieldNames);
+			SetField(END_TIME, EndTime, fieldNames);
+			SetField(START_MILEAGE, StartMileage, fieldNames);
+			SetField(END_MILEAGE, EndMileage, fieldNames);
+			SetField(DISTANCE, Distance, fieldNames);
+			SetField(CASH, Cash, fieldNames);
+			SetField(CREDIT, Credit, fieldNames);
+			SetField(LEASE, Lease, fieldNames);
+			SetField(GAS, Gas, fieldNames);
+			SetField(EXPENSES, Expenses, fieldNames);
 		}
 
 	}

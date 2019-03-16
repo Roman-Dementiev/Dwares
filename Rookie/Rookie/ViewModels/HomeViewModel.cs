@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Forms;
+using Dwares.Rookie.Views;
 
 
 namespace Dwares.Rookie.ViewModels
@@ -46,7 +48,7 @@ namespace Dwares.Rookie.ViewModels
 
 			Page page;
 			if (addDatabase) {
-				page = Forge.CreatePage(typeof(AddBaseViewModel));
+				page = App.CreateForm<AddBaseViewModel>();
 			} else {
 				page = App.CreateForm<GoToWorkViewModel>();
 			}
@@ -69,14 +71,43 @@ namespace Dwares.Rookie.ViewModels
 
 		public async void OnAddTrip()
 		{
+			if (NotWorking) {
+				await Alerts.Error("You have to Go to Work to enter trips.");
+				return;
+			}
+
 			var page = App.CreateForm<AddTripViewModel>();
 			await Navigator.PushPage(page);
 		}
+
+		public async void OnExpenses()
+		{
+			if (AppScope.Instance.LastPeriod == null) {
+				await Alerts.Error("There is no any work period.\n Yo need to Go to Work first.");
+				return;
+			}
+
+			var page = App.CreatePage<ExpensesView>();
+			await Navigator.PushPage(page);
+		}
+
+		//public async void OnGas()
+		//{
+		//	var page = ExpensesViewModel.CreatePage(true);
+		//	await Navigator.PushPage(page);
+		//}
 
 		public async void OnSetupBases()
 		{
 			var page = App.CreateForm<BasesViewModel>();
 			await Navigator.PushPage(page);
 		}
+
+		public async void OnSetup()
+		{
+			var page = App.CreatePage<SetupView>();
+			await Navigator.PushPage(page);
+		}
+
 	}
 }

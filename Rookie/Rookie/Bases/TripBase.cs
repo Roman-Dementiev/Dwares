@@ -18,6 +18,7 @@ namespace Dwares.Rookie.Bases
 			Month = month;
 
 			TripsTable = new TripsTable(this);
+			LeaseTable = new LeaseTable(this);
 			PeriodsTable = new PeriodsTable(this);
 			VendorsTable = new VendorsTable(this);
 		}
@@ -26,6 +27,7 @@ namespace Dwares.Rookie.Bases
 		public int Year { get; }
 		public int Month { get; }
 		public TripsTable TripsTable { get; }
+		public LeaseTable LeaseTable { get; }
 		public PeriodsTable PeriodsTable { get; }
 		public VendorsTable VendorsTable { get; }
 
@@ -39,6 +41,21 @@ namespace Dwares.Rookie.Bases
 		{
 			var record = await PeriodsTable.GetRecord(recordId);
 			return record;
+		}
+
+		public async Task<PeriodRecord> GetLastCreatedPeriod()
+		{
+			var list = await PeriodsTable.ListRecords();
+			if (list.Records.Length == 0)
+				return null;
+
+			var lastRecord = list.Records[0];
+			for (int i = 0; i < list.Records.Length; i++) {
+				if (list.Records[i].CreatedTime > lastRecord.CreatedTime) {
+					lastRecord = list.Records[i];
+				}
+			}
+			return lastRecord;
 		}
 
 		public async Task CopyVendors(MainBase mainBase)

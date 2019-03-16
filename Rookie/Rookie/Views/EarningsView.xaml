@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Dwares.Rookie.Views.EarningsView">
+
+	<StackLayout Orientation="Vertical"
+				 HorizontalOptions="Center"
+				 VerticalOptions="Center"
+				 >
+		<Label Text="{Binding Total}" 
+			   HorizontalOptions="Center"
+			   FontSize="{Binding LargeFontSize}"
+			   TextColor="{Binding TotalColor}"
+			   />
+		<StackLayout HorizontalOptions="Center">
+			<Label Text="{Binding Income}" 
+				   HorizontalOptions="Start"
+				   FontSize="{Binding SmallFontSize}"
+				   TextColor="{Binding IncomeColor}"
+				   IsVisible="{Binding IncomeVisible}"
+				   />
+			<Label Text="{Binding Credit}" 
+				   HorizontalOptions="Start"
+				   FontSize="{Binding SmallFontSize}"
+				   TextColor="{Binding CreditColor}"
+				   IsVisible="{Binding CreditVisible}"
+				   />
+			<Label Text="{Binding Expenses}" 
+				   HorizontalOptions="Start"
+				   FontSize="{Binding SmallFontSize}"
+				   TextColor="{Binding ExpensesColor}"
+				   IsVisible="{Binding ExpencesVisible}"
+				   />
+		</StackLayout>
+	</StackLayout>
+</ContentView>

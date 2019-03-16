@@ -19,6 +19,9 @@ namespace Dwares.Rookie
 		{
 			InitializeComponent();
 
+			FormViewModel.DefaultWidth = 340;
+			FormViewModel.DefaultHeight = 500;
+
 			BindingContext = new AppScope();
 
 			SecureStorage.Initialize("Dwares.Rookie.Secure");
@@ -52,9 +55,27 @@ namespace Dwares.Rookie
 			// Handle when your app resumes
 		}
 
-		public static Page CreateForm<ViewModel>() where ViewModel : ViewModels.FormViewModel
+		public static Page CreatePage<ContentView>() where ContentView : View, new()
 		{
-			var page = Forge.CreateContentPage<FramedPage>(typeof(ViewModel));
+			//var page = Forge.CreateContentPageByView<FramedPage>(typeof(ContentViewModel));
+
+			var contentView = new ContentView();
+			contentView.WidthRequest = FormViewModel.DefaultWidth;
+			contentView.HeightRequest = FormViewModel.DefaultHeight;
+
+			var page = Forge.CreateContentPageByView<FramedPage>(contentView);
+			return page;
+		}
+
+		public static Page CreateForm<ContentViewModel>(out View view) where ContentViewModel : FormViewModel
+		{
+			var page = Forge.CreateContentPage<FramedPage>(typeof(ContentViewModel), out view);
+			return page;
+		}
+
+		public static Page CreateForm<ContentViewModel>() where ContentViewModel : FormViewModel
+		{
+			var page = Forge.CreateContentPage<FramedPage>(typeof(ContentViewModel));
 			return page;
 		}
 	}

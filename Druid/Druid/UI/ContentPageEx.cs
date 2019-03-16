@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid.UI
@@ -11,7 +12,7 @@ namespace Dwares.Druid.UI
 		Custom
 	};
 
-	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder
+	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder, ITargeting
 	{
 		public ContentPageEx() { }
 
@@ -71,6 +72,11 @@ namespace Dwares.Druid.UI
 		public BindingScope Scope {
 			get => BindingContext as BindingScope;
 			set => BindingContext = value;
+		}
+
+		public Element GetTargetElement()
+		{
+			return ContentView;
 		}
 
 		public static readonly BindableProperty TopAdjustmentProperty =

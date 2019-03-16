@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
 using Dwares.Dwarf;
@@ -37,6 +38,9 @@ namespace Dwares.Rookie.Bases
 		public decimal Cash { get; set; }
 		public decimal Expences { get; set; }
 		public bool IsCredit { get; set; }
+		public decimal Credit { 
+			get => IsCredit ? Meter * 0.9m : 0m;
+		}
 
 
 		public override void CopyFieldsToProperties()
@@ -51,16 +55,16 @@ namespace Dwares.Rookie.Bases
 			IsCredit = GetField<bool>(IS_CREDIT);
 		}
 
-		public override void CopyPropertiesToFields()
+		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
 		{
-			Fields[TRIP_NUMBER] = TripNumber;
-			Fields[STARTED] = Started;
-			Fields[FINISHED] = Finished;
-			Fields[DISTANCE] = Distance;
-			Fields[METER] = Meter;
-			Fields[CASH] = Cash;
-			Fields[EXPENCES] = Expences;
-			Fields[IS_CREDIT] = IsCredit;
+			SetField(TRIP_NUMBER, TripNumber, fieldNames);
+			SetField(STARTED, Started, fieldNames);
+			SetField(FINISHED, Finished, fieldNames);
+			SetField(DISTANCE, Distance, fieldNames);
+			SetField(METER, Meter, fieldNames);
+			SetField(CASH, Cash, fieldNames);
+			SetField(EXPENCES, Expences, fieldNames);
+			SetField(IS_CREDIT, IsCredit, fieldNames);
 		}
 	}
 }

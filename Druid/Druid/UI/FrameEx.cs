@@ -1,11 +1,12 @@
 ﻿using System;
 using Xamarin.Forms;
 using Dwares.Dwarf;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid.UI
 {
-	public class FrameEx : Frame, IContentHolder
+	public class FrameEx : Frame, IContentHolder, ITargeting
 	{
 		//static ClassRef @class = new ClassRef(typeof(FrameEx));
 
@@ -18,5 +19,7 @@ namespace Dwares.Druid.UI
 			get => Content;
 			set => Content = value;
 		}
+
+		public Element GetTargetElement() => ContentView;
 	}
 }

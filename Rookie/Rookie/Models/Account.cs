@@ -28,6 +28,7 @@ namespace Dwares.Rookie.Models
 		}
 
 		public int AccountType { get; set; }
+		public bool IsPaidAccount => AccountType == PaidAccount;
 		public string Username { get; set; }
 		public string Password { get; set; }
 		public string ApiKey { get; set; }

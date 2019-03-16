@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Dwares.Druid.Forms;
 using Dwares.Rookie.Models;
 
 namespace Dwares.Rookie.ViewModels

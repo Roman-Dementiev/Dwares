@@ -52,6 +52,7 @@ namespace Dwares.Rookie.Airtable
 
 			var response = await AirClient.GetAsync(Base.ApiKey, uri);
 			var record = JsonConvert.DeserializeObject<TRecord>(response.Body);
+			record?.CopyFieldsToProperties();
 
 			return record;
 		}
@@ -77,6 +78,23 @@ namespace Dwares.Rookie.Airtable
 			return await ListRecords(new QyeryBuilder { MaxRecords = maxRecords });
 		}
 
+		public async Task<AirRecordList<TRecord>> FilterRecords(string formula, QyeryBuilder queryBuilder = null)
+		{
+			Guard.ArgumentNotEmpty(formula, nameof(formula));
+
+			string savedFormula = null;
+			if (queryBuilder == null) {
+				queryBuilder = new QyeryBuilder { FilterByFormula = formula };
+			} else {
+				savedFormula = queryBuilder.FilterByFormula;
+				queryBuilder.FilterByFormula = formula;
+			}
+
+			var result = await ListRecords(queryBuilder);
+			queryBuilder.FilterByFormula = savedFormula;
+			return result;
+		}
+
 
 		public Dictionary<string, object> GetRecordFields(TRecord record, string[] fieldNames)
 		{
@@ -86,15 +104,33 @@ namespace Dwares.Rookie.Airtable
 			var fields = new Dictionary<string, object>();
 			foreach (var name in fieldNames) {
 				if (!record.Fields.ContainsKey(name))
-					throw new ArithmeticException(String.Format("Record does not has filed {0}", name));
+					throw new ArithmeticException(String.Format("Record does not has field {0}", name));
 
 				fields.Add(name, record.Fields[name]);
 			}
 			return fields;
 		}
 
+		static Dictionary<string, object> FixDates(Dictionary<string, object> fields)
+		{
+			var result = new Dictionary<string, object>();
+			foreach (var key in fields.Keys) {
+				var value = fields[key];
+				if (value is DateOnly dateonly) {
+					result[key] = dateonly.ToString();
+				} else {
+					result[key] = value;
+				}
+			}
+			return result;
+		}
+		
+
 		async Task<TRecord> CUROperation(HttpMethod method, string recordId, Dictionary<string, object> fields, bool typecast)
 		{
+			// For JsonConvert
+			fields = FixDates(fields);
+
 			var uri = AirClient.RecordUri(Base.BaseId, Name, recordId);
 			var fieldsAndTypecast = new FieldsAndTypecast(fields, typecast);
 
@@ -112,7 +148,7 @@ namespace Dwares.Rookie.Airtable
 
 		public async Task<TRecord> CreateRecord(TRecord record, params string[] fieldNames)
 		{
-			record.CopyPropertiesToFields();
+			record.CopyPropertiesToFields(fieldNames.Length == 0 ? null : fieldNames);
 			var fields = GetRecordFields(record, fieldNames);
 
 			return await CreateRecord(fields);
@@ -125,6 +161,7 @@ namespace Dwares.Rookie.Airtable
 
 		public async Task<TRecord> UpdateRecord(TRecord record, params string[] fieldNames)
 		{
+			record.CopyPropertiesToFields(fieldNames.Length == 0 ? null : fieldNames);
 			var fields = GetRecordFields(record, fieldNames);
 
 			return await UpdateRecord(record, fields);

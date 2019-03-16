@@ -9,13 +9,41 @@ namespace Dwares.Druid.UI
 	{
 		public TabbedPageEx() { }
 
-		public bool UseNavigationPages { get; } = true;
+		MultiPageViewModel MultiPageViewModel => BindingContext as MultiPageViewModel;
+
+		public static readonly BindableProperty UseNavigationPagesProperty =
+			BindableProperty.Create(
+				nameof(UseNavigationPages),
+				typeof(bool),
+				typeof(TabbedPageEx),
+				defaultValue: true,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is TabbedPageEx page) {
+						page.ResetTabs();
+					}
+				}
+				);
+
+		public bool UseNavigationPages {
+			set { SetValue(UseNavigationPagesProperty, value); }
+			get { return (bool)GetValue(UseNavigationPagesProperty); }
+		}
 
 		protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
 
-			this.OnViewModelChanged(BindingContext as MultiPageViewModel, UseNavigationPages);
+			ResetTabs();
+		}
+
+		protected void ResetTabs()
+		{
+			var viewModel = MultiPageViewModel;
+			if (viewModel != null) {
+				this.ResetPages(viewModel.ViewModelTypes, viewModel.ContentViewModels == true, UseNavigationPages);
+			} else {
+				Children.Clear();
+			}
 		}
 	}
 }

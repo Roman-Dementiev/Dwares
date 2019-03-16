@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Collections;
 
 
 namespace Dwares.Rookie.Airtable
@@ -32,9 +33,10 @@ namespace Dwares.Rookie.Airtable
 			return null;
 		}
 
-		public void SetField(string fieldName, object value)
+		public void SetField(string fieldName, object value, IEnumerable<string> fields = null)
 		{
-			Fields[fieldName] = value;
+			if (fields == null || fields.Contains(fieldName))
+				Fields[fieldName] = value;
 		}
 
 		public T GetField<T>(string fieldName, T defaultValue=default(T))
@@ -42,7 +44,12 @@ namespace Dwares.Rookie.Airtable
 			var obj = GetField(fieldName);
 			if (obj != null) {
 				try {
-					var value = Convert.ChangeType(obj, typeof(T));
+					object value;
+					if (typeof(T) == typeof(DateOnly)) {
+						value = DateOnly.ToDateOnly(obj);
+					} else {
+						value = Convert.ChangeType(obj, typeof(T));
+					}
 					if (value is T) {
 						return (T)value;
 					}
@@ -84,7 +91,7 @@ namespace Dwares.Rookie.Airtable
 			=> GetFields((IEnumerable<string>)fieldNames);
 
 		public virtual void CopyFieldsToProperties() { }
-		public virtual void CopyPropertiesToFields() { }
+		public virtual void CopyPropertiesToFields(IEnumerable<string> fieldNames = null) { }
 
 		//public IEnumerable<AirAttachment> GetAttachmentField(string attachmentsFieldName)
 		//{
@@ -142,10 +149,10 @@ namespace Dwares.Rookie.Airtable
 			}
 		}
 
-		public void CopyPropertiesToFields()
+		public void CopyPropertiesToFields(IEnumerable<string> fieldNames)
 		{
 			foreach (var record in Records) {
-				record.CopyPropertiesToFields();
+				record.CopyPropertiesToFields(fieldNames);
 			}
 		}
 	}

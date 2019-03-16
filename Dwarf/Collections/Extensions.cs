@@ -32,5 +32,19 @@ namespace Dwares.Dwarf.Collections
 			}
 			return value;
 		}
+
+		public static bool Contains<T>(this IEnumerable<T> collection, T item)
+		{
+			if (collection == null)
+				return false;
+
+			foreach (var _item in collection) {
+				if (_item.Equals(item))
+					return true;
+			}
+
+			return false;
+		}
+
 	}
 }

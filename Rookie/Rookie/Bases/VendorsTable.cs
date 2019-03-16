@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
+using Dwares.Dwarf;
 
 
 namespace Dwares.Rookie.Bases
@@ -41,11 +43,11 @@ namespace Dwares.Rookie.Bases
 			Location = GetField<string>(LOCATION);
 		}
 
-		public override void CopyPropertiesToFields()
+		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
 		{
-			Fields[BRAND] = Brand;
-			Fields[BRANCH] = Branch;
-			Fields[LOCATION] = Location;
+			SetField(BRAND, Brand, fieldNames);
+			SetField(BRANCH, Branch, fieldNames);
+			SetField(LOCATION, Location, fieldNames);
 		}
 	}
 }
