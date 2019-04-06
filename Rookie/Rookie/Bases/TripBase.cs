@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
+using Dwares.Rookie.Models;
 using Dwares.Dwarf;
-
 
 namespace Dwares.Rookie.Bases
 {
-	public class TripBase : AirBase
+	public class TripBase : AirBase, ITripDataSource
 	{
 		//static ClassRef @class = new ClassRef(typeof(TripBase));
 
@@ -31,9 +31,9 @@ namespace Dwares.Rookie.Bases
 		public PeriodsTable PeriodsTable { get; }
 		public VendorsTable VendorsTable { get; }
 
-		public async Task<TripRecord[]> ListTrips(QyeryBuilder queryBuilder = null)
+		public async Task<TripRecord[]> ListTrips()
 		{
-			var list = await TripsTable.ListRecords(queryBuilder);
+			var list = await TripsTable.ListRecords();
 			return list.Records;
 		}
 
@@ -46,28 +46,23 @@ namespace Dwares.Rookie.Bases
 		public async Task<PeriodRecord> GetLastCreatedPeriod()
 		{
 			var list = await PeriodsTable.ListRecords();
-			if (list.Records.Length == 0)
+			var records = list.Records;
+			if (records.Length == 0)
 				return null;
 
-			var lastRecord = list.Records[0];
-			for (int i = 0; i < list.Records.Length; i++) {
-				if (list.Records[i].CreatedTime > lastRecord.CreatedTime) {
-					lastRecord = list.Records[i];
+			var lastRecord = records[0];
+			for (int i = 0; i < records.Length; i++) {
+				if (records[i].StartTime > lastRecord.StartTime) {
+					lastRecord = records[i];
 				}
 			}
 			return lastRecord;
 		}
 
-		public async Task CopyVendors(MainBase mainBase)
-		{
-			//var vendors = await mainBase.ListVendors();
-
-			//foreach (var record in vendors) {
-			//	var fields = record.GetFiVendorelds("Brand", "Branch", "Location");
-			//	await CreateRecord<BaseRecord>(TableVendors, fields);
-			//}
-			await mainBase.VendorsTable.CopyRecords(VendorsTable, "Brand", "Branch", "Location");
-		}
+		//public async Task CopyVendors(MainBase mainBase)
+		//{
+		//	await mainBase.VendorsTable.CopyRecords(VendorsTable, "Brand", "Branch", "Location");
+		//}
 	}
 
 }

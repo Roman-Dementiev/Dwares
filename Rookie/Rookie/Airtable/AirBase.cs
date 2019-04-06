@@ -16,11 +16,9 @@ namespace Dwares.Rookie.Airtable
 		public AirBase(string apiKey, string baseId)
 		{
 			//Debug.EnableTracing(@class);
-			Guard.ArgumentNotEmpty(apiKey, nameof(apiKey));
-			Guard.ArgumentNotEmpty(baseId, nameof(baseId));
 
-			ApiKey = apiKey;
-			BaseId = baseId;
+			ApiKey = Guard.ArgumentNotEmpty(apiKey, nameof(apiKey));
+			BaseId = Guard.ArgumentNotEmpty(baseId, nameof(baseId));
 		}
 
 		public virtual Task Initialize()
@@ -30,6 +28,7 @@ namespace Dwares.Rookie.Airtable
 
 		public string ApiKey { get; }
 		public string BaseId { get; }
+
 
 		public virtual Exception Authenticate()
 		{

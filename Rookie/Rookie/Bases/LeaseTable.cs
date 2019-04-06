@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
+using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf;
 
 
@@ -25,25 +25,24 @@ namespace Dwares.Rookie.Bases
 		const string AMOUNT = "Amount";
 		const string NOTES = "Notes";
 
-		public int RecieptNo { get; set; }
-		public DateOnly Date { get; set; }
-		public decimal Amount { get; set; }
-		public string Notes { get; set; }
-
-		public override void CopyFieldsToProperties()
-		{
-			RecieptNo = GetField<int>(RECIEPT_NO);
-			Date = GetField<DateOnly>(DATE);
-			Amount = GetField<decimal>(AMOUNT);
-			Notes = GetField<string>(NOTES);
+		public int RecieptNo {
+			get => GetField<int>(RECIEPT_NO);
+			set => SetField(RECIEPT_NO, value);
 		}
 
-		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
-		{
-			SetField(RECIEPT_NO, RecieptNo, fieldNames);
-			SetField(DATE, Date, fieldNames);
-			SetField(AMOUNT, Amount, fieldNames);
-			SetField(NOTES, Notes, fieldNames);
+		public DateOnly Date {
+			get => GetField<DateOnly>(DATE);
+			set => SetField(DATE, value);
+		}
+
+		public decimal Amount {
+			get => GetField<decimal>(AMOUNT);
+			set => SetField(AMOUNT, value);
+		}
+
+		public string Notes {
+			get => GetField<string>(NOTES);
+			set => SetField(NOTES, value);
 		}
 	}
 }

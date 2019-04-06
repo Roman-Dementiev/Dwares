@@ -7,6 +7,8 @@ using Windows.Security.Cryptography.DataProtection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Xamarin.Forms;
 using Dwares.Druid.Services;
+using Dwares.Dwarf;
+
 
 [assembly: Dependency(typeof(Dwares.Druid.UWP.SecureStorage))]
 
@@ -17,9 +19,14 @@ namespace Dwares.Druid.UWP
 		//static readonly string SecureSettings = "Dwares.DSecure";
 		private ApplicationDataContainer container = null;
 
-		public Task Initialize(string storageName)
+		public string StorageId { get; private set; }
+
+		public Task Initialize(string storageId)
 		{
-			container = GetContainer(storageName);
+			Guard.ArgumentNotEmpty(storageId, nameof(storageId));
+
+			StorageId = storageId;
+			container = GetContainer(storageId);
 			return Task.CompletedTask;
 		}
 

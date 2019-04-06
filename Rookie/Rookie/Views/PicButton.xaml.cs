@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Dwarf;
 using Dwares.Druid.UI;
 using Dwares.Druid.Satchel;
 using System.Windows.Input;
@@ -20,9 +21,27 @@ namespace Dwares.Rookie.Views
 			InitializeComponent();
 		}
 
+		[TypeConverter(typeof(ImageSourceConverter))]
 		public ImageSource ImageSource {
-			get => image.Source;
-			set => image.Source = value;
+			get {
+				//Debug.Print("PicButton.ImageSource.get {0}", image.Source);
+				return image.Source;
+			}
+			set {
+				//Debug.Print("PicButton.ImageSource.set {0}", value);
+				image.Source = value;
+			}
+		}
+
+		string imageName;
+		public string ImageName {
+			get => imageName;
+			set {
+				if (value != imageName) {
+					ImageSource = ImageProvider.GetImageSource(value);
+					imageName = value;
+				}
+			}
 		}
 
 		public string LabelText {

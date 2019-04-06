@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
 using Dwares.Druid;
 using Dwares.Druid.Forms;
 using Dwares.Rookie.Bases;
@@ -12,7 +12,7 @@ namespace Dwares.Rookie.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(LeaseViewModel));
 
-		DateField date;
+		DateOnlyField date;
 		PositiveNymbeFrield<int> recieptNo;
 		CurrencyField amount;
 		TextField notes;
@@ -23,7 +23,7 @@ namespace Dwares.Rookie.ViewModels
 
 			Title = "Lease";
 
-			date = new DateField("Date") { Value = DateTime.Today };
+			date = new DateOnlyField("Date") { Value = DateOnly.Today };
 			recieptNo = new PositiveNymbeFrield<int>("Reciept No");
 			amount = new CurrencyField("Amount") { IsRequired = true };
 			notes = new TextField("Notes") { Value = AppScope.Instance.GetUnpaidDays() };
@@ -64,18 +64,18 @@ namespace Dwares.Rookie.ViewModels
 		protected override Task DoAccept()
 		{
 			try {
-				IsBusy = true;
+				StartBusy("Processing...");
 
 				var record = new LeaseRecord {
-					RecieptNo = this.recieptNo,
-					Date = this.date,
-					Amount = this.amount,
-					Notes = this.notes
+					RecieptNo = recieptNo,
+					Date = date,
+					Amount = amount,
+					Notes = notes
 				};
 
 				return AppScope.Instance.AddLease(record);
 			} finally {
-				IsBusy = false;
+				ClearBusy();
 			}
 		}
 	}

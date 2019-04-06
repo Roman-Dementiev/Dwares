@@ -10,7 +10,7 @@ namespace Dwares.Druid.Services
 		void RemoveKey(string key, string share);
 		void Clear(string share); 
 
-		bool TryGet(string key, out object value, string share);
+		//bool TryGet(string key, out object value, string share);
 		T Get<T>(string key, T defaultValue, string share);
 		void Set<T>(string key, T value, string share);
 	}
@@ -42,10 +42,10 @@ namespace Dwares.Druid.Services
 			return Instance.Get<T>(key, default(T), share ?? DefaultShare);
 		}
 
-		public static bool TryGet(string key, out object value, string share = null)
-		{
-			return Instance.TryGet(key, out value, share ?? DefaultShare);
-		}
+		//public static bool TryGet(string key, out object value, string share = null)
+		//{
+		//	return Instance.TryGet(key, out value, share ?? DefaultShare);
+		//}
 
 		public static T Get<T>(string key, T defaultValue, string share = null)
 		{

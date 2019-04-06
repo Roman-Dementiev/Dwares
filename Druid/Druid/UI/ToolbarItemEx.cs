@@ -36,7 +36,7 @@ namespace Dwares.Druid.UI
 			set {
 				if (value != symbol) {
 					symbol = value;
-					Icon = value.ImageSource();
+					Icon = value.ImageSource() as FileImageSource;
 				}
 			}
 		}

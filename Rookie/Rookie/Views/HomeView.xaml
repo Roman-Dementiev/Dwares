@@ -25,20 +25,20 @@
 		</Grid.ColumnDefinitions>
 
 		<views:PicButton Grid.Row="0" Grid.Column="0"
-						 ImageSource="Images/driver.png"
+						 ImageName="driver.png"
 						 IsVisible="{Binding NotWorking}"
 						 LabelText="Go To Work"
 						 Writ="GoToWork"
 						 />
 		<views:PicButton Grid.Row="0" Grid.Column="0"
-						 ImageSource="Images/home.png"
+						 ImageName="home.png"
 						 IsVisible="{Binding IsWorking}"
 						 LabelText="Go Off Work"
 						 Writ="GoOffWork"
 						 />
 
 		<views:PicButton Grid.Row="0" Grid.Column="1"
-						 ImageSource="Images/logout.png"
+						 ImageName="logout.png"
 						 LabelText="Logout"
 						 IsVisible="{Binding NotWorking}"
 						 Writ="Logout"
@@ -50,25 +50,25 @@
 							/>
 
 		<views:PicButton Grid.Row="1" Grid.Column="0"
-						 ImageSource="Images/cab.png"
+						 ImageName="cab.png"
 						 LabelText="Trip"
 						 Writ="AddTrip"
 						 />
 
 		<views:PicButton Grid.Row="1" Grid.Column="1"
-						 ImageSource="Images/expenses.png"
+						 ImageName="expenses.png"
 						 LabelText="Expenses"
 						 Writ="Expenses"
 						 />
 		
 		<views:PicButton Grid.Row="2" Grid.Column="0"
-						 ImageSource="Images/database.png"
+						 ImageName="database.png"
 						 LabelText="Databases"
 						 Writ="SetupBases"
 						 />
 
 		<views:PicButton Grid.Row="2" Grid.Column="1"
-						 ImageSource="Images/settings.png"
+						 ImageName="settings.png"
 						 LabelText="Setup"
 						 Writ="Setup"
 						 />

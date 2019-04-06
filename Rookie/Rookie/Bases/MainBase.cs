@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
+using Dwares.Dwarf.Data;
 using Dwares.Dwarf;
 
 
 namespace Dwares.Rookie.Bases
 {
-	public class MainBase
+	public class MainBase : AirBase
 	{
 		//static ClassRef @class = new ClassRef(typeof(MainBase));
 
-		public MainBase(string apiKey, string baseId)
+		public MainBase(string apiKey, string baseId) :
+			base(apiKey, baseId)
 		{
 			//Debug.EnableTracing(@class);C:\Dev\Dwares\Rookie\Rookie\ViewModels\AddAccountViewModel.cs
 
-			DataBase = new AirBase(apiKey, baseId);
-
-			BasesTable = new BasesTable(DataBase);
-			PropertiiesTable = new PropertiiesTable(DataBase);
-			VendorsTable = new VendorsTable(DataBase);
+			BasesTable = new BasesTable(this);
+			PropertiiesTable = new PropertiiesTable(this);
+			VendorsTable = new VendorsTable(this);
 		}
 
-		public async Task Initialize()
+		public override async Task Initialize()
 		{
 			await BasesTable.Initialize();
 			await PropertiiesTable.Initialize();
 			await VendorsTable.Initialize();
 		}
 
-		public AirBase DataBase { get; }
 		public BasesTable BasesTable { get; }
 		public PropertiiesTable PropertiiesTable { get; }
 		public VendorsTable VendorsTable { get; }
-
-		public string ApiKey => DataBase?.ApiKey;
 
 		//public async Task<BaseRecord[]> ListBaseRecords(QyeryBuilder queryBuilder = null)
 		//{

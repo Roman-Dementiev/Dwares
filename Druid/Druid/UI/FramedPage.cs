@@ -16,11 +16,11 @@ namespace Dwares.Druid.UI
 	{
 		//static ClassRef @class = new ClassRef(typeof(FramedPage));
 
-		public static readonly Color DefaultBorderColor = Color.Black;
-		public static readonly float DefaultCornerRadius = -1;
-		public static readonly Thickness DefaultFrameMargin = new Thickness(1);
-		public static readonly bool DefaultFrameIsVisible = true;
-		public static readonly bool DefaultFrameIsCentered = true;
+		public static Color DefaultBorderColor { get; set; } = Color.Black;
+		public static float DefaultCornerRadius { get; set; } = -1;
+		public static Thickness DefaultFrameMargin { get; set; } = new Thickness(1);
+		public static bool DefaultFrameIsVisible { get; set; } = true;
+		public static bool DefaultFrameIsCentered { get; set; } = true;
 
 		public FramedPage()
 		{

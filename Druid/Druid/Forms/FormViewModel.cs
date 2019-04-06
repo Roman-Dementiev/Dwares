@@ -50,7 +50,7 @@ namespace Dwares.Druid.Forms
 		{
 			Exception error = null;
 			try {
-				IsBusy = true;
+				StartBusy();
 
 				error = await Validate();
 				if (error == null) {
@@ -65,7 +65,7 @@ namespace Dwares.Druid.Forms
 				error = exc;
 			}
 			finally {
-				IsBusy = false;
+				ClearBusy();
 			}
 
 			if (error != null) {

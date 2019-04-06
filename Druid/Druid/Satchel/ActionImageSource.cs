@@ -5,57 +5,72 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.Satchel
 {
-	public abstract class ActionImageSourceBase
+	//public abstract class ActionImageSourceBase
+	//{
+	//	public ActionImageSourceBase(string filenameFormat = null)
+	//	{
+	//		FilenameFormat = filenameFormat;
+	//	}
+
+	//	//public abstract string Icon { get; }
+	//	public string FilenameFormat { get; set; }
+	//	public abstract string Filename { get; }
+
+	//	FileImageSource imageSource;
+	//	public FileImageSource ImageSource => LazyInitializer.EnsureInitialized(ref imageSource,
+	//		() => new FileImageSource { File = Filename });
+
+	//	public static implicit operator FileImageSource(ActionImageSourceBase source) => source?.ImageSource;
+	//}
+
+	public class ActionImageSource
 	{
-		public ActionImageSourceBase(string filenameFormat = null)
+		//public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
+		//	Default = "{0}.png",
+		//	Android = "ic_action_{0}.png",
+		//	iOS = "{0}.png",
+		//	UWP = "Images/{0}.png"
+		//};
+
+		//protected ActionImageSource() { }
+
+		public ActionImageSource(string name, string group = null)
 		{
-			FilenameFormat = filenameFormat;
+			Group = group;
+			Name = name;
 		}
 
-		//public abstract string Icon { get; }
-		public string FilenameFormat { get; set; }
-		public abstract string Filename { get; }
+		public string Group { get; }
+		public string Name { get; }
 
-		FileImageSource imageSource;
-		public FileImageSource ImageSource => LazyInitializer.EnsureInitialized(ref imageSource,
-			() => new FileImageSource { File = Filename });
-
-		public static implicit operator FileImageSource(ActionImageSourceBase source) => source?.ImageSource;
-	}
-
-	public class ActionImageSource : ActionImageSourceBase
-	{
-		public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
-			Default = "{0}.png",
-			Android = "ic_action_{0}.png",
-			iOS = "{0}.png",
-			UWP = "Images/{0}.png"
-		};
-
-		//public ActionImageSource() { }
-
-		//public ActionImageSource(string icon) : this(icon, null) { }
-
-		public ActionImageSource(string icon, string filenameFormat = null) :
-			base(filenameFormat)
-		{
-			Icon = icon;
-		}
-
-		public string Icon { get; }
-
-		public override string Filename {
+		ImageSource imageSource;
+		public ImageSource ImageSource {
 			get {
-				var format = FilenameFormat ?? DefaultFilenameFormat;
-				return String.Format(format, Icon);
+				if (imageSource == null) {
+					imageSource = GetImageSource(ImageProvider.Instance);
+				}
+				return imageSource;
+			}
+			set {
+				imageSource = value;
 			}
 		}
 
-		public static ActionImageSource ForIcon(string icon, string filenameFormat = null)
+		protected virtual ImageSource GetImageSource(IImageProvider provider)
 		{
-			if (String.IsNullOrEmpty(icon))
-				return null;
-			return new ActionImageSource(icon, filenameFormat);
+			return provider.GetImageSource(Group, Name);
 		}
+
+		public static implicit operator ImageSource(ActionImageSource source) => source?.ImageSource;
+
+		public static ImageSource ForName(string name, string group = null)
+		{
+			if (string.IsNullOrEmpty(name))
+				return null;
+
+			var source =  new ActionImageSource(group, name);
+			return source;
+		}
+
 	}
 }

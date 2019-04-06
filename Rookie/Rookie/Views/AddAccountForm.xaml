@@ -10,7 +10,7 @@
 				x:Class="Dwares.Rookie.Views.AddAccountForm">
 
 	<forms:FormView.ToolbarItems>
-		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Login" Writ="Login" Symbol="Accept" />
 		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</forms:FormView.ToolbarItems>
@@ -94,7 +94,7 @@
 					  HorizontalOptions="Center"
 					  WidthRequest="80"
 					  Text="Login"
-					  Writ="Accept"
+					  Writ="Login"
 					  />
 		<ui:ButtonEx  Grid.Row="12" Grid.Column="1"
 					  HorizontalOptions="Center"

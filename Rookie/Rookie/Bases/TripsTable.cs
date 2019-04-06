@@ -1,8 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Data;
 
 
 namespace Dwares.Rookie.Bases
@@ -30,41 +32,49 @@ namespace Dwares.Rookie.Bases
 		const string EXPENCES = "Expences";
 		const string IS_CREDIT = "IsCredit?";
 
-		public int TripNumber { get; set; }
-		public DateTime Started { get; set; }
-		public DateTime Finished { get; set; }
-		public decimal Distance { get; set; }
-		public decimal Meter { get; set; }
-		public decimal Cash { get; set; }
-		public decimal Expences { get; set; }
-		public bool IsCredit { get; set; }
+		public int TripNumber {
+			get => GetField<int>(TRIP_NUMBER);
+			set => SetField(TRIP_NUMBER, value);
+		}
+
+		public DateTime Started {
+			get => GetField<DateTime>(STARTED);
+			set => SetField(STARTED, value);
+		}
+
+		public DateTime Finished {
+			get => GetField<DateTime>(FINISHED);
+			set => SetField(FINISHED, value);
+		}
+
+		public decimal Distance {
+			get => GetField<decimal>(DISTANCE);
+			set => SetField(DISTANCE, value);
+		}
+
+		public decimal Meter {
+			get => GetField<decimal>(METER);
+			set => SetField(METER, value);
+		}
+
+		public decimal Cash {
+			get => GetField<decimal>(CASH);
+			set => SetField(CASH, value);
+		}
+
+		public decimal Expences {
+			get => GetField<decimal>(EXPENCES);
+			set => SetField(EXPENCES, value);
+		}
+
+		public bool IsCredit {
+			get => GetField<bool>(IS_CREDIT);
+			set => SetField(IS_CREDIT, value);
+		}
+
 		public decimal Credit { 
 			get => IsCredit ? Meter * 0.9m : 0m;
 		}
 
-
-		public override void CopyFieldsToProperties()
-		{
-			TripNumber = GetField<int>(TRIP_NUMBER);
-			Started = GetField<DateTime>(STARTED);
-			Finished = GetField<DateTime>(FINISHED);
-			Distance = GetField<decimal>(DISTANCE);
-			Meter = GetField<decimal>(METER);
-			Cash = GetField<decimal>(CASH);
-			Expences = GetField<decimal>(EXPENCES);
-			IsCredit = GetField<bool>(IS_CREDIT);
-		}
-
-		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
-		{
-			SetField(TRIP_NUMBER, TripNumber, fieldNames);
-			SetField(STARTED, Started, fieldNames);
-			SetField(FINISHED, Finished, fieldNames);
-			SetField(DISTANCE, Distance, fieldNames);
-			SetField(METER, Meter, fieldNames);
-			SetField(CASH, Cash, fieldNames);
-			SetField(EXPENCES, Expences, fieldNames);
-			SetField(IS_CREDIT, IsCredit, fieldNames);
-		}
 	}
 }

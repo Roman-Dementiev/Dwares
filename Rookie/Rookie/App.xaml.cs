@@ -1,13 +1,14 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Dwarf.Data;
 using Dwares.Druid;
 using Dwares.Druid.UI;
 using Dwares.Druid.Forms;
 using Dwares.Druid.Services;
 using Dwares.Rookie.ViewModels;
-using Dwares.Rookie.Views;
-using Dwares.Rookie;
+using Dwares.Rookie.Airtable;
+using Dwares.Rookie.Bases;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -19,8 +20,12 @@ namespace Dwares.Rookie
 		{
 			InitializeComponent();
 
-			FormViewModel.DefaultWidth = 340;
-			FormViewModel.DefaultHeight = 500;
+			FormViewModel.DefaultWidth = 360;
+			FormViewModel.DefaultHeight = 640;
+
+			if (Device.Idiom == TargetIdiom.Phone) {
+				FramedPage.DefaultBorderColor = Color.Transparent;
+			}
 
 			BindingContext = new AppScope();
 
@@ -31,13 +36,13 @@ namespace Dwares.Rookie
 		protected override async void OnStart()
 		{
 			// Handle when your app starts
-			await AppScope.Instance.Initialize(reset: false);
+			//DataProvider.Instance = AirClient.Instance;
+			Formulas.Instance = new AirFormulas();
 
-			//var testPage = new Dwares.Rookie.Views.TestPage();
-			//this.InitMainPageWithNavigation(testPage);
+			await AppScope.Instance.Initialize();
 
 			Page startPage;
-			if (AppScope.IsLoggedIn) {
+			if (AppScope.Instance.IsLoggedIn) {
 				startPage = CreateForm<HomeViewModel>();
 			} else {
 				startPage = CreateForm<LoginViewModel>();

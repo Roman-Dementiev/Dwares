@@ -1,31 +1,21 @@
 ﻿using System;
-
+using Xamarin.Forms;
 
 namespace Dwares.Druid.Satchel
 {
-	public class SumbolImageSource : ActionImageSourceBase
+	public class SumbolImageSource : ActionImageSource
 	{
-		public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
-			Default = "{0:g}.png",
-			Android = "ic_action_{0:g}.png",
-			iOS = "{0:g}.png",
-			UWP = "Images/{1:x4}.png"
-		};
-
-		public SumbolImageSource(SymbolEx symbol, string filenameFormat = null) :
-			base(filenameFormat)
+		public SumbolImageSource(SymbolEx symbol) :
+			base(symbol.ToString(), ImageProvider.kGroupSymbol)
 		{
 			Symbol = symbol;
 		}
 
 		public SymbolEx Symbol { get; }
-		//public override string Icon => Symbol.Name();
 
-		public override string Filename {
-			get {
-				var format = FilenameFormat ?? DefaultFilenameFormat;
-				return String.Format(format, Symbol, (int)Symbol);
-			}
+		protected override ImageSource GetImageSource(IImageProvider provider)
+		{
+			return provider.GetImageSource(Group, string.Format("{0:x4}", (int)Symbol));
 		}
 	}
 

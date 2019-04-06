@@ -17,7 +17,7 @@ namespace Dwares.Rookie.ViewModels
 			Title = "Login";
 
 			if (AppScope.Driver != null) {
-				SelectedUser = AppScope.Instance.GetAccount(AppScope.Driver, null); 
+				SelectedUser = AppScope.Instance.GetAccount(AppScope.Driver); 
 			}
 		}
 
@@ -41,30 +41,32 @@ namespace Dwares.Rookie.ViewModels
 			return !IsBusy && HasUserSelected;
 		}
 
-		public async Task<bool> OnLogin()
+		public async Task OnLogin()
 		{
 			//Debug.Print("LoginViewModel.OnLogin");
 			
 			Exception error = null;
 			try {
-				IsBusy = true;
-				error = await AppScope.Instance.Login(SelectedUser.Username, Password, KeepLoggedIn);
+				StartBusy("Logging in...");
+				PropertiesChanged(nameof(CanLogin));
+
+				await AppScope.Instance.Login(SelectedUser.Username, Password, KeepLoggedIn);
 			}
 			catch (Exception exc) {
 				error = exc;
 			}
 			finally {
-				IsBusy = false;
+				ClearBusy();
+				PropertiesChanged(nameof(CanLogin));
 			}
 
 			if (error != null) {
 				await Alerts.Error(error.Message);
-				return false;
+				return;
 			}
 
 			var page = App.CreateForm<HomeViewModel>();
 			await Navigator.ReplaceTopPage(page);
-			return true;
 		}
 
 		public bool CanGoToWork() => CanLogin();
@@ -75,7 +77,7 @@ namespace Dwares.Rookie.ViewModels
 
 			await OnLogin();
 
-			if (AppScope.IsLoggedIn) {
+			if (AppScope.Instance.IsLoggedIn) {
 				var page = App.CreateForm<GoToWorkViewModel>();
 				await Navigator.PushPage(page);
 			}
@@ -86,7 +88,8 @@ namespace Dwares.Rookie.ViewModels
 			//Debug.Print("LoginViewModel.OnAddAccount");
 
 			var page = App.CreateForm<AddAccountViewModel>();
-			await Navigator.PushModal(page);
+			//await Navigator.PushModal(page);
+			await Navigator.PushPage(page);
 		}
 
 		public override void UpdateCommands()

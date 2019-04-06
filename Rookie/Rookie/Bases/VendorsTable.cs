@@ -17,9 +17,9 @@ namespace Dwares.Rookie.Bases
 			//Debug.EnableTracing(@class);
 		}
 
-		public async Task<VendorRecord[]> ListVendors(QyeryBuilder queryBuilder = null)
+		public async Task<VendorRecord[]> ListVendors()
 		{
-			var list = await base.ListRecords(queryBuilder);
+			var list = await ListRecords();
 			return list.Records;
 		}
 	}
@@ -31,23 +31,19 @@ namespace Dwares.Rookie.Bases
 		const string BRANCH = "Branch";
 		const string LOCATION = "Location";
 
-		public string Brand { get; set; }
-		public string Branch { get; set; }
-		public string Location { get; set; }
-		//public string[] Category { get; set; }
-
-		public override void CopyFieldsToProperties()
-		{
-			Brand = GetField<string>(BRAND);
-			Branch = GetField<string>(BRANCH);
-			Location = GetField<string>(LOCATION);
+		public string Brand {
+			get => GetField<string>(BRAND);
+			set => SetField(BRAND, value);
 		}
 
-		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
-		{
-			SetField(BRAND, Brand, fieldNames);
-			SetField(BRANCH, Branch, fieldNames);
-			SetField(LOCATION, Location, fieldNames);
+		public string Branch {
+			get => GetField<string>(BRANCH);
+			set => SetField(BRANCH, value);
+		}
+
+		public string Location {
+			get => GetField<string>(LOCATION);
+			set => SetField(LOCATION, value);
 		}
 	}
 }

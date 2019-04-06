@@ -76,7 +76,6 @@ namespace Dwares.Rookie.Bases
 				if (records.ContainsKey(key)) {
 					var record = records[key];
 					record.Value = value ?? string.Empty;
-					record.CopyPropertiesToFields();
 
 					newRecord = await UpdateRecord(record);
 				} else {
@@ -136,19 +135,15 @@ namespace Dwares.Rookie.Bases
 		const string KEY = "Key";
 		const string VALUE = "Value";
 
-		public string Key { get; set; }
-		public string Value { get; set; }
-
-		public override void CopyFieldsToProperties()
-		{
-			Key = GetField<string>(KEY);
-			Value = GetField<string>(VALUE);
+		public string Key {
+			get => GetField<string>(KEY);
+			set => SetField(KEY, value);
 		}
 
-		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames = null)
-		{
-			SetField(KEY, Key, fieldNames);
-			SetField(VALUE, Value, fieldNames);
+		public new string Value {
+			get => GetField<string>(VALUE);
+			set => SetField(VALUE, value);
 		}
+
 	}
 }

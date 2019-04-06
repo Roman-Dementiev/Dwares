@@ -35,8 +35,9 @@ namespace Dwares.Druid.UI
 				typeof(string),
 				typeof(ActionImage),
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ActionImage image) {
-						image.Source = ActionImageSource.ForIcon(newValue as string);
+					if (bindable is ActionImage image && newValue is string name) {
+						var actionImage = 
+						image.Source = ActionImageSource.ForName(name);
 					}
 				});
 

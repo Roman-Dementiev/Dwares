@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Services;
@@ -24,15 +25,18 @@ namespace Dwares.Rookie
 
 		public static AppScope Instance { get; private set; }
 
+		//public ObservableCollection<TripBase> Bases { get; } = new ObservableCollection<TripBase>();
+		public ObservableCollection<Account> Accounts { get; } = new ObservableCollection<Account>();
+		public ObservableCollection<YearlyTripData> TripData { get; } = new ObservableCollection<YearlyTripData>();
+
+		public AppData AppData { get; }
+
 		public AppScope() : base(null)
 		{
 			Debug.AssertIsNull(Instance);
 			Instance = this;
+			AppData = new AppData();
 		}
-
-		public ObservableCollection<TripBase> Bases { get; } = new ObservableCollection<TripBase>();
-		public ObservableCollection<Account> Accounts { get; } = new ObservableCollection<Account>();
-		public ObservableCollection<YearlyTripData> TripData { get; } = new ObservableCollection<YearlyTripData>();
 
 		Account account;
 		public Account Account {
@@ -40,28 +44,16 @@ namespace Dwares.Rookie
 			set => SetProperty(ref account, value);
 		}
 
-		MainBase mainBase;
-		public MainBase MainBase {
-			get => mainBase;
-			set => SetProperty(ref mainBase, value);
-		}
-
-		TripBase tripBase;
-		public TripBase TripBase {
-			get => tripBase;
-			set => SetProperty(ref tripBase, value);
-		}
-
-		TripBase templateBase;
-		public TripBase TemplateBase {
-			get => templateBase;
-			set => SetProperty(ref templateBase, value);
-		}
-
 		PeriodRecord lastPeriod;
 		public PeriodRecord LastPeriod {
 			get => lastPeriod;
 			set => SetProperty(ref lastPeriod, value);
+		}
+
+		bool isLoggedIn;
+		public bool IsLoggedIn {
+			get => isLoggedIn;
+			set => SetProperty(ref isLoggedIn, value);
 		}
 
 		bool isWorking;
@@ -76,9 +68,13 @@ namespace Dwares.Rookie
 			set => SetProperty(ref earnings, value);
 		}
 
+		public bool HasTripBase {
+			get => AppData.TripBase != null;
+		}
+
 		public static string Driver { get; private set; }
 
-		public async Task Initialize(bool reset)
+		public async Task Initialize(bool reset = true)
 		{
 			if (reset) {
 				await ClearAccounts();
@@ -139,34 +135,29 @@ namespace Dwares.Rookie
 			await SaveAccounts();
 		}
 
-		public Account GetAccount(string username, string password)
+		Account GetAccount(string username, string password, bool usePassword)
 		{
 			foreach (var account in Accounts) {
 				if (account.Username == username) {
-					if (password == null || account.Password == password)
+					if (!usePassword || account.Password == password ||
+						(string.IsNullOrEmpty(password) && string.IsNullOrEmpty(account.Password))
+						)
 						return account;
+
 					break;
 				}
 			}
 			return null;
 		}
 
+		public Account GetAccount(string username, string password) => GetAccount(username, password, true);
+		public Account GetAccount(string username) => GetAccount(username, null, false);
+		public bool HasAccount(string username) => GetAccount(username, null, false) != null;
+
 
 		public async Task GetLastPeriod()
 		{
-			LastPeriod = null;
-			var lastPeriodId = GetStringProperty(propLastPeriod);
-			if (!string.IsNullOrEmpty(lastPeriodId)) {
-				try {
-					LastPeriod = await TripBase.GetPeriod(lastPeriodId);
-				}
-				catch (Exception exc) {
-					Debug.ExceptionCaught(exc);
-				}
-			}
-			if (LastPeriod == null) {
-				LastPeriod = await TripBase.GetLastCreatedPeriod();
-			}
+			LastPeriod = await AppData.GetLastPeriod(LastPeriodId);
 
 			if (LastPeriod != null) {
 				IsWorking = GetBooleanProperty(propIsWorking);
@@ -182,14 +173,10 @@ namespace Dwares.Rookie
 		{
 			await Logout();
 
-			MainBase = new MainBase(apiKey, baseId);
-			await MainBase.Initialize();
+			await AppData.Initialize(apiKey, baseId);
 			try {
 				await InitTripBases();
-
-				if (TripBase != null) {
-					await GetLastPeriod();
-				}
+				await GetLastPeriod();
 
 				Driver = username;
 				if (keepLoggedIn) {
@@ -197,21 +184,19 @@ namespace Dwares.Rookie
 				} else {
 					await SecureStorage.SetAsync(keyDriver, Driver);
 				}
+				IsLoggedIn = true;
 				return null;
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
-				MainBase = null;
-				TripBase = null;
-				TemplateBase = null;
+				AppData.Reset();
 				return new LoginException(exc);
 			}
 		}
 
-
 		public async Task<Exception> Login(string username, string password, bool keepLoggedIn)
 		{
-			var account = GetAccount(username, password ?? string.Empty);
+			var account = GetAccount(username, password);
 			if (account == null) {
 				return new LoginException("Invalid Username or Password");
 			}
@@ -225,11 +210,10 @@ namespace Dwares.Rookie
 
 		public async Task Logout()
 		{
+			IsLoggedIn = false;
 			Account = null;
-			MainBase = null;
-			TripBase = null;
-			TemplateBase = null;
-			await SecureStorage.SetAsync(keyDriver, Driver);
+			AppData.Reset();
+			//await SecureStorage.SetAsync(keyDriver, Driver);
 		}
 
 		public Task<Exception> GoToWork(TimeSpan time, int mileage)
@@ -250,11 +234,8 @@ namespace Dwares.Rookie
 			if (IsWorking)
 				return new ProgramError("Already working");
 
-			Debug.AssertNotNull(MainBase);	
-			Debug.AssertNotNull(TripBase);
-
 			try {
-				var workPeriod = await TripBase.PeriodsTable.StartPeriod(time, mileage);
+				var workPeriod = await AppData.StartPeriod(time, mileage);
 				LastPeriod = workPeriod;
 				IsWorking = true;
 				Earnings = new Earnings(workPeriod);
@@ -274,11 +255,8 @@ namespace Dwares.Rookie
 			if (!IsWorking)
 				return new ProgramError("Not working");
 
-			Debug.AssertNotNull(MainBase);
-			Debug.AssertNotNull(TripBase);
-
 			try {
-				await TripBase.PeriodsTable.FinishPeriod(LastPeriod, time, mileage);
+				await AppData.FinishPeriod(LastPeriod, time, mileage);
 				IsWorking = false;
 				Earnings = new Earnings();
 
@@ -293,38 +271,28 @@ namespace Dwares.Rookie
 
 		public async Task UpdateWorkPeriodProperties(int mileage)
 		{
-			Debug.Assert(MainBase != null);
-			var properties = MainBase.PropertiiesTable;
-
 			if (LastPeriod != null) {
-				await properties.PutValue(propLastPeriod, LastPeriod.Id);
+				await AppData.PutProperty(propLastPeriod, LastPeriod.Id);
 			} else {
 				//properties.Remove(propLastPeriod);
-				await properties.PutValue(propLastPeriod, string.Empty);
+				await AppData.PutProperty(propLastPeriod, string.Empty);
 			}
-			await properties.PutValue(propIsWorking, IsWorking);
-			await properties.PutValue(propMileage, mileage);
-
+			await AppData.PutProperty(propIsWorking, IsWorking);
+			await AppData.PutProperty(propMileage, mileage);
 		}
 
 		public async Task InitTripBases()
 		{
 			TripData.Clear();
 
-			var records = await MainBase.BasesTable.ListBases();
+			var records = await AppData.GetBases();
 
 			foreach (var rec in records)
 			{
-				if (rec.Year <= 0) {
-					if (rec.Year == 0 && rec.Month == 1) {
-						Debug.Assert(TemplateBase == null);
-						TemplateBase = new TripBase(ApiKey, rec.BaseId, 0, 0);
-					}
-					continue;
+				if (rec.Year > 0) {
+					var tripBase = new TripBase(ApiKey, rec.BaseId, rec.Year, rec.Month);
+					AddTripBase(tripBase);
 				}
-
-				var tripBase = new TripBase(ApiKey, rec.BaseId, rec.Year, rec.Month);
-				AddTripBase(tripBase);
 			}
 		}
 
@@ -371,25 +339,8 @@ namespace Dwares.Rookie
 			}
 		}
 
-		public static Exception CheckBaseIsNew(int year, int month, string baseId)
-		{
-			foreach (var db in Instance.Bases) {
-				if (db.Year == year) {
-					if (db.Month == 0) {
-						return new UserError("Database for year {0} already exists");
-					}
-					if (db.Month == month) {
-						string monthStr = new DateTime(year, month, 1).ToString("MMMM yyyy");
-						return new UserError("Database for {0} already exists", monthStr);
-					}
-				}
-				if (db.BaseId == baseId) {
-					return new UserError("Database with Id \"{0}\" already exists", baseId);
-				}
-			}
-
-			return null;
-		}
+		public Exception CheckBaseIsNew(int year, int month, string baseId)
+			=> AppData.CheckBaseIsNew(year, month, baseId);
 
 		public async Task<Exception> AddBase(TripBase tripBase, int year, int month, string notes = null)
 		{
@@ -403,7 +354,7 @@ namespace Dwares.Rookie
 					}
 				}
 
-				await MainBase.BasesTable.AddRecord(tripBase.BaseId, year, month, notes);
+				await AppData.AddBase(tripBase.BaseId.ToString(), year, month, notes);
 				//await tripBase.CopyVendors(MainBase);
 
 				AddTripBase(tripBase);
@@ -425,32 +376,30 @@ namespace Dwares.Rookie
 				var yearlyData = GetYearlyTripData(year);
 				yearlyData.AddMonth(month, tripBase);
 				if (year == today.Year && month == today.Month) {
-					Debug.AssertIsNull(TripBase);
-					TripBase = tripBase;
+					Debug.AssertIsNull(AppData.TripBase);
+					AppData.TripBase = tripBase;
 				}
 			}
 			else {
 				var yearlyData = new YearlyTripData(year, tripBase);
 				TripData.Add(yearlyData);
 				if (year == today.Year) {
-					Debug.AssertIsNull(TripBase);
-					TripBase = tripBase;
+					Debug.AssertIsNull(AppData.TripBase);
+					AppData.TripBase = tripBase;
 				}
 			}
-
-			Bases.Add(tripBase);
 		}
 
 		public async Task AddTrip(TripRecord record)
 		{
 			Debug.Assert(IsLoggedIn && IsWorking);
 
-			record = await TripBase.TripsTable.CreateRecord(record);
+			record = await AppData.AddTrip(record);
 
 			LastPeriod.Cash += record.Cash;
 			LastPeriod.Credit += record.Credit;
 			LastPeriod.Expenses += record.Expences;
-			LastPeriod = await TripBase.PeriodsTable.UpdateRecord(LastPeriod, PeriodRecord.CASH, PeriodRecord.CREDIT, PeriodRecord.EXPENSES);
+			LastPeriod = await AppData.UpdatePeriodEarnings(LastPeriod);
 
 			Earnings = new Earnings(LastPeriod);
 		}
@@ -459,13 +408,13 @@ namespace Dwares.Rookie
 		{
 			Debug.Assert(IsLoggedIn);
 
-			record = await TripBase.LeaseTable.CreateRecord(record);
+			record = await AppData.AddLease(record);
 			await PutDateOnlyProperty(propLastPaidDate, record.Date);
 			
 			var period = await GetPeriod(record.Date);
 			if (period != null) {
 				period.Lease += record.Amount;
-				period = await TripBase.PeriodsTable.UpdateRecord(period, PeriodRecord.LEASE);
+				period = await AppData.UpdatePeriodLease(period);
 
 				if (period.Id == LastPeriod?.Id) {
 					Earnings = new Earnings(period);
@@ -481,7 +430,7 @@ namespace Dwares.Rookie
 				return LastPeriod;
 			}
 
-			var periods = await TripBase.PeriodsTable.GetPeriodsForDate(date);
+			var periods = await AppData.GetPeriodsForDate(date);
 			if (periods != null && periods.Length > 0) {
 				var lastPeriod = periods[0];
 				for (int i = 1; i < periods.Length; i++) {
@@ -498,13 +447,11 @@ namespace Dwares.Rookie
 
 		public async Task<bool> PutProperty(string key, object value)
 		{
-			if (MainBase != null) {
-				try {
-					await MainBase.PropertiiesTable.PutValue(key, value);
-					return true;
-				} catch (Exception exc) {
-					Debug.ExceptionCaught(exc);
-				}
+			try {
+				await AppData.PutProperty(key, value);
+				return true;
+			} catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
 			}
 			return false;
 		}
@@ -516,42 +463,29 @@ namespace Dwares.Rookie
 
 		public string GetStringProperty(string key, string defaultValue = null)
 		{
-			if (MainBase != null) {
-				var value = MainBase.PropertiiesTable.GetString(key);
-				return value;
-			}
-			return defaultValue;
+			var value = AppData.GetStringProperty(key);
+			return value ?? defaultValue;
 		}
 
 		public int GetIntegerProperty(string key, int defaultValue = 0)
 		{
-			if (MainBase != null) {
-				var value = MainBase.PropertiiesTable.GetInteger(key);
-				if (value != null)
-					return (int)value;
-			}
-			return defaultValue;
+			var value = AppData.GetIntegerProperty(key);
+			return value ?? defaultValue;
 		}
 
 		public bool GetBooleanProperty(string key, bool defaultValue = false)
 		{
-			if (MainBase != null) {
-				var value = MainBase.PropertiiesTable.GetBoolean(key);
-				if (value != null)
-					return (bool)value;
-			}
-			return defaultValue;
+			var value = AppData.GetBooleanProperty(key);
+			return value ?? defaultValue;
 		}
 
 		public DateOnly? GetDateOnlyProperty(string key, DateOnly? defaultValue = null)
 		{
-			if (MainBase != null) {
-				var str = MainBase.PropertiiesTable.GetString(key);
-				if (str != null) {
-					DateOnly value;
-					if (DateOnly.TryParse(str, out value))
-						return value;
-				}
+			var str = AppData.GetStringProperty(key);
+			if (str != null) {
+				DateOnly value;
+				if (DateOnly.TryParse(str, out value))
+					return value;
 			}
 			return defaultValue;
 		}
@@ -596,9 +530,9 @@ namespace Dwares.Rookie
 		}
 
 		public static int LastMileage => Instance.GetIntegerProperty(propMileage);
+		public static string LastPeriodId => Instance.GetStringProperty(propLastPeriod);
 
-		public static string ApiKey => Instance.MainBase?.ApiKey;
-		public static bool IsLoggedIn => Instance.Account != null;
+		public static string ApiKey => Instance.AppData.MainBase?.ApiKey;
 	}
 
 	public struct Earnings

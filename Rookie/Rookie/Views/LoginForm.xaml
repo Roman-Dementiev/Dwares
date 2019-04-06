@@ -64,7 +64,7 @@
 					  WidthRequest="110"
 					  Text="Login"
 					  Writ="Login"
-					  IsEnabled="{Binding HasUserSelected}"
+					  IsEnabled="{Binding CanLogin}"
 					  />
 
 		<ui:ButtonEx Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2"
@@ -72,7 +72,7 @@
 					 WidthRequest="110"
 					 Text="Go To Work"
 					 Writ="GoToWork"
-					 IsEnabled="{Binding HasUserSelected}"
+					 IsEnabled="{Binding CanLogin}"
 					 />
 
 	</Grid>

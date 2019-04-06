@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
+using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf.Data;
 
 
 namespace Dwares.Rookie.Airtable
@@ -14,6 +16,9 @@ namespace Dwares.Rookie.Airtable
 		public AirRecord()
 		{
 			//Debug.EnableTracing(@class);
+
+			FieldNames = new List<string> { nameof(Id), nameof(CreatedTime), nameof(Fields) };
+			Fields =  new FeildSet();
 		}
 
 		[JsonProperty("id")]
@@ -23,7 +28,17 @@ namespace Dwares.Rookie.Airtable
 		public DateTime CreatedTime { get; internal set; }
 
 		[JsonProperty("fields")]
-		public FeildSet Fields { get; internal set; } = new FeildSet();
+		public FeildSet Fields { get; internal set; }
+
+		//public string RecordId => Id;
+		//public IEnumerable<string> GetFieldNames() => FieldNames;
+
+		public List<string> FieldNames { get; }
+
+		//protected void AddFieldNames(params string[] names)
+		//{
+		//	FieldNames.AddRange(names);
+		//}
 
 		public object GetField(string fieldName)
 		{
@@ -33,32 +48,60 @@ namespace Dwares.Rookie.Airtable
 			return null;
 		}
 
-		public void SetField(string fieldName, object value, IEnumerable<string> fields = null)
+		public void SetField<T>(string fieldName, T value)
 		{
-			if (fields == null || fields.Contains(fieldName))
-				Fields[fieldName] = value;
+			SetField(fieldName, value, null);
 		}
 
-		public T GetField<T>(string fieldName, T defaultValue=default(T))
+		public void SetField(string fieldName, object value, IEnumerable<string> fields)
+		{
+			if (fields == null || fields.Contains(fieldName)) {
+				//if (value is Currency currency) {
+				//	value = currency.Value;
+				//}
+				Fields[fieldName] = value;
+			}
+		}
+
+		bool GetField<T>(string fieldName, out T value, T defaultValue)
 		{
 			var obj = GetField(fieldName);
 			if (obj != null) {
 				try {
-					object value;
+					//if (typeof(T) == typeof(Currency)) {
+					//	value = Currency.ToCurrency(obj);
+					//}
 					if (typeof(T) == typeof(DateOnly)) {
-						value = DateOnly.ToDateOnly(obj);
+						obj = DateOnly.ToDateOnly(obj);
+					}
+
+					if (obj is T _value) {
+						value = _value;
 					} else {
-						value = Convert.ChangeType(obj, typeof(T));
+						obj = Convert.ChangeType(obj, typeof(T));
+						value = (T)obj;
 					}
-					if (value is T) {
-						return (T)value;
-					}
-				} catch (Exception exc) {
+					return true;
+				}
+				catch (Exception exc) {
 					//Debug.ExceptionCaught(exc);
-					Debug.Print("Exception caught in AirRecord.GetField(): fieldName={0}, obj={1}", fieldName, obj);
+					Debug.Print("Exception caught in AirRecord.GetField(): fieldName={0}, obj={1}:  {2}", fieldName, obj, exc);
 				}
 			}
-			return defaultValue;
+			value = defaultValue;
+			return false;
+		}
+
+		public bool GetField<T>(string fieldName, out T value)
+		{
+			return GetField(fieldName, out value, default(T));
+		}
+
+		public T GetField<T>(string fieldName, T defaultValue=default(T))
+		{
+			T value;
+			GetField(fieldName, out value, defaultValue);
+			return value;
 		}
 
 		//public Dictionary<string, object> GetFields(params string[] fieldNames)
@@ -89,9 +132,6 @@ namespace Dwares.Rookie.Airtable
 
 		public Dictionary<string, object> GetFields(params string[] fieldNames)
 			=> GetFields((IEnumerable<string>)fieldNames);
-
-		public virtual void CopyFieldsToProperties() { }
-		public virtual void CopyPropertiesToFields(IEnumerable<string> fieldNames = null) { }
 
 		//public IEnumerable<AirAttachment> GetAttachmentField(string attachmentsFieldName)
 		//{
@@ -124,41 +164,4 @@ namespace Dwares.Rookie.Airtable
 		//	return attachments;
 		//}
 	}
-
-	//public class AirRecordList
-	//{
-	//	[JsonProperty("offset")]
-	//	public string Offset { get; internal set; }
-
-	//	[JsonProperty("records")]
-	//	public AirRecord[] Records { get; internal set; }
-	//}
-
-	public class AirRecordList<TRecord> where TRecord : AirRecord
-	{
-		[JsonProperty("offset")]
-		public string Offset { get; internal set; }
-
-		[JsonProperty("records")]
-		public TRecord[] Records { get; internal set; }
-
-		public void CopyFieldsToProperties()
-		{
-			foreach (var record in Records) {
-				record.CopyFieldsToProperties();
-			}
-		}
-
-		public void CopyPropertiesToFields(IEnumerable<string> fieldNames)
-		{
-			foreach (var record in Records) {
-				record.CopyPropertiesToFields(fieldNames);
-			}
-		}
-	}
-
-	public class AirRecordList : AirRecordList<AirRecord>
-	{
-	}
-
 }

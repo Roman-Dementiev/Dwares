@@ -819,10 +819,11 @@ namespace Dwares.Druid.Satchel
 			return ch.ToString();
 		}
 
-		public static FileImageSource ImageSource(this SymbolEx symbol)
+		public static ImageSource ImageSource(this SymbolEx symbol)
 		{
 			if (symbol != SymbolEx.None) {
-				return new SumbolImageSource(symbol).ImageSource;
+				var source = new SumbolImageSource(symbol);
+				return source;
 			} else {
 				return null;
 			}

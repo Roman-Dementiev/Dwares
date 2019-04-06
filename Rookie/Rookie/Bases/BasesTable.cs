@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Rookie.Airtable;
-using Dwares.Dwarf;
 
 
 namespace Dwares.Rookie.Bases
@@ -17,23 +15,23 @@ namespace Dwares.Rookie.Bases
 			//Debug.EnableTracing(@class);
 		}
 
-		public async Task<BaseRecord[]> ListBases(QyeryBuilder queryBuilder = null)
-		{
-			var list = await base.ListRecords(queryBuilder);
-			return list.Records;
-		}
+		//public async Task<BaseRecord[]> ListBases()
+		//{
+		//	var list = await ListRecords();
+		//	return list;
+		//}
 
-		public async Task<BaseRecord> AddRecord(string baseId, int year, int month, string notes)
-		{
-			var record = new BaseRecord {
-				BaseId = baseId,
-				Year = year,
-				Month = month,
-				Notes = notes
-			};
+		//public async Task<BaseRecord> AddRecord(string baseId, int year, int month, string notes)
+		//{
+		//	var record = new BaseRecord {
+		//		BaseId = baseId,
+		//		Year = year,
+		//		Month = month,
+		//		Notes = notes
+		//	};
 
-			return await CreateRecord(record);
-		}
+		//	return await CreateRecord(record);
+		//}
 	}
 
 	public class BaseRecord : AirRecord
@@ -43,25 +41,27 @@ namespace Dwares.Rookie.Bases
 		const string MONTH = "Month";
 		const string NOTES = "Notes";
 
-		public string BaseId { get; set; }
-		public int Year { get; set; }
-		public int Month { get; set; }
-		public string Notes { get; set; }
+		public BaseRecord() { }
+		//public BaseRecord(IDataRecord record) : base(record) { }
 
-		public override void CopyFieldsToProperties()
-		{
-			BaseId = GetField<string>("BaseId");
-			Year = GetField<int>("Year");
-			Month = GetField<int>("Month");
-			Notes = GetField<string>("Notes");
+		public string BaseId {
+			get => GetField<string>(BASE_ID);
+			set => SetField(BASE_ID, value);
 		}
 
-		public override void CopyPropertiesToFields(IEnumerable<string> fieldNames)
-		{
-			SetField(BASE_ID, BaseId, fieldNames);
-			SetField(YEAR, Year, fieldNames);
-			SetField(MONTH, Month, fieldNames);
-			SetField(NOTES, Notes, fieldNames);
+		public int Year {
+			get => GetField<int>(YEAR);
+			set => SetField(YEAR, value);
+		}
+
+		public int Month {
+			get => GetField<int>(MONTH);
+			set => SetField(MONTH, value);
+		}
+
+		public string Notes {
+			get => GetField<string>(NOTES);
+			set => SetField(NOTES, value);
 		}
 	}
 }

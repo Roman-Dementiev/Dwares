@@ -92,7 +92,7 @@ namespace Dwares.Rookie.ViewModels
 			if (error != null)
 				return error;
 
-			error = AppScope.CheckBaseIsNew(Year, Month, BaseId);
+			error = AppScope.Instance.CheckBaseIsNew(Year, Month, BaseId);
 			if (error != null)
 				return error;
 
