@@ -56,16 +56,17 @@ namespace Dwares.Rookie
 			return records;
 		}
 
-		public async Task<BaseRecord> AddBase(string baseId, int year, int month, string notes)
+		public async Task<BaseRecord> AddBase(TripBase tripBase, int year, int month, string notes)
 		{
 			var record = new BaseRecord {
-				BaseId = baseId,
+				BaseId = tripBase.BaseId,
 				Year = year,
 				Month = month,
 				Notes = notes
 			};
 
-			return await MainBase.BasesTable.CreateRecord(record);
+			record = await MainBase.BasesTable.CreateRecord(record);
+			return record;
 		}
 
 		public Exception CheckBaseIsNew(int year, int month, string baseId)
@@ -91,16 +92,17 @@ namespace Dwares.Rookie
 		public async Task<PeriodRecord> GetLastPeriod(string lastPeriodId)
 		{
 			PeriodRecord lastPeriod = null;
-			if (!string.IsNullOrEmpty(lastPeriodId) && TripBase != null) {
+			if (TripBase != null) {
 				try {
-					lastPeriod = await TripBase.GetPeriod(lastPeriodId);
+					if (string.IsNullOrEmpty(lastPeriodId)) {
+						lastPeriod = await TripBase.GetLastCreatedPeriod();
+					} else {
+						lastPeriod = await TripBase.GetPeriod(lastPeriodId);
+					}
 				}
 				catch (Exception exc) {
 					Debug.ExceptionCaught(exc);
 				}
-			}
-			if (lastPeriod == null) {
-				lastPeriod = await TripBase.GetLastCreatedPeriod();
 			}
 			return lastPeriod;
 		}

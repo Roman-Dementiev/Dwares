@@ -42,6 +42,12 @@ namespace Dwares.Dwarf
 			return arg;
 		}
 
+		public static void ArgumentIsValid(string name, bool condition, string message)
+		{
+			if (!condition)
+				throw new ArgumentException(message, name);
+		}
+
 		public static void ArgumentIsInRange(object arg, bool inRange, string name, string message = null)
 		{
 			if (inRange)

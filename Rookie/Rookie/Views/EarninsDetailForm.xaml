@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				Title="{Binding Title}"
+				WidthRequest="{Binding FormWidth}"
+				HeightRequest="{Binding FormHeight}"
+				x:Class="Dwares.Rookie.Views.EarninsDetailForm">
+
+	<!--<forms:FormView.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" Symbol="Cancel" />
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</forms:FormView.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="4" />
+			<!--1: Cash-->
+			<RowDefinition Height="Auto" />
+			<!--2: Credit-->
+			<RowDefinition Height="Auto" />
+			<!--3: Lease-->
+			<RowDefinition Height="Auto" />
+			<!--4: Gas-->
+			<RowDefinition Height="Auto" />
+			<!--5: Expenses-->
+			<RowDefinition Height="Auto" />
+			<!--6: __________-->
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="8" />
+			<ColumnDefinition Width="3*" />
+		</Grid.ColumnDefinitions>
+
+		<ui:LabelEx Grid.Row="1" Grid.Column="0"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+			   Text="Cash:"
+			   />
+		<ui:StaticText Grid.Row="1" Grid.Column="2"
+					   VerticalOptions="Center"
+					   Text="{Binding Income}"
+					   />
+		
+		<ui:LabelEx Grid.Row="2" Grid.Column="0"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					IsVisible="{Binding CreditVisible}"
+					Text="Credit:"
+					/>
+		<ui:StaticText Grid.Row="2" Grid.Column="2"
+					   VerticalOptions="Center"
+					   IsVisible="{Binding CreditVisible}"
+					   Text="{Binding Credit}"
+					   />
+
+		<ui:LabelEx Grid.Row="3" Grid.Column="0"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					IsVisible="{Binding LeaseVisible}"
+					Text="Lease:"
+					/>
+		<ui:StaticText Grid.Row="3" Grid.Column="2"
+					   VerticalOptions="Center"
+					   IsVisible="{Binding LeaseVisible}"
+					   Text="{Binding Lease}"
+					   />
+
+		<ui:LabelEx Grid.Row="4" Grid.Column="0"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					IsVisible="{Binding GasVisible}"
+					Text="Gas:"
+					/>
+		<ui:StaticText Grid.Row="4" Grid.Column="2"
+					   VerticalOptions="Center"
+					   IsVisible="{Binding GasVisible}"
+					   Text="{Binding Gas}"
+					   />
+
+		<ui:LabelEx Grid.Row="5" Grid.Column="0"
+					HorizontalOptions="End"
+					VerticalOptions="Center"
+					IsVisible="{Binding ExpensesVisible}"
+					Text="Expenses:"
+					/>
+		<ui:StaticText Grid.Row="5" Grid.Column="2"
+					   VerticalOptions="Center"
+					   IsVisible="{Binding ExpensesVisible}"
+					   Text="{Binding Expenses}"
+					   />
+		
+		<BoxView Grid.Row="6" Grid.Column="2"
+				 HeightRequest="1"
+				 Color="Black"
+				 HorizontalOptions="Fill"
+				 />
+		<ui:StaticText Grid.Row="7" Grid.Column="2"
+					   VerticalOptions="Center"
+					   Text="{Binding Total}"
+					   />
+
+	</Grid>
+</forms:FormView>

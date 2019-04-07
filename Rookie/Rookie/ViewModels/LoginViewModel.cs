@@ -22,6 +22,7 @@ namespace Dwares.Rookie.ViewModels
 		}
 
 		public override double FormHeight { get; set; } = FitContent;
+		public bool BorderIsVisible => true;
 
 		public IList Accounts => AppScope.Instance.Accounts;
 
@@ -78,7 +79,7 @@ namespace Dwares.Rookie.ViewModels
 			await OnLogin();
 
 			if (AppScope.Instance.IsLoggedIn) {
-				var page = App.CreateForm<GoToWorkViewModel>();
+				var page = App.CreateForm(new GoOnOffWorkViewModel(toWork: true));
 				await Navigator.PushPage(page);
 			}
 		}

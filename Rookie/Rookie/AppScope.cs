@@ -74,7 +74,7 @@ namespace Dwares.Rookie
 
 		public static string Driver { get; private set; }
 
-		public async Task Initialize(bool reset = true)
+		public async Task Initialize(bool reset = false)
 		{
 			if (reset) {
 				await ClearAccounts();
@@ -216,26 +216,15 @@ namespace Dwares.Rookie
 			//await SecureStorage.SetAsync(keyDriver, Driver);
 		}
 
-		public Task<Exception> GoToWork(TimeSpan time, int mileage)
-		{
-			var dt = DateTime.Today.Add(time);
-			return GoToWork(dt, mileage);
-		}
 
-		public Task<Exception> GoOffWork(TimeSpan time, int mileage)
-		{
-			var dt = DateTime.Today.Add(time);
-			return GoOffWork(dt, mileage);
-		}
-
-		public async Task<Exception> GoToWork(DateTime time, int mileage)
+		public async Task<Exception> GoToWork(DateTime datetime, int mileage)
 		{
 			Debug.Assert(!IsWorking);
 			if (IsWorking)
 				return new ProgramError("Already working");
 
 			try {
-				var workPeriod = await AppData.StartPeriod(time, mileage);
+				var workPeriod = await AppData.StartPeriod(datetime, mileage);
 				LastPeriod = workPeriod;
 				IsWorking = true;
 				Earnings = new Earnings(workPeriod);
@@ -249,14 +238,14 @@ namespace Dwares.Rookie
 			}
 		}
 
-		public async Task<Exception> GoOffWork(DateTime time, int mileage)
+		public async Task<Exception> GoOffWork(DateTime datetime, int mileage)
 		{
 			Debug.Assert(IsWorking);
 			if (!IsWorking)
 				return new ProgramError("Not working");
 
 			try {
-				await AppData.FinishPeriod(LastPeriod, time, mileage);
+				await AppData.FinishPeriod(LastPeriod, datetime, mileage);
 				IsWorking = false;
 				Earnings = new Earnings();
 
@@ -354,7 +343,7 @@ namespace Dwares.Rookie
 					}
 				}
 
-				await AppData.AddBase(tripBase.BaseId.ToString(), year, month, notes);
+				await AppData.AddBase(tripBase, year, month, notes);
 				//await tripBase.CopyVendors(MainBase);
 
 				AddTripBase(tripBase);
@@ -542,16 +531,20 @@ namespace Dwares.Rookie
 			if (record != null) {
 				Income = record.Cash;
 				Credit = record.Credit;
-				Expenses = record.Lease + record.Gas + record.Expenses;
+				Lease = record.Lease;
+				Gas = record.Gas;
+				Expenses = record.Expenses;
 			} else {
-				Income  = Credit = Expenses = 0;
+				Income  = Credit = Lease = Gas = Expenses = 0;
 			}
 		}
 
 		public decimal Income { get; set; }
 		public decimal Credit { get; set; }
+		public decimal Lease { get; set; }
+		public decimal Gas { get; set; }
 		public decimal Expenses { get; set; }
-		public decimal Total => Income + Credit - Expenses;
+		public decimal Total => Income + Credit - Lease - Gas - Expenses;
 	}
 
 	public class LoginException : DwarfException

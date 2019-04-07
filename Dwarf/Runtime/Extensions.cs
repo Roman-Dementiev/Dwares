@@ -62,6 +62,18 @@ namespace Dwares.Dwarf.Runtime
 			return type.GetTypeInfo().IsAssignableFrom(assignmentType.GetTypeInfo());
 		}
 
+		public static bool IsDerivedFrom(this Type type, Type baseType)
+		{
+			while (type != null) {
+				if (type == baseType)
+					return true;
+
+				type = type.BaseType;
+			}
+
+			return false;
+		}
+
 
 		//public virtual Type[] FindInterfaces(this TypeInfo typeInfo, TypeFilter filter, object filterCriteria)
 		//{

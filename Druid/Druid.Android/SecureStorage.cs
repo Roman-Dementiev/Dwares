@@ -37,7 +37,7 @@ namespace Dwares.Druid.Android
 				//var ks = new AndroidKeyStore(context, StorageId);
 				try {
 					//decryptedData = ks.Decrypt(encData);
-					KeyStore.Decrypt(encData);
+					decryptedData = KeyStore.Decrypt(encData);
 				}
 				catch (AEADBadTagException) {
 					Debug.Print($"Unable to decrypt key, {key}, which is likely due to an app uninstall. Removing old key and returning null.");
@@ -71,8 +71,7 @@ namespace Dwares.Druid.Android
 			//var encryptedData = ks.Encrypt(value);
 			if (string.IsNullOrEmpty(value)) {
 				Services.Preferences.Set(md5Key, string.Empty, StorageId);
-			}
-			else {
+			} else {
 				var encryptedData = KeyStore.Encrypt(value);
 
 				var encStr = Convert.ToBase64String(encryptedData);

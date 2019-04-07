@@ -50,14 +50,15 @@ namespace Dwares.Rookie.ViewModels
 			if (addDatabase) {
 				page = App.CreateForm<AddBaseViewModel>();
 			} else {
-				page = App.CreateForm<GoToWorkViewModel>();
+				//page = App.CreateForm<GoToWorkViewModel>();
+				page = App.CreateForm(new GoOnOffWorkViewModel(toWork: true));
 			}
 			await Navigator.PushPage(page);
 		}
 
 		public async void OnGoOffWork()
 		{
-			var page = App.CreateForm<GoOffWorkViewModel>();
+			var page = App.CreateForm(new GoOnOffWorkViewModel(toWork: false));
 			await Navigator.PushPage(page);
 		}
 
@@ -76,8 +77,8 @@ namespace Dwares.Rookie.ViewModels
 				return;
 			}
 
-			var page = App.CreateForm<AddTripViewModel>();
-			await Navigator.PushPage(page);
+				var page = App.CreateForm<AddTripViewModel>();
+				await Navigator.PushPage(page);
 		}
 
 		public async void OnExpenses()

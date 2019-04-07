@@ -8,6 +8,40 @@ namespace Dwares.Druid.UI
 {
 	public static partial class Extensions
 	{
+		static bool GetTheme(ref UITheme theme)
+		{
+			if (theme == null) {
+				theme = UITheme.Current;
+				if (theme == null)
+					return false;
+			}
+			return true;
+		}
+
+		public static bool ApplyTheme(this VisualElement element, string styleName = null, UITheme theme = null)
+		{
+			if (!GetTheme(ref theme))
+				return false;
+
+			if (string.IsNullOrEmpty(styleName)) {
+				return theme.Apply(element);
+			} else {
+				return theme.Apply(element, styleName);
+			}
+		}
+
+		public static bool ApplyTheme(this VisualElement element, Type type, UITheme theme = null)
+		{
+			if (!GetTheme(ref theme))
+				return false;
+				
+			if (type == null) {
+				return theme.Apply(element);
+			} else {
+				return theme.Apply(element, type);
+			}
+		}
+
 		public static void ResetPages<T>(this MultiPage<T> multiPage, IEnumerable<Type> viewModelTypes, bool contentViewModels) where T : Page
 		{
 			multiPage.Children.Clear();

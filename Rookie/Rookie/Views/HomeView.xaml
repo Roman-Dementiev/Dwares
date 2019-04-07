@@ -43,7 +43,8 @@
 						 IsVisible="{Binding NotWorking}"
 						 Writ="Logout"
 						 />
-		<views:EarningsView Grid.Row="0" Grid.Column="1"
+		
+		<views:EarningsQuickView Grid.Row="0" Grid.Column="1"
 							HorizontalOptions="Center"
 							VerticalOptions="Center"
 							IsVisible="{Binding IsWorking}"

@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms"
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<forms:FormView xmlns="http://xamarin.com/schemas/2014/forms" 
 				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
@@ -7,8 +7,7 @@
 				Title="{Binding Title}"
 				WidthRequest="{Binding FormWidth}"
 				HeightRequest="{Binding FormHeight}"
-				x:Class="Dwares.Rookie.Views.GoToWorkForm">
-
+				x:Class="Dwares.Rookie.Views.GoOnOffWorkForm">
 
 	<forms:FormView.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" Symbol="Accept" />
@@ -71,4 +70,3 @@
 					 />
 	</Grid>
 </forms:FormView>
-	

@@ -8,16 +8,11 @@ using Dwares.Druid.Forms;
 
 namespace Dwares.Rookie.ViewModels
 {
-	public class EarningsViewModel : ViewModel
+	public class EarningsViewModel : FormViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(EarningsViewModel));
 
-		decimal total;
-		decimal income;
-		decimal credit;
-		decimal expenses;
-
-		public EarningsViewModel()
+		protected EarningsViewModel()
 		{
 			//Debug.EnableTracing(@class);
 
@@ -32,23 +27,18 @@ namespace Dwares.Rookie.ViewModels
 			};
 		}
 
+		public Earnings Earnings { get; private set; }
+
 		public bool IsWorking {
 			get => AppScope.Instance.IsWorking;
 		}
 
-		void UpdateValues()
+		protected virtual void UpdateValues()
 		{
-			var earnings = AppScope.Instance.Earnings;
-			total = earnings.Total;
-			income = earnings.Income;
-			credit = earnings.Credit;
-			expenses = earnings.Expenses;
-
-			PropertiesChanged(nameof(Total), nameof(Income), nameof(Credit), nameof(Expenses),
-				nameof(IncomeVisible), nameof(CreditVisible), nameof(ExpencesVisible));
+			Earnings = AppScope.Instance.Earnings;
 		}
 
-		static string CurrencyString(string sign, decimal value, bool emptyForZero = true)
+		protected static string CurrencyString(string sign, decimal value, bool emptyForZero = false)
 		{
 			if (value == 0 && emptyForZero)
 				return string.Empty;
@@ -61,21 +51,52 @@ namespace Dwares.Rookie.ViewModels
 			return string.Format("{0}{1:C2}", sign ?? string.Empty, value);
 		}
 
-		public string Total => CurrencyString(null, total, false);
-		public string Income => CurrencyString("+", income);
-		public string Credit => CurrencyString("...", credit);
-		public string Expenses => CurrencyString(" -", expenses);
-	
-		public bool IncomeVisible => income > 0;
-		public bool CreditVisible => credit > 0;
-		public bool ExpencesVisible => expenses > 0;
+		public double SmallFontSize => 20;
+		public double LargeFontSize => 36;
+	}
 
-		public Color TotalColor => total >= 0 ? Color.Blue : Color.Red;
+	public class EarningsQuickViewModel : EarningsViewModel
+	{
+		public string Income => CurrencyString(null, Earnings.Income);
+		public string Credit => CurrencyString("+", Earnings.Credit, emptyForZero: true);
+
+		public bool IncomeVisible => true; //Earnings.Income > 0;
+		public bool CreditVisible => Earnings.Credit > 0;
+
 		public Color IncomeColor => Color.Green;
 		public Color CreditColor => Color.Black;
-		public Color ExpensesColor => Color.Red;
 
-		public double SmallFontSize => 14;
-		public double LargeFontSize => 32;
+
+		protected override void UpdateValues()
+		{
+			base.UpdateValues();
+			PropertiesChanged(nameof(Income), nameof(Credit), nameof(IncomeVisible), nameof(CreditVisible));
+		}
+
+	}
+
+	public class EarninsDetailViewModel : EarningsViewModel
+	{
+		public string Income => CurrencyString(null, Earnings.Income);
+		public string Credit => CurrencyString("+", Earnings.Credit, emptyForZero: true);
+		public string Lease => CurrencyString("-", Earnings.Lease, emptyForZero: true);
+		public string Gas => CurrencyString("-", Earnings.Gas, emptyForZero: true);
+		public string Expenses => CurrencyString("-", Earnings.Expenses, emptyForZero: true);
+		public string Total => CurrencyString(null, Earnings.Total, emptyForZero: false);
+
+
+		public bool IncomeVisible => true; //Earnings.Income > 0;
+		public bool CreditVisible => Earnings.Credit > 0;
+		public bool LeaseVisible => Earnings.Lease > 0;
+		public bool GasVisible => Earnings.Gas > 0;
+		public bool ExpensesVisible => Earnings.Expenses > 0;
+
+
+		protected override void UpdateValues()
+		{
+			base.UpdateValues();
+			PropertiesChanged(nameof(Income), nameof(Credit));
+		}
+
 	}
 }
