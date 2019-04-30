@@ -8,6 +8,7 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Services;
 using Dwares.Rookie.Models;
+using Dwares.Rookie.Data;
 using Dwares.Rookie.Bases;
 
 
@@ -29,13 +30,13 @@ namespace Dwares.Rookie
 		public ObservableCollection<Account> Accounts { get; } = new ObservableCollection<Account>();
 		public ObservableCollection<YearlyTripData> TripData { get; } = new ObservableCollection<YearlyTripData>();
 
-		public AppData AppData { get; }
+		public AirAppData AppData { get; }
 
 		public AppScope() : base(null)
 		{
 			Debug.AssertIsNull(Instance);
 			Instance = this;
-			AppData = new AppData();
+			AppData = new AirAppData();
 		}
 
 		Account account;
@@ -44,8 +45,8 @@ namespace Dwares.Rookie
 			set => SetProperty(ref account, value);
 		}
 
-		PeriodRecord lastPeriod;
-		public PeriodRecord LastPeriod {
+		IWorkPeriod lastPeriod;
+		public IWorkPeriod LastPeriod {
 			get => lastPeriod;
 			set => SetProperty(ref lastPeriod, value);
 		}
@@ -68,9 +69,9 @@ namespace Dwares.Rookie
 			set => SetProperty(ref earnings, value);
 		}
 
-		public bool HasTripBase {
-			get => AppData.TripBase != null;
-		}
+		//public bool HasTripBase {
+		//	get => AppData.TripBase != null;
+		//}
 
 		public static string Driver { get; private set; }
 
@@ -388,7 +389,7 @@ namespace Dwares.Rookie
 			LastPeriod.Cash += record.Cash;
 			LastPeriod.Credit += record.Credit;
 			LastPeriod.Expenses += record.Expences;
-			LastPeriod = await AppData.UpdatePeriodEarnings(LastPeriod);
+			LastPeriod = await AppData.UpdatePeriodEarnings(LastPeriod as PeriodRecord);
 
 			Earnings = new Earnings(LastPeriod);
 		}
@@ -416,7 +417,7 @@ namespace Dwares.Rookie
 			Debug.Assert(IsLoggedIn);
 
 			if (LastPeriod != null && date.Equals((DateOnly)LastPeriod.StartTime)) {
-				return LastPeriod;
+				return LastPeriod as PeriodRecord;
 			}
 
 			var periods = await AppData.GetPeriodsForDate(date);
@@ -524,28 +525,6 @@ namespace Dwares.Rookie
 		public static string ApiKey => Instance.AppData.MainBase?.ApiKey;
 	}
 
-	public struct Earnings
-	{
-		public Earnings(PeriodRecord record)
-		{
-			if (record != null) {
-				Income = record.Cash;
-				Credit = record.Credit;
-				Lease = record.Lease;
-				Gas = record.Gas;
-				Expenses = record.Expenses;
-			} else {
-				Income  = Credit = Lease = Gas = Expenses = 0;
-			}
-		}
-
-		public decimal Income { get; set; }
-		public decimal Credit { get; set; }
-		public decimal Lease { get; set; }
-		public decimal Gas { get; set; }
-		public decimal Expenses { get; set; }
-		public decimal Total => Income + Credit - Lease - Gas - Expenses;
-	}
 
 	public class LoginException : DwarfException
 	{

@@ -14,13 +14,13 @@ namespace Dwares.Rookie.Views
 		{
 			//Debug.EnableTracing(@class);
 
-			AddStyle(nameof(Label), typeof(Label),
-				Label.FontSizeProperty, 20,
+			AddStyle("FieldLabel", typeof(LabelEx),
+				Label.FontSizeProperty, 16,
 				Label.FontAttributesProperty, FontAttributes.Bold
 				);
 
-			AddStyle(nameof(StaticText), typeof(StaticText),
-				Label.FontSizeProperty, 20
+			AddStyle("StaticText", typeof(LabelEx),
+				Label.FontSizeProperty, 16
 				);
 		}
 	}

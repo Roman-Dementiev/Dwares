@@ -15,7 +15,7 @@
 	
 	<Grid>
 		<Grid.RowDefinitions>
-			<!--<RowDefinition Height="4" />-->
+			<RowDefinition Height="4" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="16" />
@@ -31,21 +31,26 @@
 			<ColumnDefinition Width="1*" />
 		</Grid.ColumnDefinitions>
 
-		<ui:PickerView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+		<!--<ui:PickerView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
 					   Title="Driver"
 					   ItemsSource="{Binding Accounts}"
 					   SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
 					   >
-		</ui:PickerView>
+		</ui:PickerView>-->
 
-		<!--<Picker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-				Title="Driver"
-				ItemsSource="{Binding Accounts}"
-				SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-				>
-		</Picker>-->
+		<ui:LabelEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+					HorizontalOptions="Start"
+					Text="Driver"
+					/>
+		
+		<ui:PickerEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+					 Title="Driver"
+					 ItemsSource="{Binding Accounts}"
+					 SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+					 >
+		</ui:PickerEx>
 
-		<ui:ButtonEx Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1"
+		<ui:ButtonEx Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1"
 					 HorizontalOptions="Fill"
 					 VerticalOptions="End"
 					 WidthRequest="55"
@@ -53,16 +58,16 @@
 					 Writ="AddAccount"
 					 />
 
-		<Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4"
-			   HorizontalOptions="Start"
-			   Text="Password"
-			   />
-		<Entry Grid.Row="4"  Grid.Column="0" Grid.ColumnSpan="4"
+		<ui:LabelEx Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"
+					HorizontalOptions="Start"
+					Text="Password"
+					/>
+		<Entry Grid.Row="5"  Grid.Column="0" Grid.ColumnSpan="4"
 			   Text="{Binding Password, Mode=TwoWay}"
 			   IsPassword="True"
 			   />
 
-		<ui:CheckMark Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4"
+		<ui:CheckMark Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4"
 					  Text="Keep logged in"
 					  IsChecked="{Binding KeepLoggedIn, Mode=TwoWay}"
 					  />

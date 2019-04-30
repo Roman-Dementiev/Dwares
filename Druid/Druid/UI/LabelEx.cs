@@ -10,24 +10,33 @@ namespace Dwares.Druid.UI
 	{
 		//static ClassRef @class = new ClassRef(typeof(LabelEx));
 
-		public LabelEx() : this(typeof(LabelEx)) { }
-
- 		protected LabelEx(Type type)
+ 		public LabelEx()
 		{
 			//Debug.EnableTracing(@class);
 
-			this.ApplyTheme(type);
+			this.ApplyTheme();
 			UITheme.CurrentThemeChanged += OnCurrentUIhemeChanged;
+		}
+
+		public static readonly BindableProperty ThemeStyleProperty =
+			BindableProperty.Create(
+				nameof(ThemeStyle),
+				typeof(string),
+				typeof(LabelEx),
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is LabelEx label) {
+						label.ApplyTheme();
+					}
+				});
+
+		public string ThemeStyle {
+			set { SetValue(ThemeStyleProperty, value); }
+			get { return (string)GetValue(ThemeStyleProperty); }
 		}
 
 		private void OnCurrentUIhemeChanged(object sender, EventArgs e)
 		{
 			this.ApplyTheme();
 		}
-	}
-
-	public class StaticText : LabelEx
-	{
-		public StaticText() : base(typeof(StaticText)) { }
 	}
 }

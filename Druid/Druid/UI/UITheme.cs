@@ -57,10 +57,13 @@ namespace Dwares.Druid.UI
 				BaseType = type
 			};
 
-			if (!string.IsNullOrEmpty(name))
+			if (!string.IsNullOrEmpty(name)) {
 				stylesByName.Add(name, spec);
+			}
 			
-			stylesByType.Add(type, spec);
+			if (!stylesByType.ContainsKey(type)) {
+				stylesByType.Add(type, spec);
+			}
 		}
 
 		public void AddStyle(string name, Type type, params object[] propertiesAndValues)
@@ -107,9 +110,15 @@ namespace Dwares.Druid.UI
 		public bool Apply(VisualElement element, string styleName)
 		{
 			Guard.ArgumentNotNull(element, nameof(element));
-			Guard.ArgumentNotEmpty(styleName, nameof(styleName));
 
-			var style = GetStyleByName(styleName);
+			Style style;
+			if (string.IsNullOrEmpty(styleName)) {
+				styleName = element.GetType().ToString(); // for debug message only
+				style = GetStyleByType(element.GetType());
+			} else {
+				style = GetStyleByName(styleName);
+			}
+
 			if (style != null) {
 				element.Style = style;
 				return true;

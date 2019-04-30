@@ -39,12 +39,12 @@ namespace Dwares.Rookie.ViewModels
 		public async void OnGoToWork()
 		{
 			bool addDatabase = false;
-			if (!AppScope.Instance.HasTripBase) {
-				//await Alerts.Error("There is no database for current month/year");
-				addDatabase = await Alerts.ActionAlert(null, "There is no database for current month/year", "Add Database");
-				if (!addDatabase)
-					return;
-			}
+			//if (!AppScope.Instance.HasTripBase) {
+			//	//await Alerts.Error("There is no database for current month/year");
+			//	addDatabase = await Alerts.ActionAlert(null, "There is no database for current month/year", "Add Database");
+			//	if (!addDatabase)
+			//		return;
+			//}
 
 			Page page;
 			if (addDatabase) {

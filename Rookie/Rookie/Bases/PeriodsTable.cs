@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dwares.Rookie.Airtable;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Rookie.Models;
+using Dwares.Rookie.Airtable;
 using Dwares.Dwarf;
 
 
@@ -37,6 +38,15 @@ namespace Dwares.Rookie.Bases
 			return record;
 		}
 
+		public async Task<PeriodRecord> FinishPeriod(string periodId, DateTime endTime, int endMileage)
+		{
+			var record = await GetRecord(periodId);
+			if (record != null) {
+				await FinishPeriod(record, endTime, endMileage);
+			}
+			return record;
+		}
+
 		static string PeriodsForDateFormula(string fieldName, DateOnly date)
 			=> $"AND(YEAR({{{fieldName}}}) = {date.Year}, MONTH({{{fieldName}}}) = {date.Month}, DAY({{{fieldName}}}) = {date.Day}";
 
@@ -48,7 +58,7 @@ namespace Dwares.Rookie.Bases
 		}
 	}
 
-	public class PeriodRecord : AirRecord
+	public class PeriodRecord : AirRecord, IWorkPeriod
 	{
 		public const string START_TIME = "Start time";
 		public const string START_MILEAGE = "Start mileage";
@@ -71,7 +81,7 @@ namespace Dwares.Rookie.Bases
 			set => SetField(END_TIME, value);
 		}
 
-		public int StartMileage{
+		public int StartMileage {
 			get => GetField<int>(START_MILEAGE);
 			set => SetField(START_MILEAGE, value);
 		}

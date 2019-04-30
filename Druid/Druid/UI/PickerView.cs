@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Dwares.Dwarf;
 using System.Collections;
 
+
 namespace Dwares.Druid.UI
 {
 	public class PickerView : StackLayout
@@ -18,10 +19,8 @@ namespace Dwares.Druid.UI
 
 			//Orientation = StackOrientation.Vertical;
 
-			if (Device.RuntimePlatform != Device.UWP) {
-				label = new Label();
-				Children.Add(label);
-			}
+			label = new LabelEx();
+			Children.Add(label);
 
 			picker = new Picker();
 			Children.Add(picker);
@@ -46,9 +45,8 @@ namespace Dwares.Druid.UI
 
 		void SetTitle(string title)
 		{
-			if (label != null) {
-				label.Text = title;
-			} else {
+			label.Text = title;
+			if (Device.RuntimePlatform == Device.Android) {
 				picker.Title = title;
 			}
 		}
