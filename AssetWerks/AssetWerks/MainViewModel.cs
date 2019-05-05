@@ -28,6 +28,11 @@ namespace AssetWerks
 			get => Badge.List;
 		}
 
+		public IList<NamedColor> Colors {
+			get => NamedColor.List;
+		}
+
+
 		string outputFolder;
 		public string OutputFolder {
 			get => outputFolder ?? string.Empty;
@@ -49,7 +54,7 @@ namespace AssetWerks
 		SKImage sourceImage;
 		public SKImage SourceImage { 
 			get => sourceImage;
-			set =>SetProperty(ref sourceImage, value);
+			set => SetProperty(ref sourceImage, value);
 		}
 
 		SKImage badgeImage;
@@ -85,6 +90,18 @@ namespace AssetWerks
 		public bool BadgeImageEnabled {
 			get => badgeImageEnabled;
 			set => SetProperty(ref badgeImageEnabled, value);
+		}
+
+		public void SetSourceImage(string path, SKImage image)
+		{
+			SourceImagePath = path;
+			SourceImage = image;
+		}
+
+		public void SetBadgeImage(string path, SKImage image)
+		{
+			BadgeImagePath = path;
+			BadgeImage = image;
 		}
 	}
 }

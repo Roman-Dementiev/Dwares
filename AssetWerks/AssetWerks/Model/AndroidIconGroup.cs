@@ -17,7 +17,7 @@ namespace AssetWerks.Model
 	{
 		public DroidIcon(DroidIconSize iconSize, bool launcher_foreground, bool fullSize = true)
 		{
-			Name = iconSize.ToString();
+			Title = iconSize.ToString();
 			
 			int factor = launcher_foreground ? 9 : 4;
 			ImageWidth = ImageHeight = factor * (int)iconSize;
@@ -49,16 +49,16 @@ namespace AssetWerks.Model
 		}
 	}
 
-	public class AndtoidIconGroup : IconGroup
+	public class AndroidIconGroup : IconGroup
 	{
-		public AndtoidIconGroup(string name, bool launcher_foreground = false) :
+		public AndroidIconGroup(string name, bool launcher_foreground = false) :
 			base(name)
 		{
-			Add(new DroidIcon(DroidIconSize.mdi, launcher_foreground));
-			Add(new DroidIcon(DroidIconSize.hdi, launcher_foreground));
-			Add(new DroidIcon(DroidIconSize.xhdi, launcher_foreground));
-			Add(new DroidIcon(DroidIconSize.xxhdi, launcher_foreground));
-			Add(new DroidIcon(DroidIconSize.xxxhdi, launcher_foreground));
+			Icons.Add(new DroidIcon(DroidIconSize.mdi, launcher_foreground));
+			Icons.Add(new DroidIcon(DroidIconSize.hdi, launcher_foreground));
+			Icons.Add(new DroidIcon(DroidIconSize.xhdi, launcher_foreground));
+			Icons.Add(new DroidIcon(DroidIconSize.xxhdi, launcher_foreground));
+			Icons.Add(new DroidIcon(DroidIconSize.xxxhdi, launcher_foreground));
 		}
 	}
 }

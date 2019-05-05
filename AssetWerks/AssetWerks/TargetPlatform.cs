@@ -9,12 +9,9 @@ using AssetWerks.Model;
 namespace AssetWerks
 {
 
-	public abstract class TargetPlatform : Named
+	public abstract class TargetPlatform : TitleHolder
 	{
-		public TargetPlatform(string name)
-		{
-			Name = name;
-		}
+		public TargetPlatform(string name) : base(name) { }
 
 		//IconsViewModel iconsViewModel;
 		//public IconsViewModel IconsViewModel {
@@ -25,7 +22,8 @@ namespace AssetWerks
 
 		public virtual FrameworkElement CreateAssetsView()
 		{
-			return new IconsView(GetIconsViewModel());
+			return new IconsGridView(GetIconsViewModel());
+			//return new IconsView(GetIconsViewModel());
 		}
 
 		public virtual FrameworkElement CreateOptionsView()
@@ -45,7 +43,7 @@ namespace AssetWerks
 			});
 		}
 
-		public static TargetPlatform ByName(string name) => ByName(List, name);
+		public static TargetPlatform ByName(string name) => ByTitle(List, name);
 	}
 
 	public class TargetPlatform<IVM> : TargetPlatform where IVM : IconsViewModel, new()

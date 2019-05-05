@@ -10,7 +10,7 @@ namespace AssetWerks
 		protected AndroidIVM(bool init)
 		{
 			if (init) {
-				IconGroups.Add(new AndtoidIconGroup("ic_launcher"));
+				IconGroups.Add(new AndroidIconGroup("ic_launcher"));
 			}
 		}
 	}
@@ -19,8 +19,8 @@ namespace AssetWerks
 	{
 		public XamarinAndroidIVM() : base(false)
 		{
-			IconGroups.Add(new AndtoidIconGroup("icon", false));
-			IconGroups.Add(new AndtoidIconGroup("launcher_foreground", true));
+			IconGroups.Add(new AndroidIconGroup("icon", false));
+			IconGroups.Add(new AndroidIconGroup("launcher_foreground", true));
 		}
 	}
 }

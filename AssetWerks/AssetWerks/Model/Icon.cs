@@ -4,10 +4,8 @@ using SkiaSharp;
 
 namespace AssetWerks.Model
 {
-	public class Icon : NotifyPropertyChanged, INamed
+	public class Icon : TitleHolder
 	{
-		public string Name { get; set; }
-		
 		SKImage image;
 		public SKImage Image {
 			get => image;

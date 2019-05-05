@@ -38,10 +38,13 @@ namespace AssetWerks
 		const int AssetsView_ColSpan = 2;
 
 		//public event PropertyChangedEventHandler PropertyChanged;
-		ICommand ChooseOutputFolderCommand { get; }
-		ICommand ChooseSourceImageCommand { get; }
-		ICommand ChooseBadgeImageCommand { get; }
-		ICommand PreviewCommand { get; }
+		public ICommand ChooseOutputFolderCommand { get; }
+		public ICommand ChooseSourceImageCommand { get; }
+		public ICommand ChooseBadgeImageCommand { get; }
+		public ICommand PreviewCommand { get; }
+
+		public GridLength LeftWidth { get; }
+		public GridLength RightWidth { get; }
 
 		public MainPage()
 		{
@@ -55,6 +58,9 @@ namespace AssetWerks
 			ChooseBadgeImageCommand = new Command(ChooseBadgeImage);
 			PreviewCommand = new Command(Preview);
 
+			LeftWidth = GridLength.Auto;
+			RightWidth = new GridLength(200);
+
 			TargetPlatform = ViewModel.SelectedPlatform;
 		}
 
@@ -62,6 +68,12 @@ namespace AssetWerks
 		{
 			if (e.PropertyName == nameof(MainViewModel.SelectedPlatform)) {
 				TargetPlatform = ViewModel.SelectedPlatform;
+			}
+			else if (e.PropertyName == nameof(MainViewModel.SourceImage)) {
+				sourceImage.Image = ViewModel.SourceImage;
+			}
+			else if (e.PropertyName == nameof(MainViewModel.SourceImagePath)) {
+				sourceImagePath.Text = ViewModel.SourceImagePath;
 			}
 		}
 
@@ -79,10 +91,11 @@ namespace AssetWerks
 			}
 		}
 
-		async void ChooseSourceImage() => await ChooseImage((image) => { ViewModel.SourceImage = image; });
-		async void ChooseBadgeImage() => await ChooseImage((image) => { ViewModel.BadgeImage = image; });
+		async void ChooseSourceImage() => await ChooseImage(ViewModel.SetSourceImage);
+		async void ChooseBadgeImage() => await ChooseImage(ViewModel.SetBadgeImage);
 
-		async Task ChooseImage(Action<SKImage> action)
+
+		async Task ChooseImage(Action<string, SKImage> action)
 		{
 			var openPicker = new FileOpenPicker();
 			openPicker.ViewMode = PickerViewMode.Thumbnail;
@@ -93,7 +106,7 @@ namespace AssetWerks
 
 			var file = await openPicker.PickSingleFileAsync();
 			if (file != null) {
-				ViewModel.SourceImagePath = file.Path;
+				ViewModel.SourceImagePath = string.Empty;
 				ViewModel.SourceImage = null;
 
 				try {
@@ -104,7 +117,7 @@ namespace AssetWerks
 
 						using (var bitmap = SKBitmap.Decode(memoryStream)) {
 							var image = SKImage.FromBitmap(bitmap);
-							action(image);
+							action(file.Path, image);
 						}
 					}
 				}
@@ -135,7 +148,7 @@ namespace AssetWerks
 		void Preview()
 		{
 			var platform = TargetPlatform;
-			platform.GetIconsViewModel().CreateImages(ViewModel.SelectedBadge);
+			platform.GetIconsViewModel().CreateImages(ViewModel.SelectedBadge, ViewModel.SourceImage);
 
 			this.platform = null;
 			TargetPlatform = platform;

@@ -20,7 +20,7 @@ namespace AssetWerks
 		{
 			var group = IconGroups[groupIndex];
 			if (group != null) {
-				return group[iconIndex]?.Image;
+				return group.Icons[iconIndex]?.Image;
 			} else {
 				return null;
 			}
@@ -30,7 +30,7 @@ namespace AssetWerks
 		{
 			var group = IconGroups[groupIndex];
 			if (group != null) {
-				group[iconIndex].Image = image;
+				group.Icons[iconIndex].Image = image;
 			}
 		}
 
@@ -47,15 +47,15 @@ namespace AssetWerks
 			}
 		}
 
-		public void CreateImages(Badge badge)
+		public void CreateImages(Badge badge, SKImage sourceImage)
 		{
 			for (int groupIndex = 0; groupIndex < IconGroups.Count; groupIndex++) {
 				var group = IconGroups[groupIndex];
 				if (group == null)
 					continue;
 
-				for (int iconIndex = 0; iconIndex < group.Count; iconIndex++) {
-					var icon = group[iconIndex];
+				for (int iconIndex = 0; iconIndex < group.Icons.Count; iconIndex++) {
+					var icon = group.Icons[iconIndex];
 					if (icon == null)
 						continue;
 
@@ -67,7 +67,9 @@ namespace AssetWerks
 						if (badge != null) {
 							badge.Draw(canvas, icon.BadgeRect);
 						}
-
+						if (sourceImage != null) {
+							canvas.DrawImage(sourceImage, icon.BadgeRect);
+						}
 
 						var image = SKImage.FromBitmap(bitmap);
 						SetImage(groupIndex, iconIndex, image);

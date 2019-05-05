@@ -17,22 +17,25 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="{x:Bind LeftWidth}" />
+			<ColumnDefinition Width="253*" />
+			<ColumnDefinition Width="1055*"/>
 			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
+			<!--<ColumnDefinition Width="{x:Bind RightWidth}" />-->
 		</Grid.ColumnDefinitions>
 
 
-		<local:IconControl Grid.Row="0" Grid.Column="0"
-						   Margin="8"
+		<local:IconControl x:Name="sourceImage"
+						   Grid.Row="0" Grid.Column="0"
+						   Margin="8,31,8,30.2"
 						   Width="100"
 						   Height="100"
 						   FrameColor="Gray"
-						   Image="{x:Bind ViewModel.SourceImage, Mode=OneWay}"
+						   Image="{x:Bind ViewModel.SourceImage, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 						   />
 
-		<Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
-			  Margin="8,8"
+		<Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+			  Margin="8,8,8,8.2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 			  >
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -56,7 +59,7 @@
 					 HorizontalAlignment="Stretch" 
 					 VerticalAlignment="Center"
 					 Margin="4,2"
-					 Text="{x:Bind ViewModel.OutputFolder, Mode=TwoWay}"
+					 Text="{x:Bind ViewModel.OutputFolder, Mode=OneWay}"
 					 IsReadOnly="True"
 					 />
 			<Button Grid.Row="0" Grid.Column="2"
@@ -69,7 +72,8 @@
 				   VerticalAlignment="Center"
 				   Text="Source image:" 
 				   />
-			<TextBox Grid.Row="1" Grid.Column="1"
+			<TextBox x:Name="sourceImagePath"
+					 Grid.Row="1" Grid.Column="1"
 					 HorizontalAlignment="Stretch" 
 					 VerticalAlignment="Center"
 					 Margin="4,2"
@@ -86,7 +90,8 @@
 					   VerticalAlignment="Center"
 					   Text="Badge image:"
 					   />
-			<TextBox Grid.Row="2" Grid.Column="1"
+			<TextBox x:Name="badgeImagePath"
+					 Grid.Row="2" Grid.Column="1"
 					 HorizontalAlignment="Stretch" 
 					 VerticalAlignment="Center"
 					 Margin="4,2"
@@ -100,47 +105,54 @@
 					IsEnabled="{x:Bind ViewModel.BadgeImageEnabled, Mode=OneWay}"
 					/>
 
-			<TextBlock Grid.Row="3" Grid.Column="0"
-					   HorizontalAlignment="Right" 
-					   VerticalAlignment="Center"
-					   Text="Badge:" 
-					   />
-			<ComboBox Grid.Row="3" Grid.Column="1"
-					  HorizontalAlignment="Left" 
-					  VerticalAlignment="Center"
-					  Margin="4,2"
-					  ItemsSource="{x:Bind ViewModel.Badges}"
-					  SelectedItem="{x:Bind ViewModel.SelectedBadge, Mode=TwoWay}"
-					  />
-			
+			<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+				<TextBlock Text="Badge:" 
+						   VerticalAlignment="Center"
+						   />
+				<ComboBox HorizontalAlignment="Left" 
+						  VerticalAlignment="Center"
+						  Margin="4,2"
+						  ItemsSource="{x:Bind ViewModel.Badges}"
+						  SelectedItem="{x:Bind ViewModel.SelectedBadge, Mode=TwoWay}"
+						  />
+				<TextBlock Text="Badge Color:"
+						   Margin="8,0,0,0"
+						   VerticalAlignment="Center"
+						   />
+				<ComboBox HorizontalAlignment="Left" 
+						  VerticalAlignment="Center"
+						  Margin="4,2"
+						  ItemsSource="{x:Bind ViewModel.Colors}"
+						  />
+			</StackPanel>
 			<!--<UserControl x:Name="oprionsView" Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="2"
 						 Margin="2"
 						 />-->
 		</Grid>
 
 		<TextBlock Grid.Row="1" Grid.Column="0"
-				   Margin="8,2"
-				   Text="Target platform"
+				   Margin="8,1.8,8,2"
+				   Text="Target platform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 				   />
 		<ComboBox Grid.Row="2" Grid.Column="0"
 				  HorizontalAlignment="Stretch"
-				  Margin="8,0"
+				  Margin="8,0,8,0"
 				  ItemsSource="{x:Bind ViewModel.Paltforms}"
-				  SelectedItem="{x:Bind ViewModel.SelectedPlatform, Mode=TwoWay}"
+				  SelectedItem="{x:Bind ViewModel.SelectedPlatform, Mode=TwoWay}" VerticalAlignment="Center"
 				  />
 
 		<UserControl x:Name="oprionsView" Grid.Row="2" Grid.Column="1" 
-					 Margin="8,0"
+					 Margin="8,0,8.4,0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 						 />
-		<UserControl x:Name="assetsView" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-					 Margin="8"
+		<UserControl x:Name="assetsView" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+					 Margin="8,8,8.4,8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 					 />
-		
-		<Button Grid.Row="3" Grid.Column="2"
-				Margin="4"
+
+		<Button Grid.Row="3" Grid.Column="3"
+				Margin="0,4,0,0"
 				VerticalAlignment="Top"
 				Content="Preview"
-				Command="{x:Bind PreviewCommand}"
+				Command="{x:Bind PreviewCommand}" HorizontalAlignment="Center"
 				/>
 	</Grid>
 </Page>

@@ -8,7 +8,7 @@ using SkiaSharp;
 
 namespace AssetWerks.Model
 {
-	public abstract class Badge : Named
+	public abstract class Badge : TitleHolder
 	{
 		protected Badge(string name) : base(name) { }
 
@@ -25,7 +25,7 @@ namespace AssetWerks.Model
 			});
 		}
 
-		public static Badge ByName(string name) => ByName(List, name);
+		public static Badge ByName(string name) => ByTitle(List, name);
 	}
 
 	public class NoBadge : Badge

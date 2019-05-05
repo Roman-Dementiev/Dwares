@@ -123,14 +123,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IconsGridView.xaml.cs">
+      <DependentUpon>IconsGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IconsView.xaml.cs">
       <DependentUpon>IconsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Badge.cs" />
-    <Compile Include="Model\AndtoidIconGroup.cs" />
+    <Compile Include="Model\AndroidIconGroup.cs" />
     <Compile Include="Model\Icon.cs" />
     <Compile Include="Model\IconGroup.cs" />
-    <Compile Include="IconGrid.cs" />
+    <Compile Include="Model\IconList.cs" />
     <Compile Include="Model\NotifyPropertyChanged.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IconControl.xaml.cs">
@@ -142,10 +145,12 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainViewModel.cs" />
-    <Compile Include="Model\Named.cs" />
+    <Compile Include="Model\TitleHolder.cs" />
+    <Compile Include="Model\NamedColor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ShapeBadge.cs" />
     <Compile Include="TargetPlatform.cs" />
+    <Compile Include="VariableSizedGridView.cs" />
     <Compile Include="ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="IconControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IconsGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
