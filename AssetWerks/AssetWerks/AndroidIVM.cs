@@ -12,8 +12,8 @@ namespace AssetWerks
 	{
 		public AndroidIVM() : this(true) { }
 
-		protected AndroidIVM(bool init) :
-			base("mdi", "hdi", "xhdi", "xxhdi", "xxxhdi")
+		protected AndroidIVM(bool init) :	
+			base("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")
 		{
 			if (init) {
 				IconGroups.Add(new AndroidIconGroup("ic_launcher"));
@@ -48,7 +48,7 @@ namespace AssetWerks
 				return;
 
 			foreach (var title in Titles) {
-				var subFolder = await GetSubfolder(outputFolder, title);
+				var subFolder = await GetSubfolder(outputFolder, "mipmap-"+title);
 
 				foreach (var group in IconGroups) {
 					var icon = group.GetIcon(title);

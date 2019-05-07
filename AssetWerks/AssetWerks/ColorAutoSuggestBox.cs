@@ -1,7 +1,7 @@
 ﻿using System;
 using SkiaSharp;
 using AssetWerks.Model;
-
+using Windows.UI.Xaml;
 
 namespace AssetWerks
 {
@@ -11,6 +11,19 @@ namespace AssetWerks
 		{
 			Choices = NamedColor.List;
 		}
+
+
+		//public static DependencyProperty ColorNameProperty { get; } = DependencyProperty.Register(
+		//	nameof(ColorName), 
+		//	typeof(string), 
+		//	typeof(ColorAutoSuggestBox), 
+		//	new PropertyMetadata(defaultValue: null)
+		//);
+
+		//public string ColorName {
+		//	get => (string)GetValue(ColorNameProperty);
+		//	set => SetValue(ColorNameProperty, value);
+		//}
 
 		public SKColor? GetColor()
 		{
