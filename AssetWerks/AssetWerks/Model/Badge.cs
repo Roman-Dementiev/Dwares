@@ -10,9 +10,22 @@ namespace AssetWerks.Model
 {
 	public abstract class Badge : TitleHolder
 	{
-		protected Badge(string name) : base(name) { }
+		protected Badge(string name) : this(name, 0) { }
 
-		public abstract void Draw(SKCanvas canvas, SKRect rect);
+		protected Badge(string name, float iconInset) : 
+			this(name, new SKRect(iconInset, iconInset, iconInset, iconInset))
+		{
+		}
+
+		protected Badge(string name, SKRect iconInset) : 
+			base(name)
+		{
+			IconInset = iconInset;
+		}
+
+		public SKRect IconInset { get; set; }
+
+		public abstract void Draw(SKCanvas canvas, SKRect rect, SKColor? color);
 
 		static ObservableCollection<Badge> list;
 		public static ObservableCollection<Badge> List {
@@ -32,6 +45,6 @@ namespace AssetWerks.Model
 	{
 		public NoBadge() : base("None") { }
 
-		public override void Draw(SKCanvas canvas, SKRect rect) { }
+		public override void Draw(SKCanvas canvas, SKRect rect, SKColor? color) { }
 	}
 }

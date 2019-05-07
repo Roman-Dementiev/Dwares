@@ -32,6 +32,8 @@ namespace AssetWerks.Model
 				});
 		}
 
+		public static NamedColor ByName(string name) => ByTitle(List, name);
+
 		static void Init(List<NamedColor> list)
 		{
 			var colors = typeof(Colors);

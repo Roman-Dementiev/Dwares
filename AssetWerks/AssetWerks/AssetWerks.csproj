@@ -123,6 +123,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChoiceAutoSuggestBox.xaml.cs">
+      <DependentUpon>ChoiceAutoSuggestBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ColorAutoSuggestBox.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="IconsGridView.xaml.cs">
       <DependentUpon>IconsGridView.xaml</DependentUpon>
     </Compile>
@@ -149,6 +154,8 @@
     <Compile Include="Model\NamedColor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ShapeBadge.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Skia.cs" />
     <Compile Include="TargetPlatform.cs" />
     <Compile Include="VariableSizedGridView.cs" />
     <Compile Include="ViewModel.cs" />
@@ -175,6 +182,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AndroidIconsOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChoiceAutoSuggestBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SkiaSharp;
 using AssetWerks.Model;
-
+using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace AssetWerks
 {
@@ -15,10 +12,14 @@ namespace AssetWerks
 	{
 		public MainViewModel()
 		{
-			SelectedPlatform = TargetPlatform.ByName("Android");
-			SelectedBadge = Badge.ByName("None");
-		}
+			var targetPatform = Settings.TargetPlatform;
+			SelectedPlatform = TargetPlatform.ByName(targetPatform);
+			
+			var badgeName = Settings.BadgeName;
+			SelectedBadge = Badge.ByName(badgeName);
 
+			//var badgeColor = Settings.BadgeColor;
+		}
 
 		public IList<TargetPlatform> Paltforms {
 			get => TargetPlatform.List;
@@ -28,15 +29,25 @@ namespace AssetWerks
 			get => Badge.List;
 		}
 
-		public IList<NamedColor> Colors {
+		public IList Colors {
 			get => NamedColor.List;
 		}
 
 
-		string outputFolder;
-		public string OutputFolder {
-			get => outputFolder ?? string.Empty;
-			set => SetProperty(ref outputFolder, value);
+		StorageFolder outputFolder;
+		public StorageFolder OutputFolder {
+			get => outputFolder;
+			set {
+				if (SetProperty(ref outputFolder, value)) {
+					OutputFolderPath = outputFolder?.Path;
+				}
+			}
+		}
+
+		string outputFolderPath;
+		public string OutputFolderPath {
+			get => outputFolderPath ?? string.Empty;
+			private set => SetProperty(ref outputFolderPath, value);
 		}
 
 		string sourceImagePath;
@@ -67,7 +78,7 @@ namespace AssetWerks
 		public TargetPlatform SelectedPlatform {
 			get => selectedPlatform;
 			set {
-				Debug.WriteLine($"SelectedPlatform: {value}");
+				Debug.Print($"SelectedPlatform: {value}");
 				if (value == selectedPlatform)
 					return;
 
@@ -82,6 +93,7 @@ namespace AssetWerks
 			set {
 				if (SetProperty(ref selectedBadge, value)) {
 					BadgeImageEnabled = SelectedBadge is ImageBadge;
+					Settings.BadgeName = selectedBadge?.Title;
 				}
 			}
 		}
@@ -92,16 +104,26 @@ namespace AssetWerks
 			set => SetProperty(ref badgeImageEnabled, value);
 		}
 
-		public void SetSourceImage(string path, SKImage image)
+		bool iconColorEnabled;
+		public bool IconColorEnabled {
+			get => iconColorEnabled;
+			set => SetProperty(ref iconColorEnabled, value);
+		}
+
+		public void SetSourceImage(string path, SKImage image, bool isMask)
 		{
 			SourceImagePath = path;
 			SourceImage = image;
+			IconColorEnabled = isMask;
 		}
 
 		public void SetBadgeImage(string path, SKImage image)
 		{
 			BadgeImagePath = path;
 			BadgeImage = image;
+			if (SelectedBadge is ImageBadge imageBadge) {
+				imageBadge.Image = image;
+			}
 		}
 	}
 }

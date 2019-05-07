@@ -9,26 +9,26 @@ namespace AssetWerks.Model
 {
 	public abstract class ShapeBadge : Badge
 	{
-		public ShapeBadge(string name) : base(name) { }
+		protected ShapeBadge(string name) : base(name) { }
+		protected ShapeBadge(string name, float iconInset) : base(name, iconInset) { }
+		protected ShapeBadge(string name, SKRect iconInset) : base(name, iconInset) { }
 
 		public SKColor Color { get; set; } = SKColors.Black;
 	}
 
 	public class CircleBadge : ShapeBadge
 	{
-		public CircleBadge() : base("Circle") { }
+		public CircleBadge() : base("Circle",0.1f) { }
 
-		public override void Draw(SKCanvas canvas, SKRect rect)
+		public override void Draw(SKCanvas canvas, SKRect rect, SKColor? color)
 		{
 			var x = (rect.Left+rect.Right) / 2;
 			var y = (rect.Top+rect.Bottom) / 2;
 			var r = Math.Min(rect.Width, rect.Height) / 2;
 	
-			var paint = new SKPaint {
-				Style = SKPaintStyle.Fill,
-				Color = this.Color
-			};
-			canvas.DrawCircle(x, y, r, paint);
+			using (var paint = Skia.FillPaint(color ?? Color)) {
+				canvas.DrawCircle(x, y, r, paint);
+			}
 		}
 	}
 }

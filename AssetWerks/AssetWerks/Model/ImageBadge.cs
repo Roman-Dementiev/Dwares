@@ -12,7 +12,14 @@ namespace AssetWerks.Model
 	{
 		public ImageBadge() : base("Image") { }
 
+		public SKImage Image { get; set; }
+
 		// TODO
-		public override void Draw(SKCanvas canvas, SKRect rect) { }
+		public override void Draw(SKCanvas canvas, SKRect rect, SKColor? color)
+		{
+			if (Image != null) {
+				canvas.DrawImage(Image, rect);
+			}
+		}
 	}
 }

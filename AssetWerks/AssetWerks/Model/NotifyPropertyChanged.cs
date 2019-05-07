@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace AssetWerks.Model
 {
-	public class NotifyPropertyChanged
+	public class NotifyPropertyChanged : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 

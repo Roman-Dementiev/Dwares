@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace AssetWerks.Model
 {
-	public class IconList : List<Icon>, ITitleHolder
+	public class List : List<Icon>, ITitleHolder
 	{
-		public IconList(string title)
+		public List(string title)
 		{
 			Title = title;
 		}

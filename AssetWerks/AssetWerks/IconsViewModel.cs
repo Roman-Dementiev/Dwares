@@ -1,19 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using SkiaSharp;
 using AssetWerks.Model;
+using Windows.Storage;
 
 namespace AssetWerks
 {
-	public class IconsViewModel : ViewModel
+	public abstract class IconsViewModel : ViewModel
 	{
 		public ObservableCollection<IconGroup> IconGroups { get; }
+		public IList<string> Titles { get; }
 
-		protected IconRecord[] Icons { get; set; }
+		List<SKImage> needDispose;
 
 		public IconsViewModel()
 		{
 			IconGroups = new ObservableCollection<IconGroup>();
+			Titles = new List<string>();
+		}
+
+		public IconsViewModel(params string[] titles) : this()
+		{
+			foreach (var title in titles) {
+				Titles.Add(title);
+			}
 		}
 
 		protected SKImage GetImage(int groupIndex, int iconIndex)
@@ -26,29 +38,37 @@ namespace AssetWerks
 			}
 		}
 
-		protected void SetImage(int groupIndex, int iconIndex, SKImage image)
+		void ToDispose(SKImage image)
 		{
-			var group = IconGroups[groupIndex];
-			if (group != null) {
-				group.Icons[iconIndex].Image = image;
+			if (image == null)
+				return;
+
+			if (needDispose == null) {
+				needDispose = new List<SKImage>();
+			}
+			needDispose.Add(image);
+		}
+
+		void DisposeOldBitmaps()
+		{
+			if (needDispose != null) {
+				foreach (var bitmap in needDispose) {
+					bitmap.Dispose();
+				}
+				needDispose = null;
 			}
 		}
 
-		protected SKImage GetImage(int index)
-		{
-			return Icons[index]?.Image;
-		}
 
-		protected void SetImage(int index, SKImage image)
+		public void CreateImages(Badge badge, SKImage sourceImage, SKColor? badgeColor, SKColor? iconColor)
 		{
-			if (Icons[index] != null) {
-				Icons[index].Image = image;
-				FirePropertyChanged(Icons[index].Property);
+			if (sourceImage != null && iconColor != null) {
+				using (var coloredImage = Skia.ApplyColor(sourceImage, (SKColor)iconColor)) {
+					CreateImages(badge, coloredImage, badgeColor, null);
+				}
+				return;
 			}
-		}
 
-		public void CreateImages(Badge badge, SKImage sourceImage)
-		{
 			for (int groupIndex = 0; groupIndex < IconGroups.Count; groupIndex++) {
 				var group = IconGroups[groupIndex];
 				if (group == null)
@@ -59,85 +79,47 @@ namespace AssetWerks
 					if (icon == null)
 						continue;
 
-					using (var bitmap = new SKBitmap(icon.ImageWidth, icon.ImageHeight))
-					using (var canvas = new SKCanvas(bitmap))
-					{
-						canvas.Clear();
+					var bitmap = new SKBitmap(icon.ImageWidth, icon.ImageHeight);
+					try {
+						using (var canvas = new SKCanvas(bitmap))
+						using (var paint = new SKPaint { IsAntialias = false, IsDither = false, BlendMode= SKBlendMode.SrcATop })
+						{
+							canvas.Clear();
 
-						if (badge != null) {
-							badge.Draw(canvas, icon.BadgeRect);
+							var badgeRect = icon.BadgeRect;
+							var iconInset = new SKRect(0,0,0,0);
+							if (badge != null) {
+								badge.Draw(canvas, badgeRect, badgeColor);
+								iconInset = badge.IconInset;
+							}
+
+							if (sourceImage != null) {
+								// TODO
+								//var iconRect = icon.BadgeRect;
+								var iconRect = new SKRect(
+									badgeRect.Left + badgeRect.Width * iconInset.Left,
+									badgeRect.Top + badgeRect.Height * iconInset.Top,
+									badgeRect.Right - badgeRect.Width * iconInset.Right,
+									badgeRect.Bottom - badgeRect.Height * iconInset.Bottom
+									);
+								canvas.DrawImage(sourceImage, iconRect/*, paint*/);
+							}
+
+							ToDispose(icon.Image);
+							icon.Image = SKImage.FromBitmap(bitmap);
 						}
-						if (sourceImage != null) {
-							canvas.DrawImage(sourceImage, icon.BadgeRect);
-						}
-
-						var image = SKImage.FromBitmap(bitmap);
-						SetImage(groupIndex, iconIndex, image);
 					}
-				}
-		
-			}
-		}
-
-		public void CreateImages1(Badge badge)
-		{
-			for (int i = 0; i < Icons.Length; i++) {
-				var icon = Icons[i];
-				if (icon == null)
-					continue;
-
-				using (var bitmap = new SKBitmap(icon.Size.Width, icon.Size.Height))
-				using (var canvas = new SKCanvas(bitmap)) {
-					if (badge != null) {
-						badge.Draw(canvas, icon.BadgeRect);
-
-						Icons[i].Image = SKImage.FromBitmap(bitmap);
-						FirePropertyChanged(icon.Property);
+					catch {
+						bitmap.Dispose();
+						throw;
 					}
-				}
+					finally {
+						DisposeOldBitmaps();
+					}
+				}		
 			}
 		}
 
-		protected class IconRecord {
-			public SKImage Image { get; set; }
-			public string Property { get; }
-			public SKSizeI Size { get; }
-			public SKRectI BadgeRect { get; }
-			//public SKRect ImageRect { get; }
-
-			public IconRecord(string property, SKSizeI size, SKRectI? badgeRect)
-			{
-				Image = null;
-				Property = property;
-				Size = size;
-
-				if (badgeRect != null) {
-					BadgeRect = (SKRectI)badgeRect;
-				} else {
-					BadgeRect = new SKRectI(0, 0, size.Width, size.Height);
-				}
-			}
-
-			public IconRecord(string property, int size, int badgeSize) :
-				this(property, new SKSizeI(size, size), CenterRect(size, size, badgeSize, badgeSize))
-			{
-			}
-
-			public IconRecord(string property, int size) :
-				this(property, new SKSizeI(size, size), null)
-			{
-			}
-
-			static SKRectI CenterRect(int width, int height, int rectWidth, int rectHeight)
-			{
-				int l = (width - rectWidth) / 2;
-				int t = (height - rectHeight) / 2;
-				int r = l + rectWidth;
-				int b = t + rectHeight;
-
-				return new SKRectI(l, t, r, b);
-			}
-
-		}
+		public abstract Task Save(StorageFolder outputFolder);
 	}
 }

@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using SkiaSharp;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -29,22 +18,18 @@ namespace AssetWerks
 	/// </summary>
 	public sealed partial class MainPage : Page
 	{
-		const string Platform_Android = "Android";
-		const string Platform_iOS = "iOS";
-		const string Platform_UWP = "UWP";
+		//const string Platform_Android = "Android";
+		//const string Platform_iOS = "iOS";
+		//const string Platform_UWP = "UWP";
 
-		const int AssetsView_Row = 1;
-		const int AssetsView_Col = 1;
-		const int AssetsView_ColSpan = 2;
-
-		//public event PropertyChangedEventHandler PropertyChanged;
 		public ICommand ChooseOutputFolderCommand { get; }
 		public ICommand ChooseSourceImageCommand { get; }
 		public ICommand ChooseBadgeImageCommand { get; }
 		public ICommand PreviewCommand { get; }
+		public ICommand SaveCommand { get; }
 
-		public GridLength LeftWidth { get; }
-		public GridLength RightWidth { get; }
+		public double MinLeftWidth { get; }
+		public double MinRightWidth { get; }
 
 		public MainPage()
 		{
@@ -57,9 +42,10 @@ namespace AssetWerks
 			ChooseSourceImageCommand = new Command(ChooseSourceImage);
 			ChooseBadgeImageCommand = new Command(ChooseBadgeImage);
 			PreviewCommand = new Command(Preview);
+			SaveCommand = new Command(Save);
 
-			LeftWidth = GridLength.Auto;
-			RightWidth = new GridLength(200);
+			MinLeftWidth = 180;
+			MinRightWidth = 100;
 
 			TargetPlatform = ViewModel.SelectedPlatform;
 		}
@@ -69,15 +55,13 @@ namespace AssetWerks
 			if (e.PropertyName == nameof(MainViewModel.SelectedPlatform)) {
 				TargetPlatform = ViewModel.SelectedPlatform;
 			}
-			else if (e.PropertyName == nameof(MainViewModel.SourceImage)) {
-				sourceImage.Image = ViewModel.SourceImage;
-			}
-			else if (e.PropertyName == nameof(MainViewModel.SourceImagePath)) {
-				sourceImagePath.Text = ViewModel.SourceImagePath;
-			}
 		}
 
 		MainViewModel ViewModel { get; }
+
+		IconsViewModel IconsViewModel {
+			get => TargetPlatform.GetIconsViewModel();
+		}
 
 		TargetPlatform platform;
 		public TargetPlatform TargetPlatform {
@@ -94,8 +78,10 @@ namespace AssetWerks
 		async void ChooseSourceImage() => await ChooseImage(ViewModel.SetSourceImage);
 		async void ChooseBadgeImage() => await ChooseImage(ViewModel.SetBadgeImage);
 
+		Task ChooseImage(Action<string, SKImage> action)
+			=> ChooseImage((path, image, isMask) => action(path, image), false);
 
-		async Task ChooseImage(Action<string, SKImage> action)
+		async Task ChooseImage(Action<string, SKImage, bool> action, bool checkForMask = true)
 		{
 			var openPicker = new FileOpenPicker();
 			openPicker.ViewMode = PickerViewMode.Thumbnail;
@@ -106,28 +92,27 @@ namespace AssetWerks
 
 			var file = await openPicker.PickSingleFileAsync();
 			if (file != null) {
-				ViewModel.SourceImagePath = string.Empty;
-				ViewModel.SourceImage = null;
-
+				action(string.Empty, null, false);
 				try {
-					using (var inputStream = await file.OpenStreamForReadAsync())
-					using (var memoryStream = new MemoryStream()) {
-						await inputStream.CopyToAsync(memoryStream);
-						memoryStream.Position = 0;
-
-						using (var bitmap = SKBitmap.Decode(memoryStream)) {
-							var image = SKImage.FromBitmap(bitmap);
-							action(file.Path, image);
+					using (var stream = await file.OpenStreamForReadAsync()) 
+					using (var bitmap = SKBitmap.Decode(stream)) {
+						var image = SKImage.FromBitmap(bitmap);
+						if (checkForMask) {
+							action(file.Path, image, Skia.IsGrayscale(bitmap));
+						} else {
+							action(file.Path, image, false);
 						}
 					}
 				}
 				catch (Exception exc) {
-					Debug.WriteLine($"Can not load file {file.Path}: {exc.Message}");
+					Debug.Print($"Can not load file {file.Path}: {exc.Message}");
 				}
 			}
 		}
 
-		async void ChooseOutputFolder()
+		async void ChooseOutputFolder() => await AskToChooseOutputFolder();
+	
+		async Task<bool> AskToChooseOutputFolder()
 		{
 			var folderPicker = new FolderPicker();
 			//folderPicker.SuggestedStartLocation = PickerLocationId.Desktop;
@@ -141,17 +126,38 @@ namespace AssetWerks
 				//FutureAccessList.AddOrReplace("PickedFolderToken", folder);
 				//this.textBlock.Text = "Picked folder: " + folder.Name;
 
-				ViewModel.OutputFolder = folder.Path;
+				ViewModel.OutputFolder = folder;
+				Settings.OutputFolder = folder;
+				return true;
+			} else {
+				return false;
 			}
 		}
 
 		void Preview()
 		{
 			var platform = TargetPlatform;
-			platform.GetIconsViewModel().CreateImages(ViewModel.SelectedBadge, ViewModel.SourceImage);
+			IconsViewModel.CreateImages(ViewModel.SelectedBadge, ViewModel.SourceImage,
+				badgeColor.GetColor(), iconColor.GetColor());
 
 			this.platform = null;
 			TargetPlatform = platform;
+		}
+
+		async void Save()
+		{
+			if (ViewModel.OutputFolder == null) {
+				if (! await AskToChooseOutputFolder())
+					return;
+			}
+
+			try {
+				await IconsViewModel.Save(ViewModel.OutputFolder);
+			}
+			catch (Exception exc) {
+				var messageDialog = new MessageDialog(exc.Message, "Error");
+				await messageDialog.ShowAsync();
+			}
 		}
 	}
 

@@ -45,10 +45,10 @@
 			<GroupStyle >
 				<GroupStyle.HeaderTemplate>
 					<DataTemplate x:DataType="model:IconGroup">
-						<CheckBox Content="{x:Bind Title}" />
-						<!--<TextBlock Text="{x:Bind Title}" 
+						<!--<CheckBox Content="{x:Bind Title}" />-->
+						<TextBlock Text="{x:Bind Title}" 
 								   Style="{ThemeResource TitleTextBlockStyle}"
-								   />-->
+								   />
 					</DataTemplate>
 
 				</GroupStyle.HeaderTemplate>

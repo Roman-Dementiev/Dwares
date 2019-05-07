@@ -9,9 +9,14 @@ namespace AssetWerks.Model
 {
 	public class IconGroup : TitleHolder, IList<Icon>
 	{
-		public IconGroup(string tutle) : base(tutle) { }
+		public IconGroup(string title) : base(title) { }
 
 		public List<Icon> Icons { get; } = new List<Icon>();
+
+		public Icon GetIcon(string title)
+		{
+			return ByTitle(Icons, title);
+		}
 
 		public Icon this[int index] {
 			get => Icons[index];
