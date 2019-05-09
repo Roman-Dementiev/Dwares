@@ -30,11 +30,11 @@ namespace ACE.ViewModels
 		public Color PanelBackgroundColor { get; set; } = Color.LightGray;
 		public Color PanelOutlineColor { get; set; } = Color.Black;
 
-		object selectedItem;
-		public object SelectedItem {
-			get => selectedItem;
+		object selectedObject;
+		public object SelectedObject {
+			get => selectedObject;
 			set {
-				if (!EqualityComparer<object>.Default.Equals(selectedItem, value)) {
+				if (!EqualityComparer<object>.Default.Equals(selectedObject, value)) {
 					if (selectedItem is ISelectable selectable) {
 						selectable.IsSelected = false;
 					}
@@ -46,6 +46,8 @@ namespace ACE.ViewModels
 				}
 			}
 		}
+
+
 
 		public Item Selected {
 			get {

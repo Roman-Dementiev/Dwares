@@ -5,35 +5,8 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.Satchel
 {
-	//public abstract class ActionImageSourceBase
-	//{
-	//	public ActionImageSourceBase(string filenameFormat = null)
-	//	{
-	//		FilenameFormat = filenameFormat;
-	//	}
-
-	//	//public abstract string Icon { get; }
-	//	public string FilenameFormat { get; set; }
-	//	public abstract string Filename { get; }
-
-	//	FileImageSource imageSource;
-	//	public FileImageSource ImageSource => LazyInitializer.EnsureInitialized(ref imageSource,
-	//		() => new FileImageSource { File = Filename });
-
-	//	public static implicit operator FileImageSource(ActionImageSourceBase source) => source?.ImageSource;
-	//}
-
 	public class ActionImageSource
 	{
-		//public static readonly OnPlatform<string> DefaultFilenameFormat = new OnPlatform<string> {
-		//	Default = "{0}.png",
-		//	Android = "ic_action_{0}.png",
-		//	iOS = "{0}.png",
-		//	UWP = "Images/{0}.png"
-		//};
-
-		//protected ActionImageSource() { }
-
 		public ActionImageSource(string name, string group = null)
 		{
 			Group = group;
@@ -68,9 +41,11 @@ namespace Dwares.Druid.Satchel
 			if (string.IsNullOrEmpty(name))
 				return null;
 
-			var source =  new ActionImageSource(group, name);
-			return source;
+			var source =  new ActionImageSource(name, group);
+			return source?.ImageSource;
 		}
 
+		public static FileImageSource ToobarIconSource(string name)
+			=> ForName(name, ImageProvider.kGroupToolbar) as FileImageSource;
 	}
 }

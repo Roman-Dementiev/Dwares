@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid
 {
-	public class ViewModel : BindingScope
+	public class ViewModel : BindingScope, ITitleHolder
 	{
 		public ViewModel() : base(ApplicationScope) { }
 

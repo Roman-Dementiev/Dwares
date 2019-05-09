@@ -41,6 +41,17 @@ namespace Dwares.Druid.UI
 			}
 		}
 
+		string actionIcon;
+		public string ActionIcon { 
+			get => actionIcon;
+			set {
+				if (value != actionIcon) {
+					actionIcon = value;
+					Icon = ActionImageSource.ToobarIconSource(actionIcon);
+				}
+			}
+		}
+
 		//string uid;
 		//public string Uid {
 		//	get => uid;

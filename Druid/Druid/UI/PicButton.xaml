@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 x:Class="Dwares.Druid.UI.PicButton"
+			 >
+
+	<ContentView.Content>
+		<StackLayout x:Name="layout">
+			<Image x:Name="image" 
+				   HorizontalOptions="Center"
+				   VerticalOptions="Center"
+				   />
+			<ui:LabelEx x:Name="label"
+						HorizontalOptions="Center"
+						VerticalOptions="Center"
+						/>
+		</StackLayout>
+	</ContentView.Content>
+
+	<ContentView.GestureRecognizers>
+		<TapGestureRecognizer Tapped="OnTapped" />
+	</ContentView.GestureRecognizers>
+</ContentView>

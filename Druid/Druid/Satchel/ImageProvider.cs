@@ -16,6 +16,7 @@ namespace Dwares.Druid.Satchel
 	{
 		public const string kGroupImages = "Images";
 		public const string kGroupSymbol = "Symbol";
+		public const string kGroupToolbar = "Toolbar";
 
 		static IImageProvider instance;
 		public static IImageProvider Instance {
@@ -53,18 +54,25 @@ namespace Dwares.Druid.Satchel
 
 		public DefaultImageProvider() : this(true) { }
 
-		public DefaultImageProvider(bool defaultLocations)
+		public DefaultImageProvider(bool standard)
 		{
 			//Debug.EnableTracing(@class);
 
-			if (defaultLocations) {
+			if (standard) {
 				if (Device.RuntimePlatform == Device.UWP) {
 					SetPrefix(Device.UWP, ImageProvider.kGroupImages, "Images/");
 					SetPrefix(Device.UWP, ImageProvider.kGroupSymbol, "Images/");
+					SetPrefix(Device.UWP, ImageProvider.kGroupToolbar, "Images/");
+				}
+				else if (Device.RuntimePlatform == Device.Android) {
+					LowercaseNames = true;
+					SetPrefix(Device.Android, ImageProvider.kGroupToolbar, "ic_tb_");
 				}
 			}
 
 		}
+
+		public bool LowercaseNames { get; set; }
 
 		public void SetPrefix(string platform, string group, string prefix)
 		{
@@ -93,6 +101,9 @@ namespace Dwares.Druid.Satchel
 			if (!string.IsNullOrEmpty(group) && prefixes.ContainsKey(group)) {
 				prefix = prefixes[group];
 			}
+
+			if (LowercaseNames)
+				name = name.ToLower();
 
 			if (name.IndexOf('.') < 0 && !string.IsNullOrEmpty(DefaultExtension))
 				name = name + '.' + DefaultExtension;

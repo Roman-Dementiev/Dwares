@@ -1,6 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Druid;
+using Dwares.Druid.UI;
+using Drive.ViewModels;
+
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Drive
@@ -11,12 +15,16 @@ namespace Drive
 		{
 			InitializeComponent();
 
-			MainPage = new MainPage();
+			BindingContext = AppScope.Instance;
+			this.AddDefaultViewLocators();
+
+			//UITheme.Current = new DefaultTheme();
 		}
 
 		protected override void OnStart()
 		{
-			// Handle when your app starts
+			var homePage = Forge.CreatePage(typeof(HomeViewModel));
+			this.InitMainPageWithNavigation(homePage);
 		}
 
 		protected override void OnSleep()
