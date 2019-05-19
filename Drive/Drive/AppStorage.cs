@@ -10,8 +10,8 @@ namespace Drive
 	{
 		static IAppStorage instance;
 		public static IAppStorage Instance { 
-			get => instance; 
-			set => LazyInitializer.EnsureInitialized(ref instance, () => new MockStorage());
+			get => LazyInitializer.EnsureInitialized(ref instance, () => new MockStorage()); 
+			set => instance = value;
 		}
 	}
 }

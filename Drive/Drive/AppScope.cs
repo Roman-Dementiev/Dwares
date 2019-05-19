@@ -34,6 +34,7 @@ namespace Drive
 		{
 			var storage = AppStorage.Instance;
 
+			await storage.Initialize();
 			await storage.LoadContacts(Contacts);
 			await storage.LoadSchedule(Schedule.Rides);
 		}

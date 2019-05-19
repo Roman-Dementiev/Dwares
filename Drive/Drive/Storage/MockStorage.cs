@@ -8,12 +8,17 @@ namespace Drive.Storage
 {
 	internal class MockStorage : IAppStorage
 	{
+		public Task Initialize()
+		{
+			return Task.CompletedTask;
+		}
+
 		public Task LoadContacts(IList<IContact> contacts)
 		{
-			contacts.Add(new Client { 
-				FullName = "Dolores Gordon", 
-				PhoneNumber = "215-438-4941", 
-				Address = "222 E Cliveden St\nPhiladelphia, PA 19119" 
+			contacts.Add(new Client {
+				FullName = "Dolores Gordon",
+				PhoneNumber = "215-438-4941",
+				Address = "222 E Cliveden St\nPhiladelphia, PA 19119"
 			});
 			contacts.Add(new Client {
 				FullName = "Elvin Taylor",
@@ -98,7 +103,7 @@ namespace Drive.Storage
 
 			return Task.CompletedTask;
 		}
-		
+
 		public Task SaveContacts(IList<IContact> contacts) => Task.CompletedTask;
 		public Task SaveSchedule(IList<Ride> schedule) => Task.CompletedTask;
 	}

@@ -8,6 +8,8 @@ namespace Drive.Storage
 {
 	public interface IAppStorage
 	{
+		Task Initialize();
+
 		Task LoadContacts(IList<IContact> contacts);
 		Task SaveContacts(IList<IContact> contacts);
 		Task LoadSchedule(IList<Ride> schedule);
