@@ -12,12 +12,23 @@ namespace Drive.Models
 			dt = datetime;
 		}
 
+		public ScheduleTime(DateTime? datetime)
+		{
+			if (datetime == null) {
+				dt = new DateTime();
+			} else {
+				dt = (DateTime)datetime;
+			}
+		}
+
 		public ScheduleTime(DateTime day, TimeSpan time)
 		{
 			dt = day.Add(time);
 		}
 
 		public ScheduleTime(TimeSpan time) : this(DateTime.Today, time) { }
+
+		public ScheduleTime(int h, int m) : this(DateTime.Today, new TimeSpan(h, m, 0)) { }
 
 		public bool IsSet {
 			get => dt.Ticks > 0;

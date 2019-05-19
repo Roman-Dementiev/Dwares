@@ -5,12 +5,12 @@ using System.Threading;
 
 namespace Dwares.Dwarf.Toolkit
 {
-	public enum PhoneFormat
-	{
-		Default,
-		USAOnly,
-		Extended
-	}
+	//public enum PhoneFormat
+	//{
+	//	Default,
+	//	USAOnly,
+	//	Extended
+	//}
 
 	public static class RegEx
 	{
@@ -53,20 +53,20 @@ namespace Dwares.Dwarf.Toolkit
 			}
 		}
 
-		public static Regex PhoneRegex(PhoneFormat format)
-		{
-			switch (format)
-			{
-			case PhoneFormat.USAOnly:
-				return USAPhone;
+		//public static Regex PhoneRegex(PhoneFormat format)
+		//{
+		//	switch (format)
+		//	{
+		//	case PhoneFormat.USAOnly:
+		//		return USAPhone;
 			
-			case PhoneFormat.Extended:
-				return ExtPhone;
+		//	case PhoneFormat.Extended:
+		//		return ExtPhone;
 			
-			default:
-				return Phone;
-			}
-		}
+		//	default:
+		//		return Phone;
+		//	}
+		//}
 
 		static Regex LazyInit(ref Regex regex, string pattern)
 		{

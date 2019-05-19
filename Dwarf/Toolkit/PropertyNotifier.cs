@@ -51,7 +51,7 @@ namespace Dwares.Dwarf.Toolkit
 			return true;
 		}
 
-		protected bool SeTextProperty(ITextHolder storage, string text, [CallerMemberName]string propertyName = "")
+		protected bool SetTextProperty(ITextHolder storage, string text, [CallerMemberName]string propertyName = "")
 		{
 			if (storage.Text == text)
 				return false;

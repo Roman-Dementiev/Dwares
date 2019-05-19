@@ -9,9 +9,9 @@ namespace Dwares.Druid.Forms
 	public class FormViewModel : ViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(FormViewModel));
-		public const double FitContent = -1;
-		public static double DefaultWidth { get; set; } = FitContent;
-		public static double DefaultHeight { get; set; } = FitContent;
+		//public const double FitContent = -1;
+		//public static double DefaultWidth { get; set; } = FitContent;
+		//public static double DefaultHeight { get; set; } = FitContent;
 
 		public FormViewModel()
 		{
@@ -24,8 +24,8 @@ namespace Dwares.Druid.Forms
 			//Debug.EnableTracing(@class);
 		}
 
-		public virtual double FormWidth { get; set; } = DefaultWidth;
-		public virtual double FormHeight { get; set; } = DefaultHeight;
+		//public virtual double FormWidth { get; set; } = DefaultWidth;
+		//public virtual double FormHeight { get; set; } = DefaultHeight;
 
 		public IFiledList Fields { get; protected set; }
 

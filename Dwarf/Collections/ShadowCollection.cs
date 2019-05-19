@@ -30,7 +30,10 @@ namespace Dwares.Dwarf.Collections
 
 		public Func<SourceItem, ShadowItem> ItemFactory { get; protected set; }
 
-		protected virtual void SetSource(ObservableCollection<SourceItem> newSource, Func<SourceItem, ShadowItem> itemFactory, bool fire = true)
+		protected virtual void SetSource(
+			ObservableCollection<SourceItem> newSource, 
+			Func<SourceItem, ShadowItem> itemFactory,
+			bool fire = true)
 		{
 			if (newSource == source && itemFactory == ItemFactory)
 				return;
@@ -57,7 +60,9 @@ namespace Dwares.Dwarf.Collections
 		{
 			foreach (var sourceItem in items) {
 				var shadowItem = ItemFactory(sourceItem);
-				Add(shadowItem);
+				if (shadowItem != null) {
+					Add(shadowItem);
+				}
 			}
 		}
 

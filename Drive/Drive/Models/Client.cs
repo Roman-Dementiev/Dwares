@@ -13,5 +13,6 @@ namespace Drive.Models
 			//Debug.EnableTracing(@class);
 		}
 
+		public bool Escort { get; set; }
 	}
 }

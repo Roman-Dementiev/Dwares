@@ -8,6 +8,10 @@ namespace Dwares.Druid.Forms
 	{
 		public NullableField(string name) : base(name) { }
 
+		public T ValueOrDefault {
+			get => Value ?? default(T);
+		}
+
 		protected override bool IsUnset()
 		{
 			return Value == null;
@@ -15,8 +19,8 @@ namespace Dwares.Druid.Forms
 
 		protected override void ConvertFromText(string text)
 		{
-			if (string.IsNullOrEmpty(text))
- {				Value = null;
+			if (string.IsNullOrEmpty(text)) {
+				Value = null;
 			} else {
 				var value = Convert.ChangeType(text, typeof(T));
 				Value = (T)value;

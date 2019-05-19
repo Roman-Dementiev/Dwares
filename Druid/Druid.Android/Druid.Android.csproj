@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AndroidKeyStore.cs" />
     <Compile Include="Cryptography.cs" />
+    <Compile Include="EditorExRendered.cs" />
     <Compile Include="Preferences.cs" />
     <None Include="Resources\Resource.designer - Copy.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -64,9 +65,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj">
       <Project>{e5e39a56-5570-4acf-9154-06d59aa41e8a}</Project>
@@ -76,6 +75,9 @@
       <Project>{da1fd3ed-875f-44ce-8f9a-859f6a7f80cd}</Project>
       <Name>Druid</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\EdidorExBorder.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

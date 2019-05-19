@@ -63,7 +63,7 @@ namespace Dwares.Druid.UI
 				typeof(PickerEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is PickerEx picker) {
-						picker.ApplyTheme();
+						picker.ApplyTheme(picker.ThemeStyle);
 					}
 				});
 
@@ -74,7 +74,7 @@ namespace Dwares.Druid.UI
 
 		private void OnCurrentUIhemeChanged(object sender, EventArgs e)
 		{
-			this.ApplyTheme();
+			this.ApplyTheme(ThemeStyle);
 		}
 	}
 }

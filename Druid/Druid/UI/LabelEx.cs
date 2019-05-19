@@ -1,6 +1,5 @@
 ﻿using System;
 using Dwares.Dwarf;
-using Dwares.Druid.UI;
 using Xamarin.Forms;
 
 
@@ -25,7 +24,7 @@ namespace Dwares.Druid.UI
 				typeof(LabelEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is LabelEx label) {
-						label.ApplyTheme();
+						label.ApplyTheme(label.ThemeStyle);
 					}
 				});
 
@@ -36,7 +35,7 @@ namespace Dwares.Druid.UI
 
 		private void OnCurrentUIhemeChanged(object sender, EventArgs e)
 		{
-			this.ApplyTheme();
+			this.ApplyTheme(ThemeStyle);
 		}
 	}
 }

@@ -12,6 +12,7 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
@@ -21,28 +22,50 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ListView Grid.Row="0" Grid.Column="0" />
+		<ui:ButtonEx Grid.Row="0" Grid.Column="0"
+					 BorderColor="Black"
+					 BackgroundColor="Transparent"
+					 Text="Clients"
+					 />
+		<ui:ButtonEx  Grid.Row="0" Grid.Column="1"
+					  BorderColor="Black"
+					  BackgroundColor="Transparent"
+					  Text="Facilities"
+					  />
+		<ui:ButtonEx Grid.Row="0" Grid.Column="2"
+					 Margin="0"
+					 BorderColor="Black"
+					 BackgroundColor="Transparent"
+					 Text="Other"
+					 />
 
-		<ui:PicButton Grid.Row="1" Grid.Column="0"
+		<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+			   BorderColor="Black"
+			   Margin="-6,0,-6,4"
+			   >
+		<ListView  />
+		</Frame>
+		
+		<ui:PicButton Grid.Row="2" Grid.Column="0"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="schedule.png"
+					  ImageName="Schedule"
 					  LabelText="Schedule"
 					  Writ="GoToSchedule"
 					  />
 
-		<ui:PicButton Grid.Row="1" Grid.Column="1"
+		<ui:PicButton Grid.Row="2" Grid.Column="1"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="route.png"
+					  ImageName="Route"
 					  LabelText="Route"
 					  Writ="GoToRoute"
 					  />
 
-			<ui:PicButton Grid.Row="1" Grid.Column="2"
+			<ui:PicButton Grid.Row="2" Grid.Column="2"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="contacts_active.png"
+					  ImageName="Contacts_active"
 					  LabelText="Contacts"
 					  Writ="GoToContacts"
-					  LabelColor="{Binding ActiveIconTextColor}"
+					  LabelColor="{Binding ActiveBottomButtonColor}"
 					  />
 	</Grid>
 </ui:ContentViewEx>

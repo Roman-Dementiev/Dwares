@@ -14,6 +14,8 @@ namespace Drive.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public ObservableCollection<ScheduleTrip> Trips { get; } = new ObservableCollection<ScheduleTrip>();
-	}
+		public DateTime? Date { get; set; }
+
+		public ObservableCollection<Ride> Rides { get; } = new ObservableCollection<Ride>();
+	}	
 }

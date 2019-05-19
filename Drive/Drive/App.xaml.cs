@@ -18,13 +18,19 @@ namespace Drive
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			//UITheme.Current = new DefaultTheme();
+			UITheme.Current = new UITheme(new Themes.Default());
 		}
 
-		protected override void OnStart()
+		protected override async void OnStart()
 		{
 			var homePage = Forge.CreatePage(typeof(HomeViewModel));
 			this.InitMainPageWithNavigation(homePage);
+
+			var page = AppScope.CreatePage(typeof(ScheduleViewModel));
+			await Navigator.PushPage(page);
+
+			AppStorage.Instance = new Storage.MockStorage();
+			await AppScope.Instance.Initialize();
 		}
 
 		protected override void OnSleep()

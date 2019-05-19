@@ -31,7 +31,8 @@ namespace Dwares.Druid.UI
 		{
 			if (Values.ContainsKey(key)) {
 				return Values[key];
-			} else {
+			}
+			else {
 				return BaseScheme?.GetValue(key);
 			}
 		}
@@ -42,7 +43,7 @@ namespace Dwares.Druid.UI
 			return value;
 		}
 
-		public bool TryGetValue<T>(string key, out T value, T defaultValue=default(T))
+		public bool TryGetValue<T>(string key, out T value, T defaultValue = default(T))
 		{
 			if (Values.TryGetValue(key, out var obj)) {
 				if (obj is T val) {
@@ -54,7 +55,7 @@ namespace Dwares.Druid.UI
 				if (BaseScheme.TryGetValue(key, out value))
 					return true;
 			}
-			
+
 			value = defaultValue;
 			return false;
 		}
@@ -69,8 +70,8 @@ namespace Dwares.Druid.UI
 			Debug.Assert(!Values.ContainsKey(key) || Values[key] is Color);
 			SetValue(key, color);
 		}
-		
-		public Color GetColor(string key, Color defaultColor=default(Color))
+
+		public Color GetColor(string key, Color defaultColor = default(Color))
 		{
 			return GetValue(key, defaultColor);
 		}
@@ -92,14 +93,14 @@ namespace Dwares.Druid.UI
 			set => currentScheme = value;
 		}
 
-		public static string ColorKey(string @namespace, string className, string  colorName)
+		public static string ColorKey(string @namespace, string className, string colorName)
 		{
 			return Strings.JoinNonEmpty(".", @namespace, className, colorName);
 		}
 
 		internal static string DruidColorKey(string className, string colorName) => ColorKey("Druid", className, colorName);
 
-		public static T Value<T>(string key, T defaultValue=default(T)) => Current.GetValue<T>(key, defaultValue);
-		public static Color Color(string key, Color defaultColor=default(Color)) => Current.GetColor(key, defaultColor);
+		public static T Value<T>(string key, T defaultValue = default(T)) => Current.GetValue<T>(key, defaultValue);
+		public static Color Color(string key, Color defaultColor = default(Color)) => Current.GetColor(key, defaultColor);
 	}
 }

@@ -5,13 +5,6 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
-	//public enum FramedPageMode
-	//{
-	//	Center,
-	//	Extend,
-	//	FullScreen
-	//}
-
 	public class FramedPage : DecoratedPage
 	{
 		//static ClassRef @class = new ClassRef(typeof(FramedPage));
@@ -19,22 +12,18 @@ namespace Dwares.Druid.UI
 		public static Color DefaultBorderColor { get; set; } = Color.Black;
 		public static float DefaultCornerRadius { get; set; } = -1;
 		public static Thickness DefaultFrameMargin { get; set; } = new Thickness(1);
-		public static bool DefaultFrameIsVisible { get; set; } = true;
-		public static bool DefaultFrameIsCentered { get; set; } = true;
 
 		public FramedPage()
 		{
 			//Debug.EnableTracing(@class);
 
-			var layoutOptions = DefaultFrameIsCentered ? LayoutOptions.Center : LayoutOptions.Fill;
 			Frame = new FrameEx() {
 				BorderColor = DefaultBorderColor,
 				CornerRadius = DefaultCornerRadius,
-				Margin = DefaultFrameMargin,
-				IsVisible = DefaultFrameIsVisible,
-				HorizontalOptions = layoutOptions,
-				VerticalOptions = layoutOptions
+				Margin = DefaultFrameMargin
 			};
+			LayoutDecorection();
+
 			Content = Frame;
 		}
 
@@ -52,17 +41,27 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		//public View ContentView {
-		//	get => Frame.Content; 
+		protected override void LayoutDecorection()
+		{
+			LayoutOptions layoutOptions;
+			
+			switch (DecorationLayout)
+			{
+			case DecorationLayout.Center:
+				layoutOptions = LayoutOptions.Center;
+				break;
+		
+			case DecorationLayout.FullScreen:
+				layoutOptions = LayoutOptions.FillAndExpand;
+				break;
 
-		//	set {
-		//		if (value != Frame.Content) {
-		//			OnPropertyChanging();
-		//			Frame.Content = value;
-		//			OnPropertyChanged();
-		//		}
-		//	}
-		//}
+			default:
+				return;
+			}
+
+			Frame.HorizontalOptions = Frame.VerticalOptions = layoutOptions;
+		}
+
 
 		public static readonly BindableProperty FrameMarginProperty =
 			BindableProperty.Create(
@@ -105,7 +104,7 @@ namespace Dwares.Druid.UI
 				typeof(FramedPage),
 				defaultValue: DefaultBorderColor,
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is FramedPage page && newValue is Color color && page.BorderIsVisible) {
+					if (bindable is FramedPage page && newValue is Color color) {
 						page.Frame.BorderColor = color;
 					}
 				});
@@ -120,7 +119,7 @@ namespace Dwares.Druid.UI
 				nameof(BorderIsVisible),
 				typeof(bool),
 				typeof(FramedPage),
-				defaultValue: DefaultFrameIsVisible,
+				defaultValue: true,
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is FramedPage page && newValue is bool isVisible) {
 						page.Frame.BorderColor = isVisible ? page.BorderColor : Color.Transparent;
@@ -132,28 +131,28 @@ namespace Dwares.Druid.UI
 			get { return (bool)GetValue(BorderIsVisibleProperty); }
 		}
 
-		public static readonly BindableProperty FrameIsCenteredProperty =
-			BindableProperty.Create(
-				nameof(FrameIsCentered),
-				typeof(bool),
-				typeof(FramedPage),
-				defaultValue: DefaultFrameIsCentered,
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is FramedPage page && newValue is bool isCentered) {
-						if (isCentered) {
-							page.Frame.WidthRequest = page.FrameSize.Width;
-							page.Frame.HeightRequest = page.FrameSize.Height;
-							page.Frame.HorizontalOptions = page.Frame.VerticalOptions = LayoutOptions.Center;
-						} else {
-							page.Frame.HorizontalOptions = page.Frame.VerticalOptions = LayoutOptions.Fill;
-						}
-					}
-				});
+		//public static readonly BindableProperty FrameIsCenteredProperty =
+		//	BindableProperty.Create(
+		//		nameof(FrameIsCentered),
+		//		typeof(bool),
+		//		typeof(FramedPage),
+		//		defaultValue: DefaultFrameIsCentered,
+		//		propertyChanged: (bindable, oldValue, newValue) => {
+		//			if (bindable is FramedPage page && newValue is bool isCentered) {
+		//				if (isCentered) {
+		//					page.Frame.WidthRequest = page.FrameSize.Width;
+		//					page.Frame.HeightRequest = page.FrameSize.Height;
+		//					page.Frame.HorizontalOptions = page.Frame.VerticalOptions = LayoutOptions.Center;
+		//				} else {
+		//					page.Frame.HorizontalOptions = page.Frame.VerticalOptions = LayoutOptions.FillAndExpand;
+		//				}
+		//			}
+		//		});
 
-		public bool FrameIsCentered {
-			set { SetValue(FrameIsCenteredProperty, value); }
-			get { return (bool)GetValue(FrameIsCenteredProperty); }
-		}
+		//public bool FrameIsCentered {
+		//	set { SetValue(FrameIsCenteredProperty, value); }
+		//	get { return (bool)GetValue(FrameIsCenteredProperty); }
+		//}
 
 		public static readonly BindableProperty FrameSizeProperty =
 			BindableProperty.Create(
@@ -163,7 +162,7 @@ namespace Dwares.Druid.UI
 				//defaultValue: DefaultFrameMargin,
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is FramedPage page && newValue is Size size) {
-						if (page.FrameIsCentered) {
+						if (page.DecorationLayout != DecorationLayout.FullScreen) {
 							page.Frame.WidthRequest = size.Width;
 							page.Frame.HeightRequest = size.Height;
 						}

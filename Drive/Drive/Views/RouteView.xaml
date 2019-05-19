@@ -24,21 +24,21 @@
 
 		<ui:PicButton Grid.Row="1" Grid.Column="0"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="schedule.png"
+					  ImageName="Schedule"
 					  LabelText="Schedule"
 					  Writ="GoToSchedule"
 					  />
 
 		<ui:PicButton Grid.Row="1" Grid.Column="1"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="route_active.png"
+					  ImageName="Route_active"
 					  LabelText="Route"
-					  LabelColor="{Binding ActiveIconTextColor}"
+					  LabelColor="{Binding ActiveBottomButtonColor}"
 					  />
 
 		<ui:PicButton Grid.Row="1" Grid.Column="2"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="contacts.png"
+					  ImageName="Contacts"
 					  LabelText="Contacts"
 					  Writ="GoToContacts"
 					  />

@@ -135,19 +135,19 @@ namespace Dwares.Dwarf.Validation
 		public override Regex Regex => RegEx.Email;
 	}
 
-	public class PhoneRule : BaseRegExRule
-	{
-		public PhoneRule() { }
-		public PhoneRule(string message) : base(message) { }
+	//public class PhoneRule : BaseRegExRule
+	//{
+	//	public PhoneRule() { }
+	//	public PhoneRule(string message) : base(message) { }
 		
-		public PhoneRule(PhoneFormat format, string message) : 
-			base(message)
-		{
-			PhoneFormat = format;
-		}
+	//	public PhoneRule(PhoneFormat format, string message) : 
+	//		base(message)
+	//	{
+	//		PhoneFormat = format;+
+	//	}
 
-		public PhoneFormat PhoneFormat { get; set; }
+	//	public PhoneFormat PhoneFormat { get; set; }
 
-		public override Regex Regex => RegEx.PhoneRegex(PhoneFormat);
-	}
+	//	public override Regex Regex => RegEx.PhoneRegex(PhoneFormat);
+	//}
 }

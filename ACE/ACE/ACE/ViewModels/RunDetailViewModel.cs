@@ -11,7 +11,7 @@ using ACE.Models;
 
 namespace ACE.ViewModels
 {
-	public class RunDetailViewModel : FormScope<ScheduleRun>
+	public class RunDetailViewModel : FormViewModel<ScheduleRun>
 	{
 		//ClassRef @class = new ClassRef(typeof(RunDetailViewModel));
 		const string HomeStopName = "Home";

@@ -29,9 +29,14 @@ namespace Dwares.Druid.UI
 			//Debug.EnableTracing(@class);
 		}
 
-		//public UITheme(ResourceDictionary resources)
-		//{
-		//}
+		public UITheme(ResourceDictionary dict)
+		{
+			foreach (var pair in dict) {
+				if (pair.Value is Style style) {
+					AddStyle(pair.Key, style);
+				}
+			}
+		}
 
 		public void AddStyle(string name, Style style)
 			=> AddStyle(name, null, style);

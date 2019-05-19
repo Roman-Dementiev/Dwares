@@ -5,7 +5,14 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
-	[ContentProperty("ContentView")]
+	public enum DecorationLayout
+	{
+		None,
+		Center,
+			FullScreen
+	}
+
+	[ContentProperty("ContentView")]	
 	public abstract class DecoratedPage : ContentPageEx
 	{
 		//static ClassRef @class = new ClassRef(typeof(DecoratedPage));
@@ -26,19 +33,23 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		//public override View ContentView {
-		//	get => Decoration?.ContentView;
+		public static readonly BindableProperty DecorationLayoutProperty =
+			BindableProperty.Create(
+				nameof(DecorationLayout),
+				typeof(DecorationLayout),
+				typeof(DecoratedPage),
+				defaultValue: DecorationLayout.None,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is DecoratedPage page && newValue is DecorationLayout value) {
+						page.LayoutDecorection();
+					}
+				});
 
-		//	set {
-		//		if (Decoration == null)
-		//			return;
+		public DecorationLayout DecorationLayout {
+			set { SetValue(DecorationLayoutProperty, value); }
+			get { return (DecorationLayout)GetValue(DecorationLayoutProperty); }
+		}
 
-		//		if (value != Decoration.ContentView) {
-		//			OnPropertyChanging();
-		//			Decoration.ContentView = value;
-		//			OnPropertyChanged();
-		//		}
-		//	}
-		//}
+		protected abstract void LayoutDecorection();
 	}
 }

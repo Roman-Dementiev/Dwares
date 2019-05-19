@@ -4,18 +4,16 @@ using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Drive.Models;
-
+using Dwares.Druid.UI;
 
 namespace Drive.ViewModels
 {
-	public class ScheduleViewModel : CollectionViewModel<ScheduleTrip>
+	public class ScheduleViewModel : CollectionViewModel<ScheduleItem>
 	{
 		//static ClassRef @class = new ClassRef(typeof(ScheduleViewModel));
 
-		public ScheduleViewModel() : this(ApplicationScope, AppScope.Instance.Schedule.Trips) { }
-
-		private ScheduleViewModel(BindingScope parentScope, ObservableCollection<ScheduleTrip> trips) :
-			base(parentScope, AppScope.Instance.Schedule.Trips)
+		public ScheduleViewModel() :
+			base(ApplicationScope, ScheduleItem.CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 
@@ -24,18 +22,15 @@ namespace Drive.ViewModels
 
 		public async void OnNewAppoitment()
 		{
-			var page = Forge.CreateContentPage(typeof(AppoitmentViewModel));
-			await Navigator.PushPage(page);
+			//var page = AppScope.CreatePage(typeof(AppoitmentViewModel));
+			//await Navigator.PushPage(page);
 		}
 
-		//public void OnGoToContacts()
-		//{
-		//	Debug.Print("ScheduleViewModel.OnGoToContacts");
-		//}
-
-
-		public Color ActiveIconTextColor {
-			get => AppScope.ActiveIconTextColor;
+		public Color ActiveBottomButtonColor {
+			get => AppScope.ActiveBottomButtonColor;
+		}
+		public Thickness MainPanelMargin {
+			get => AppScope.MainPanelMargin;
 		}
 	}
 }

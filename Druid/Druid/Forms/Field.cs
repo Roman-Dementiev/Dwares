@@ -46,13 +46,21 @@ namespace Dwares.Druid.Forms
 			}
 		}
 
-		string text;
+		protected string text;
 		public virtual string Text {
 			get => text ?? Value?.ToString();
 			set {
 				if (value != text) {
 					text = value;
 					isValid = null;
+
+					if (text != null) {
+						try { 
+							ConvertFromText(value);
+						} catch {
+							Value = default(T);
+						}
+					}
 				}
 			}
 		}
@@ -107,7 +115,10 @@ namespace Dwares.Druid.Forms
 		string msgFieldIsRequired;
 		public string MsgFieldIsRequired {
 			get => GetMessage(msgFieldIsRequired, ValidationMessages.cFieldIsRequired);
-			set => msgFieldIsRequired = value;
+			set {
+				msgFieldIsRequired = value;
+				IsRequired = !string.IsNullOrEmpty(value);
+			}
 		}
 
 		string msgInvalidEntryText;

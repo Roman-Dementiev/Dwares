@@ -22,7 +22,8 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ListView Grid.Row="0" Grid.Column="1"
+		<ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+				  Margin="{Binding MainPanelMargin}" 
 				  HorizontalOptions="FillAndExpand"
 				  VerticalOptions="FillAndExpand"
 				  SeparatorVisibility="None"
@@ -31,25 +32,102 @@
 				  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 				  >
 
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ContentView Margin="0">
+							<Frame BorderColor="{Binding BorderColor, Mode=OneWay}"
+								   BackgroundColor="{Binding BackgroundColor, Mode=OneWay}"
+								   CornerRadius="{Binding CornerRadius, Mode=OneWay}"
+								   Margin="1"
+								   >
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="80" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+
+									<ui:LabelEx Grid.Row="0" Grid.Column="1" 
+												HorizontalOptions="Start"
+												FontSize="{Binding TextSize}"
+												FontAttributes="Bold"
+												Text="{Binding ClientName, Mode=OneWay}"/>
+
+									<ui:LabelEx Grid.Row="1" Grid.Column="1" 
+												HorizontalOptions="Start"
+												FontSize="{Binding SmallTextSize}"
+												Text="{Binding ClientPhone}"/>
+									
+									<ui:LabelEx Grid.Row="2" Grid.Column="0"
+												HorizontalOptions="Center"
+												VerticalOptions="End"
+												FontSize="{Binding SmallTextSize}"
+												Text="{Binding FirstStopTime, Mode=OneWay}"
+												/>
+									<ui:LabelEx Grid.Row="2" Grid.Column="1"
+												HorizontalOptions="Start"
+												FontSize="{Binding TextSize}"
+												Text="{Binding FirstStopTitle, Mode=OneWay}"
+												/>
+									
+									<ui:LabelEx Grid.Row="3" Grid.Column="1" 
+												HorizontalOptions="Start"
+												FontSize="{Binding TextSize}"
+												IsVisible="{Binding ShowDetails, Mode=OneWay}"
+												Text="{Binding FirstStopAddress, Mode=OneWay}"
+												/>
+
+									<ui:LabelEx Grid.Row="4" Grid.Column="0" 
+												HorizontalOptions="Center"
+												FontSize="{Binding TextSize}"
+												IsVisible="{Binding ShowDetails, Mode=OneWay}"
+												Text="{Binding SecondStopTime, Mode=OneWay}"
+												/>
+									<ui:LabelEx Grid.Row="4" Grid.Column="1" 
+												FontSize="{Binding TextSize}"
+												IsVisible="{Binding ShowDetails, Mode=OneWay}"
+												Text="{Binding SecondStopTitle, Mode=OneWay}"
+												/>
+
+									<ui:LabelEx Grid.Row="5" Grid.Column="1" 
+												FontSize="{Binding TextSize}"
+												IsVisible="{Binding ShowDetails, Mode=OneWay}"
+												Text="{Binding SecondStopAddress, Mode=OneWay}"
+												/>
+								</Grid>
+							</Frame>
+						</ContentView>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
 		</ListView>
 
 		<ui:PicButton Grid.Row="1" Grid.Column="0"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="schedule_active.png"
+					  ImageName="Schedule_active"
 					  LabelText="Schedule"
-					  LabelColor="{Binding ActiveIconTextColor}"
+					  LabelColor="{Binding ActiveBottomButtonColor}"
 					  />
 		
 		<ui:PicButton Grid.Row="1" Grid.Column="1"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="route.png"
+					  ImageName="Route"
 					  LabelText="Route"
 					  Writ="GoToRoute"
 					  />
 
 		<ui:PicButton Grid.Row="1" Grid.Column="2"
 					  Style="{StaticResource BottomButton}"
-					  ImageName="contacts.png"
+					  ImageName="Contacts"
 					  LabelText="Contacts"
 					  Writ="GoToContacts"
 					  />

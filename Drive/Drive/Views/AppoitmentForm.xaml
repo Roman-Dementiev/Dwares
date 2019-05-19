@@ -14,12 +14,89 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="0" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="8" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Label Text="Appotment" />
+		<ui:LabelEx Grid.Row="1" Grid.Column="1"
+					ThemeStyle="StaticText"
+					Margin="0,0,0,8"
+					FontAttributes="Bold"
+					Text="{Binding DateAsText}"
+					/>
+
+		<ui:LabelEx Grid.Row="2" Grid.Column="0"
+					ThemeStyle="LabelField"
+					Text="Client:"
+					/>
+		<ui:EntryEx Grid.Row="2" Grid.Column="1"
+					Text="{Binding ClientName, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="3" Grid.Column="0"
+					ThemeStyle="LabelField"
+					Text="Phone:"
+					/>
+		<ui:EntryEx Grid.Row="3" Grid.Column="1"
+					Text="{Binding ClientPhone, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="4" Grid.Column="0"
+					ThemeStyle="LabelField"
+					Text="Pickup at:"
+					/>
+		<TimePicker Grid.Row="4" Grid.Column="1"
+					Time="{Binding PickupTime, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="5" Grid.Column="0"
+					ThemeStyle="EditorLabel"
+					Text="Address:"
+					/>
+		<ui:EditorEx Grid.Row="5" Grid.Column="1"
+					 ThemeStyle="AddressEditor"
+					 Text="{Binding ClientAddress, Mode=TwoWay}"
+					 />
+
+		<ui:LabelEx Grid.Row="7" Grid.Column="0"
+					ThemeStyle="LabelField"
+					Text="To:"
+					/>
+		<ui:EntryEx Grid.Row="7" Grid.Column="1"
+					Text="{Binding FacilityName, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="8" Grid.Column="0"
+					ThemeStyle="LabelField"
+					Text="At:"
+					/>
+		<TimePicker Grid.Row="8" Grid.Column="1"
+					Time="{Binding AppoitmentTime, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="9" Grid.Column="0"
+					ThemeStyle="EditorLabel"
+					Text="Address:"
+					/>
+		<ui:EditorEx Grid.Row="9" Grid.Column="1"
+					 ThemeStyle="AddressEditor"
+					 Text="{Binding FacilityAddress}"
+					 />
 	</Grid>
+
 </ui:ContentViewEx>
+	

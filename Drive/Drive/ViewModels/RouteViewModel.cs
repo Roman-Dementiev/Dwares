@@ -17,8 +17,8 @@ namespace Drive.ViewModels
 			Title = "Roure";
 		}
 
-		public Color ActiveIconTextColor {
-			get => AppScope.ActiveIconTextColor;
+		public Color ActiveBottomButtonColor {
+			get => AppScope.ActiveBottomButtonColor;
 		}
 	}
 }

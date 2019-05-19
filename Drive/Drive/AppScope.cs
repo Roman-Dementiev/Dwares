@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
@@ -25,23 +26,17 @@ namespace Drive
 			//Debug.EnableTracing(@class);
 		}
 
-		//ContactCollection<Contact> Contacts { get; } = new ContactCollection<Contact>();
-		public ContactCollection<Client> Clients { get; } = new ContactCollection<Client>();
-		public ContactCollection<Facility> Facilities { get; } = new ContactCollection<Facility>();
-
+		public ContactCollection Contacts { get; } = new ContactCollection();
 		public Schedule Schedule { get; } = new Schedule();
 
-		//public void AddContact(Contact contact)
-		//{
-		//	Contacts.Add(contact);
-			
-		//	if (contact is Client client) {
-		//		Clients.Add(client);
-		//	} else if (contact is Facility facility) {
-		//		Facilities.Add(facility);
-		//	}
-		//}
 
+		public async Task Initialize()
+		{
+			var storage = AppStorage.Instance;
+
+			await storage.LoadContacts(Contacts);
+			await storage.LoadSchedule(Schedule.Rides);
+		}
 
 		public static Page CreatePage(object contentViewModel)
 		{
@@ -51,9 +46,9 @@ namespace Drive
 			if (Device.Idiom == TargetIdiom.Desktop) {
 				contentView.WidthRequest = 360;
 				contentView.HeightRequest = 640;
-
-				page.BorderIsVisible = true;
+				page.DecorationLayout = DecorationLayout.Center;
 			} else {
+				page.DecorationLayout = DecorationLayout.FullScreen;
 				page.BorderIsVisible = false;
 			}
 
@@ -62,7 +57,7 @@ namespace Drive
 
 		async Task GoToPage(object contentViewModel)
 		{
-			Debug.Print($"AppScope.GoToPage(): viewModel={contentViewModel}");
+			//Debug.Print($"AppScope.GoToPage(): viewModel={contentViewModel}");
 
 			var page = CreatePage(contentViewModel);
 			await Navigator.ReplaceTopPage(page);
@@ -75,6 +70,7 @@ namespace Drive
 		public async void OnGoToContacts() => await GoToPage(typeof(ContactsViewModel));
 
 		// TODO: Move to some Theme related class?
-		public static readonly Color ActiveIconTextColor  = new Color(0, 148.0/255.0, 255.0/255.0); // $0094FF
+		public static readonly Color ActiveBottomButtonColor  = new Color(0, 148.0/255.0, 255.0/255.0); // $0094FF
+		public static readonly Thickness MainPanelMargin = new Thickness(-16, -16, -16, 4);
 	}
 }
