@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid;
+using Dwares.Druid.Satchel;
 using Dwares.Druid.UI;
 using Drive.ViewModels;
 
@@ -23,15 +24,20 @@ namespace Drive
 
 		protected override async void OnStart()
 		{
-			//AppStorage.Instance = new Storage.MockStorage();
+            //AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
-			await AppScope.Instance.Initialize();
-
-			var homePage = Forge.CreatePage(typeof(HomeViewModel));
-			this.InitMainPageWithNavigation(homePage);
 
 			var page = AppScope.CreatePage(typeof(ScheduleViewModel));
-			await Navigator.PushPage(page);
+			this.InitMainPageWithNavigation(page);
+
+			//var homePage = Forge.CreatePage(typeof(HomeViewModel));
+			//this.InitMainPageWithNavigation(homePage);
+
+			//var page = AppScope.CreatePage(typeof(RootViewModel));
+			//page.StartSendingPageSizeMessage();
+			//await Navigator.PushPage(page);
+
+			await AppScope.Instance.Initialize();
 		}
 
 		protected override void OnSleep()

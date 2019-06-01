@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Dwares.Dwarf;
+using Newtonsoft.Json;
 
 
 namespace Dwares.Drudge.Airtable
-{using Dwares.Dwarf;
+{
 	public class Attachment
 	{
 		//static ClassRef @class = new ClassRef(typeof(AirAttachment));
@@ -14,22 +14,22 @@ namespace Dwares.Drudge.Airtable
 			//Debug.EnableTracing(@class);
 		}
 
-		[DataMember(Name = "id", EmitDefaultValue = false)]
+		[JsonProperty("id")]
 		public string Id { get; set; }
 
-		[DataMember(Name = "url", EmitDefaultValue = false)]
+		[JsonProperty("url")]
 		public string Url { get; set; }
 
-		[DataMember(Name = "filename", EmitDefaultValue = false)]
+		[JsonProperty("filename")]
 		public string Filename { get; set; }
 
-		[DataMember(Name = "size", EmitDefaultValue = false)]
+		[JsonProperty("size")]
 		public long? Size { get; set; }
 
-		[DataMember(Name = "type", EmitDefaultValue = false)]
+		[JsonProperty("type")]
 		public string Type { get; set; }
 
-		[DataMember(Name = "thumbnails", EmitDefaultValue = false)]
+		[JsonProperty("thumbnails")]
 		public Thumbnails Thumbnails { get; set; }
 	}
 

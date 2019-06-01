@@ -128,5 +128,6 @@ namespace Dwares.Druid.UI
 
 		protected virtual View GetContentView() => Content;
 		protected virtual void ChangeContentView(View newContentView) => Content = newContentView;
+
 	}
 }

@@ -54,7 +54,7 @@ namespace Drive.Models
 		}
 
 		public override string ToString()
-			=> ToString("hh:mm tt");
+			=> ToString("HH:mm");
 
 
 		public DateTime Date => dt.Date;
@@ -66,6 +66,7 @@ namespace Drive.Models
 		public int Hour => dt.Hour;
 		public int Minute => dt.Minute;
 		public int Second => dt.Second;
+		public long Ticks => dt.Ticks;
 
 		public bool IsAfter(DateTime time) => DateTime.Compare(dt, time) > 0;
 		//public bool IsAfter(ScheduleTime time) => IsAfter(time.dt);

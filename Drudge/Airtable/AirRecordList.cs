@@ -1,27 +1,20 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using Dwares.Dwarf.Data;
+using Newtonsoft.Json;
 
 
 namespace Dwares.Drudge.Airtable
 {
 	public class AirRecordList<TRecord> where TRecord : AirRecord
 	{
-		//static ClassRef @class = new ClassRef(typeof(AirRecordList<TRecord>));
-
-		public AirRecordList()
-		{
-			//Debug.EnableTracing(@class);
-		}
-
-		[DataMember(Name = "offset", EmitDefaultValue = false)]
+		[JsonProperty("offset")]
 		public string Offset { get; internal set; }
 
-		[DataMember(Name = "records", EmitDefaultValue = false)]
+		[JsonProperty("records")]
 		public TRecord[] Records { get; internal set; }
 	}
 
 	public class AirRecordList : AirRecordList<AirRecord>
 	{
 	}
+
 }

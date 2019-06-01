@@ -14,5 +14,7 @@ namespace Drive.Models
 		}
 
 		public bool Escort { get; set; }
+
+		public Place RegularPlace { get; set; }
 	}
 }

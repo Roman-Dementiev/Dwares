@@ -5,8 +5,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Text;
+using Dwares.Dwarf.Data;
 using System.Net;
-
 
 namespace Dwares.Drudge.Airtable
 {
@@ -38,6 +38,14 @@ namespace Dwares.Drudge.Airtable
 		{
 			//Debug.EnableTracing(@class);
 		}
+
+		//public IDataBase GetDataBase(ICredentials credentials)
+		//{
+		//	if (credentials is AirCredentials airCredentials)
+		//		return new AirBase(airCredentials);
+		//	else
+		//		throw new ArgumentException("Invalid type of credentials", nameof(credentials));
+		//}
 
 		public async Task<AirResponse> SendRequestAsync(HttpMethod method, string apiKey, Uri uri, string contentJson, bool throwError = true)
 		{

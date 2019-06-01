@@ -155,6 +155,10 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Drudge\Drudge.csproj">
+      <Project>{0d53dabe-1d38-4083-96d3-ec23b8a35fff}</Project>
+      <Name>Drudge</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Druid\Druid.UWP\Druid.UWP.csproj">
       <Project>{0b5041da-67d1-4d61-b874-645bc54ffa60}</Project>
       <Name>Druid.UWP</Name>

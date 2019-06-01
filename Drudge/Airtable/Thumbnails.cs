@@ -1,42 +1,27 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using Dwares.Dwarf;
+using Newtonsoft.Json;
 
 
 namespace Dwares.Drudge.Airtable
 {
 	public class Thumbnails
 	{
-		//static ClassRef @class = new ClassRef(typeof(Thumbnails));
-
-		public Thumbnails()
-		{
-			//Debug.EnableTracing(@class);
-		}
-
-		[DataMember(Name = "small", EmitDefaultValue = false)]
+		[JsonProperty("small")]
 		public Thumbnail Small { get; internal set; }
 
-		[DataMember(Name = "large", EmitDefaultValue = false)]
+		[JsonProperty("large")]
 		public Thumbnail Large { get; internal set; }
 	}
 
 	public class Thumbnail
 	{
-		//static ClassRef @class = new ClassRef(typeof(Thumbnail));
-
-		public Thumbnail()
-		{
-			//Debug.EnableTracing(@class);
-		}
-
-		[DataMember(Name = "url", EmitDefaultValue = false)]
+		[JsonProperty("url")]
 		public string Url { get; internal set; }
 
-		[DataMember(Name = "width", EmitDefaultValue = false)]
+		[JsonProperty("width")]
 		public long Width { get; internal set; }
 
-		[DataMember(Name = "height", EmitDefaultValue = false)]
+		[JsonProperty("height")]
 		public long Height { get; internal set; }
 	}
 }

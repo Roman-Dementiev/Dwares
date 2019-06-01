@@ -56,10 +56,20 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
-		protected void AddShadows(IList<SourceItem> items)
+		//protected void AddShadows(IList<SourceItem> items)
+		//{
+		//	foreach (var sourceItem in items) {
+		//		var shadowItem = ItemFactory(sourceItem);
+		//		if (shadowItem != null) {
+		//			Add(shadowItem);
+		//		}
+		//	}
+		//}
+
+		protected void AddShadows(IList items)
 		{
-			foreach (var sourceItem in items) {
-				var shadowItem = ItemFactory(sourceItem);
+			foreach (var item in items) {
+				var shadowItem = ShadowFromObject(item);
 				if (shadowItem != null) {
 					Add(shadowItem);
 				}
@@ -71,7 +81,9 @@ namespace Dwares.Dwarf.Collections
 			int index = startinIndex;
 			foreach (var item in items) {
 				var shadowItem = ShadowFromObject(item);
-				Add(shadowItem);
+				if (shadowItem != null) {
+					Add(shadowItem);
+				}
 			}
 		}
 

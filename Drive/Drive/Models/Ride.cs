@@ -15,112 +15,95 @@ namespace Drive.Models
 			Client = client ?? throw new ArgumentNullException(nameof(client));
 		}
 
-		protected Ride(Client client, IPlace place, ScheduleTime time) :
-			this(client)
-		{
-			Stops = new Stop[] { new Stop {
-				Place = place,
-				Time = time
-			} };
-		}
-
-		//protected Ride(Client client, IPlace place) :
-		//	this(client, place, new ScheduleTime())
-		//{
-		//}
+		public string Id { get; set; }
+		public int Seq { get; set; }
 
 
 		public Client Client { get; }
-		public Stop[] Stops { get; set; }
+		public Stop PickupStop { get; set; }
+		public Stop DropoffStop { get; set; }
 
-		public Stop FirstStop {
-			get => Stops[0];
-		}
 
-		public Stop? SecondStop {
-			get {
-				if (Stops.Length > 1) {
-					return Stops[1];
-				} else {
-					return null;
+		public class Stop
+		{
+			public Stop(IPlace place, ScheduleTime? time = null)
+			{
+				Place = place ?? throw new ArgumentNullException(nameof(place));
+
+				if (time != null) {
+					Time = (ScheduleTime)time;
 				}
 			}
-		}
 
-		public struct Stop
-		{
 			public IPlace Place { get; set; }
 			public ScheduleTime Time { get; set; }
 		}
+
+		public static int Compare(Ride ride1, Ride ride2)
+		{
+			var t1 = (ride1.PickupStop ?? ride1.DropoffStop).Time.Ticks;
+			var t2 = (ride2.PickupStop ?? ride2.DropoffStop).Time.Ticks;
+			if (t1 == t2) {
+				t1 = ride1.Seq;
+				t2 = ride2.Seq;
+			}
+
+			if (t1 < t2)
+				return -1;
+			if (t1 > t2)
+				return 1;
+			return 0;
+		}
 	}
+
 
 	public class PickupRide : Ride
 	{
-		public PickupRide(Client client, IPlace pickupPlace) :
-			base(client, pickupPlace, new ScheduleTime())
+		public PickupRide(Client client, IPlace pickupPlace, ScheduleTime? time = null) :
+			base(client)
 		{
+			PickupStop = new Stop(pickupPlace, time);
 		}
 
-		public PickupRide(Client client, IPlace pickupPlace, ScheduleTime time) :
-			base(client, pickupPlace, time)
-		{
-		}
-
-		public static PickupRide AtHome(Client client, ScheduleTime time)
+		public static PickupRide AtHome(Client client, ScheduleTime? time = null)
 			=> new PickupRide(client, client.Home, time);
 
-		public static PickupRide AtHome(Client client)
-			=> new PickupRide(client, client.Home, new ScheduleTime());
 	}
+
 
 	public class DropoffRide : Ride
 	{
-		public DropoffRide(Client client, IPlace pickupPlace) :
-			base(client, pickupPlace, new ScheduleTime())
+		public DropoffRide(Client client, IPlace dropoffPlace, ScheduleTime? time = null) :
+			base(client)
 		{
+			DropoffStop = new Stop(dropoffPlace, time);
 		}
 
-		public DropoffRide(Client client, IPlace pickupPlace, ScheduleTime time) :
-			base(client, pickupPlace, time)
-		{
-		}
-
-
-		public static DropoffRide ToHome(Client client, ScheduleTime time)
+		public static DropoffRide ToHome(Client client, ScheduleTime? time = null)
 			=> new DropoffRide(client, client.Home, time);
-
-		public static DropoffRide ToHome(Client client)
-			=> new DropoffRide(client, client.Home, new ScheduleTime());
 	}
+
 
 	public class CompleteRide : Ride
 	{
-		public CompleteRide(Client client, IPlace pickupPlace, ScheduleTime pickupTime, IPlace dropoffPlace, ScheduleTime dropoffTime) :
+		public CompleteRide(Client client, IPlace pickupPlace, ScheduleTime? pickupTime, IPlace dropoffPlace, ScheduleTime? dropoffTime) :
 			base(client)
 		{
-			Stops = new Stop[] { 
-				new Stop {
-					Place = pickupPlace,
-					Time = pickupTime
-				},
-				new Stop {
-					Place = dropoffPlace,
-					Time = dropoffTime
-				}
-			};
+			PickupStop = new Stop(pickupPlace, pickupTime);
+			DropoffStop = new Stop(dropoffPlace, dropoffTime);
 		}
 
-		public static CompleteRide FromHome(Client client, ScheduleTime pickupTime, IPlace dropoffPlace, ScheduleTime dropoffTime)
+		public static CompleteRide FromHome(Client client, ScheduleTime? pickupTime, IPlace dropoffPlace, ScheduleTime? dropoffTime)
 			=> new CompleteRide(client, client.Home, pickupTime, dropoffPlace, dropoffTime);
 
-		public static CompleteRide ToHome(Client client, IPlace pickupPlace, ScheduleTime pickupTime, ScheduleTime dropoffTime)
+		public static CompleteRide ToHome(Client client, IPlace pickupPlace, ScheduleTime? pickupTime, ScheduleTime? dropoffTime)
 			=> new CompleteRide(client, pickupPlace, pickupTime, client.Home, dropoffTime);
 
 		public static CompleteRide FromHome(Client client, IPlace dropoffPlace)
-			=> FromHome(client, new ScheduleTime(), dropoffPlace, new ScheduleTime());
+			=> FromHome(client, null, dropoffPlace, null);
 
 		public static CompleteRide ToHome(Client client, IPlace pickupPlace)
-			=> ToHome(client, pickupPlace, new ScheduleTime(), new ScheduleTime());
+			=> ToHome(client, null, new ScheduleTime(), null);
 
 	}
 }

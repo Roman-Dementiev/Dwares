@@ -17,15 +17,26 @@ namespace Dwares.Dwarf.Toolkit
 			}
 		}
 
-		protected void PropertiesChanged(params string[] names)
+		protected void PropertiesChanged(IEnumerable<string> names)
 		{
 			var changed = PropertyChanged;
-			if (changed != null) {
+			if (changed != null)
+			{
 				foreach (var propertyName in names) {
 					changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
 				}
 			}
 		}
+
+		//protected void PropertiesChanged(params string[] names)
+		//{
+		//	var changed = PropertyChanged;
+		//	if (changed != null) {
+		//		foreach (var propertyName in names) {
+		//			changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		//		}
+		//	}
+		//}
 
 		protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
 		{

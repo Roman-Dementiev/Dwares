@@ -16,13 +16,13 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
 				  Margin="{Binding MainPanelMargin}" 
 				  HorizontalOptions="FillAndExpand"
 				  VerticalOptions="FillAndExpand"
@@ -36,10 +36,10 @@
 				<DataTemplate>
 					<ViewCell>
 						<ContentView Margin="0">
-							<Frame BorderColor="{Binding BorderColor, Mode=OneWay}"
+                            <Frame Margin="1"
+                                   BorderColor="{Binding BorderColor, Mode=OneWay}"
 								   BackgroundColor="{Binding BackgroundColor, Mode=OneWay}"
 								   CornerRadius="{Binding CornerRadius, Mode=OneWay}"
-								   Margin="1"
 								   >
 								<Grid>
 									<Grid.RowDefinitions>
@@ -52,56 +52,71 @@
 									</Grid.RowDefinitions>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="80" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+										<!--<ColumnDefinition Width="Auto" />-->
 									</Grid.ColumnDefinitions>
 
-									<ui:LabelEx Grid.Row="0" Grid.Column="1" 
+									<ui:LabelEx Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
 												HorizontalOptions="Start"
 												FontSize="{Binding TextSize}"
 												FontAttributes="Bold"
 												Text="{Binding ClientName, Mode=OneWay}"/>
 
-									<ui:LabelEx Grid.Row="1" Grid.Column="1" 
+                                    <ui:LabelEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
 												HorizontalOptions="Start"
 												FontSize="{Binding SmallTextSize}"
+                                                IsVisible="{Binding HasClientPhone}"
 												Text="{Binding ClientPhone}"/>
 									
 									<ui:LabelEx Grid.Row="2" Grid.Column="0"
 												HorizontalOptions="Center"
 												VerticalOptions="End"
 												FontSize="{Binding SmallTextSize}"
-												Text="{Binding FirstStopTime, Mode=OneWay}"
+                                                IsVisible="{Binding HasPickupStop}"
+												Text="{Binding PickupTime, Mode=OneWay}"
 												/>
-									<ui:LabelEx Grid.Row="2" Grid.Column="1"
+                                    <ui:LabelEx Grid.Row="2" Grid.Column="1"
 												HorizontalOptions="Start"
 												FontSize="{Binding TextSize}"
-												Text="{Binding FirstStopTitle, Mode=OneWay}"
+                                                IsVisible="{Binding HasPickupStop}"
+												Text="At: "
+												/>
+                                    <ui:LabelEx Grid.Row="2" Grid.Column="2"
+												HorizontalOptions="Start"
+												FontSize="{Binding TextSize}"
+                                                IsVisible="{Binding HasPickupStop}"
+												Text="{Binding PickupPlace, Mode=OneWay}"
 												/>
 									
-									<ui:LabelEx Grid.Row="3" Grid.Column="1" 
+									<ui:LabelEx Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"
 												HorizontalOptions="Start"
 												FontSize="{Binding TextSize}"
-												IsVisible="{Binding ShowDetails, Mode=OneWay}"
-												Text="{Binding FirstStopAddress, Mode=OneWay}"
+												IsVisible="{Binding ShowPickupAddress, Mode=OneWay}"
+												Text="{Binding PickupAddress, Mode=OneWay}"
 												/>
 
 									<ui:LabelEx Grid.Row="4" Grid.Column="0" 
 												HorizontalOptions="Center"
 												FontSize="{Binding TextSize}"
-												IsVisible="{Binding ShowDetails, Mode=OneWay}"
-												Text="{Binding SecondStopTime, Mode=OneWay}"
+												IsVisible="{Binding HasDropoffStop}"
+												Text="{Binding DropoffTime, Mode=OneWay}"
 												/>
-									<ui:LabelEx Grid.Row="4" Grid.Column="1" 
+                                    <ui:LabelEx Grid.Row="4" Grid.Column="1" 
 												FontSize="{Binding TextSize}"
-												IsVisible="{Binding ShowDetails, Mode=OneWay}"
-												Text="{Binding SecondStopTitle, Mode=OneWay}"
+												IsVisible="{Binding HasDropoffStop}"
+												Text="To: "
+												/>
+                                    <ui:LabelEx Grid.Row="4" Grid.Column="2" 
+												FontSize="{Binding TextSize}"
+												IsVisible="{Binding HasDropoffStop}"
+												Text="{Binding DropoffPlace, Mode=OneWay}"
 												/>
 
-									<ui:LabelEx Grid.Row="5" Grid.Column="1" 
+									<ui:LabelEx Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
 												FontSize="{Binding TextSize}"
-												IsVisible="{Binding ShowDetails, Mode=OneWay}"
-												Text="{Binding SecondStopAddress, Mode=OneWay}"
+												IsVisible="{Binding ShowDropoffAddress, Mode=OneWay}"
+												Text="{Binding DropoffAddress, Mode=OneWay}"
 												/>
 								</Grid>
 							</Frame>

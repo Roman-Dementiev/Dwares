@@ -26,7 +26,7 @@ namespace Drive
 			//Debug.EnableTracing(@class);
 		}
 
-		public ContactCollection Contacts { get; } = new ContactCollection();
+		public Contacts Contacts { get; } = new Contacts();
 		public Schedule Schedule { get; } = new Schedule();
 
 
@@ -35,8 +35,8 @@ namespace Drive
 			var storage = AppStorage.Instance;
 
 			await storage.Initialize();
-			await storage.LoadContacts(Contacts);
-			await storage.LoadSchedule(Schedule.Rides);
+			await storage.LoadContacts();
+			await storage.LoadSchedule();
 		}
 
 		public static Page CreatePage(object contentViewModel)
@@ -56,21 +56,22 @@ namespace Drive
 			return page;
 		}
 
-		async Task GoToPage(object contentViewModel)
-		{
-			//Debug.Print($"AppScope.GoToPage(): viewModel={contentViewModel}");
+		//async Task GoToPage(object contentViewModel)
+		//{
+		//	//Debug.Print($"AppScope.GoToPage(): viewModel={contentViewModel}");
 
-			var page = CreatePage(contentViewModel);
-			await Navigator.ReplaceTopPage(page);
-		}
+		//	var page = CreatePage(contentViewModel);
+		//	await Navigator.ReplaceTopPage(page);
+		//}
 
-		public async void OnGoToSchedule() => await GoToPage(typeof(ScheduleViewModel));
+		//public async void OnGoToSchedule() => await GoToPage(typeof(ScheduleViewModel));
 
-		public async void OnGoToRoute() => await GoToPage(typeof(RouteViewModel));
+		//public async void OnGoToRoute() => await GoToPage(typeof(RouteViewModel));
 
-		public async void OnGoToContacts() => await GoToPage(typeof(ContactsViewModel));
+		//public async void OnGoToContacts() => await GoToPage(typeof(ContactsViewModel));
 
 		// TODO: Move to some Theme related class?
+		public static readonly Color DefaultBottomButtonColor = Color.Black;
 		public static readonly Color ActiveBottomButtonColor  = new Color(0, 148.0/255.0, 255.0/255.0); // $0094FF
 		public static readonly Thickness MainPanelMargin = new Thickness(-16, -16, -16, 4);
 	}

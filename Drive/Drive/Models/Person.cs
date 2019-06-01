@@ -14,6 +14,8 @@ namespace Drive.Models
 			//Debug.EnableTracing(@class);
 		}
 
+		public string Id { get; set; }
+
 		string fullName;
 		public string FullName {
 			get => fullName;

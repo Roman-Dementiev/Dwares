@@ -13,13 +13,14 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
 		<ui:ButtonEx Grid.Row="0" Grid.Column="0"
@@ -39,28 +40,98 @@
 					 Text="Other"
 					 />
 
-		<Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-			   BorderColor="Black"
-			   Margin="-6,0,-6,4"
-			   >
-		<ListView  />
-		</Frame>
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+               Text="TODO"
+               />
+        
+        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+				    Margin="{Binding MainPanelMargin}" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    SeparatorVisibility="None"
+                    HasUnevenRows="True"
+                    ItemsSource="{Binding Items}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                    >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ContentView Margin="0">
+                            <Frame Margin="1"
+                                    BorderColor="{Binding BorderColor, Mode=OneWay}"
+                                    BackgroundColor="{Binding BackgroundColor, Mode=OneWay}"
+                                    CornerRadius="{Binding CornerRadius, Mode=OneWay}"
+                                    >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ui:LabelEx Grid.Row="0" Grid.Column="0"
+                                                FontSize="{Binding TextSize}"
+                                                FontAttributes="Bold"
+                                                Text="{Binding Name}"
+                                                />
+                                    <ui:LabelEx Grid.Row="1" Grid.Column="0"
+                                                FontSize="{Binding TextSize}"
+                                                IsVisible="{Binding HasPhone}"
+                                                Text="{Binding PhoneNumber}"
+                                                />
+                                    <ui:LabelEx Grid.Row="2" Grid.Column="0"
+                                                FontSize="{Binding TextSize}"
+                                                IsVisible="{Binding ShowAddress, Mode=OneWay}"
+                                                Text="{Binding Address}"
+                                                />
+
+                                    <ui:LabelEx Grid.Row="3" Grid.Column="0"
+                                                Margin="0,24,0,0"
+                                                FontSize="{Binding TextSize}"
+                                                FontAttributes="Bold"
+                                                IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+                                                Text="Regular destination:"
+                                                />
+                                    <ui:LabelEx Grid.Row="4" Grid.Column="0"
+                                                FontSize="{Binding TextSize}"
+                                                IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+                                                Text="{Binding RegularPlace}"
+                                                />
+                                    <ui:LabelEx Grid.Row="5" Grid.Column="0"
+                                                FontSize="{Binding TextSize}"
+                                                IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+                                                Text="{Binding RegularAddress}"
+                                                />
+
+                                </Grid>
+                            </Frame>
+                        </ContentView>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 		
-		<ui:PicButton Grid.Row="2" Grid.Column="0"
+		<ui:PicButton Grid.Row="3" Grid.Column="0"
 					  Style="{StaticResource BottomButton}"
 					  ImageName="Schedule"
 					  LabelText="Schedule"
 					  Writ="GoToSchedule"
 					  />
 
-		<ui:PicButton Grid.Row="2" Grid.Column="1"
+		<ui:PicButton Grid.Row="3" Grid.Column="1"
 					  Style="{StaticResource BottomButton}"
 					  ImageName="Route"
 					  LabelText="Route"
 					  Writ="GoToRoute"
 					  />
 
-			<ui:PicButton Grid.Row="2" Grid.Column="2"
+			<ui:PicButton Grid.Row="3" Grid.Column="2"
 					  Style="{StaticResource BottomButton}"
 					  ImageName="Contacts_active"
 					  LabelText="Contacts"

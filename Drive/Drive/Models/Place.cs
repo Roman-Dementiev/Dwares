@@ -14,6 +14,14 @@ namespace Drive.Models
 			//Debug.EnableTracing(@class);
 		}
 
+		public string Id { get; set; }
+
+		string fullTitle;
+		public string FullTitle {
+			get => fullTitle;
+			set => SetProperty(ref fullTitle, value);
+		}
+
 		PhoneNumber phoneNumber;
 		public PhoneNumber PhoneNumber {
 			get => phoneNumber;
@@ -34,6 +42,14 @@ namespace Drive.Models
 		{
 			Title = "Home";
 			Address = address;
+		}
+
+		public static Home ForAddress(string address)
+		{
+			if (string.IsNullOrEmpty(address))
+				return null;
+			
+			return new Home(address);
 		}
 	}
 }

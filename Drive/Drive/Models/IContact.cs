@@ -7,6 +7,7 @@ namespace Drive.Models
 {
 	public interface IContact : ITitleHolder
 	{
+		string Id { get; }
 		PhoneNumber PhoneNumber { get; set; }
 		string Address { get; set; }
 	}

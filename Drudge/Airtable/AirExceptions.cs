@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Dwares.Dwarf.Toolkit;
+using Newtonsoft.Json.Linq;
 
 
 namespace Dwares.Drudge.Airtable
@@ -72,12 +71,13 @@ namespace Dwares.Drudge.Airtable
 		private static async Task<string> ReadResponseErrorMessage(HttpResponseMessage response)
 		{
 			var content = await response.Content.ReadAsStringAsync();
+
 			if (string.IsNullOrEmpty(content)) {
 				return null;
 			}
 
-			var errorResponse = Serialization.DeserializeJson<ErrorResponse>(content);
-			var errorMessage = errorResponse?.Message;
+			var json = JObject.Parse(content);
+			var errorMessage = json["error"]?["message"]?.Value<string>();
 
 			return errorMessage;
 		}
@@ -178,15 +178,5 @@ namespace Dwares.Drudge.Airtable
 				errorDetail)
 		{
 		}
-	}
-
-
-	public class ErrorResponse
-	{
-		[DataMember(Name = "error", EmitDefaultValue = false)]
-		public string Error { get; set; }
-
-		[DataMember(Name = "message", EmitDefaultValue = false)]
-		public string Message { get; set; }
 	}
 }

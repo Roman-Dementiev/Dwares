@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  x:Class="Drive.Views.RootView">
+
+	<Grid Margin="-20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+			   Margin="0"
+			   BorderColor="{Binding ContentBorderColor, Mode=OneWay}"
+			   Content="{Binding Content, Mode=OneWay}"
+			   />
+
+		<ui:PicButton Grid.Row="1" Grid.Column="0"
+					  Style="{StaticResource BottomButton}"
+					  Orientation="{Binding ButtonsOrientation, Mode=OneWay}"
+					  ImageName="{Binding ScheduleIcon, Mode=OneWay}"
+					  LabelText="Schedule"
+					  LabelColor="{Binding ScheduleTabTextColor}"
+					  Writ="GoToSchedule"
+					  />
+
+		<ui:PicButton Grid.Row="1" Grid.Column="1"
+					  Style="{StaticResource BottomButton}"
+					  Orientation="{Binding ButtonsOrientation, Mode=OneWay}"
+					  ImageName="{Binding RouteIcon, Mode=OneWay}"
+					  LabelText="Route"
+					  LabelColor="{Binding RouteTabTextColor}"
+					  Writ="GoToRoute"
+					  />
+
+		<ui:PicButton Grid.Row="1" Grid.Column="2"
+					  Style="{StaticResource BottomButton}"
+					  Orientation="{Binding ButtonsOrientation, Mode=OneWay}"
+					  ImageName="{Binding ContactsIcon, Mode=OneWay}"
+					  LabelText="Contacts"
+					  LabelColor="{Binding ContactsTabTextColor}"
+					  Writ="GoToContacts"
+					  />
+	</Grid>
+
+</ui:ContentViewEx>

@@ -110,10 +110,47 @@ namespace Dwares.Dwarf.Collections
 		}
 
 		// TODO
-		public static int BinarySearch<T>(ICollection<T> collection, T item, IComparer<T> comparer)
+		public static int BinarySearch<T>(this ICollection<T> collection, T item, IComparer<T> comparer)
 		{
 			T[] items = ToArray(collection);
 			return Array.BinarySearch(items, item, comparer);
 		}
+
+		// TODO
+		public static ICollection<T> Sort<T>(ICollection<T> collection, ICollection<T> sorted, IComparer<T> comparer)
+		{
+			Guard.ArgumentNotNull(collection, nameof(collection));
+
+			var items = new List<T>();
+			foreach (var item in collection) {
+				items.Add(item);
+			}
+
+			items.Sort(comparer);
+
+			;
+			foreach (var item in collection) {
+				items.Add(item);
+			}
+
+			items.Sort(comparer);
+
+			if (sorted == null) {
+				sorted = Activator.CreateInstance(collection.GetType()) as ICollection<T>;
+				Debug.AssertNotNull(sorted);
+			} else {
+				sorted.Clear();
+			}
+
+			foreach (var item in items) {
+				sorted.Add(item);
+			}
+
+			return sorted;
+		}
+
+		public static void Sort<T>(this ICollection<T> collection, IComparer<T> comparer)
+			=> Sort(collection, collection, comparer);
+
 	}
 }

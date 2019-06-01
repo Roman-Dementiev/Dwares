@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Dwares.Dwarf;
 
 
@@ -26,9 +30,9 @@ namespace Dwares.Drudge.Airtable
 		public string BaseId { get; }
 
 
-		//public virtual Exception Authenticate()
-		//{
-		//	return null;
-		//}
+		public virtual Exception Authenticate()
+		{
+			return null;
+		}
 	}
 }

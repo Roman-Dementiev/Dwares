@@ -6,7 +6,8 @@ using Dwares.Dwarf;
 
 namespace Dwares.Drudge.Airtable
 {
-	public class Fields
+    [DataContract]
+    public class Fields
 	{
 		//static ClassRef @class = new ClassRef(typeof(Fields));
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Dwares.Dwarf;
 
 
@@ -9,7 +10,7 @@ namespace Dwares.Drudge.Airtable
 	{
 		public AirResponse(string body)
 		{
-			Success = true;
+			Success = false;
 			Error = null;
 			Body = body;
 		}

@@ -4,9 +4,15 @@ using System.Text;
 
 namespace Drive.Models
 {
-	public class ContactCollection : ObservableCollection<IContact>
+	public class Contacts : ObservableCollection<IContact>
 	{
-		public ContactCollection() { }
+		public Contacts() { }
+
+		public IContact GetById(string id, Type type = null)
+			=> Lookup((contact) => contact.Id == id && (type == null || contact.GetType() == type));
+
+		public T GetById<T>(string id, Type type = null) where T : IContact
+			=> (T)GetById(id, typeof(T));
 
 		public IContact GetByName(string name)
 			=> Lookup((contact) => contact.Title == name);

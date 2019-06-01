@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
 using Dwares.Dwarf.Toolkit;
@@ -21,13 +21,13 @@ namespace Dwares.Drudge.Airtable
 			Fields =  new FeildSet();
 		}
 
-		[DataMember(Name = "id", EmitDefaultValue = false)]
+		[JsonProperty("id")]
 		public string Id { get; internal set; }
 
-		[DataMember(Name = "createdTime", EmitDefaultValue = false)]
+		[JsonProperty("createdTime")]
 		public DateTime CreatedTime { get; internal set; }
 
-		[DataMember(Name = "fields", EmitDefaultValue = false)]
+		[JsonProperty("fields")]
 		public FeildSet Fields { get; internal set; }
 
 		//public string RecordId => Id;
@@ -102,6 +102,32 @@ namespace Dwares.Drudge.Airtable
 			T value;
 			GetField(fieldName, out value, defaultValue);
 			return value;
+		}
+
+		public List<string> GetLinks(string fieldName)
+		{
+			//Newtonsoft.Json.Linq.JArray array = null;
+			var array = GetField<Newtonsoft.Json.Linq.JArray>(fieldName);
+			if (array == null)
+				return null;
+
+			var links = new List<string>();
+			foreach (var token in array)
+			{
+				links.Add(token.ToString());
+			}
+
+			return links;
+		}
+
+		public string GetLinkId(string fieldName)
+		{
+			//Newtonsoft.Json.Linq.JArray array = null;
+			var array = GetField<Newtonsoft.Json.Linq.JArray>(fieldName);
+			if (array == null || array.First == null)
+				return null;
+
+			return array.First.ToString();
 		}
 
 		//public Dictionary<string, object> GetFields(params string[] fieldNames)

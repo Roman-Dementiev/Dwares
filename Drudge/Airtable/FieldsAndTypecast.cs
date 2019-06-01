@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Dwares.Dwarf;
-using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Drudge.Airtable
@@ -23,10 +22,15 @@ namespace Dwares.Drudge.Airtable
 		}
 
 
-		[DataMember(Name = "fields", EmitDefaultValue = false)]
+		[JsonProperty("fields")]
 		public Dictionary<string, object> Fields { get; internal set; }
 
-		[DataMember(Name = "typecast", EmitDefaultValue = false)]
+		[JsonProperty("typecast")]
 		public bool Typecast { get; internal set; } = false;
+
+		public string ToJson()
+		{
+			return JsonConvert.SerializeObject(this, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+		}
 	}
 }

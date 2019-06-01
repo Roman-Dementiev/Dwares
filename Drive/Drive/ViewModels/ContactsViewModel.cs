@@ -11,7 +11,7 @@ namespace Drive.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(ContactsViewModel1cs));
 
-		public ContactsViewModel() : this(null) { }
+		public ContactsViewModel() : this(typeof(Client)) { }
 
 		public ContactsViewModel(Type contactType) :
 			base(ApplicationScope, ContactItem.CreateCollection(contactType))

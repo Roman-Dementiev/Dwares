@@ -10,9 +10,9 @@ namespace Drive.Storage
 	{
 		Task Initialize();
 
-		Task LoadContacts(IList<IContact> contacts);
-		Task SaveContacts(IList<IContact> contacts);
-		Task LoadSchedule(IList<Ride> schedule);
-		Task SaveSchedule(IList<Ride> schedule);
+		Task LoadContacts();
+		Task SaveContacts();
+		Task LoadSchedule();
+		Task SaveSchedule();
 	}
 }

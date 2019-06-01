@@ -2,6 +2,8 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					xmlns:views="clr-namespace:Drive.Views"
+					xmlns:vm="clr-namespace:Drive.ViewModels"
 					x:Class="Drive.Themes.Default">
 
 	<Style x:Key="StaticText" TargetType="Label">
@@ -24,6 +26,7 @@
 	<Style x:Key="AddressEditor" TargetType="Editor">
 		<Setter Property="HeightRequest" Value="86" />
 	</Style>
+
 	
 	<!--<Style x:Key="BottomButton" TargetType="ui:PicButton">
 		<Setter Property="Orientation" Value="Vertical" />
