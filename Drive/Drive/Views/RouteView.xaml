@@ -9,39 +9,7 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-
-		<ListView Grid.Row="0" Grid.Column="0" />
-
-		<ui:PicButton Grid.Row="1" Grid.Column="0"
-					  Style="{StaticResource BottomButton}"
-					  ImageName="Schedule"
-					  LabelText="Schedule"
-					  Writ="GoToSchedule"
-					  />
-
-		<ui:PicButton Grid.Row="1" Grid.Column="1"
-					  Style="{StaticResource BottomButton}"
-					  ImageName="Route_active"
-					  LabelText="Route"
-					  LabelColor="{Binding ActiveBottomButtonColor}"
-					  />
-
-		<ui:PicButton Grid.Row="1" Grid.Column="2"
-					  Style="{StaticResource BottomButton}"
-					  ImageName="Contacts"
-					  LabelText="Contacts"
-					  Writ="GoToContacts"
-					  />
-	</Grid>
+	<ListView>
+	</ListView>>
 	
 </ui:ContentViewEx>

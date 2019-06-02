@@ -19,9 +19,7 @@ namespace Drive.ViewModels
 
 			PropertiesChangedOnSelected = new string[] {
 				nameof(IsSelected),
-				nameof(CornerRadius),
-				nameof(BorderColor),
-				nameof(BackgroundColor),
+				nameof(ItemFrameStyle),
 				nameof(ShowDetails),
 				nameof(ShowAddress),
 				nameof(ShowRegularPlace)

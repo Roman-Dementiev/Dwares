@@ -27,15 +27,16 @@ namespace Drive
             //AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
 
-			var page = AppScope.CreatePage(typeof(ScheduleViewModel));
-			this.InitMainPageWithNavigation(page);
+			//var page = AppScope.CreatePage(typeof(ScheduleViewModel));
+			//this.InitMainPageWithNavigation(page);
 
 			//var homePage = Forge.CreatePage(typeof(HomeViewModel));
 			//this.InitMainPageWithNavigation(homePage);
 
-			//var page = AppScope.CreatePage(typeof(RootViewModel));
-			//page.StartSendingPageSizeMessage();
-			//await Navigator.PushPage(page);
+			var page = AppScope.CreatePage(typeof(RootViewModel));
+			page.StartSendingPageSizeMessage();
+			this.InitMainPageWithNavigation(page);
+			WritCommand.ExecuteWrit("GoToSchedule");
 
 			await AppScope.Instance.Initialize();
 		}

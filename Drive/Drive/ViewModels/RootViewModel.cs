@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Satchel;
+using Dwares.Druid.UI;
 using Xamarin.Forms;
 
 namespace Drive.ViewModels
@@ -16,10 +17,17 @@ namespace Drive.ViewModels
 
 	public class RootViewModel : ViewModel
 	{
+		Style tabButton_Default;
+		Style tabButton_Active;
+
 		public RootViewModel()
 		{
+			Title = "ZenRide";
+			
 			MessageBroker.SubscribePageSizeMessage(this, OnPageSizeMessage);
-			OnGoToSchedule();
+
+			tabButton_Default = UITheme.Current.GetStyleByName("TabButton-default");
+			tabButton_Active = UITheme.Current.GetStyleByName("TabButton-active");
 		}
 
 		StackOrientation buttonsOrientation;
@@ -34,7 +42,7 @@ namespace Drive.ViewModels
 			get => activeTab;
 			set => SetPropertyEx(ref activeTab, value, nameof(ActiveTab),
 				nameof(ScheduleIcon), nameof(RouteIcon), nameof(ContactsIcon),
-				nameof(ScheduleTabTextColor), nameof(RouteTabTextColor), nameof(ContactsTabTextColor),
+				nameof(ScheduleTabStyle), nameof(RouteTabStyle), nameof(ContactsTabStyle),
 				nameof(ContentBorderColor));
 		}
 
@@ -48,14 +56,18 @@ namespace Drive.ViewModels
 			get => ActiveTab == RootTab.Contacts ? "Contacts_active" : "Contacts";
 		}
 
-		public Color ScheduleTabTextColor {
-			get => ActiveTab == RootTab.Schedule ? AppScope.ActiveBottomButtonColor : AppScope.DefaultBottomButtonColor;
+		Style TabButtonStyle(RootTab tab) {
+			return ActiveTab == tab ? tabButton_Active : tabButton_Default;
 		}
-		public Color RouteTabTextColor {
-			get => ActiveTab == RootTab.Route ? AppScope.ActiveBottomButtonColor : AppScope.DefaultBottomButtonColor;
+
+		public Style ScheduleTabStyle {
+			get => TabButtonStyle(RootTab.Schedule);
 		}
-		public Color ContactsTabTextColor {
-			get => ActiveTab == RootTab.Contacts ? AppScope.ActiveBottomButtonColor : AppScope.DefaultBottomButtonColor;
+		public Style RouteTabStyle {
+			get => TabButtonStyle(RootTab.Route);
+		}
+		public Style ContactsTabStyle {
+			get => TabButtonStyle(RootTab.Contacts);
 		}
 
 		public Color ContentBorderColor {
@@ -76,6 +88,19 @@ namespace Drive.ViewModels
 				return;
 
 			ActiveTab = tab;
+
+			ContentViewEx contentView = null;
+			if (contentViewModel != null) {
+				contentView = Forge.CreateView(contentViewModel) as ContentViewEx;
+			}
+
+			Content = contentView;
+
+			var mainPage = Application.Current.MainPage;
+			if (mainPage != null) {
+				mainPage.SetToolbarItems(contentView?.ToolbarItems);
+				//mainPage.SetPageTitle(contentView?.Title);
+			}
 		}
 
 		public void OnGoToSchedule() 

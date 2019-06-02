@@ -21,8 +21,5 @@ namespace Drive.ViewModels
 			Title = "Contacts";
 		}
 
-		public Color ActiveBottomButtonColor {
-			get => AppScope.ActiveBottomButtonColor;
-		}
 	}
 }

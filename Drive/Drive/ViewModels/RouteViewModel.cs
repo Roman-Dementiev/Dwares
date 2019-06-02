@@ -14,11 +14,7 @@ namespace Drive.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 
-			Title = "Roure";
-		}
-
-		public Color ActiveBottomButtonColor {
-			get => AppScope.ActiveBottomButtonColor;
+			Title = "Route";
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Dwares.Dwarf.Runtime;
 using Dwares.Druid.Forms;
@@ -60,14 +61,16 @@ namespace Dwares.Druid
 
 		public static void InitMainPageWithNavigation(this Application app, Page mainPage)
 		{
-			var navPage = new NavigationPage(mainPage) {
-				BarBackgroundColor = Color.DodgerBlue,
-				BarTextColor = Color.White
-			};
 
-			app.MainPage = navPage;
+			// TODO: use Theme
+			//
+			//app.MainPage = new NavigationPage(mainPage) {
+			//	BarBackgroundColor = Color.DodgerBlue,
+			//	BarTextColor = Color.White
+			//};
 
-			Navigator.Initialize(navPage);
+			app.MainPage = new NavigationPage(mainPage);
+			Navigator.Initialize();
 		}
 
 		public static Page InitMainPageWithNavigation(this Application app, Type viewModelType)
@@ -75,6 +78,28 @@ namespace Dwares.Druid
 			var mainPage = Forge.CreatePage(viewModelType);
 			app.InitMainPageWithNavigation(mainPage);
 			return mainPage;
+		}
+
+		public static void SetToolbarItems(this Page page, IList<ToolbarItem> toolbarItems)
+		{
+			page.ToolbarItems.Clear();
+
+			if (toolbarItems != null) {
+				foreach (var item in toolbarItems) {
+					page.ToolbarItems.Add(item);
+				}
+			}
+		}
+
+		public static void SetPageTitle(this Page page, string title)
+		{
+			if (page is NavigationPage navPage) {
+				page = navPage.CurrentPage;
+			}
+
+			if (page != null) {
+				page.Title = title ?? string.Empty;
+			}
 		}
 	}
 }

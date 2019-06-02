@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using Dwares.Dwarf.Collections;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Druid.UI;
 using Drive.Models;
 using Xamarin.Forms;
 using System.Collections.Generic;
@@ -10,12 +11,11 @@ namespace Drive.ViewModels
 {
     public class ListViewItem : PropertyNotifier, ISelectable
     {
-		protected ListViewItem() {}
-
-		//public ListViewItem(params string[] propertiesChangedOnSelected)
-		//{
-		//	PropertiesChangedOnSelected = propertiesChangedOnSelected;
-		//}
+		protected ListViewItem()
+		{
+			ItemFrameDefault = UITheme.Current.GetStyleByName("ListView-item-frame-default");
+			ItemFrameSelected = UITheme.Current.GetStyleByName("ListView-item-frame-selected");
+		}
 
 		public string[] PropertiesChangedOnSelected { get; protected set; }
 
@@ -34,25 +34,31 @@ namespace Drive.ViewModels
             }
         }
 
-        static float cornerRadius = 20;
-        public float CornerRadius {
-            get => IsSelected ? 0 : cornerRadius;
-        }
+        //static float cornerRadius = 20;
+        //public float CornerRadius {
+        //    get => IsSelected ? 0 : cornerRadius;
+        //}
 
-        //static Color backgroundColor = new Color(232.0/255.0, 233.0/255.0, 236.0/255.0);
-        static Color backgroundColor = Color.LightCyan;
-        static Color backgroundSelected = Color.LightSkyBlue;
-        public Color BackgroundColor {
-            get => IsSelected ? backgroundSelected : backgroundColor;
-        }
+        ////static Color backgroundColor = new Color(232.0/255.0, 233.0/255.0, 236.0/255.0);
+        //static Color backgroundColor = Color.LightCyan;
+        //static Color backgroundSelected = Color.LightSkyBlue;
+        //public Color BackgroundColor {
+        //    get => IsSelected ? backgroundSelected : backgroundColor;
+        //}
 
-        static Color borderColor = Color.Accent;
-        public Color BorderColor {
-            get => IsSelected ? borderColor : Color.Transparent;
-        }
+        //static Color borderColor = Color.Accent;
+        //public Color BorderColor {
+        //    get => IsSelected ? borderColor : Color.Transparent;
+        //}
 
+		Style ItemFrameDefault { get; }
+		Style ItemFrameSelected { get; }
 
-        public double TextSize {
+		public Style ItemFrameStyle {
+			get => IsSelected ? ItemFrameSelected : ItemFrameDefault;
+		}
+
+		public double TextSize {
             get => 20;
         }
         public double SmallTextSize {

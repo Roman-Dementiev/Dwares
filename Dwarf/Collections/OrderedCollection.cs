@@ -40,6 +40,13 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
+		public new void Clear()
+		{
+			if (Count > 0) {
+				base.Clear();
+			}
+		}
+
 		public new void Add(T item)
 		{
 			if (Order != null) {

@@ -14,15 +14,17 @@ namespace Dwares.Druid.UI
 
 	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder, ITargeting
 	{
-		public ContentPageEx() { }
+		public ContentPageEx() {}
 
 		public ContentPageEx(BindingScope scope)
 		{
 			Scope = scope;
 		}
 
-		public virtual View ContentView {
+		public virtual View ContentView
+		{
 			get => GetContentView();
+		
 			set {
 				if (value != ContentView) {
 					OnPropertyChanging();
@@ -55,14 +57,11 @@ namespace Dwares.Druid.UI
 			set {
 				if (value != toolbarSource) {
 					OnPropertyChanging();
-					ToolbarItems.Clear();
 					toolbarSource = value;
 
 					var toolbarItems = toolbarSource?.ToolbarItems;
 					if (toolbarItems != null) {
-						foreach (var item in toolbarSource.ToolbarItems) {
-							ToolbarItems.Add(item);
-						}
+						this.SetToolbarItems(toolbarItems);
 					}
 					OnPropertyChanged();
 				}

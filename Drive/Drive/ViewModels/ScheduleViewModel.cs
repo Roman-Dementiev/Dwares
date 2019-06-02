@@ -19,18 +19,5 @@ namespace Drive.ViewModels
 
 			Title = "Schedule";
 		}
-
-		public async void OnNewAppoitment()
-		{
-			//var page = AppScope.CreatePage(typeof(AppoitmentViewModel));
-			//await Navigator.PushPage(page);
-		}
-
-		public Color ActiveBottomButtonColor {
-			get => AppScope.ActiveBottomButtonColor;
-		}
-		public Thickness MainPanelMargin {
-			get => AppScope.MainPanelMargin;
-		}
 	}
 }

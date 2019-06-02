@@ -20,10 +20,9 @@ namespace Drive.ViewModels
 
 			PropertiesChangedOnSelected = new string[] {
 				nameof(IsSelected),
-				nameof(CornerRadius),
-				nameof(BorderColor),
-				nameof(BackgroundColor),
+				nameof(ItemFrameStyle),
 				nameof(ShowDetails),
+				nameof(ShowClientPhone),
 				nameof(ShowPickupAddress),
 				nameof(ShowDropoffAddress)
 			};
@@ -34,8 +33,9 @@ namespace Drive.ViewModels
 		//public Client Client => Trip.Client;
 		public string ClientName => Ride.Client.FullName;
 
-		public bool HasClientPhone => !string.IsNullOrEmpty(Ride.Client.PhoneNumber);
 		public string ClientPhone => Ride.Client.PhoneNumber;
+		public bool HasClientPhone => !string.IsNullOrEmpty(Ride.Client.PhoneNumber);
+		public bool ShowClientPhone => HasClientPhone ? ShowDetails : false;
 
 		public bool HasPickupStop => Ride.PickupStop != null;
 		public string PickupTime => HasPickupStop ? Ride.PickupStop.Time.ToString() : string.Empty;

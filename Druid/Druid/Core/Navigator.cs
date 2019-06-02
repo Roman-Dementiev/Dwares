@@ -92,7 +92,7 @@ namespace Dwares.Druid
 				multiPage.CurrentPageChanged += (sender, e) => MultiPage_CurrentPageChanged();
 				MultiPage_CurrentPageChanged();
 			} else {
-				throw new Exception(String.Format("Can not initialize Navigator for RootPage={0}", RootPage));
+				//throw new Exception(String.Format("Can not initialize Navigator for RootPage={0}", RootPage));
 			}
 		}
 

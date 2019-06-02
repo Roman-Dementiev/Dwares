@@ -52,6 +52,14 @@ namespace Dwares.Druid.Satchel
 		{
 			CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 		}
+
+		public static void ExecuteWrit(string writ)
+		{
+			var target = BindingScope.GetCurrentScope();
+			if (target != null) {
+				target.WritExecutor.ExecuteWrit(writ);
+			}
+		}
 	}
 
 	public class WritMessage

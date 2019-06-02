@@ -24,11 +24,16 @@ namespace Drive
 		public AppScope() : base(null)
 		{
 			//Debug.EnableTracing(@class);
+
+			Contacts = new Contacts();
+			Schedule = new Schedule();
 		}
 
-		public Contacts Contacts { get; } = new Contacts();
-		public Schedule Schedule { get; } = new Schedule();
-
+		public Contacts Contacts { get; }
+		public Schedule Schedule { get; }
+		public Route Route {
+			get => Schedule.Route; 
+		}
 
 		public async Task Initialize()
 		{
@@ -55,24 +60,5 @@ namespace Drive
 
 			return page;
 		}
-
-		//async Task GoToPage(object contentViewModel)
-		//{
-		//	//Debug.Print($"AppScope.GoToPage(): viewModel={contentViewModel}");
-
-		//	var page = CreatePage(contentViewModel);
-		//	await Navigator.ReplaceTopPage(page);
-		//}
-
-		//public async void OnGoToSchedule() => await GoToPage(typeof(ScheduleViewModel));
-
-		//public async void OnGoToRoute() => await GoToPage(typeof(RouteViewModel));
-
-		//public async void OnGoToContacts() => await GoToPage(typeof(ContactsViewModel));
-
-		// TODO: Move to some Theme related class?
-		public static readonly Color DefaultBottomButtonColor = Color.Black;
-		public static readonly Color ActiveBottomButtonColor  = new Color(0, 148.0/255.0, 255.0/255.0); // $0094FF
-		public static readonly Thickness MainPanelMargin = new Thickness(-16, -16, -16, 4);
 	}
 }

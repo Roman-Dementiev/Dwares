@@ -1,12 +1,19 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Text;
+using Dwares.Dwarf;
+using Dwares.Dwarf.Collections;
+
 
 namespace Drive.Models
 {
-	public class Contacts : ObservableCollection<IContact>
+	public class Contacts : OrderedCollection<IContact>
 	{
-		public Contacts() { }
+		//static ClassRef @class = new ClassRef(typeof(Contacts));
+
+		public Contacts() :
+			base(CompareByName)
+		{
+			//Debug.EnableTracing(@class);
+		}
 
 		public IContact GetById(string id, Type type = null)
 			=> Lookup((contact) => contact.Id == id && (type == null || contact.GetType() == type));
@@ -30,6 +37,14 @@ namespace Drive.Models
 					return contact;
 			}
 			return null;
+		}
+
+		public static int CompareByName(IContact c1, IContact c2)
+		{
+			string name1 = c1.Title?.ToLower() ?? string.Empty;
+			string name2 = c2.Title?.ToLower() ?? string.Empty;
+
+			return name1.CompareTo(name2);
 		}
 	}
 }

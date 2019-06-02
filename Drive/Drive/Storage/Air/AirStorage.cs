@@ -42,9 +42,9 @@ namespace Drive.Storage.Air
 				}
 			}
 
-            if (CurrentBase == null)
-                throw new AppStorageError("Contacts base not found");
-        }
+			if (CurrentBase == null)
+				throw new AppStorageError("Contacts base not found");
+		}
 
 		public static PhoneNumber PhoneNumber(string number, string type)
 		{
@@ -153,8 +153,9 @@ namespace Drive.Storage.Air
 
 		public async Task LoadSchedule()
 		{
-			var contacts = AppScope.Instance.Contacts;
-			var schedule = AppScope.Instance.Schedule;
+			var appScope = AppScope.Instance;
+			var contacts = appScope.Contacts;
+			var schedule = appScope.Schedule;
 
 			var ridesRecords = await CurrentBase.RidesTable.ListRides();
 			foreach (var record in ridesRecords)

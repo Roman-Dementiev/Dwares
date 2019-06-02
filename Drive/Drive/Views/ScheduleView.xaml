@@ -5,146 +5,109 @@
 				  xmlns:views="clr-namespace:Drive.Views"
 				  x:Class="Drive.Views.ScheduleView"
 				  >
+	<ui:ContentViewEx.Resources>
+		<!--<views:ScheduleItemView x:Key="ScheduleItemView" />-->
+	</ui:ContentViewEx.Resources>
 
 	<ui:ContentViewEx.ToolbarItems>
 		<ui:ToolbarItemEx Text="Appoitment" ActionIcon="Appoitment" Writ="NewAppoitment" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
 
-        <ListView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-				  Margin="{Binding MainPanelMargin}" 
-				  HorizontalOptions="FillAndExpand"
-				  VerticalOptions="FillAndExpand"
-				  SeparatorVisibility="None"
-				  HasUnevenRows="True"
-				  ItemsSource="{Binding Items}"
-				  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-				  >
+	<ui:ListViewEx ThemeStyle="ListView"
+				   ItemsSource="{Binding Items}"
+				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+				   >
+		<ListView.ItemTemplate>
+			<DataTemplate>
+				<!--<ViewCell View="{StaticResource ScheduleItemView}"/>-->
+				<ViewCell>
+					<ContentView Margin="0">
+						<Frame Style="{Binding ItemFrameStyle, Mode=OneWay}">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="80" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
 
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell>
-						<ContentView Margin="0">
-                            <Frame Margin="1"
-                                   BorderColor="{Binding BorderColor, Mode=OneWay}"
-								   BackgroundColor="{Binding BackgroundColor, Mode=OneWay}"
-								   CornerRadius="{Binding CornerRadius, Mode=OneWay}"
-								   >
-								<Grid>
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-									</Grid.RowDefinitions>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="80" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-										<!--<ColumnDefinition Width="Auto" />-->
-									</Grid.ColumnDefinitions>
+								<ui:LabelEx Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+											HorizontalOptions="Start"
+											FontSize="{Binding TextSize}"
+											FontAttributes="Bold"
+											Text="{Binding ClientName, Mode=OneWay}"/>
 
-									<ui:LabelEx Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+								<ui:LabelEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+											HorizontalOptions="Start"
+											FontSize="{Binding SmallTextSize}"
+											IsVisible="{Binding ShowClientPhone}"
+											Text="{Binding ClientPhone}"/>
+
+								<ui:LabelEx Grid.Row="2" Grid.Column="0"
+											HorizontalOptions="Center"
+											VerticalOptions="End"
+											FontSize="{Binding SmallTextSize}"
+											IsVisible="{Binding HasPickupStop}"
+											Text="{Binding PickupTime, Mode=OneWay}"
+											/>
+								<ui:LabelEx Grid.Row="2" Grid.Column="1"
 												HorizontalOptions="Start"
 												FontSize="{Binding TextSize}"
-												FontAttributes="Bold"
-												Text="{Binding ClientName, Mode=OneWay}"/>
-
-                                    <ui:LabelEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-												HorizontalOptions="Start"
-												FontSize="{Binding SmallTextSize}"
-                                                IsVisible="{Binding HasClientPhone}"
-												Text="{Binding ClientPhone}"/>
-									
-									<ui:LabelEx Grid.Row="2" Grid.Column="0"
-												HorizontalOptions="Center"
-												VerticalOptions="End"
-												FontSize="{Binding SmallTextSize}"
-                                                IsVisible="{Binding HasPickupStop}"
-												Text="{Binding PickupTime, Mode=OneWay}"
-												/>
-                                    <ui:LabelEx Grid.Row="2" Grid.Column="1"
-												HorizontalOptions="Start"
-												FontSize="{Binding TextSize}"
-                                                IsVisible="{Binding HasPickupStop}"
+												IsVisible="{Binding HasPickupStop}"
 												Text="At: "
 												/>
-                                    <ui:LabelEx Grid.Row="2" Grid.Column="2"
-												HorizontalOptions="Start"
-												FontSize="{Binding TextSize}"
-                                                IsVisible="{Binding HasPickupStop}"
-												Text="{Binding PickupPlace, Mode=OneWay}"
-												/>
-									
-									<ui:LabelEx Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"
-												HorizontalOptions="Start"
-												FontSize="{Binding TextSize}"
-												IsVisible="{Binding ShowPickupAddress, Mode=OneWay}"
-												Text="{Binding PickupAddress, Mode=OneWay}"
-												/>
+								<ui:LabelEx Grid.Row="2" Grid.Column="2"
+											HorizontalOptions="Start"
+											FontSize="{Binding TextSize}"
+											IsVisible="{Binding HasPickupStop}"
+											Text="{Binding PickupPlace, Mode=OneWay}"
+											/>
 
-									<ui:LabelEx Grid.Row="4" Grid.Column="0" 
-												HorizontalOptions="Center"
-												FontSize="{Binding TextSize}"
-												IsVisible="{Binding HasDropoffStop}"
-												Text="{Binding DropoffTime, Mode=OneWay}"
-												/>
-                                    <ui:LabelEx Grid.Row="4" Grid.Column="1" 
-												FontSize="{Binding TextSize}"
-												IsVisible="{Binding HasDropoffStop}"
-												Text="To: "
-												/>
-                                    <ui:LabelEx Grid.Row="4" Grid.Column="2" 
-												FontSize="{Binding TextSize}"
-												IsVisible="{Binding HasDropoffStop}"
-												Text="{Binding DropoffPlace, Mode=OneWay}"
-												/>
+								<ui:LabelEx Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"
+											HorizontalOptions="Start"
+											FontSize="{Binding TextSize}"
+											IsVisible="{Binding ShowPickupAddress, Mode=OneWay}"
+											Text="{Binding PickupAddress, Mode=OneWay}"
+											/>
 
-									<ui:LabelEx Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
-												FontSize="{Binding TextSize}"
-												IsVisible="{Binding ShowDropoffAddress, Mode=OneWay}"
-												Text="{Binding DropoffAddress, Mode=OneWay}"
-												/>
-								</Grid>
-							</Frame>
-						</ContentView>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+								<ui:LabelEx Grid.Row="4" Grid.Column="0" 
+											HorizontalOptions="Center"
+											FontSize="{Binding TextSize}"
+											IsVisible="{Binding HasDropoffStop}"
+											Text="{Binding DropoffTime, Mode=OneWay}"
+											/>
+								<ui:LabelEx Grid.Row="4" Grid.Column="1" 
+											FontSize="{Binding TextSize}"
+											IsVisible="{Binding HasDropoffStop}"
+											Text="To: "
+											/>
+								<ui:LabelEx Grid.Row="4" Grid.Column="2" 
+											FontSize="{Binding TextSize}"
+											IsVisible="{Binding HasDropoffStop}"
+											Text="{Binding DropoffPlace, Mode=OneWay}"
+											/>
 
-		<ui:PicButton Grid.Row="1" Grid.Column="0"
-					  Style="{StaticResource BottomButton}"
-					  ImageName="Schedule_active"
-					  LabelText="Schedule"
-					  LabelColor="{Binding ActiveBottomButtonColor}"
-					  />
-		
-		<ui:PicButton Grid.Row="1" Grid.Column="1"
-					  Style="{StaticResource BottomButton}"
-					  ImageName="Route"
-					  LabelText="Route"
-					  Writ="GoToRoute"
-					  />
-
-		<ui:PicButton Grid.Row="1" Grid.Column="2"
-					  Style="{StaticResource BottomButton}"
-					  ImageName="Contacts"
-					  LabelText="Contacts"
-					  Writ="GoToContacts"
-					  />
-	</Grid>
+								<ui:LabelEx Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
+											FontSize="{Binding TextSize}"
+											IsVisible="{Binding ShowDropoffAddress, Mode=OneWay}"
+											Text="{Binding DropoffAddress, Mode=OneWay}"
+											/>
+							</Grid>
+						</Frame>
+					</ContentView>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+	</ui:ListViewEx>
 </ui:ContentViewEx>
+	
