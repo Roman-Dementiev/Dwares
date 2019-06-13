@@ -6,6 +6,7 @@ using Dwares.Dwarf.Toolkit;
 using Dwares.Drudge.Airtable;
 using Dwares.Drudge;
 using Drive.Models;
+using Tags = Drive.Models.Tags;
 
 
 namespace Drive.Storage.Air
@@ -26,59 +27,100 @@ namespace Drive.Storage.Air
 
 	
 		public MainBase MainBase { get; private set; }
-		public CurrentBase CurrentBase { get; private set; }
+		//public CurrentBase CurrentBase { get; private set; }
+
+		public Dictionary<string, Tag> KnownTags { get; private set; }
 
 		public async Task Initialize()
 		{
 			MainBase = new MainBase(ApiKey, MainBaseId);
 			await MainBase.Initialize();
 
-			var baseRecords = await MainBase.BasesTable.ListBases();
+			KnownTags = new Dictionary<string, Tag>();
+			var tagsRecords = await MainBase.TagsTable.ListRecords();
+			foreach (var record in tagsRecords) {
+				var tag = new Tag(record.Name, record.ApplyTo);
+				KnownTags.Add(record.Id, tag);
+			}
+
+			var baseRecords = await MainBase.BasesTable.ListRecords();
 			foreach (var record in baseRecords) {
-				if (record.Year == 0) {
-					if (record.Month == 2) {
-						CurrentBase = new CurrentBase(ApiKey, record.BaseId);
-					}
+				//if (record.Name == "Current") {
+				//	CurrentBase = new CurrentBase(ApiKey, record.BaseId);
+				//}
+
+				//var tags = record.TagLinks;
+				//if (tags != null && tags.Count > 0) {
+				//	var tag = tags[0];
+				//}
+			}
+
+			//if (CurrentBase == null)
+			//	throw new AppStorageError("Current base not found");
+		}
+
+		public Tags GetTags(List<string> links)
+		{
+			var tags = new Tags();
+			foreach (var id in links) {
+				if (KnownTags.ContainsKey(id)) {
+					var tag = KnownTags[id];
+					tags.Add(tag);
+				} else {
+					Debug.Print($"AirStorage.GetTags(): Unknown tag Id='{id}'");
 				}
 			}
-
-			if (CurrentBase == null)
-				throw new AppStorageError("Contacts base not found");
+			return tags;
 		}
 
-		public static PhoneNumber PhoneNumber(string number, string type)
+		public static PhoneNumber PhoneNumber(string number, string type = null)
 		{
-			var phone = new PhoneNumber(number);
-			if (type == "Mobile") {
-				phone.PhoneType = PhoneType.Mobile;
-			} else if (type == "Home") {
-				phone.PhoneType = PhoneType.Home;
-			} else if (type == "Work") {
-				phone.PhoneType = PhoneType.Work;
+			//var phone = new PhoneNumber(number);
+			//if (type == "Mobile") {
+			//	phone.PhoneType = PhoneType.Mobile;
+			//} else if (type == "Home") {
+			//	phone.PhoneType = PhoneType.Home;
+			//} else if (type == "Work") {
+			//	phone.PhoneType = PhoneType.Work;
+			//}
+			PhoneType phoneType;
+			if (string.IsNullOrEmpty(type)) {
+				phoneType = PhoneType.Default;
+			} else {
+				Enums.TryParse(type, out phoneType);
 			}
-			return phone;
+			return new PhoneNumber(number, phoneType);
 		}
+
+		public Task LoadTags()
+		{
+			AppScope.Instance.Tags.AddRange(KnownTags.Values);
+			return Task.CompletedTask;
+		}
+
 
 		public async Task LoadContacts()
 		{
 			var contacts = AppScope.Instance.Contacts;
 
-			var pleacesRecords = await CurrentBase.PlacesTable.ListContacts();
+			var pleacesRecords = await MainBase.PlacesTable.ListRecords();
 			foreach (var placeRecord in pleacesRecords)
 			{
 				var place = new Place {
 					Id = placeRecord.Id,
 					Title = placeRecord.Name,
-					FullTitle = placeRecord.FullTitle,
-					PhoneNumber = PhoneNumber(placeRecord.Phone, placeRecord.PhoneType),
+					PhoneNumber = PhoneNumber(placeRecord.Phone),
 					Address = placeRecord.Address
 				};
 				contacts.Add(place);
 			}
 
-			var clienstRecords = await CurrentBase.ClientsTable.ListContacts();
+			var clienstRecords = await MainBase.ClientsTable.ListRecords();
 			foreach (var clientRecord in clienstRecords)
 			{
+				if (string.IsNullOrWhiteSpace(clientRecord.Name))
+					continue;
+
 				var client = new Client {
 					Id = clientRecord.Id,
 					FullName = clientRecord.Name,
@@ -88,16 +130,15 @@ namespace Drive.Storage.Air
 				};
 				contacts.Add(client);
 
-				var regularPlaceId = clientRecord.RegularPlaceId;
+				var regularPlaceId = clientRecord.RegularId;
 				if (!string.IsNullOrEmpty(regularPlaceId))
 				{
 					client.RegularPlace = contacts.GetById<Place>(regularPlaceId);
 				}
 			}
 
-			var phonesRecords = await CurrentBase.PhonesTable.ListContacts();
-			foreach (var phoneRecord in phonesRecords)
-			{
+			var phonesRecords = await MainBase.PhonesTable.ListRecords();
+			foreach (var phoneRecord in phonesRecords) {
 				var phone = new Person {
 					Id = phoneRecord.Id,
 					FullName = phoneRecord.Name,
@@ -151,13 +192,17 @@ namespace Drive.Storage.Air
 			return place;
 		}
 
-		public async Task LoadSchedule()
+		public /*async*/ Task LoadSchedule()
 		{
 			var appScope = AppScope.Instance;
 			var contacts = appScope.Contacts;
 			var schedule = appScope.Schedule;
 
-			var ridesRecords = await CurrentBase.RidesTable.ListRides();
+		#if true
+			//TODO
+			return Task.CompletedTask;
+		#else
+			var ridesRecords = await MainBase.RidesTable.ListRecords();
 			foreach (var record in ridesRecords)
 			{
 				var client = GetClient(contacts, record);
@@ -222,6 +267,7 @@ namespace Drive.Storage.Air
 				ride.Seq = record.Seq;
 				schedule.Add(ride);
 			}
+		#endif
 		}
 
 		public Task SaveContacts()

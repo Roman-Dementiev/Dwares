@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drive", "Drive\Drive.csproj", "{86BBBCB1-4E1C-43EF-A436-0DB20A20B1C7}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Druid.Android", "..\Druid\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Druid.UWP", "..\Druid\Druid.UWP\Druid.UWP.csproj", "{0B5041DA-67D1-4D61-B874-645BC54FFA60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drudge", "..\Drudge\Drudge.csproj", "{0D53DABE-1D38-4083-96D3-EC23B8A35FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drudge", "..\Drudge\Drudge.csproj", "{0D53DABE-1D38-4083-96D3-EC23B8A35FFF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{12FB1819-0CAB-40EE-A768-81805987C736} = {12FB1819-0CAB-40EE-A768-81805987C736}
 	EndProjectSection

@@ -1,10 +1,11 @@
 ﻿using System;
 using Dwares.Dwarf;
+using Dwares.Druid;
 
 
 namespace Drive.Models
 {
-	public class RouteStop
+	public class RouteStop : Model
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteStop));
 
@@ -13,6 +14,7 @@ namespace Drive.Models
 			//Debug.EnableTracing(@class);
 			Guard.ArgumentNotNull(place, nameof(place));
 
+			//Title = place.RouteTitle;
 			Place = place;
 			Time = time;
 		}
@@ -20,6 +22,9 @@ namespace Drive.Models
 		public IPlace Place { get; }
 		public ScheduleTime Time { get; set; }
 		public long Seq { get; set; }
+
+		public ScheduleTime EstimatedArrival { get; }
+		public ScheduleTime EstimatedDeparture { get; }
 
 		public static int Compare(RouteStop stop1, RouteStop stop2)
 		{

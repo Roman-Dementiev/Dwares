@@ -49,6 +49,17 @@
 		<Setter Property="CornerRadius" Value="0" />
 	</Style>
 
+	<Style x:Key="ListView-item-font-default" TargetType="Label">
+		<Setter Property="FontSize" Value="20" />
+	</Style>
+	<Style x:Key="ListView-item-font-small" TargetType="Label">
+		<Setter Property="FontSize" Value="18" />
+	</Style>
+	<Style x:Key="ListView-item-font-bold" TargetType="Label">
+		<Setter Property="FontSize" Value="20" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
 	<Style x:Key="TabButton-default" TargetType="ui:PicButton">
 		<Setter Property="HorizontalOptions" Value="Center" />
 		<Setter Property="VerticalOptions" Value="Center" />

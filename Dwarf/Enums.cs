@@ -11,19 +11,23 @@ namespace Dwares.Dwarf
 			return Enum.GetName(typeof(T), value);
 		}
 
-		public static T Parse<T>(string name) where T : struct
+		public static T Parse<T>(string name, bool ignoreCase = false) where T : struct
 		{
-			var parsed = Enum.Parse(typeof(T), name);
+			var parsed = Enum.Parse(typeof(T), name, ignoreCase);
 			return (T)parsed;
 		}
 
-		public static bool TryParse<T>(string name, out T value) where T : struct
+		public static bool TryParse<T>(string name, out T value, bool ignoreCase=false) where T : struct
 		{
-			var parsed = Enum.Parse(typeof(T), name);
-			if (parsed is T val) {
-				value = val;
-				return true;
-			} 
+			try {
+				var parsed = Enum.Parse(typeof(T), name, ignoreCase);
+				if (parsed is T val) {
+					value = val;
+					return true;
+				}
+			} catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+			}
 
 			value = default(T);
 			return false;

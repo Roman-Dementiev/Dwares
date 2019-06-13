@@ -10,6 +10,7 @@ namespace Drive.Storage
 	{
 		Task Initialize();
 
+		Task LoadTags();
 		Task LoadContacts();
 		Task SaveContacts();
 		Task LoadSchedule();

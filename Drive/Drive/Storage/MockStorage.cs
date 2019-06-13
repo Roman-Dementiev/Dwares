@@ -13,13 +13,18 @@ namespace Drive.Storage
 			return Task.CompletedTask;
 		}
 
+		public Task LoadTags()
+		{
+			return Task.CompletedTask;
+		}
+
 		public Task LoadContacts()
 		{
 			var contacts = AppScope.Instance.Contacts;
 			
 			contacts.Add(new Place {
 				Title = "PASSi",
-				FullTitle = "Penn Asian Senior Services",
+				//FullTitle = "Penn Asian Senior Services",
 				Address = "6926 Old York Rd\nPhiladelphia, PA 19126"
 			});
 			contacts.Add(new Place {

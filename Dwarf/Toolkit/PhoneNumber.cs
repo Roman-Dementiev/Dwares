@@ -6,7 +6,7 @@ namespace Dwares.Dwarf.Toolkit
 {
 	public enum PhoneType
 	{
-		Unknown,
+		Default,
 		Mobile,
 		Home,
 		Work
@@ -18,7 +18,7 @@ namespace Dwares.Dwarf.Toolkit
 		public const char chAreaCode = 'a';
 		public const char chDigit = 'd';
 
-		public PhoneNumber(string number, PhoneType type = PhoneType.Unknown)
+		public PhoneNumber(string number, PhoneType type = PhoneType.Default)
 		{
 			Number = number;
 			PhoneType = type;
@@ -27,10 +27,10 @@ namespace Dwares.Dwarf.Toolkit
 		public string Number { get; set; }
 		public PhoneType PhoneType { get; set; }
 
-		public int CountryCode => ParseText(Number).CountryCode;
-		public int AreaCode => ParseText(Number).AreaCode;
-		public int LocalNumber => ParseText(Number).LocalNumber;
-		public int Extension => ParseText(Number).Extension;
+		//public int CountryCode => ParseText(Number).CountryCode;
+		//public int AreaCode => ParseText(Number).AreaCode;
+		//public int LocalNumber => ParseText(Number).LocalNumber;
+		//public int Extension => ParseText(Number).Extension;
 
 		public override string ToString() => Number;
 
@@ -41,15 +41,15 @@ namespace Dwares.Dwarf.Toolkit
 			=> number.ToString();
 
 		// TODO
-		public static SPhoneNumber ParseText(string text)
-			=> throw new NotImplementedException();
+		//public static SPhoneNumber ParseText(string text)
+		//	=> throw new NotImplementedException();
 	}
 
-	public struct SPhoneNumber
-	{
-		public int CountryCode { get; set; }
-		public int AreaCode { get; set; }
-		public int LocalNumber { get; set; }
-		public int Extension { get; set; }
-	}
+	//public struct SPhoneNumber
+	//{
+	//	public int CountryCode { get; set; }
+	//	public int AreaCode { get; set; }
+	//	public int LocalNumber { get; set; }
+	//	public int Extension { get; set; }
+	//}
 }

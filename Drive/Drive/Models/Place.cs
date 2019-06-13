@@ -1,11 +1,13 @@
 ﻿using System;
+using Dwares.Dwarf;
+using Dwares.Druid;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Satchel;
 
 
 namespace Drive.Models
 {
-	public class Place : TitleHolder, IPlace, IContact
+	public class Place : Model, ITitleHolder, IPlace, IContact
 	{
 		//static ClassRef @class = new ClassRef(typeof(Place));
 
@@ -16,10 +18,20 @@ namespace Drive.Models
 
 		public string Id { get; set; }
 
-		string fullTitle;
-		public string FullTitle {
-			get => fullTitle;
-			set => SetProperty(ref fullTitle, value);
+		//string fullTitle;
+		//public string FullTitle {
+		//	get => fullTitle;
+		//	set => SetProperty(ref fullTitle, value);
+		//}
+
+		string title;
+		public string Title {
+			get => title;
+			set => SetPropertyEx(ref title, value, nameof(Title), nameof(RouteTitle));
+		}
+
+		public virtual string RouteTitle {
+			get => Title;
 		}
 
 		PhoneNumber phoneNumber;
@@ -32,24 +44,6 @@ namespace Drive.Models
 		public string Address {
 			get => address; 
 			set => SetProperty(ref address, value);
-		}
-	}
-
-
-	public class Home : Place
-	{
-		public Home(string address)
-		{
-			Title = "Home";
-			Address = address;
-		}
-
-		public static Home ForAddress(string address)
-		{
-			if (string.IsNullOrEmpty(address))
-				return null;
-			
-			return new Home(address);
 		}
 	}
 }

@@ -10,6 +10,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Dwares.Druid.UI;
 
+//using AndroidResources = Android.Content.Res.Resources;
+
+
 [assembly: ExportRenderer(typeof(Dwares.Druid.UI.EditorEx), typeof(Dwares.Druid.Android.EditorExRendered))]
 
 namespace Dwares.Druid.Android

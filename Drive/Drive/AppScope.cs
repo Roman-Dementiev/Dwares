@@ -25,10 +25,12 @@ namespace Drive
 		{
 			//Debug.EnableTracing(@class);
 
+			Tags = new Tags();
 			Contacts = new Contacts();
 			Schedule = new Schedule();
 		}
 
+		public Tags Tags { get; }
 		public Contacts Contacts { get; }
 		public Schedule Schedule { get; }
 		public Route Route {
@@ -40,6 +42,7 @@ namespace Drive
 			var storage = AppStorage.Instance;
 
 			await storage.Initialize();
+			await storage.LoadTags();
 			await storage.LoadContacts();
 			await storage.LoadSchedule();
 		}

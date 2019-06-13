@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dwares.Dwarf;
 using Dwares.Drudge.Airtable;
+using Dwares.Dwarf;
 
 
 namespace Drive.Storage.Air
@@ -15,42 +15,24 @@ namespace Drive.Storage.Air
 		{
 			//Debug.EnableTracing(@class);
 		}
-
-		public async Task<BaseRecord[]> ListBases()
-		{
-			var list = await ListRecords();
-			return list.Records;
-		}
 	}
 
-	public class BaseRecord : AirRecord
+	public class BaseRecord : ARecord
 	{
-		const string BASE_ID = "BaseId";
-		const string TYPE = "Type";
-		const string YEAR = "Year";
-		const string MONTH = "Month";
-		const string NOTES = "Notes";
+		//public const string KIND = "Kind";
+		public const string BASE_ID = "BaseId";
 
 		public BaseRecord() { }
+
+		//public string Kind {
+		//	get => GetField<string>(KIND);
+		//	set => SetField(KIND, value);
+		//}
 
 		public string BaseId {
 			get => GetField<string>(BASE_ID);
 			set => SetField(BASE_ID, value);
 		}
 
-		public int Year {
-			get => GetField<int>(YEAR);
-			set => SetField(YEAR, value);
-		}
-
-		public int Month {
-			get => GetField<int>(MONTH);
-			set => SetField(MONTH, value);
-		}
-
-		public string Notes {
-			get => GetField<string>(NOTES);
-			set => SetField(NOTES, value);
-		}
 	}
 }

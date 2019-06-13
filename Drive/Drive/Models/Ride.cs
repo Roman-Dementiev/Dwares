@@ -1,11 +1,12 @@
 ﻿using System;
 using Dwares.Dwarf;
-using Dwares.Druid.Satchel;
+using Dwares.Druid;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Drive.Models
 {
-	public class Ride : TitleHolder
+	public class Ride : Model
 	{
 		//static ClassRef @class = new ClassRef(typeof(ScheduleTrip));
 

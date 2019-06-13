@@ -10,69 +10,93 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
-	<ui:ListViewEx ThemeStyle="ListView"
-				   ItemsSource="{Binding Items}"
-				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-				   >
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="100" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
 
-		<ListView.ItemTemplate>
-			<DataTemplate>
-				<ViewCell>
-					<ContentView Margin="0">
-						<Frame Style="{Binding ItemFrameStyle, Mode=OneWay}">
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
 
-								<ui:LabelEx Grid.Row="0" Grid.Column="0"
-											FontSize="{Binding TextSize}"
-											FontAttributes="Bold"
-											Text="{Binding Name}"
-											/>
-								<ui:LabelEx Grid.Row="1" Grid.Column="0"
-											FontSize="{Binding TextSize}"
-											IsVisible="{Binding HasPhone}"
-											Text="{Binding PhoneNumber}"
-											/>
-								<ui:LabelEx Grid.Row="2" Grid.Column="0"
-											FontSize="{Binding TextSize}"
-											IsVisible="{Binding ShowAddress, Mode=OneWay}"
-											Text="{Binding Address}"
-											/>
+		<ui:PicButton Grid.Row="0" Grid.Column="1"
+					  LabelText="Clients"
+					  />
+		<ui:PicButton Grid.Row="0" Grid.Column="2"
+					  LabelText="Places"
+					  />
+		<ui:PicButton Grid.Row="0" Grid.Column="3"
+					  LabelText="Phones"
+					  />
 
-								<ui:LabelEx Grid.Row="3" Grid.Column="0"
-											Margin="0,24,0,0"
-											FontSize="{Binding TextSize}"
-											FontAttributes="Bold"
-											IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
-											Text="Regular destination:"
-											/>
-								<ui:LabelEx Grid.Row="4" Grid.Column="0"
-											FontSize="{Binding TextSize}"
-											IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
-											Text="{Binding RegularPlace}"
-											/>
-								<ui:LabelEx Grid.Row="5" Grid.Column="0"
-											FontSize="{Binding TextSize}"
-											IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
-											Text="{Binding RegularAddress}"
-											/>
+		<ui:ListViewEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+					   ThemeStyle="ListView"
+					   ItemsSource="{Binding Items}"
+					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+					   >
 
-							</Grid>
-						</Frame>
-					</ContentView>
-				</ViewCell>
-			</DataTemplate>
-		</ListView.ItemTemplate>
-	</ui:ListViewEx>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<ContentView Margin="0">
+							<Frame Style="{Binding ItemFrameStyle, Mode=OneWay}">
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
 
+									<ui:LabelEx Grid.Row="0" Grid.Column="0"
+												Style="{Binding ItemFontBold}"
+												Text="{Binding Name}"
+												/>
+									<ui:LabelEx Grid.Row="1" Grid.Column="0"
+												Style="{Binding ItemFontDefault}"
+												IsVisible="{Binding ShowPhoneNumber}"
+												Text="{Binding PhoneNumber}"
+												/>
+									<ui:LabelEx Grid.Row="2" Grid.Column="0"
+												Style="{Binding ItemFontDefault}"
+												IsVisible="{Binding ShowAddress, Mode=OneWay}"
+												Text="{Binding Address}"
+												/>
+
+									<ui:LabelEx Grid.Row="3" Grid.Column="0"
+												Margin="0,24,0,0"
+												Style="{Binding ItemFontBold}"
+												FontAttributes="Bold"
+												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+												Text="Regular destination:"
+												/>
+									<ui:LabelEx Grid.Row="4" Grid.Column="0"
+												Style="{Binding ItemFontDefault}"
+												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+												Text="{Binding RegularPlace}"
+												/>
+									<ui:LabelEx Grid.Row="5" Grid.Column="0"
+												Style="{Binding ItemFontDefault}"
+												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+												Text="{Binding RegularAddress}"
+												/>
+
+								</Grid>
+							</Frame>
+						</ContentView>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ui:ListViewEx>
+	</Grid>
 </ui:ContentViewEx>

@@ -45,8 +45,5 @@ namespace Drive.Models
 		//		}
 		//	}
 		//}
-
-		//public ObservableCollection<Ride> Rides { get; } = new ObservableCollection<Ride>();
-
 	}
 }

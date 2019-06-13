@@ -7,6 +7,12 @@ namespace Drive.Models
 {
 	public class Route : OrderedCollection<RouteStop>
 	{
+		//static ClassRef @class = new ClassRef(typeof(Route));
 
+		public Route() :
+			base(RouteStop.Compare)
+		{
+			//Debug.EnableTracing(@class);
+		}
 	}
 }

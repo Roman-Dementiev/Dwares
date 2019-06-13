@@ -269,7 +269,7 @@ namespace Dwares.Drudge.Airtable
 		//	return record;
 		//}
 
-		public async Task<AirRecordList<TRecord>> ListRecords(QyeryBuilder queryBuilder = null)
+		public async Task<AirRecordList<TRecord>> List(QyeryBuilder queryBuilder)
 		{
 			if (queryBuilder == null)
 				queryBuilder = new QyeryBuilder { };
@@ -282,12 +282,23 @@ namespace Dwares.Drudge.Airtable
 			return recordList;
 		}
 
-		public async Task<AirRecordList<TRecord>> ListRecords(int maxRecords)
+		public async Task<AirRecordList<TRecord>> List(int maxRecords)
 		{
-			Guard.ArgumentIsInRange(maxRecords, 1, AirClient.MAX_NUMBER_OF_RECORDS_IN_LIST, nameof(maxRecords));
 
-			return await ListRecords(new QyeryBuilder { MaxRecords = maxRecords });
+			var queryBuilder = new QyeryBuilder();
+			if (maxRecords > 0) {
+				Guard.ArgumentIsInRange(maxRecords, 1, AirClient.MAX_NUMBER_OF_RECORDS_IN_LIST, nameof(maxRecords));
+				queryBuilder.MaxRecords = maxRecords;
+			}
+			return await List(queryBuilder);
 		}
+
+		public async Task<TRecord[]> ListRecords(int maxRecords = 0)
+		{
+			var list = await List(maxRecords);
+			return list?.Records;
+		}
+
 
 		public async Task<AirRecordList<TRecord>> FilterRecords(string formula, QyeryBuilder queryBuilder = null)
 		{

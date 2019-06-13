@@ -7,64 +7,94 @@ using Drive.Models;
 
 namespace Drive.ViewModels
 {
-	public class ContactItem : ListViewItem
+	public class ContactItem : ListViewItem<IContact>
     {
 		//static ClassRef @class = new ClassRef(typeof(ContactItemViewModel));
 
-		public ContactItem(IContact contact)
+		public ContactItem(IContact contact) :
+			base(contact)
 		{
 			//Debug.EnableTracing(@class);
 
-			Contact = contact ?? throw new ArgumentNullException(nameof(contact));
-
-			PropertiesChangedOnSelected = new string[] {
-				nameof(IsSelected),
-				nameof(ItemFrameStyle),
-				nameof(ShowDetails),
-				nameof(ShowAddress),
-				nameof(ShowRegularPlace)
-			};
+			UpdateFromSource();
 		}
 
-		public IContact Contact { get; }
+		public IContact Contact => Source;
 
-        public string Name => Contact.Title;
-        
-        public string PhoneNumber => Contact.PhoneNumber;
-        public bool HasPhone => !string.IsNullOrEmpty(Contact.PhoneNumber);
-
-        public string Address => Contact.Address;
-        public bool ShowAddress => !string.IsNullOrEmpty(Contact.Address) && ShowDetails;
-
-		public bool ShowRegularPlace => HasRegularPlace && ShowDetails;
-
-		public bool HasRegularPlace {
-			get {
-				if (Contact is Client client) {
-					return client.RegularPlace != null;
-				} else {
-					return false;
-				}
-			}
+		string name;
+		public string Name {
+			get => name;
+			set => SetProperty(ref name, value);
 		}
 
+		string phoneNumber;
+		public string PhoneNumber {
+			get => phoneNumber;
+			set => SetProperty(ref phoneNumber, value);
+		}
+
+		bool showPhoneNumber;
+		public bool ShowPhoneNumber {
+			get => showPhoneNumber;
+			set => SetProperty(ref showPhoneNumber, value);
+		}
+
+		string address;
+		public string Address {
+			get => address;
+			set => SetProperty(ref address, value);
+		}
+
+		bool showAddress;
+		public bool ShowAddress {
+			get => showAddress;
+			set => SetProperty(ref showAddress, value);
+		}
+
+		string regularPlace;
 		public string RegularPlace {
-			get {
-				if (Contact is Client client && client.RegularPlace != null) {
-					return client.RegularPlace.Title;
-				}
-				return string.Empty;
+			get => regularPlace;
+			set => SetProperty(ref regularPlace, value);
+		}
+
+		string regularAddress;
+		public string RegularAddress {
+			get => regularAddress;
+			set => SetProperty(ref regularAddress, value);
+		}
+
+		bool showRegularPlace;
+		public bool ShowRegularPlace {
+			get => showRegularPlace;
+			set => SetProperty(ref showRegularPlace, value);
+		}
+
+
+		protected override void UpdateFromSource()
+		{
+			Name = Contact.Title;
+			PhoneNumber = Contact.PhoneNumber;
+			ShowPhoneNumber = !string.IsNullOrEmpty(Contact.PhoneNumber);
+
+			Address = Contact.Address;
+			ShowAddress = ShowDetails && !string.IsNullOrEmpty(Address);
+
+			if (Contact is Client client && client.RegularPlace != null) {
+				RegularPlace = client.RegularPlace.Title;
+				RegularAddress = client.RegularPlace.Address;
+				ShowRegularPlace = ShowDetails;
+			} else {
+				RegularPlace = RegularAddress = string.Empty;
+				ShowRegularPlace = false;
 			}
 		}
 
-		public string RegularAddress {
-			get {
-				if (Contact is Client client && client.RegularPlace != null) {
-					return client.RegularPlace.Address;
-				}
-				return string.Empty;
-			}
+		protected override void OnShowDetailsChanged()
+		{
+			ShowAddress = ShowDetails && !string.IsNullOrEmpty(Contact.Address);
+			ShowRegularPlace = ShowDetails && (Contact is Client client && client.RegularPlace != null);
 		}
+
 
 		public static ObservableCollection<ContactItem> CreateCollection(Type contactType)
 		{

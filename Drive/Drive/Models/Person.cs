@@ -1,11 +1,12 @@
 ﻿using System;
 using Dwares.Dwarf;
+using Dwares.Druid;
 using Dwares.Dwarf.Toolkit;
 
 
 namespace Drive.Models
 {
-	public class Person : PropertyNotifier, IContact
+	public class Person : Model, IContact
 	{
 		//static ClassRef @class = new ClassRef(typeof(Person));
 
@@ -31,7 +32,13 @@ namespace Drive.Models
 		Home home;
 		public Home Home {
 			get => home;
-			set => SetProperty(ref home, value);
+			set {
+				if (value != null) {
+					Debug.Assert(value.Person == null);
+					value.Person = this;
+				}
+				SetProperty(ref home, value);
+			}
 		}
 
 		public string Title {

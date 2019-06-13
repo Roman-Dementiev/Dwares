@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Dwares.Dwarf;
 using Dwares.Drudge.Airtable;
+using Dwares.Dwarf;
 
 
 namespace Drive.Storage.Air
@@ -14,12 +14,6 @@ namespace Drive.Storage.Air
 			base(airBase, "Rides")
 		{
 			//Debug.EnableTracing(@class);
-		}
-
-		public async Task<RideRecord[]> ListRides()
-		{
-			var list = await ListRecords();
-			return list.Records;
 		}
 	}
 
