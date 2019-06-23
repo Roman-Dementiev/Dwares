@@ -10,9 +10,9 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
-	<Grid>
+	<Grid Margin="-16,-16,-16,4">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="100" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
@@ -22,20 +22,56 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
+	
 
+		<!--<ui:ArtButtonEx Grid.Row="0" Grid.Column="1"
+						DefaultFlavor="TopButton-default"
+						PushedFlavor="TopButton-active"
+						DefaultArt="Phone"
+						PushedArt="Phone_active"
+						LabelText="Phones"
+						Command="{Binding PhonesCommand}"
+						IsPushed="{Binding PhonesViewIsActive}"
+						/>
+		<ui:ArtButtonEx Grid.Row="0" Grid.Column="2"
+						DefaultFlavor="TopButton-default"
+						PushedFlavor="TopButton-active"
+						DefaultArt="Place"
+						PushedArt="Place_active"
+						LabelText="Places"
+						Command="{Binding PlacesCommand}"
+						IsPushed="{Binding PlacesViewIsActive}"
+						/>
+		<ui:ArtButtonEx Grid.Row="0" Grid.Column="3"
+						DefaultFlavor="TopButton-default"
+						PushedFlavor="TopButton-active"
+						DefaultArt="Client"
+						PushedArt="Client_active"
+						LabelText="Clients"
+						Command="{Binding ClientsCommand}"
+						IsPushed="{Binding ClientsViewIsActive}"
+						/>-->
 
-		<ui:PicButton Grid.Row="0" Grid.Column="1"
-					  LabelText="Clients"
-					  />
-		<ui:PicButton Grid.Row="0" Grid.Column="2"
-					  LabelText="Places"
-					  />
-		<ui:PicButton Grid.Row="0" Grid.Column="3"
-					  LabelText="Phones"
-					  />
+		<Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Image Grid.Row="0" Grid.Column="0" 
+				   VerticalOptions="Center"
+				   HeightRequest="24"
+				   WidthRequest="24"
+				   Source="looking.png"
+				   />
+			<Entry Grid.Row="0" Grid.Column="1" />
+		</Grid>
 
-		<ui:ListViewEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-					   ThemeStyle="ListView"
+		<ui:ListViewEx Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
+					   Flavor="ContactsListView"
 					   ItemsSource="{Binding Items}"
 					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 					   >

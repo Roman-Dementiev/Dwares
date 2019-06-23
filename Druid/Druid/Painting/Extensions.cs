@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using SkiaSharp;
 using Dwares.Dwarf;
 using System.Collections.Generic;
+using SkiaSharp.Views.Forms;
 
 namespace Dwares.Druid.Painting
 {
@@ -165,7 +166,7 @@ namespace Dwares.Druid.Painting
 		//	}
 
 		//	var dim = paint.TextDimemsion(text);
-			
+
 		//	float x, y;
 		//	x = rect.Left + (rect.Width - dim.Width) / 2;
 		//	y = rect.Top + (rect.Height + dim.Height) / 2; // + paint.AboveBaseline(FontMeasurementOptions.Approximate);

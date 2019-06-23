@@ -6,9 +6,17 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
-	public class ContentViewEx : ContentView, ITitleHolder, IToolbarHolder
+	public class ContentViewEx : ContentView, ITitleHolder, IToolbarHolder, ITargeting
 	{
-		public ContentViewEx() { }
+		public ContentViewEx()
+		{
+			//UITheme.CurrentThemeChanged += UITheme_CurrentThemeChanged;
+		}
+
+		//private void UITheme_CurrentThemeChanged(object sender, EventArgs e)
+		//{
+
+		//}
 
 		public static readonly BindableProperty TitleProperty =
 			BindableProperty.Create(
@@ -32,6 +40,12 @@ namespace Dwares.Druid.UI
 			}
 		}
 
+
 		public IList<ToolbarItem> ToolbarItems { get; } = new List<ToolbarItem>();
+
+		public virtual Element GetTargetElement()
+		{
+			return Content;
+		}
 	}
 }

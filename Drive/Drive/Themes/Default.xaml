@@ -6,6 +6,78 @@
 					xmlns:vm="clr-namespace:Drive.ViewModels"
 					x:Class="Drive.Themes.Default">
 
+	<x:String x:Key="ThemeName">Default</x:String>
+
+	<Style x:Key="RootView" TargetType="View" >
+		<!--<Setter Property="BackgroundColor" Value="Red" />-->
+	</Style>
+
+	<Style x:Key="ListView" TargetType="ListView">
+		<Setter Property="Margin" Value="-16,-16,-16,4" />
+		<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+		<Setter Property="VerticalOptions" Value="FillAndExpand" />
+		<Setter Property="SeparatorVisibility" Value="None" />
+		<Setter Property="HasUnevenRows" Value="True" />
+	</Style>
+
+	<Style x:Key="ContactsListView" TargetType="ListView" BasedOn="{StaticResource ListView}">
+		<Setter Property="Margin" Value="0,0,0,0" />
+	</Style>
+
+	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
+		<Setter Property="Margin" Value="1" />
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="BackgroundColor" Value="LightCyan" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>
+	
+	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
+		<Setter Property="Margin" Value="1" />
+		<Setter Property="BorderColor" Value="Accent" />
+		<Setter Property="BackgroundColor" Value="LightSkyBlue" />
+		<Setter Property="CornerRadius" Value="0" />
+	</Style>
+
+	<Style x:Key="ListView-item-font-default" TargetType="Label">
+		<Setter Property="FontSize" Value="20" />
+	</Style>
+	<Style x:Key="ListView-item-font-small" TargetType="Label">
+		<Setter Property="FontSize" Value="18" />
+	</Style>
+	<Style x:Key="ListView-item-font-bold" TargetType="Label">
+		<Setter Property="FontSize" Value="20" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
+		<Setter Property="HorizontalOptions" Value="Center" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="InnerMargin" Value="-8" />
+		<Setter Property="ImageWidth" Value="40" />
+		<Setter Property="ImageHeight" Value="40" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="LabelColor" Value="Black" />
+	</Style>
+	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TabButton-default}">
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="LabelColor" Value="DodgerBlue" />
+	</Style>
+
+	<Style x:Key="TopButton-default" TargetType="ui:ArtButton">
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="BorderColor" Value="Black" />
+		<Setter Property="CornerRadius" Value="6" />
+		<Setter Property="ImageWidth" Value="20" />
+		<Setter Property="ImageHeight" Value="20" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="LabelColor" Value="Black" />
+	</Style>
+	<Style x:Key="TopButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TopButton-default}">
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="BorderColor" Value="DodgerBlue" />
+		<Setter Property="LabelColor" Value="DodgerBlue" />
+	</Style>
+
 	<Style x:Key="StaticText" TargetType="Label">
 	</Style>
 
@@ -27,66 +99,4 @@
 		<Setter Property="HeightRequest" Value="86" />
 	</Style>
 
-	<Style x:Key="ListView" TargetType="ListView">
-		<Setter Property="Margin" Value="-16,-16,-16,4" />
-		<Setter Property="HorizontalOptions" Value="FillAndExpand" />
-		<Setter Property="VerticalOptions" Value="FillAndExpand" />
-		<Setter Property="SeparatorVisibility" Value="None" />
-		<Setter Property="HasUnevenRows" Value="True" />
-	</Style>
-	
-	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
-		<Setter Property="Margin" Value="1" />
-		<Setter Property="BorderColor" Value="Transparent" />
-		<Setter Property="BackgroundColor" Value="LightCyan" />
-		<Setter Property="CornerRadius" Value="20" />
-	</Style>
-	
-	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
-		<Setter Property="Margin" Value="1" />
-		<Setter Property="BorderColor" Value="Accent" />
-		<Setter Property="BackgroundColor" Value="LightSkyBlue" />
-		<Setter Property="CornerRadius" Value="0" />
-	</Style>
-
-	<Style x:Key="ListView-item-font-default" TargetType="Label">
-		<Setter Property="FontSize" Value="20" />
-	</Style>
-	<Style x:Key="ListView-item-font-small" TargetType="Label">
-		<Setter Property="FontSize" Value="18" />
-	</Style>
-	<Style x:Key="ListView-item-font-bold" TargetType="Label">
-		<Setter Property="FontSize" Value="20" />
-		<Setter Property="FontAttributes" Value="Bold" />
-	</Style>
-
-	<Style x:Key="TabButton-default" TargetType="ui:PicButton">
-		<Setter Property="HorizontalOptions" Value="Center" />
-		<Setter Property="VerticalOptions" Value="Center" />
-		<Setter Property="ImageWidth" Value="40" />
-		<Setter Property="ImageHeight" Value="40" />
-		<Setter Property="FontSize" Value="16" />
-		<Setter Property="FontAttributes" Value="Bold" />
-		<Setter Property="LabelColor" Value="Black" />
-	</Style>
-	<Style x:Key="TabButton-active" TargetType="ui:PicButton" >
-		<Setter Property="HorizontalOptions" Value="Center" />
-		<Setter Property="VerticalOptions" Value="Center" />
-		<Setter Property="ImageWidth" Value="40" />
-		<Setter Property="ImageHeight" Value="40" />
-		<Setter Property="FontSize" Value="16" />
-		<Setter Property="FontAttributes" Value="Bold" />
-		<!--<Setter Property="LabelColor" Value="0,148,255" />-->
-		<Setter Property="LabelColor" Value="DodgerBlue" />
-	</Style>
-
-	<!--<Style x:Key="BottomButton" TargetType="ui:PicButton">
-		<Setter Property="Orientation" Value="Vertical" />
-		<Setter Property="HorizontalOptions" Value="Center" />
-		<Setter Property="VerticalOptions" Value="Center" />
-		<Setter Property="ImageWidth" Value="40" />
-		<Setter Property="ImageHeight" Value="40" />
-		<Setter Property="FontSize" Value="16" />
-		<Setter Property="FontAttributes" Value="Bold" />
-	</Style>-->
 </ResourceDictionary>

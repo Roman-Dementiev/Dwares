@@ -19,12 +19,13 @@ namespace Drive
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			UITheme.Current = new UITheme(new Themes.Default());
+			var baseTheme = new UITheme(new Themes.BaseTheme());
+			UITheme.Current = new UITheme(new Themes.Cold(), baseTheme);
 		}
 
 		protected override async void OnStart()
 		{
-            //AppStorage.Instance = new Storage.MockStorage();
+			//AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
 
 			//var page = AppScope.CreatePage(typeof(ScheduleViewModel));

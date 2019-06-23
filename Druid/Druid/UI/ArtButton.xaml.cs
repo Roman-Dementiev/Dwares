@@ -1,33 +1,24 @@
-﻿using Dwares.Druid.Satchel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Druid.Satchel;
+using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ArtButton : ContentView
+	public partial class ArtButton : ContentView, ICommandHolder //, ISelectable
 	{
-		const float kDefaultImageSize = 40;
-		const float kDefaultFontSize = 16;
-		const float kDefaultCornerRadius = 8;
+		WritMixin wmix;
+		//public event EventHandler Tapped;
 
 		public ArtButton()
 		{
+			wmix = new WritMixin(this);
+
 			InitializeComponent();
-
-			frame.CornerRadius = kDefaultCornerRadius;
-			frame.BorderColor = Color.Transparent;
-			frame.BackgroundColor = Color.Transparent;
-
-			image.WidthRequest = image.HeightRequest = kDefaultImageSize;
-
-			label.FontSize = kDefaultFontSize;
 		}
 
 		public static readonly BindableProperty OrientationProperty =
@@ -47,38 +38,56 @@ namespace Dwares.Druid.UI
 			get { return (StackOrientation)GetValue(OrientationProperty); }
 		}
 
-		public static readonly BindableProperty ImageWidthProperty =
+		public static readonly BindableProperty BorderColorProperty =
 			BindableProperty.Create(
-				nameof(ImageWidth),
-				typeof(double),
+				nameof(BorderColor),
+				typeof(Color),
 				typeof(ArtButton),
-				defaultValue: kDefaultImageSize,
+				defaultValue: Color.Transparent,
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButton button && newValue is double value) {
-						button.image.WidthRequest = value;
+					if (bindable is ArtButton button && newValue is Color value) {
+						button.frame.BorderColor = value;
 					}
 				});
 
-		public double ImageWidth {
-			set { SetValue(ImageWidthProperty, value); }
-			get { return (double)GetValue(ImageWidthProperty); }
+		[TypeConverter(typeof(ColorTypeConverter))]
+		public Color BorderColor {
+			set { SetValue(BorderColorProperty, value); }
+			get { return (Color)GetValue(BorderColorProperty); }
 		}
 
-		public static readonly BindableProperty ImageHeightProperty =
+		public static readonly BindableProperty CornerRadiusProperty =
 			BindableProperty.Create(
-				nameof(ImageHeight),
-				typeof(double),
+				nameof(CornerRadius),
+				typeof(float),
 				typeof(ArtButton),
-				defaultValue: kDefaultImageSize,
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButton button && newValue is double value) {
-						button.image.HeightRequest = value;
+					if (bindable is ArtButton button && newValue is float value) {
+						button.frame.CornerRadius = value;
 					}
 				});
 
-		public double ImageHeight {
-			set { SetValue(ImageHeightProperty, value); }
-			get { return (double)GetValue(ImageHeightProperty); }
+		public float CornerRadius {
+			set { SetValue(CornerRadiusProperty, value); }
+			get { return (float)GetValue(CornerRadiusProperty); }
+		}
+
+		const int innerMarginAdjustment = -12;
+		public static readonly BindableProperty InnerMarginProperty =
+			BindableProperty.Create(
+				nameof(InnerMargin),
+				typeof(Thickness),
+				typeof(ArtButton),
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButton button && newValue is Thickness value) {
+						button.layout.Margin = value.Add(innerMarginAdjustment);
+					}
+				});
+
+		[TypeConverter(typeof(ThicknessTypeConverter))]
+		public Thickness InnerMargin {
+			set { SetValue(InnerMarginProperty, value); }
+			get { return (Thickness)GetValue(InnerMarginProperty); }
 		}
 
 		public static readonly BindableProperty LabelTextProperty =
@@ -127,11 +136,13 @@ namespace Dwares.Druid.UI
 					}
 				});
 
+		//[TypeConverter(typeof(FontSizeConverter))]
 		public double FontSize {
 			set { SetValue(FontSizeProperty, value); }
 			get { return (double)GetValue(FontSizeProperty); }
 		}
 
+		[TypeConverter(typeof(FontAttributesConverter))]
 		public static readonly BindableProperty FontAttributesProperty =
 			BindableProperty.Create(
 				nameof(FontAttributes),
@@ -149,70 +160,52 @@ namespace Dwares.Druid.UI
 		}
 
 
-		public static new readonly BindableProperty BackgroundColorProperty =
+
+		public static readonly BindableProperty ImageWidthProperty =
 			BindableProperty.Create(
-				nameof(BackgroundColor),
-				typeof(Color),
+				nameof(ImageWidth),
+				typeof(double),
 				typeof(ArtButton),
-				defaultValue: Color.Transparent,
+				//defaultValue: 80,
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButton button && newValue is Color value) {
-						button.frame.BackgroundColor = value;
+					if (bindable is ArtButton button && newValue is double value) {
+						button.image.WidthRequest = value;
 					}
 				});
 
-		[TypeConverter(typeof(ColorTypeConverter))]
-		public new Color BackgroundColor {
-			set { SetValue(BackgroundColorProperty, value); }
-			get { return (Color)GetValue(BackgroundColorProperty); }
+		public double ImageWidth {
+			set { SetValue(ImageWidthProperty, value); }
+			get { return (double)GetValue(ImageWidthProperty); }
 		}
 
-		public static readonly BindableProperty BorderColorProperty =
+		public static readonly BindableProperty ImageHeightProperty =
 			BindableProperty.Create(
-				nameof(BorderColor),
-				typeof(Color),
+				nameof(ImageHeight),
+				typeof(double),
 				typeof(ArtButton),
-				defaultValue: Color.Transparent,
+				//defaultValue: 80,
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButton button && newValue is Color value) {
-						button.frame.BorderColor = value;
+					if (bindable is ArtButton button && newValue is double value) {
+						button.image.HeightRequest = value;
+
 					}
 				});
 
-		[TypeConverter(typeof(ColorTypeConverter))]
-		public Color BorderColor {
-			set { SetValue(BorderColorProperty, value); }
-			get { return (Color)GetValue(BorderColorProperty); }
+		public double ImageHeight {
+			set { SetValue(ImageHeightProperty, value); }
+			get { return (double)GetValue(ImageHeightProperty); }
 		}
 
-		public static readonly BindableProperty CornerRadiusProperty =
-			BindableProperty.Create(
-				nameof(CornerRadius),
-				typeof(float),
-				typeof(ArtButton),
-				defaultValue: kDefaultCornerRadius,
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButton button && newValue is Color value) {
-						button.frame.BorderColor = value;
-					}
-				});
-
-		public float CornerRadius {
-			set { SetValue(CornerRadiusProperty, value); }
-			get { return (float)GetValue(CornerRadiusProperty); }
+		[TypeConverter(typeof(ImageSourceConverter))]
+		public ImageSource ImageSource {
+			get => image.Source;
+			set => image.Source = value;
 		}
 
-		//[TypeConverter(typeof(ImageSourceConverter))]
-		//public ImageSource ImageSource {
-		//	get => imageSource;
-		//	set {
-		//		if (value != imageSource) {
-		//			imageSource = value;
-		//			image.Source = imageSource;
-		//		}
-		//	}
-		//}
-		//ImageSource imageSource;
+		protected virtual void SelectImageSource(string name)
+		{
+			ImageSource = ArtProvider.GetImageSource(name);
+		}
 
 		public static readonly BindableProperty ArtProperty =
 			BindableProperty.Create(
@@ -222,7 +215,7 @@ namespace Dwares.Druid.UI
 				defaultValue: string.Empty,
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ArtButton button && newValue is string value) {
-						button.image.Source = ImageProvider.GetImageSource(value);
+						button.SelectImageSource(value);
 					}
 				});
 
@@ -231,5 +224,39 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(ArtProperty); }
 		}
 
+		public static readonly BindableProperty CommandProperty =
+			BindableProperty.Create(
+				nameof(Command),
+				typeof(ICommand),
+				typeof(ArtButton)
+				//propertyChanged: (bindable, oldValue, newValue) => {
+				//	if (bindable is ArtButtonEx button && newValue is string value) {
+				//		Debug.Print($"CommandProperty changed");
+				//	}
+				//}
+				);
+
+		public ICommand Command {
+			set { SetValue(CommandProperty, value); }
+			get { return (ICommand)GetValue(CommandProperty); }
+		}
+
+		public WritCommand WritCommand {
+			get => wmix.WritCommand;
+			set => wmix.WritCommand = value;
+		}
+
+		public string Writ {
+			get => wmix.Writ;
+			set => wmix.Writ = value;
+		}
+
+		// TapGestureRecognizer handler.
+		void OnTapped(object sender, EventArgs args)
+		{
+			if (IsEnabled && Command != null && Command.CanExecute(null)) {
+				Command.Execute(null);
+			}
+		}
 	}
 }

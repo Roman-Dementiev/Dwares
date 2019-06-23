@@ -2,30 +2,26 @@
 using System.Collections.Generic;
 using System.Threading;
 using Dwares.Dwarf;
+using SkiaSharp;
 using Xamarin.Forms;
 
 
 namespace Dwares.Druid.Satchel
 {
-	public interface IImageProvider
+	public interface IArtProvider
 	{
 		ImageSource GetImageSource(string group, string name);
 	}
 
-	public static class ImageProvider
+	public static class ArtProvider
 	{
 		public const string kGroupImages = "Images";
 		public const string kGroupSymbol = "Symbol";
 		public const string kGroupToolbar = "Toolbar";
 
-		static IImageProvider instance;
-		public static IImageProvider Instance {
+		static IArtProvider instance;
+		public static IArtProvider Instance {
 			get => LazyInitializer.EnsureInitialized(ref instance, () => new DefaultImageProvider());
-		}
-
-		public static ImageSource GetImageSource(this IImageProvider provider, string group, string name)
-		{
-			return provider?.GetImageSource(group, name);
 		}
 
 		public static ImageSource GetImageSource(string group, string name)
@@ -33,7 +29,7 @@ namespace Dwares.Druid.Satchel
 			return Instance.GetImageSource(group, name);
 		}
 
-		public static ImageSource GetImageSource(this IImageProvider provider, string name)
+		public static ImageSource GetImageSource(this IArtProvider provider, string name)
 		{
 			return provider?.GetImageSource(null, name);
 		}
@@ -44,11 +40,11 @@ namespace Dwares.Druid.Satchel
 		}
 	}
 
-	public class DefaultImageProvider : IImageProvider
+	public class DefaultImageProvider : IArtProvider
 	{
 		//static ClassRef @class = new ClassRef(typeof(ImageProvider));
 		public static string DefaultExtension { get; set; } = "png";
-		public static string DefaultGroup { get; set; } = ImageProvider.kGroupImages;
+		public static string DefaultGroup { get; set; } = ArtProvider.kGroupImages;
 
 		Dictionary<string, string> prefixes = new Dictionary<string, string>();
 
@@ -60,13 +56,13 @@ namespace Dwares.Druid.Satchel
 
 			if (standard) {
 				if (Device.RuntimePlatform == Device.UWP) {
-					SetPrefix(Device.UWP, ImageProvider.kGroupImages, "Images/");
-					SetPrefix(Device.UWP, ImageProvider.kGroupSymbol, "Images/");
-					SetPrefix(Device.UWP, ImageProvider.kGroupToolbar, "Images/");
+					SetPrefix(Device.UWP, ArtProvider.kGroupImages, "Images/");
+					SetPrefix(Device.UWP, ArtProvider.kGroupSymbol, "Images/");
+					SetPrefix(Device.UWP, ArtProvider.kGroupToolbar, "Images/");
 				}
 				else if (Device.RuntimePlatform == Device.Android) {
 					LowercaseNames = true;
-					SetPrefix(Device.Android, ImageProvider.kGroupToolbar, "ic_tb_");
+					SetPrefix(Device.Android, ArtProvider.kGroupToolbar, "ic_tb_");
 				}
 			}
 

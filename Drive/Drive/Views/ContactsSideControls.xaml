@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  x:Class="Drive.Views.ContactsSideControls"
+				  >
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<ui:ArtButtonEx Grid.Row="0"
+						DefaultFlavor="TopButton-default"
+						PushedFlavor="TopButton-active"
+						DefaultArt="Phone"
+						PushedArt="Phone_active"
+						LabelText="Phones"
+						Command="{Binding PhonesCommand}"
+						IsPushed="{Binding PhonesViewIsActive, Mode=OneWay}"
+						/>
+		<ui:ArtButtonEx Grid.Row="1"
+						DefaultFlavor="TopButton-default"
+						PushedFlavor="TopButton-active"
+						DefaultArt="Place"
+						PushedArt="Place_active"
+						LabelText="Places"
+						Command="{Binding PlacesCommand}"
+						IsPushed="{Binding PlacesViewIsActive, Mode=OneWay}"
+						/>
+		<ui:ArtButtonEx Grid.Row="2"
+						DefaultFlavor="TopButton-default"
+						PushedFlavor="TopButton-active"
+						DefaultArt="Client"
+						PushedArt="Client_active"
+						LabelText="Clients"
+						Command="{Binding ClientsCommand}"
+						IsPushed="{Binding ClientsViewIsActive, Mode=OneWay}"
+						/>
+	</Grid>
+</ui:ContentViewEx>

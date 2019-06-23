@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Drive.Themes.Cold">
+	
+	<x:String x:Key="ThemeName">Cold</x:String>
+	<x:String x:Key="BasedOn">@Base</x:String>
+
+	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="BackgroundColor" Value="#ddddda" />
+	</Style>
+
+	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
+		<Setter Property="BorderColor" Value="Accent" />
+		<Setter Property="BackgroundColor" Value="#94b0b7" />
+	</Style>
+
+	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
+		<Setter Property="LabelColor" Value="Black" />
+	</Style>
+	
+	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TabButton-default}">
+		<Setter Property="LabelColor" Value="DodgerBlue" />
+	</Style>
+
+	<Style x:Key="TopButton-default" TargetType="ui:ArtButton">
+		<Setter Property="BorderColor" Value="Black" />
+		<Setter Property="LabelColor" Value="Black" />
+	</Style>
+	
+	<Style x:Key="TopButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TopButton-default}">
+		<Setter Property="BorderColor" Value="DodgerBlue" />
+		<Setter Property="LabelColor" Value="DodgerBlue" />
+	</Style>
+
+</ResourceDictionary>

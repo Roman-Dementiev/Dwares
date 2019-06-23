@@ -5,46 +5,69 @@
 				  Title="{Binding Title}"
 				  x:Class="Drive.Views.RootView">
 
-	<Grid Margin="-20">
+	<Grid x:Name="rootGrid" Margin="-20" BackgroundColor="Transparent" >
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+		<ui:ContentViewEx Grid.Row="{Binding ControlBarRow}" Grid.Column="{Binding ControlBarColumn}"
+						  Content="{Binding Controls, Mode=OneWay}">
+		</ui:ContentViewEx>
+		
+		<Frame Grid.Row="1" Grid.Column="1"
 			   Margin="0"
-			   BorderColor="{Binding ContentBorderColor, Mode=OneWay}"
+			   BorderColor="Black"
 			   Content="{Binding Content, Mode=OneWay}"
 			   />
 
-		<ui:PicButton Grid.Row="1" Grid.Column="0"
-					  Style="{Binding ScheduleTabStyle}"
-					  Orientation="{Binding ButtonsOrientation, Mode=OneWay}"
-					  ImageName="{Binding ScheduleIcon, Mode=OneWay}"
-					  LabelText="Schedule"
-					  Writ="GoToSchedule"
-					  />
+		<Grid Grid.Row="2" Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<ui:ArtButtonEx Grid.Column="0"
+						DefaultFlavor="TabButton-default"
+						PushedFlavor="TabButton-active"
+						DefaultArt="Schedule"
+						PushedArt="Schedule_active"
+						LabelText="Schedule"
+						Writ="GoToSchedule"
+						Orientation="{Binding TabButtonsOrientation, Mode=OneWay}"
+						IsPushed="{Binding ScheduleTabIsActive, Mode=OneWay}"
+						/>
 
-		<ui:PicButton Grid.Row="1" Grid.Column="1"
-					  Style="{Binding RouteTabStyle}"
-					  Orientation="{Binding ButtonsOrientation, Mode=OneWay}"
-					  ImageName="{Binding RouteIcon, Mode=OneWay}"
-					  LabelText="Route"
-					  Writ="GoToRoute"
-					  />
+			<ui:ArtButtonEx Grid.Column="1"
+						DefaultFlavor="TabButton-default"
+						PushedFlavor="TabButton-active"
+						DefaultArt="Route"
+						PushedArt="Route_active"
+						LabelText="Route"
+						Writ="GoToRoute"
+						Orientation="{Binding TabButtonsOrientation, Mode=OneWay}"
+						IsPushed="{Binding RouteTabIsActive, Mode=OneWay}"
+						/>
 
-		<ui:PicButton Grid.Row="1" Grid.Column="2"
-					  Style="{Binding ContactsTabStyle}"
-					  Orientation="{Binding ButtonsOrientation, Mode=OneWay}"
-					  ImageName="{Binding ContactsIcon, Mode=OneWay}"
-					  LabelText="Contacts"
-					  Writ="GoToContacts"
-					  />
+			<ui:ArtButtonEx Grid.Column="2"
+						DefaultFlavor="TabButton-default"
+						PushedFlavor="TabButton-active"
+						DefaultArt="Contacts"
+						PushedArt="Contacts_active"
+						LabelText="Contacts"
+						Writ="GoToContacts"
+						Orientation="{Binding TabButtonsOrientation, Mode=OneWay}"
+						IsPushed="{Binding ContactsTabIsActive, Mode=OneWay}"
+						/>
+		</Grid>
 	</Grid>
 
 </ui:ContentViewEx>

@@ -18,9 +18,9 @@ namespace Dwares.Druid.Satchel
 			//Debug.EnableTracing(@class);
 		}
 
-		public void Add(string name, string themeKey)
+		public void Add(string name, string flavor)
 		{
-			dict[name] = new StyleRec(name, themeKey);
+			dict[name] = new StyleRec(name, flavor);
 		}
 
 		public Style Get(string name)
@@ -47,20 +47,20 @@ namespace Dwares.Druid.Satchel
 
 		class StyleRec
 		{
-			public StyleRec(string name, string themeKey)
+			public StyleRec(string name, string flavor)
 			{
 				Name = name;
-				ThemeKey = themeKey;
+				Flavor = flavor;
 				Style = null;
 			}
 
 			public string Name { get; }
-			public string ThemeKey { get; }
-			public Style Style { get; set; } 
+			public string Flavor { get; }
+			public Style Style { get; set; }
 
 			public Style Update()
 			{
-				Style = UITheme.Current.GetStyleByName(ThemeKey);
+				Style = UITheme.Current.GetStyle(Flavor);
 				if (Style == null) {
 					Style = Empty;
 				}

@@ -18,27 +18,36 @@ namespace Dwares.Druid.UI
 			return true;
 		}
 
-		public static bool ApplyTheme(this VisualElement element, string styleName = null, UITheme theme = null)
+		public static bool ApplyFlavor(this VisualElement element, string flavor, UITheme theme = null)
 		{
 			if (!GetTheme(ref theme))
 				return false;
 
-			if (string.IsNullOrEmpty(styleName)) {
-				return theme.Apply(element);
-			} else {
-				return theme.Apply(element, styleName);
-			}
+			return theme.Apply(element, flavor);
 		}
 
-		public static bool ApplyTheme(this VisualElement element, Type type, UITheme theme = null)
+		public static bool RemoveSetter(this Style style, string propertyName)
 		{
-			if (!GetTheme(ref theme))
-				return false;
-				
-			if (type == null) {
-				return theme.Apply(element);
-			} else {
-				return theme.Apply(element, type);
+			var setters = style.Setters;
+			for(int i = 0; i < setters.Count; i++) {
+				if (setters[i].Property.PropertyName == propertyName) {
+					setters.RemoveAt(i);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
+		public static void MergeStyle(this Style style, Style mergeStyle)
+		{
+			if (style == null || mergeStyle == null)
+				return;
+
+			foreach (var setter in mergeStyle.Setters) {
+				style.RemoveSetter(setter.Property.PropertyName);
+				style.Setters.Add(setter);
 			}
 		}
 
@@ -93,5 +102,20 @@ namespace Dwares.Druid.UI
 		{
 			ResetPages(multiPage, viewModel?.ViewModelTypes, viewModel?.ContentViewModels == true, useNavigationPages);
 		}
+
+		public static Thickness Add(this Thickness thickness, Thickness addendum)
+		{
+			return new Thickness(
+				thickness.Left+ addendum.Left, 
+				thickness.Top+ addendum.Top, 
+				thickness.Right+addendum.Right,
+				thickness.Bottom+addendum.Bottom);
+		}
+
+		public static Thickness Add(this Thickness thickness, double horizontalSize, double verticalSize)
+			=> Add(thickness, new Thickness(horizontalSize, verticalSize));
+
+		public static Thickness Add(this Thickness thickness, double uniformSize)
+			=> Add(thickness, new Thickness(uniformSize));
 	}
 }

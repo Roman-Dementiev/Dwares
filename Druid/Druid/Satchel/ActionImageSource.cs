@@ -20,7 +20,7 @@ namespace Dwares.Druid.Satchel
 		public ImageSource ImageSource {
 			get {
 				if (imageSource == null) {
-					imageSource = GetImageSource(ImageProvider.Instance);
+					imageSource = GetImageSource(ArtProvider.Instance);
 				}
 				return imageSource;
 			}
@@ -29,7 +29,7 @@ namespace Dwares.Druid.Satchel
 			}
 		}
 
-		protected virtual ImageSource GetImageSource(IImageProvider provider)
+		protected virtual ImageSource GetImageSource(IArtProvider provider)
 		{
 			return provider.GetImageSource(Group, Name);
 		}
@@ -46,6 +46,6 @@ namespace Dwares.Druid.Satchel
 		}
 
 		public static FileImageSource ToobarIconSource(string name)
-			=> ForName(name, ImageProvider.kGroupToolbar) as FileImageSource;
+			=> ForName(name, ArtProvider.kGroupToolbar) as FileImageSource;
 	}
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
-using Dwares.Dwarf;
-using Dwares.Dwarf.Runtime;
 using Xamarin.Forms;
+using Dwares.Druid.Satchel;
+using Dwares.Dwarf;
+
 
 namespace Dwares.Druid.UI
 {
@@ -24,54 +23,110 @@ namespace Dwares.Druid.UI
 		}
 		public static event EventHandler CurrentThemeChanged;
 
-		public UITheme()
+		static Dictionary<string, UITheme> namedThemes = new Dictionary<string, UITheme>();
+
+		Dictionary<string, Style> styles = new Dictionary<string, Style>();
+		Dictionary<string, ImageSource> images = new Dictionary<string, ImageSource>();
+
+		public UITheme(UITheme baseTheme = null)
 		{
 			//Debug.EnableTracing(@class);
+
+			BaseTheme = baseTheme;
+			BasedOn = baseTheme?.Name;
 		}
 
-		public UITheme(ResourceDictionary dict)
+		public UITheme(ResourceDictionary dict, UITheme baseTheme = null) :
+			this(baseTheme)
 		{
+			object value;
+			if (dict.TryGetValue("ThemeName", out value)) {
+				Name = value.ToString();
+			}
+
+			if (dict.TryGetValue("BasedOn", out value)) {
+				BasedOn = value.ToString();
+				BaseTheme = null;
+			}
+
+
 			foreach (var pair in dict) {
-				if (pair.Value is Style style) {
+				if (pair.Value is ImageSource image) {
+					AddImage(pair.Key, image);
+				} else if (pair.Value is Style style) {
 					AddStyle(pair.Key, style);
 				}
 			}
 		}
 
-		public void AddStyle(string name, Style style)
-			=> AddStyle(name, null, style);
+		string name;
+		public string Name {
+			get => name;
+			set {
+				if (value != name) {
+					if (!string.IsNullOrEmpty(name) && namedThemes.ContainsKey(name)) {
+						namedThemes.Remove(name);
+					}
 
-		public void AddStyle(Type type, Style style)
-			=> AddStyle(null, type, style);
+					name = value;
 
-		public void AddStyle(string name, Type type, Style style)
-		{
-			Guard.ArgumentNotNull(style, nameof(style));
-
-			if (type == null) {
-				type = style.TargetType;
-				Guard.ArgumentNotNull(type, nameof(type));
-			}
-			Guard.ArgumentIsValid(nameof(type), type.IsDerivedFrom(typeof(VisualElement)),
-				$"UITheme.AddStyle: Invalid type={type}");
-
-
-			var spec = new StyleSpec {
-				Name = name,
-				Style = style,
-				BaseType = type
-			};
-
-			if (!string.IsNullOrEmpty(name)) {
-				stylesByName.Add(name, spec);
-			}
-			
-			if (!stylesByType.ContainsKey(type)) {
-				stylesByType.Add(type, spec);
+					if (!string.IsNullOrEmpty(name)) {
+						namedThemes[name] = this;
+					}
+				}
 			}
 		}
 
-		public void AddStyle(string name, Type type, params object[] propertiesAndValues)
+		public static UITheme ByName(string name)
+		{
+			UITheme theme;
+			if (!string.IsNullOrEmpty(name) && namedThemes.TryGetValue(name, out theme)) {
+				return theme;
+			} else {
+				return null;
+			}
+		}
+
+		public string BasedOn { get; private set; }
+
+		UITheme baseTheme;
+		public UITheme BaseTheme {
+			get {
+				if (baseTheme == null && !string.IsNullOrEmpty(BasedOn)) {
+					baseTheme = ByName(BasedOn);
+				}
+				return baseTheme;
+			}
+			private set {
+				baseTheme = value;
+			}
+		}
+
+		//public ColorScheme ColorScheme { get; set; }
+
+		public void AddImage(string name, ImageSource image)
+		{
+			images.Add(name, image);
+		}
+
+		public ImageSource GetImage(string name)
+		{
+			if (images.ContainsKey(name)) {
+				return images[name];
+			}
+
+			return ArtProvider.Instance.GetImageSource(name);
+		}
+
+		public void AddStyle(string flavor, Style style)
+		{
+			Guard.ArgumentNotEmpty(flavor, nameof(flavor));
+			Guard.ArgumentNotNull(style, nameof(style));
+
+			styles[flavor] = style;
+		}
+
+		public void AddStyle(string flavor, Type type, params object[] propertiesAndValues)
 		{
 			Guard.ArgumentNotNull(type, nameof(type));
 
@@ -85,78 +140,40 @@ namespace Dwares.Druid.UI
 				style.Setters.Add(new Setter { Property = property, Value = propertiesAndValues[i]});			
 			}
 
-			AddStyle(name, type, style);
+			AddStyle(flavor, style);
 		}
 
-		public Style GetStyleByName(string name)
+		public Style GetStyle(string flavor)
 		{
-			if (stylesByName.ContainsKey(name)) {
-				return stylesByName[name].Style;
-			} else {
+			if (string.IsNullOrEmpty(flavor))
 				return null;
+
+			var baseStyle = BaseTheme?.GetStyle(flavor);
+
+			if (styles.ContainsKey(flavor)) {
+				var style = styles[flavor];
+				if (baseStyle == null)
+					return style;
+
+				baseStyle.MergeStyle(style);
 			}
+			return baseStyle;
 		}
 
-		public Style GetStyleByType(Type type)
+		public bool Apply(VisualElement element, string flavor)
 		{
-			while (type != null) {
-				if (stylesByType.ContainsKey(type)) {
-					return stylesByType[type].Style;
-				}
+			if (element == null || string.IsNullOrEmpty(flavor))
+				return false;
 
-				if (type == typeof(VisualElement))
-					break;
-				type = type.BaseType;
-			}
-
-			return null;
-		}
-
-		public bool Apply(VisualElement element, string styleName)
-		{
-			Guard.ArgumentNotNull(element, nameof(element));
-
-			Style style;
-			if (string.IsNullOrEmpty(styleName)) {
-				styleName = element.GetType().ToString(); // for debug message only
-				style = GetStyleByType(element.GetType());
-			} else {
-				style = GetStyleByName(styleName);
-			}
-
+			var style = GetStyle(flavor);
 			if (style != null) {
 				element.Style = style;
 				return true;
 			} else {
-				Debug.Print("Style '{0}' not found in UITheme", styleName);
+				Debug.Print($"Style '{flavor}' not found in UITheme");
 				return false;
 			}
 		}
 
-		public bool Apply(VisualElement element, Type type)
-		{
-			Guard.ArgumentNotNull(element, nameof(element));
-
-			var style = GetStyleByType(type ?? element.GetType());
-			if (style != null) {
-				element.Style = style;
-				return true;
-			} else {
-				Debug.Print("Style for type {0} not found in UITheme", type);
-				return false;
-			}
-		}
-
-		public bool Apply(VisualElement element) => Apply(element, (Type)null);
-
-		class StyleSpec
-		{
-			public Type BaseType { get; set; }
-			public string Name { get; set; }
-			public Style Style { get; set; }
-		}
-
-		Dictionary<string, StyleSpec> stylesByName = new Dictionary<string, StyleSpec>();
-		Dictionary<Type, StyleSpec> stylesByType = new Dictionary<Type, StyleSpec>();
 	}
 }

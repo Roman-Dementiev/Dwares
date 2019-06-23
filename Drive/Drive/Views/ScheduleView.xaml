@@ -15,7 +15,7 @@
 	</ui:ContentViewEx.ToolbarItems>
 
 
-	<ui:ListViewEx ThemeStyle="ListView"
+	<ui:ListViewEx Flavor="ListView"
 				   ItemsSource="{Binding Items}"
 				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 				   >

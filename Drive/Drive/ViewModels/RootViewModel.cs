@@ -17,23 +17,59 @@ namespace Drive.ViewModels
 
 	public class RootViewModel : ViewModel
 	{
-		Style tabButton_Default;
-		Style tabButton_Active;
+		//Style tabButton_Default;
+		//Style tabButton_Active;
 
 		public RootViewModel()
 		{
 			Title = "ZenRide";
 			
-			MessageBroker.SubscribePageSizeMessage(this, OnPageSizeMessage);
+			MessageBroker.SubscribePageSizeMessage(this, (message) => {
+				//Debug.Print($"RootViewModel.OnPageSizeMessage(): PageWidthh={message.PageWidth} PageHeight={message.PageHeight}");
+				IsLandscape = message.PageWidth > message.PageHeight; 
+			});
 
-			tabButton_Default = UITheme.Current.GetStyleByName("TabButton-default");
-			tabButton_Active = UITheme.Current.GetStyleByName("TabButton-active");
+			//tabButton_Default = UITheme.Current.GetStyleByName("TabButton-default");
+			//tabButton_Active = UITheme.Current.GetStyleByName("TabButton-active");
 		}
 
-		StackOrientation buttonsOrientation;
-		public StackOrientation ButtonsOrientation {
-			get => buttonsOrientation;
-			set => SetProperty(ref buttonsOrientation, value);
+		//void OnOrientationChanged()
+		//{
+
+		//	if (IsLandscape) {
+		//		ControlBarRow = 1;
+		//		ControlBarColumn = 0;
+		//		ButtonsOrientation = StackOrientation.Horizontal;
+		//	} else {
+		//		ControlBarRow = 0;
+		//		ControlBarColumn = 1;
+		//		ButtonsOrientation = StackOrientation.Vertical;
+		//	}
+		//}
+
+		bool isLandscape = false;
+		public bool IsLandscape {
+			get => isLandscape;
+			private set {
+				if (SetProperty(ref isLandscape, value)) {
+					PropertiesChanged(nameof(TabButtonsOrientation), nameof(ControlBarRow), nameof(ControlBarColumn));
+					if (ContentViewModel != null) {
+						Controls = Forge.CreateView(ContentViewModel.ControlsViewType(IsLandscape), ContentViewModel);
+					}
+				}
+			}
+		}
+
+		public StackOrientation TabButtonsOrientation {
+			get => IsLandscape ? StackOrientation.Horizontal : StackOrientation.Vertical;
+		}
+
+		public int ControlBarRow {
+			get => IsLandscape ? 1 : 0;
+		}
+
+		public int ControlBarColumn {
+			get => IsLandscape ? 0 : 1;
 		}
 
 
@@ -41,38 +77,21 @@ namespace Drive.ViewModels
 		public RootTab? ActiveTab {
 			get => activeTab;
 			set => SetPropertyEx(ref activeTab, value, nameof(ActiveTab),
-				nameof(ScheduleIcon), nameof(RouteIcon), nameof(ContactsIcon),
-				nameof(ScheduleTabStyle), nameof(RouteTabStyle), nameof(ContactsTabStyle),
-				nameof(ContentBorderColor));
+				nameof(ScheduleTabIsActive), nameof(RouteTabIsActive), nameof(ContactsTabIsActive)
+				);
 		}
 
-		public string ScheduleIcon {
-			get => ActiveTab == RootTab.Schedule ? "Schedule_active" : "Schedule";
+		public bool ScheduleTabIsActive {
+			get => ActiveTab == RootTab.Schedule;
 		}
-		public string RouteIcon {
-			get => ActiveTab == RootTab.Route ? "Route_active" : "Route";
+		public bool RouteTabIsActive {
+			get => ActiveTab == RootTab.Route;
 		}
-		public string ContactsIcon {
-			get => ActiveTab == RootTab.Contacts ? "Contacts_active" : "Contacts";
-		}
-
-		Style TabButtonStyle(RootTab tab) {
-			return ActiveTab == tab ? tabButton_Active : tabButton_Default;
+		public bool ContactsTabIsActive {
+			get => ActiveTab == RootTab.Contacts;
 		}
 
-		public Style ScheduleTabStyle {
-			get => TabButtonStyle(RootTab.Schedule);
-		}
-		public Style RouteTabStyle {
-			get => TabButtonStyle(RootTab.Route);
-		}
-		public Style ContactsTabStyle {
-			get => TabButtonStyle(RootTab.Contacts);
-		}
-
-		public Color ContentBorderColor {
-			get => ActiveTab == RootTab.Schedule ? Color.Transparent : Color.Black;
-		}
+		ITabContentViewModel ContentViewModel { get; set; }
 
 		View content;
 		public View Content {
@@ -80,49 +99,42 @@ namespace Drive.ViewModels
 			set => SetProperty(ref content, value);
 		}
 
+		View controls;
+		public View Controls {
+			get => controls;
+			set => SetProperty(ref controls, value);
+		}
 
 
-		void GoToTab(RootTab tab, object contentViewModel)
+		void GoToTab(RootTab tab, ITabContentViewModel contentViewModel)
 		{
 			if (tab == ActiveTab)
 				return;
 
 			ActiveTab = tab;
+			ContentViewModel = contentViewModel;
 
-			ContentViewEx contentView = null;
-			if (contentViewModel != null) {
-				contentView = Forge.CreateView(contentViewModel) as ContentViewEx;
-			}
-
-			Content = contentView;
+			Content = Forge.CreateView(ContentViewModel.ContentViewType(), ContentViewModel);
+			Controls = Forge.CreateView(ContentViewModel.ControlsViewType(IsLandscape), ContentViewModel);
 
 			var mainPage = Application.Current.MainPage;
-			if (mainPage != null) {
-				mainPage.SetToolbarItems(contentView?.ToolbarItems);
-				//mainPage.SetPageTitle(contentView?.Title);
+			if (mainPage != null && content is ContentViewEx contentEx) {
+				mainPage.SetToolbarItems(contentEx.ToolbarItems);
+				//mainPage.SetPageTitle(contentEx.Title);
 			}
+
 		}
 
 		public void OnGoToSchedule() 
-			=> GoToTab(RootTab.Schedule, typeof(ScheduleViewModel));
+			=> GoToTab(RootTab.Schedule, new ScheduleViewModel());
 
 		public void OnGoToRoute() 
-			=> GoToTab(RootTab.Route, typeof(RouteViewModel));
+			=> GoToTab(RootTab.Route, new RouteViewModel());
 
 		public void OnGoToContacts() 
-			=> GoToTab(RootTab.Contacts, typeof(ContactsViewModel));
+			=> GoToTab(RootTab.Contacts, new ContactsViewModel());
 	
 	
-		void OnPageSizeMessage(PageSizeMessage message)
-		{
-			Debug.Print($"RootViewModel.OnPageSizeMessage(): PageWidthh={message.PageWidth} PageHeight={message.PageHeight}");
-
-			if (message.PageWidth < message.PageHeight) {
-				ButtonsOrientation = StackOrientation.Vertical;
-			} else {
-				ButtonsOrientation = StackOrientation.Horizontal;
-			}
-		}
 	}
 
 }

@@ -4,11 +4,12 @@ using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Drive.Models;
-using Dwares.Druid.UI;
+using Drive.Views;
+
 
 namespace Drive.ViewModels
 {
-	public class ScheduleViewModel : CollectionViewModel<ScheduleItem>
+	public class ScheduleViewModel : CollectionViewModel<ScheduleItem>, ITabContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ScheduleViewModel));
 
@@ -18,6 +19,16 @@ namespace Drive.ViewModels
 			//Debug.EnableTracing(@class);
 
 			Title = "Schedule";
+		}
+
+		public Type ContentViewType()
+		{
+			return typeof(ScheduleView);
+		}
+
+		public Type ControlsViewType(bool landscape)
+		{
+			return null;
 		}
 	}
 }

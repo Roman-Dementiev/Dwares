@@ -2,11 +2,12 @@
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Drive.Views;
 
 
 namespace Drive.ViewModels
 {
-	public class RouteViewModel : CollectionViewModel<RouteItem>
+	public class RouteViewModel : CollectionViewModel<RouteItem>, ITabContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteViewModel));
 
@@ -16,6 +17,17 @@ namespace Drive.ViewModels
 			//Debug.EnableTracing(@class);
 
 			Title = "Route";
+		}
+
+
+		public Type ContentViewType()
+		{
+			return typeof(RouteView);
+		}
+
+		public Type ControlsViewType(bool landscape)
+		{
+			return null;
 		}
 	}
 }

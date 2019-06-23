@@ -13,30 +13,25 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			this.ApplyTheme();
-			UITheme.CurrentThemeChanged += OnCurrentUIhemeChanged;
+			this.ApplyFlavor(Flavor);
+			UITheme.CurrentThemeChanged += (s, e) => this.ApplyFlavor(Flavor);
 		}
 
 
-		public static readonly BindableProperty ThemeStyleProperty =
+		public static readonly BindableProperty FlavorProperty =
 			BindableProperty.Create(
-				nameof(ThemeStyle),
+				nameof(Flavor),
 				typeof(string),
 				typeof(EditorEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is EditorEx editor) {
-						editor.ApplyTheme(editor.ThemeStyle);
+						editor.ApplyFlavor(editor.Flavor);
 					}
 				});
 
-		public string ThemeStyle {
-			set { SetValue(ThemeStyleProperty, value); }
-			get { return (string)GetValue(ThemeStyleProperty); }
-		}
-
-		private void OnCurrentUIhemeChanged(object sender, EventArgs e)
-		{
-			this.ApplyTheme(ThemeStyle);
+		public string Flavor {
+			set { SetValue(FlavorProperty, value); }
+			get { return (string)GetValue(FlavorProperty); }
 		}
 	}
 }

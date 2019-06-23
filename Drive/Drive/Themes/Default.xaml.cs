@@ -12,7 +12,7 @@ namespace Drive.Themes
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Default : ResourceDictionary
 	{
-		public Default ()
+		public Default()
 		{
 			InitializeComponent ();
 		}

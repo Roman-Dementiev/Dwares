@@ -42,10 +42,10 @@ namespace Dwares.Druid
 		public static View CreateView(Type viewType, object viewModel)
 		{
 			if (viewType == null)
-				return CreateView(viewModel);
+				return null;
 
 			var view = Activator.CreateInstance(viewType) as View;
-			if (view != null) {
+			if (view != null && viewModel != null) {
 				view.BindingContext = GetInstance(viewModel);
 			}
 			return view;

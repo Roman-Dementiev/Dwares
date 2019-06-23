@@ -33,6 +33,16 @@ namespace Dwares.Dwarf.Collections
 			return value;
 		}
 
+		public static bool SafeRemove<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key) where TKey : class
+		{
+			if (key != null /*&& dict.ContainsKey(key)*/) {
+				return dict.Remove(key);
+			} else {
+				return false;
+			}
+		}
+
+
 		public static bool Contains<T>(this IEnumerable<T> collection, T item)
 		{
 			if (collection == null)

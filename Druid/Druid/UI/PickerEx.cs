@@ -12,10 +12,9 @@ namespace Dwares.Druid.UI
 		public PickerEx()
 		{
 			//Debug.EnableTracing(@class);
-			Debug.Print("PixkeEx.PickerEx()");
 
-			this.ApplyTheme();
-			UITheme.CurrentThemeChanged += OnCurrentUIhemeChanged;
+			this.ApplyFlavor(Flavor);
+			UITheme.CurrentThemeChanged += (s,e) => this.ApplyFlavor(Flavor);
 		}
 
 		public static bool HasNativeLabel {
@@ -56,25 +55,20 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(TitleProperty); }
 		}
 
-		public static readonly BindableProperty ThemeStyleProperty =
+		public static readonly BindableProperty FlavorProperty =
 			BindableProperty.Create(
-				nameof(ThemeStyle),
+				nameof(Flavor),
 				typeof(string),
 				typeof(PickerEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is PickerEx picker) {
-						picker.ApplyTheme(picker.ThemeStyle);
+						picker.ApplyFlavor(picker.Flavor);
 					}
 				});
 
-		public string ThemeStyle {
-			set { SetValue(ThemeStyleProperty, value); }
-			get { return (string)GetValue(ThemeStyleProperty); }
-		}
-
-		private void OnCurrentUIhemeChanged(object sender, EventArgs e)
-		{
-			this.ApplyTheme(ThemeStyle);
+		public string Flavor {
+			set { SetValue(FlavorProperty, value); }
+			get { return (string)GetValue(FlavorProperty); }
 		}
 	}
 }

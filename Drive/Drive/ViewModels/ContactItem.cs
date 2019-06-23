@@ -96,17 +96,40 @@ namespace Drive.ViewModels
 		}
 
 
-		public static ObservableCollection<ContactItem> CreateCollection(Type contactType)
+		public static ContactItemsCollection CreateCollection(Type contactType)
 		{
-			return new ShadowCollection<ContactItem, IContact>(
-				AppScope.Instance.Contacts,
-				(contact) => {
-					if (contactType == null || contact.GetType() == contactType) {
-						return new ContactItem(contact);
-					} else {
-						return null;
-					}
-				});
+			var collection = new ContactItemsCollection(contactType);
+			return collection;
+			//return new ShadowCollection<ContactItem, IContact>(
+			//	AppScope.Instance.Contacts,
+			//	(contact) => {
+			//		if (contactType == null || contact.GetType() == contactType) {
+			//			return new ContactItem(contact);
+			//		} else {
+			//			return null;
+			//		}
+			//	});
+		}
+	}
+
+	public class ContactItemsCollection : ShadowCollection<ContactItem, IContact>
+	{
+		public ContactItemsCollection() { }
+
+		public ContactItemsCollection(Type contactType)
+		{
+			Recollect(contactType);
+		}
+
+		public void Recollect(Type contactType)
+		{
+			SetSource(AppScope.Instance.Contacts, (contact) => {
+				if (contactType == null || contact.GetType() == contactType) {
+					return new ContactItem(contact);
+				} else {
+					return null;
+				}
+			});
 		}
 	}
 }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
+using Drive.ViewModels;
 
 
 namespace Drive.Views
@@ -17,6 +13,19 @@ namespace Drive.Views
 		public RootView()
 		{
 			InitializeComponent();
+
+			ApplyTheme();
+			UITheme.CurrentThemeChanged += (s,e) => ApplyTheme();
 		}
+
+		private void ApplyTheme()
+		{
+			//rootGrid.ApplyFlavor("RootView");
+			UITheme.Current.Apply(this, "RootView");
+		}
+
+		//public RootViewModel ViewModel { 
+		//	get => BindingContext as RootViewModel;
+		//}
 	}
 }

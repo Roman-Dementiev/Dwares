@@ -2,12 +2,16 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-			 x:Class="Dwares.Druid.UI.ArtButton">
+			 x:Class="Dwares.Druid.UI.ArtButton"
+			 >
 
-
-	<Frame x:Name="frame">
-		<StackLayout x:Name="layout">
-			<Image x:Name="image"
+	<Frame x:Name="frame"
+		   BorderColor="Transparent"
+		   >
+		<StackLayout x:Name="layout"
+					 Margin="-12"
+					 >
+			<Image x:Name="image" 
 				   HorizontalOptions="Center"
 				   VerticalOptions="Center"
 				   />
@@ -17,4 +21,8 @@
 						/>
 		</StackLayout>
 	</Frame>
+
+	<ContentView.GestureRecognizers>
+		<TapGestureRecognizer Tapped="OnTapped" />
+	</ContentView.GestureRecognizers>
 </ContentView>

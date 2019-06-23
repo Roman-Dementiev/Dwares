@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Drive.Themes.BaseTheme"
+					>
+
+	<x:String x:Key="ThemeName">@Base</x:String>
+
+	<Style x:Key="RootView" TargetType="View" >
+	</Style>
+
+	<Style x:Key="ListView" TargetType="ListView">
+		<Setter Property="Margin" Value="-16,-16,-16,4" />
+		<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+		<Setter Property="VerticalOptions" Value="FillAndExpand" />
+		<Setter Property="SeparatorVisibility" Value="None" />
+		<Setter Property="HasUnevenRows" Value="True" />
+	</Style>
+
+	<Style x:Key="ContactsListView" TargetType="ListView" BasedOn="{StaticResource ListView}">
+		<Setter Property="Margin" Value="0,0,0,0" />
+	</Style>
+
+	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
+		<Setter Property="Margin" Value="1" />
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>
+
+	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
+		<Setter Property="Margin" Value="1" />
+		<Setter Property="CornerRadius" Value="0" />
+	</Style>
+
+	<Style x:Key="ListView-item-font-default" TargetType="Label">
+		<Setter Property="FontSize" Value="20" />
+	</Style>
+	<Style x:Key="ListView-item-font-small" TargetType="Label">
+		<Setter Property="FontSize" Value="18" />
+	</Style>
+	<Style x:Key="ListView-item-font-bold" TargetType="Label">
+		<Setter Property="FontSize" Value="20" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
+		<Setter Property="HorizontalOptions" Value="Center" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="InnerMargin" Value="-8" />
+		<Setter Property="ImageWidth" Value="40" />
+		<Setter Property="ImageHeight" Value="40" />
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+
+	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TabButton-default}">
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="TopButton-default" TargetType="ui:ArtButton">
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="CornerRadius" Value="6" />
+		<Setter Property="ImageWidth" Value="20" />
+		<Setter Property="ImageHeight" Value="20" />
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="TopButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TopButton-default}">
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="StaticText" TargetType="Label">
+	</Style>
+
+	<Style x:Key="LabelField" TargetType="Label">
+		<Setter Property="HorizontalOptions" Value="End" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="Margin" Value="4,0,4,0" />
+	</Style>
+
+	<Style x:Key="EditorLabel" TargetType="Label" BasedOn="LabelField">
+		<Setter Property="HorizontalOptions" Value="End" />
+		<Setter Property="VerticalOptions" Value="Start" />
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="Margin" Value="4,0,4,0" />
+	</Style>
+
+	<Style x:Key="AddressEditor" TargetType="Editor">
+		<Setter Property="HeightRequest" Value="86" />
+	</Style>
+	
+</ResourceDictionary>
