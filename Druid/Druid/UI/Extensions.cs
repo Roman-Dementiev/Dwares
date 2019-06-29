@@ -20,10 +20,30 @@ namespace Dwares.Druid.UI
 
 		public static bool ApplyFlavor(this VisualElement element, string flavor, UITheme theme = null)
 		{
+			if (element == null || string.IsNullOrEmpty(flavor))
+				return false;
+
 			if (!GetTheme(ref theme))
 				return false;
 
-			return theme.Apply(element, flavor);
+			var style = theme.GetStyle(flavor);
+			if (style != null) {
+				element.Style = style;
+				return true;
+			} else {
+				Debug.Print($"Style '{flavor}' not found in UITheme");
+				return false;
+			}
+		}
+
+		public static bool ContainsSetter(this Style style, string propertyName)
+		{
+			var setters = style.Setters;
+			foreach (var setter in style.Setters) {
+				if (setter.Property.PropertyName == propertyName)
+					return true;
+			}
+			return false;
 		}
 
 		public static bool RemoveSetter(this Style style, string propertyName)
@@ -40,14 +60,14 @@ namespace Dwares.Druid.UI
 		}
 
 
-		public static void MergeStyle(this Style style, Style mergeStyle)
+		public static void MergeIn(this Style style, Style mergeStyle)
 		{
 			if (style == null || mergeStyle == null)
 				return;
 
 			foreach (var setter in mergeStyle.Setters) {
-				style.RemoveSetter(setter.Property.PropertyName);
-				style.Setters.Add(setter);
+				if (!style.ContainsSetter(setter.Property.PropertyName))
+					style.Setters.Add(setter);
 			}
 		}
 

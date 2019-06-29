@@ -20,8 +20,7 @@ namespace Drive.Views
 
 		private void ApplyTheme()
 		{
-			//rootGrid.ApplyFlavor("RootView");
-			UITheme.Current.Apply(this, "RootView");
+			this.ApplyFlavor("RootView");
 		}
 
 		//public RootViewModel ViewModel { 

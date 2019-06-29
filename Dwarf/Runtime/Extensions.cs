@@ -84,5 +84,10 @@ namespace Dwares.Dwarf.Runtime
 		//{
 		//	return type.GetTypeInfo().GetGenericArguments();
 		//}
+
+		public static PropertyInfo GetPropertyInfo(this object target, string propertyName)
+		{
+			return Reflection.GetProperty(target, propertyName, required: false);
+		}
 	}
 }

@@ -19,8 +19,12 @@ namespace Drive
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			var baseTheme = new UITheme(new Themes.BaseTheme());
-			UITheme.Current = new UITheme(new Themes.Cold(), baseTheme);
+			var testColorScheme = new ColorScheme("Test");
+
+			UITheme.Current = new UITheme(new Themes.Default());
+
+			//var baseTheme = new UITheme(new Themes.BaseTheme());
+			//UITheme.Current = new UITheme(new Themes.Cold(), baseTheme);
 		}
 
 		protected override async void OnStart()

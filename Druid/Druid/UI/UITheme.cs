@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using Dwares.Druid.Satchel;
 using Dwares.Dwarf;
-
+using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.UI
 {
@@ -12,7 +11,7 @@ namespace Dwares.Druid.UI
 		//static ClassRef @class = new ClassRef(typeof(UITheme));
 
 		static UITheme current;
-		public static UITheme Current { 
+		public static UITheme Current {
 			get => current;
 			set {
 				if (value != current) {
@@ -25,74 +24,40 @@ namespace Dwares.Druid.UI
 
 		static Dictionary<string, UITheme> namedThemes = new Dictionary<string, UITheme>();
 
-		Dictionary<string, Style> styles = new Dictionary<string, Style>();
-		Dictionary<string, ImageSource> images = new Dictionary<string, ImageSource>();
-
-		public UITheme(UITheme baseTheme = null)
+		public UITheme(ResourceDictionary resources, UITheme baseTheme = null)
 		{
 			//Debug.EnableTracing(@class);
+			Guard.ArgumentNotNull(resources, nameof(resources));
 
+			Resources = resources;
 			BaseTheme = baseTheme;
-			BasedOn = baseTheme?.Name;
+
+			var name = ThemeName;
+			if (!string.IsNullOrEmpty(name)) {
+				namedThemes[name] = this;
+			}
+
+			var colorScheme = GetValue<ColorScheme>("ColorScheme", false);
+			if (colorScheme == null) {
+				colorScheme = new ColorScheme(resources);
+			}
+			ColorScheme = colorScheme;
 		}
 
-		public UITheme(ResourceDictionary dict, UITheme baseTheme = null) :
-			this(baseTheme)
-		{
-			object value;
-			if (dict.TryGetValue("ThemeName", out value)) {
-				Name = value.ToString();
-			}
+		ResourceDictionary Resources { get; }
+		ColorScheme ColorScheme { get; }
 
-			if (dict.TryGetValue("BasedOn", out value)) {
-				BasedOn = value.ToString();
-				BaseTheme = null;
-			}
-
-
-			foreach (var pair in dict) {
-				if (pair.Value is ImageSource image) {
-					AddImage(pair.Key, image);
-				} else if (pair.Value is Style style) {
-					AddStyle(pair.Key, style);
-				}
-			}
+		public string ThemeName {
+			get => GetString(nameof(ThemeName), false);
 		}
-
-		string name;
-		public string Name {
-			get => name;
-			set {
-				if (value != name) {
-					if (!string.IsNullOrEmpty(name) && namedThemes.ContainsKey(name)) {
-						namedThemes.Remove(name);
-					}
-
-					name = value;
-
-					if (!string.IsNullOrEmpty(name)) {
-						namedThemes[name] = this;
-					}
-				}
-			}
+		public string BasedOn { 
+			get => GetString(nameof(BasedOn), false);
 		}
-
-		public static UITheme ByName(string name)
-		{
-			UITheme theme;
-			if (!string.IsNullOrEmpty(name) && namedThemes.TryGetValue(name, out theme)) {
-				return theme;
-			} else {
-				return null;
-			}
-		}
-
-		public string BasedOn { get; private set; }
 
 		UITheme baseTheme;
 		public UITheme BaseTheme {
 			get {
-				if (baseTheme == null && !string.IsNullOrEmpty(BasedOn)) {
+				if (baseTheme == null) {
 					baseTheme = ByName(BasedOn);
 				}
 				return baseTheme;
@@ -102,76 +67,97 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		//public ColorScheme ColorScheme { get; set; }
-
-		public void AddImage(string name, ImageSource image)
+		public T GetValue<T>(string key, bool useBase, T defaultValue=default(T))
 		{
-			images.Add(name, image);
+			if (!string.IsNullOrEmpty(key))
+			{
+				object value;
+				if (Resources.TryGetValue(key, out value) && value is T val) {
+					return val;
+				} else if (useBase && BaseTheme != null) {
+					return BaseTheme.GetValue<T>(key, true);
+				}
+			}
+			return defaultValue;
 		}
 
-		public ImageSource GetImage(string name)
+		public string GetString(string key, bool useBase)
+			=> GetValue<string>(key, useBase);
+
+		public Color GetColor(string key, bool useBase = true)
+			=> GetValue(key, useBase, Color.Transparent);
+
+		public ImageSource GetImage(string key, bool useBase = true, bool useArtProvider = true)
 		{
-			if (images.ContainsKey(name)) {
-				return images[name];
+			var image = GetValue<ImageSource>(key, useBase);
+			if (image == null && useArtProvider) {
+				image = ArtProvider.Instance.GetImageSource(key);
 			}
 
-			return ArtProvider.Instance.GetImageSource(name);
+			return image;
 		}
 
-		public void AddStyle(string flavor, Style style)
+		public Style GetStyle(string key, bool useBase = true, bool notNull = false)
 		{
-			Guard.ArgumentNotEmpty(flavor, nameof(flavor));
+			Style style = null;
+
+			if (!string.IsNullOrEmpty(key))
+			{
+				style = GetValue<Style>(key, false);
+
+				if (useBase) {
+					var baseStyle = BaseTheme?.GetStyle(key);
+					if (style != null) {
+						style.MergeIn(baseStyle);
+					} else {
+						style = baseStyle;
+					}
+				}
+			}
+
+			if (style == null && notNull) {
+				style = new Style(typeof(VisualElement));
+			}
+			return style;
+		}
+
+		public void AddImage(string key, ImageSource image)
+		{
+			Resources.Add(key, image);
+		}
+
+		public void AddStyle(string key, Style style)
+		{
+			Guard.ArgumentNotEmpty(key, nameof(key));
 			Guard.ArgumentNotNull(style, nameof(style));
 
-			styles[flavor] = style;
+			Resources.Add(key, style);
 		}
 
-		public void AddStyle(string flavor, Type type, params object[] propertiesAndValues)
+		public void AddStyle(string key, Type type, params object[] propertiesAndValues)
 		{
 			Guard.ArgumentNotNull(type, nameof(type));
 
 			var style = new Style(type);
 			for (int i = 1; i < propertiesAndValues.Length; i += 2) {
-				var property = propertiesAndValues[i-1] as BindableProperty;
+				var property = propertiesAndValues[i - 1] as BindableProperty;
 				if (property == null) {
 					throw new ArgumentException("Invalid propertied in propertiesAndValues, must be BindableProperty");
 				}
 
-				style.Setters.Add(new Setter { Property = property, Value = propertiesAndValues[i]});			
+				style.Setters.Add(new Setter { Property = property, Value = propertiesAndValues[i] });
 			}
 
-			AddStyle(flavor, style);
+			AddStyle(key, style);
 		}
 
-		public Style GetStyle(string flavor)
+		public static UITheme ByName(string name)
 		{
-			if (string.IsNullOrEmpty(flavor))
-				return null;
-
-			var baseStyle = BaseTheme?.GetStyle(flavor);
-
-			if (styles.ContainsKey(flavor)) {
-				var style = styles[flavor];
-				if (baseStyle == null)
-					return style;
-
-				baseStyle.MergeStyle(style);
-			}
-			return baseStyle;
-		}
-
-		public bool Apply(VisualElement element, string flavor)
-		{
-			if (element == null || string.IsNullOrEmpty(flavor))
-				return false;
-
-			var style = GetStyle(flavor);
-			if (style != null) {
-				element.Style = style;
-				return true;
+			UITheme theme;
+			if (!string.IsNullOrEmpty(name) && namedThemes.TryGetValue(name, out theme)) {
+				return theme;
 			} else {
-				Debug.Print($"Style '{flavor}' not found in UITheme");
-				return false;
+				return null;
 			}
 		}
 
