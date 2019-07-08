@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf.Runtime;
 
 
 namespace Dwares.Dwarf.Collections
 {
-	public class NamedItemsCollection<T>: List<T> where T: INameHolder
+	public class NamedItemsCollection<T> : List<T>
 	{
 		public NamedItemsCollection() { }
 
@@ -23,13 +24,13 @@ namespace Dwares.Dwarf.Collections
 
 		public new virtual bool Add(T item)
 		{
-			if (item == null)
-				throw new ArgumentNullException(nameof(item));
-			
-			if (String.IsNullOrEmpty(item.Name) && !AllowEmptyNames)
-				throw new ArgumentException("Name is empty", nameof(item));
+			Guard.ArgumentNotNull(item, nameof(item));
 
-			if (UniqueNames && GetByName(item.Name, out var found))
+			var name = item.GetName();
+			Guard.Verify(AllowEmptyNames || !string.IsNullOrEmpty(name), 
+				$"NamedItemsCollection.Add(): item {item} doesn't nave a name");
+
+			if (UniqueNames && GetByName(name, out var found))
 				return false;
 
 			base.Add(item);
@@ -53,15 +54,17 @@ namespace Dwares.Dwarf.Collections
 			return false;
 		}
 
-		public bool ContainsName(string name) => GetByName(name, out var found);
+		public bool ContainsName(string name) 
+			=> GetByName(name, out var found);
 
-		public virtual T Get(string name) => GetByNameOrDefault(name);
+		public virtual T Get(string name) 
+			=> GetByNameOrDefault(name);
 
-		public T GetByNameOrDefault(string name, T defaultValue = default(T))
+		public T GetByNameOrDefault(string name, T defaultValue = default)
 		{
 			if (GetByName(name, out var found)) {
 				return found;
- 			} else {
+			} else {
 				return defaultValue;
 			}
 		}
@@ -69,12 +72,12 @@ namespace Dwares.Dwarf.Collections
 		public bool GetByName(string name, out T found)
 		{
 			foreach (var item in this) {
-				if (item.Name == name) {
+				if (item.GetName() == name) {
 					found = item;
 					return true;
 				}
 			}
-			found = default(T);
+			found = default;
 			return false;
 		}
 	}

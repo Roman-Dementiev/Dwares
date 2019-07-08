@@ -1,49 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
+using System.Reflection;
 using Dwares.Dwarf;
-
+using Xamarin.Forms;
 
 namespace Dwares.Druid.Satchel
 {
-	public class ColorPalette : ColorCollection
+	public interface IColorPalette
+	{
+		string Name { get; }
+		string Design { get; }
+
+		bool TryGetColor(string name, string variant, out Color color);
+	}
+
+	public static partial class Extensions
+	{
+		public static Color GetColor(this IColorPalette palette, string name, string variant = null, Color defaultValue = default)
+		{
+			Color color;
+			if (palette.TryGetColor(name, variant, out color)) {
+				return color;
+			} else {
+				return defaultValue;
+			}
+		}
+	}
+
+
+	public class ColorPalette : ColorCollection, IColorPalette
 	{
 		//static ClassRef @class = new ClassRef(typeof(ColorPalette));
+		static Dictionary<string, IColorPalette> namedPalettes = new Dictionary<string, IColorPalette>();
 
-		public const string keyPaletteName = "PaletteName";
-		public const string keyPaletteDesign = "PaletteDesign";
-
-		static Dictionary<string, ColorPalette> namedPalettes = new Dictionary<string, ColorPalette>();
-
-		public ColorPalette(IDictionary<string, object> dict)
+		public ColorPalette(string name, string design) :
+			base(name, design)
 		{
 			//Debug.EnableTracing(@class);
-
-			if (dict != null) {
-				Load(dict);
-			}
+			AddNamedPalette(this);
 		}
 
-		public override string Name {
-			get => GetMeta(keyPaletteName);
-		}
-
-		public override string Design {
-			get => GetMeta(keyPaletteDesign);
-		}
-
-		public override void Load(IDictionary<string, object> dict)
+		public static IColorPalette ByName(string name)
 		{
-			var oldName = Name;
-			base.Load(dict);
-
-			var newName = Name;
-			if (newName != oldName) {
-				OnNameChanged(oldName, newName, namedPalettes);
+			if (!string.IsNullOrEmpty(name) && namedPalettes.TryGetValue(name, out var palette)) {
+				return palette;
+			} else {
+				return null;
 			}
 		}
 
-		public static ColorPalette ByName(string name) 
-			=> ByName(name, namedPalettes);
+		public static void AddNamedPalette(IColorPalette palette)
+		{
+			if (!string.IsNullOrEmpty(palette.Name)) {
+				namedPalettes[palette.Name] = palette;
+			}
+		}
 	}
 }

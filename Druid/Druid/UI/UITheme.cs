@@ -4,6 +4,8 @@ using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid.Satchel;
 
+using ColorSchema=Dwares.Druid.Satchel.ColorScheme;
+
 namespace Dwares.Druid.UI
 {
 	public class UITheme
@@ -37,15 +39,15 @@ namespace Dwares.Druid.UI
 				namedThemes[name] = this;
 			}
 
-			var colorScheme = GetValue<ColorScheme>("ColorScheme", false);
+			var colorScheme = GetValue<ColorSchema>("ColorScheme", false);
 			if (colorScheme == null) {
-				colorScheme = new ColorScheme(resources);
+				colorScheme = new ColorSchema(resources);
 			}
 			ColorScheme = colorScheme;
 		}
 
 		ResourceDictionary Resources { get; }
-		ColorScheme ColorScheme { get; }
+		ColorSchema ColorScheme { get; }
 
 		public string ThemeName {
 			get => GetString(nameof(ThemeName), false);

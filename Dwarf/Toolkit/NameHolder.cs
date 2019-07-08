@@ -1,24 +1,24 @@
-﻿using System;
+﻿//using System;
 
 
-namespace Dwares.Dwarf.Toolkit
-{
-	public interface INameHolder
-	{
-		string Name { get; }
-	}
+//namespace Dwares.Dwarf.Toolkit
+//{
+//	public interface INameHolder
+//	{
+//		string Name { get; }
+//	}
 
-	public class NameHolder
-	{
-		public NameHolder() { }
+//	public class NameHolder
+//	{
+//		public NameHolder() { }
 		
-		public NameHolder(string name)
-		{
-			Name = name;
-		}
+//		public NameHolder(string name)
+//		{
+//			Name = name;
+//		}
 
-		public string Name { get; set; }
+//		public string Name { get; set; }
 
-		public override string ToString() => Name;
-	}
-}
+//		public override string ToString() => Name;
+//	}
+//}

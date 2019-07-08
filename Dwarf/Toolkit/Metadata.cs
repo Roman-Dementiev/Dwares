@@ -29,15 +29,17 @@ namespace Dwares.Dwarf.Toolkit
 		public virtual void Set(string key, object value, object target = null)
 		{
 			Guard.ArgumentNotEmpty(key, nameof(key));
-			if (value != null) {
-				dict[key] = value;
-			} else {
+			if (value == null) {
 				dict.Remove(key);
+				return;
 			}
+
+
+			dict[key] = value;
 
 			var property = target?.GetPropertyInfo(key);
 			if (property?.SetMethod != null) {
-				if (value.GetType() != property.PropertyType) {
+				if (!property.PropertyType.IsAssignableFrom(value.GetType())) {
 					try {
 						value = Convert.ChangeType(value, property.PropertyType);
 					}
@@ -45,8 +47,13 @@ namespace Dwares.Dwarf.Toolkit
 						Debug.Print($"Metadata.Set(): can not convert {value} to {property.PropertyType} => {exc}");
 						return;
 					}
+				}
 
+				try {
 					Reflection.SetPropertyValue(target, property, value);
+				}
+				catch (Exception exc) {
+					Debug.Print($"Metadata.Set(): can not set property {key} to {value} => {exc}");
 				}
 			}
 		}

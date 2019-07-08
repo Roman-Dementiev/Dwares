@@ -11,96 +11,60 @@ namespace Dwares.Druid.Satchel
 	{
 		//static ClassRef @class = new ClassRef(typeof(MaterialColorScheme));
 
-		public const string DesignName = "Material";
-
-		public MaterialColorScheme(string name = null) :
-			base(name, DesignName)
+		public MaterialColorScheme(string name) :
+			base(name, MaterialDesign.Name)
 		{
 			//Debug.EnableTracing(@class);
 		}
 
-		public MaterialColorScheme(ResourceDictionary dict) :
-			base(dict)
+		public MaterialColorScheme(ResourceDictionary dict, string name = null) :
+			base(dict, name, MaterialDesign.Name)
 		{
 			//Debug.EnableTracing(@class);
 		}
 
+		public Color PrimaryColor {
+			get => this.GetColor(nameof(PrimaryColor));
+		}
 
-		//Color? primaryColor;
-		//public Color PrimaryColor {
-		//	get => Get(ref primaryColor, nameof(PrimaryColor));
-		//	set => Set(ref primaryColor, value);
-		//}
+		public Color SecondaryColor {
+			get => this.GetColor(nameof(SecondaryColor));
+		}
 
-		//Color? secondaryColor;
-		//public Color SecondaryColor {
-		//	get => Get(ref secondaryColor, nameof(SecondaryColor));
-		//	set => Set(ref secondaryColor, value);
-		//}
+		public Color PrimaryVariantColor {
+			get => this.GetColor(nameof(PrimaryVariantColor));
+		}
 
+		public Color SecondaryVarianrColor {
+			get => this.GetColor(nameof(SecondaryVarianrColor));
+		}
 
-		//Color? primaryVariantColor;
-		//public Color PrimaryVariantColor {
-		//	get => Get(ref primaryVariantColor, nameof(PrimaryVariantColor));
-		//	set => Set(ref primaryVariantColor, value);
-		//}
+		public Color BackgroundColor {
+			get => this.GetColor(nameof(BackgroundColor));
+		}
 
-		//Color? secondaryVarianrColor;
-		//public Color SecondaryVarianrColor {
-		//	get => Get(ref secondaryVarianrColor, nameof(SecondaryVarianrColor));
-		//	set => Set(ref secondaryVarianrColor, value);
-		//}
+		public Color SurfaceColor {
+			get => this.GetColor(nameof(SurfaceColor));
+		}
 
-		//Color? backgroundColor;
-		//public Color BackgroundColor {
-		//	get => Get(ref backgroundColor, nameof(BackgroundColor));
-		//	set => Set(ref backgroundColor, value);
-		//}
+		public Color ErrorColor {
+			get => this.GetColor(nameof(ErrorColor));
+		}
 
-		//Color? surfaceColor;
-		//public Color SurfaceColor {
-		//	get => Get(ref surfaceColor, nameof(SurfaceColor));
-		//	set => Set(ref surfaceColor, value);
-		//}
+		public Color OnPrimaryColor {
+			get => this.GetColor(nameof(OnPrimaryColor));
+		}
 
-		//Color? errorColor;
-		//public Color ErrorColor {
-		//	get => Get(ref errorColor, nameof(ErrorColor));
-		//	set => Set(ref errorColor, value);
-		//}
+		public Color OnSecondaryColor {
+			get => this.GetColor(nameof(OnSecondaryColor));
+		}
 
-		//Color? onPrimaryColor;
-		//public Color OnPrimaryColor {
-		//	get => Get(ref onPrimaryColor, nameof(OnPrimaryColor));
-		//	set => Set(ref onPrimaryColor, value);
-		//}
+		public Color OnSurfaceColor {
+			get => this.GetColor(nameof(OnSurfaceColor));
+		}
 
-		//Color? onSecondaryColor;
-		//public Color OnSecondaryColor {
-		//	get => Get(ref onSecondaryColor, nameof(OnSecondaryColor));
-		//	set => Set(ref onSecondaryColor, value);
-		//}
-
-		//Color? onBackgroundColor;
-		//public Color OnBackgroundColor {
-		//	get => Get(ref onBackgroundColor, nameof(OnBackgroundColor));
-		//	set => Set(ref onBackgroundColor, value);
-		//}
-
-		//Color? onSurfaceColor;
-		//public Color OnSurfaceColor {
-		//	get => Get(ref onSurfaceColor, nameof(OnSurfaceColor));
-		//	set => Set(ref onSurfaceColor, value);
-		//}
-
-		//Color? onErrorColor;
-		//public Color OnErrorColor {
-		//	get => Get(ref onErrorColor, nameof(OnErrorColor));
-		//	set => Set(ref onErrorColor, value);
-		//}
-
-		//protected override void ApplyDesign()
-		//{ 
-		//}
+		public Color OnErrorColor {
+			get => this.GetColor(nameof(OnErrorColor));
+		}
 	}
 }

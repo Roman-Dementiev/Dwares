@@ -18,20 +18,9 @@ namespace Dwares.Dwarf
 			return arg;
 		}
 
-		//public static void ArgumentNotEmpty(object arg, string name, string message = null)
-		//{
-		//	if (!string.IsNullOrEmpty(arg?.ToString()))
-		//		return;
-			
-		//	if (string.IsNullOrEmpty(message)) {
-		//		throw  new ArgumentNullException(name);
-		//	}  else {
-		//		throw new ArgumentNullException(name, message);
-		//	}
-		//}
-
 		public static T ArgumentNotEmpty<T>(T arg, string name, string message = null)
-		{			if (string.IsNullOrEmpty(arg?.ToString())) {
+		{
+			if (string.IsNullOrEmpty(arg?.ToString())) {
 
 				if (string.IsNullOrEmpty(message)) {
 					throw new ArgumentNullException(name);

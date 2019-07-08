@@ -22,36 +22,6 @@ namespace Dwares.Dwarf.Runtime
 			return null;
 		}
 
-		//public static TResult EvalForType<TResult>(Type type, Func<Type, TResult> eval, Func<TResult, bool> test = null) where TResult : struct
-		//{
-		//	if (test == null) {
-		//		test = (result) => !result.Equals(default(TResult));
-		//	}
-
-		//	while (type != null) {
-		//		var result = eval(type);
-		//		if (test(result))
-		//			return result;
-
-		//		type = type.GetTypeInfo().BaseType;
-		//	}
-		//	return default(TResult);
-		//}
-
-		//public static bool TestType(Type type, Func<Type, bool> test = null)
-		//{
-		//	//return EvalForType(type, test, null);
-
-		//	while (type != null) {
-		//		if (test(type))
-		//			return true;
-
-		//		type = type.GetTypeInfo().BaseType;
-		//	}
-		//	return false;
-
-		//}
-
 		public static bool IsExplicitName(string name) => name.IndexOf('.') > 0;
 
 		public static string[] GetPropertyNames(
@@ -88,18 +58,16 @@ namespace Dwares.Dwarf.Runtime
 				type = target.GetType();
 			}
 
-			PropertyInfo propertyInfo = type.GetRuntimeProperty(propertyName);
-			if (required && propertyInfo == null) {
-				throw new ArgumentException("Property not found", propertyName);
-			}
+			var propertyInfo = type.GetRuntimeProperty(propertyName);
+			Guard.Verify(!required || propertyInfo != null,
+				$"Property '{propertyName}' not found for {type}");
+
 			return propertyInfo;
 		}
 
 		public static Type GetPropertyType(object target, PropertyInfo propertyInfo)
 		{
-			if (propertyInfo == null) {
-				throw new ArgumentNullException(nameof(propertyInfo));
-			}
+			Guard.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
 
 			if (propertyInfo.CanRead) {
 				var value = GetPropertyValue(target, propertyInfo);
@@ -116,57 +84,45 @@ namespace Dwares.Dwarf.Runtime
 			return propertyInfo.PropertyType;
 		}
 
-		public static object GetPropertyValue(object target, PropertyInfo propertyInfo, Type type = null)
+		public static object GetPropertyValue(object target, PropertyInfo propertyInfo)
 		{
-			if (target == null) {
-				throw new ArgumentNullException(nameof(target));
-			}
-			if (propertyInfo == null) {
-				throw new ArgumentNullException(nameof(propertyInfo));
-			}
-			if (type != null && propertyInfo.PropertyType != type) {
-				throw new ArgumentException("Property type mismatch", propertyInfo.Name);
-			}
-			if (propertyInfo.GetMethod == null) {
-				throw new ArgumentException("Property is not readable", propertyInfo.Name);
-			}
+			Guard.ArgumentNotNull(target, nameof(target));
+			Guard.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
+			Guard.ArgumentIsValid(nameof(propertyInfo), propertyInfo.GetMethod != null,
+				$"Peoperty '{propertyInfo.Name} is not readable");
 
 			return propertyInfo.GetMethod.Invoke(target, null);
 		}
 
-		public static void SetPropertyValue(object target, PropertyInfo propertyInfo, object value, Type type = null)
+		public static void SetPropertyValue(object target, PropertyInfo propertyInfo, object value)
 		{
-			if (target == null) {
-				throw new ArgumentNullException(nameof(target));
-			}
+			Guard.ArgumentNotNull(target, nameof(target));
+			Guard.ArgumentNotNull(propertyInfo, nameof(propertyInfo));
+			Guard.ArgumentIsValid(nameof(propertyInfo), propertyInfo.SetMethod != null,
+				$"Peoperty '{propertyInfo.Name} is not writable");
+
 			if (propertyInfo == null) {
 				throw new ArgumentNullException(nameof(propertyInfo));
-			}
-			if (type != null && propertyInfo.PropertyType != type) {
-				throw new ArgumentException("Property type mismatch", propertyInfo.Name);
-			}
-			if (propertyInfo.SetMethod == null) {
-				throw new ArgumentException("Property is not writable", propertyInfo.Name);
 			}
 
 			propertyInfo.SetMethod.Invoke(target, new object[] { value });
 		}
 
-		public static object GetPropertyValue(object target, string propertyName, bool required, Type type = null)
+		public static object GetPropertyValue(object target, string propertyName, bool required)
 		{
 			var propertyInfo = GetProperty(target, propertyName, required);
 			if (propertyInfo != null) {
-				return GetPropertyValue(target, propertyInfo, type);
+				return GetPropertyValue(target, propertyInfo/*, type*/);
 			} else {
 				return null;
 			}
 		}
 
-		public static void SetPropertyValue(object target, string propertyName, object value, bool required, Type type = null)
+		public static void SetPropertyValue(object target, string propertyName, object value, bool required)
 		{
-			PropertyInfo propertyInfo = GetProperty(target, propertyName, required);
+			var propertyInfo = GetProperty(target, propertyName, required);
 			if (propertyInfo != null) {
-				SetPropertyValue(target, propertyInfo, value, type);
+				SetPropertyValue(target, propertyInfo, value);
 			}
 		}
 
@@ -180,17 +136,26 @@ namespace Dwares.Dwarf.Runtime
 		//	SetPropertyValue(target, value, propertyName, required, typeof(TValue));
 		//}
 
+		public static string GetStringProperty(object target, string propertyName, bool required, bool convert = false)
+		{
+			var value = GetPropertyValue(target, propertyName, required);
+			if (value is string str)
+				return str;
+
+			if (convert && value != null) {
+				return value.ToString();
+			} else {
+				return null;
+			}
+		}
+
 		public static bool HasMethod(object target, string methodName) =>
 				GetMethod(target, methodName, false) != null;
 
 		public static MethodInfo GetMethod(object target, string methodName, bool required)
 		{
-			if (target == null) {
-				throw new ArgumentNullException(nameof(target));
-			}
-			if (methodName == null) {
-				throw new ArgumentNullException(nameof(methodName));
-			}
+			Guard.ArgumentNotNull(target, nameof(target));
+			Guard.ArgumentNotEmpty(methodName, nameof(methodName));
 
 			var type = target as Type;
 			if (type == null) {
@@ -203,9 +168,7 @@ namespace Dwares.Dwarf.Runtime
 					return methodInfo;
 			}
 
-			if (required) {
-				throw new ArgumentException("Method not found", methodName);
-			}
+			Guard.Verify(!required, $"Method '{methodName}' not found for {type}");
 			return null;
 		}
 
@@ -218,12 +181,8 @@ namespace Dwares.Dwarf.Runtime
 
 		public static MethodInfo GetMethod(object target, string methodName, Type[] argTypes, Type returnType, bool required)
 		{
-			if (target == null) {
-				throw new ArgumentNullException(nameof(target));
-			}
-			if (methodName == null) {
-				throw new ArgumentNullException(nameof(methodName));
-			}
+			Guard.ArgumentNotNull(target, nameof(target));
+			Guard.ArgumentNotEmpty(methodName, nameof(methodName));
 
 			var type = target as Type;
 			if (type == null) {
@@ -232,15 +191,12 @@ namespace Dwares.Dwarf.Runtime
 
 			var methodInfo = type.GetRuntimeMethod(methodName, argTypes ?? cNoParams);
 			if (methodInfo == null) {
-				if (required) {
-					throw new ArgumentException("Method not found", methodName);
-				}
+				Guard.Verify(!required, $"Method '{methodName}' not found for {type}");
 				return null;
 			}
 
-			if (returnType != null && methodInfo.ReturnType != returnType) {
-				throw new ArgumentException("Method return type mismatch", methodName);
-			}
+			Guard.Verify(returnType == null || methodInfo.ReturnType != returnType, 
+				$"Method '{methodName}' return type mismatch for {type}");
 
 			return methodInfo;
 		}
@@ -283,7 +239,7 @@ namespace Dwares.Dwarf.Runtime
 
 		public static TReturn InvokeMethod<TReturn>(object target, string methodName, Type[] argTypes, object[] args, bool required = true)
 		{
-			MethodInfo methodInfo = GetMethod(target, methodName, argTypes, typeof(TReturn), required);
+			var methodInfo = GetMethod(target, methodName, argTypes, typeof(TReturn), required);
 			if (methodInfo != null) {
 				return (TReturn)methodInfo.Invoke(target, args);
 			} else {

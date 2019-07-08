@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Satchel;
 using Dwares.Druid.UI;
@@ -19,12 +20,27 @@ namespace Drive
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			var testColorScheme = new ColorScheme("Test");
 
+			var test1 = new MaterialColorPalette();
+			Debug.Print($"test1={test1}");
+
+			var test2 = new Themes.Colors.MaterialGray();
+			var primary = test2.PrimaryColor;
+			var secondary = test2.SecondaryColor;
+			Debug.Print($"test2={test2}");
+
+			//new UITheme(new Themes.BaseTheme());
 			UITheme.Current = new UITheme(new Themes.Default());
 
 			//var baseTheme = new UITheme(new Themes.BaseTheme());
-			//UITheme.Current = new UITheme(new Themes.Cold(), baseTheme);
+			////UITheme.Current = new UITheme(new Themes.Cold(), baseTheme);
+			///
+
+			//new ColorPalette(new Themes.Material.MaterialPalette());
+			//new Dwares.Druid.Satchel.ColorScheme(new Themes.Material.Teal());
+
+			new UITheme(new Themes.BaseTheme());
+			UITheme.Current = new UITheme(new Themes.Light());
 		}
 
 		protected override async void OnStart()

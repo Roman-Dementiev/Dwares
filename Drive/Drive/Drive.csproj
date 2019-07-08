@@ -23,6 +23,12 @@
     <Compile Update="Themes\@Base.xaml.cs">
       <DependentUpon>%40Base.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Themes\Colors\MaterialGray.xaml.cs">
+      <DependentUpon>MaterialGray.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Themes\Material\Material.2014.xaml.cs">
+      <DependentUpon>Material.2014.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ContactsTopControls.xaml.cs">
       <DependentUpon>ContactsTopControls.xaml</DependentUpon>
     </Compile>
@@ -35,10 +41,19 @@
     <EmbeddedResource Update="Themes\Cold.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Colors\MaterialGray.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Material\Material.Teal.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Themes\Default.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Themes\@Base.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Light.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ContactsSideControls.xaml">
@@ -47,7 +62,7 @@
     <EmbeddedResource Update="Views\ContactsTopControls.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ContactsView.xaml">
+    <EmbeddedResource Update="Themes\ContactsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AppoitmentForm.xaml">
