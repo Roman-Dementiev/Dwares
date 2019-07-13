@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Drive.Themes
+namespace Dwares.Druid.Resources
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Light : ResourceDictionary
+	public partial class MaterialDarkResources : ResourceDictionary
 	{
-		public Light()
+		public MaterialDarkResources()
 		{
 			InitializeComponent();
 		}

@@ -12,59 +12,63 @@ namespace Dwares.Druid.Satchel
 		//static ClassRef @class = new ClassRef(typeof(MaterialColorScheme));
 
 		public MaterialColorScheme(string name) :
-			base(name, MaterialDesign.Name)
+			base(name, Resources.MaterialDesign.Name)
 		{
 			//Debug.EnableTracing(@class);
 		}
 
 		public MaterialColorScheme(ResourceDictionary dict, string name = null) :
-			base(dict, name, MaterialDesign.Name)
+			base(dict, name, Resources.MaterialDesign.Name)
 		{
 			//Debug.EnableTracing(@class);
 		}
 
-		public Color PrimaryColor {
-			get => this.GetColor(nameof(PrimaryColor));
+		public override string DefaultVariant {
+			get => Resources.MaterialDesign.DefaultColorVariant;
 		}
 
-		public Color SecondaryColor {
-			get => this.GetColor(nameof(SecondaryColor));
+		public Color Primary {
+			get => this.GetColor(nameof(Primary));
 		}
 
-		public Color PrimaryVariantColor {
-			get => this.GetColor(nameof(PrimaryVariantColor));
+		public Color Secondary {
+			get => this.GetColor(nameof(Secondary));
 		}
 
-		public Color SecondaryVarianrColor {
-			get => this.GetColor(nameof(SecondaryVarianrColor));
+		public Color PrimaryVariant {
+			get => this.GetColor(nameof(PrimaryVariant));
 		}
 
-		public Color BackgroundColor {
-			get => this.GetColor(nameof(BackgroundColor));
+		public Color SecondaryVarianr {
+			get => this.GetColor(nameof(SecondaryVarianr));
 		}
 
-		public Color SurfaceColor {
-			get => this.GetColor(nameof(SurfaceColor));
+		public Color Background {
+			get => this.GetColor(nameof(Background));
 		}
 
-		public Color ErrorColor {
-			get => this.GetColor(nameof(ErrorColor));
+		public Color Surface {
+			get => this.GetColor(nameof(Surface));
 		}
 
-		public Color OnPrimaryColor {
-			get => this.GetColor(nameof(OnPrimaryColor));
+		public Color Error {
+			get => this.GetColor(nameof(Error));
 		}
 
-		public Color OnSecondaryColor {
-			get => this.GetColor(nameof(OnSecondaryColor));
+		public Color OnPrimary {
+			get => this.GetColor(nameof(OnPrimary));
 		}
 
-		public Color OnSurfaceColor {
-			get => this.GetColor(nameof(OnSurfaceColor));
+		public Color OnSecondary {
+			get => this.GetColor(nameof(OnSecondary));
 		}
 
-		public Color OnErrorColor {
-			get => this.GetColor(nameof(OnErrorColor));
+		public Color OnSurface {
+			get => this.GetColor(nameof(OnSurface));
+		}
+
+		public Color OnError {
+			get => this.GetColor(nameof(OnError));
 		}
 	}
 }

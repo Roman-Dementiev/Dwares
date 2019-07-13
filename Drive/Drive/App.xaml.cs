@@ -5,6 +5,7 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Satchel;
 using Dwares.Druid.UI;
+using Dwares.Druid.Resources;
 using Drive.ViewModels;
 
 
@@ -24,23 +25,8 @@ namespace Drive
 			var test1 = new MaterialColorPalette();
 			Debug.Print($"test1={test1}");
 
-			var test2 = new Themes.Colors.MaterialGray();
-			var primary = test2.PrimaryColor;
-			var secondary = test2.SecondaryColor;
-			Debug.Print($"test2={test2}");
-
-			//new UITheme(new Themes.BaseTheme());
-			UITheme.Current = new UITheme(new Themes.Default());
-
-			//var baseTheme = new UITheme(new Themes.BaseTheme());
-			////UITheme.Current = new UITheme(new Themes.Cold(), baseTheme);
-			///
-
-			//new ColorPalette(new Themes.Material.MaterialPalette());
-			//new Dwares.Druid.Satchel.ColorScheme(new Themes.Material.Teal());
-
 			new UITheme(new Themes.BaseTheme());
-			UITheme.Current = new UITheme(new Themes.Light());
+			UITheme.Current = new UITheme(new Themes.Default());
 		}
 
 		protected override async void OnStart()

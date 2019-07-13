@@ -37,24 +37,8 @@ namespace Dwares.Dwarf.Toolkit
 
 			dict[key] = value;
 
-			var property = target?.GetPropertyInfo(key);
-			if (property?.SetMethod != null) {
-				if (!property.PropertyType.IsAssignableFrom(value.GetType())) {
-					try {
-						value = Convert.ChangeType(value, property.PropertyType);
-					}
-					catch (Exception exc) {
-						Debug.Print($"Metadata.Set(): can not convert {value} to {property.PropertyType} => {exc}");
-						return;
-					}
-				}
-
-				try {
-					Reflection.SetPropertyValue(target, property, value);
-				}
-				catch (Exception exc) {
-					Debug.Print($"Metadata.Set(): can not set property {key} to {value} => {exc}");
-				}
+			if (target != null) {
+				Reflection.TrySetPropertyValue(target, key, value);
 			}
 		}
 

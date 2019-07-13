@@ -33,12 +33,25 @@ namespace Dwares.Druid.Satchel
 		//static ClassRef @class = new ClassRef(typeof(ColorPalette));
 		static Dictionary<string, IColorPalette> namedPalettes = new Dictionary<string, IColorPalette>();
 
-		public ColorPalette(string name, string design) :
-			base(name, design)
+		public ColorPalette(string name, string design)
 		{
 			//Debug.EnableTracing(@class);
+			Name = name;
+			Design = design;
+			
 			AddNamedPalette(this);
 		}
+
+		public ColorPalette(IDictionary<string, object> dict, string name = null, string design = null) :
+			this(name, design)
+		{
+			if (dict != null) {
+				Load(dict, null, this);
+			}
+		}
+
+		public string Name { get; }
+		public string Design { get; }
 
 		public static IColorPalette ByName(string name)
 		{

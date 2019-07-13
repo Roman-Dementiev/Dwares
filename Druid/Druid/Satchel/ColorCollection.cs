@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf.Runtime;
 using Xamarin.Forms;
 
 
@@ -11,15 +12,20 @@ namespace Dwares.Druid.Satchel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ColorCollection));
 
-		public ColorCollection(string name, string design)
+		public ColorCollection()
 		{
 			//Debug.EnableTracing(@class);
-			Name = name;
-			Design = design;
 		}
 
-		public string Name { get; }
-		public string Design { get; }
+		//public ColorCollection(string name, string design)
+		//{
+		//	//Debug.EnableTracing(@class);
+		//	Name = name;
+		//	Design = design;
+		//}
+
+		//public string Name { get; }
+		//public string Design { get; }
 
 
 		public virtual void Load(IDictionary<string, object> dict, Metadata metadata, object target)
@@ -29,8 +35,14 @@ namespace Dwares.Druid.Satchel
 					Add(namedColor);
 				} else if (pair.Value is Color color) {
 					Add(new NamedColor { Name = pair.Key, Value = color });
-				} else if (metadata != null) {
-					metadata.Set(pair.Key, pair.Value, target);
+				} else {
+					if (target != null) {
+						if (Reflection.TrySetPropertyValue(target, pair.Key, pair.Value))
+							return;
+					}
+					if (metadata != null) {
+						metadata.Set(pair.Key, pair.Value, target);
+					}
 				}
 			}
 		}

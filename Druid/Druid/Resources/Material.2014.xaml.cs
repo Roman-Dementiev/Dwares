@@ -6,19 +6,15 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Dwares.Dwarf;
+using Dwares.Druid.Satchel;
 
 
-namespace Dwares.Druid.Satchel
+namespace Dwares.Druid.Resources
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class MaterialColorPalette : ColorPalette
+
+	public class MaterialColorPalette : ColorPalette
 	{
-		public MaterialColorPalette() :
-			base("Material.2014", MaterialDesign.Name)
-		{
-			InitializeComponent();
-		}
+		public MaterialColorPalette() : base(new Material_2014()) { }
 
 		public override bool TryGetColor(string name, string variant, out Color color)
 		{
@@ -27,16 +23,19 @@ namespace Dwares.Druid.Satchel
 
 			if (variant == null && base.TryGetColor(name, MaterialDesign.DefaultColorVariant, out color))
 				return true;
-			
+
 			return false;
 		}
 	}
 
-
-	// TODO
-	public static class MaterialDesign
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class Material_2014 : ResourceDictionary
 	{
-		public const string Name = "Material";
-		public const string DefaultColorVariant = "500";
+		public Material_2014()
+		{
+			InitializeComponent();
+		}
+
 	}
+
 }

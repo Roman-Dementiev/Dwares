@@ -126,6 +126,36 @@ namespace Dwares.Dwarf.Runtime
 			}
 		}
 
+		public static bool TrySetPropertyValue(object target, string propertyName, object value)
+		{
+			Guard.ArgumentNotNull(target, nameof(target));
+			Guard.ArgumentNotEmpty(propertyName, nameof(propertyName));
+
+			var propertyInfo = target.GetPropertyInfo(propertyName);
+			if (propertyInfo?.SetMethod == null)
+				return false;
+
+			if (value != null && !propertyInfo.PropertyType.IsAssignableFrom(value.GetType())) {
+				try {
+					value = Convert.ChangeType(value, propertyInfo.PropertyType);
+				}
+				catch (Exception exc) {
+					Debug.Print($"Reflection.TrySetPropertyValue(): can not convert {value} to {propertyInfo.PropertyType} => {exc}");
+					return false;
+				}
+			}
+
+			try {
+				SetPropertyValue(target, propertyInfo, value);
+			}
+			catch (Exception exc) {
+				Debug.Print($"Reflection.TrySetPropertyValue(): can not set property {propertyName} to {value} => {exc}");
+				return false;
+			}
+
+			return true;
+		}
+
 		//public static TValue GetPropertyValue<TValue>(object target, string propertyName, bool required)
 		//{
 		//	return (TValue)GetPropertyValue(target, propertyName, required, typeof(TValue));

@@ -7,18 +7,18 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.UI.Xaml
 {
-	public class ColorPalette : IMarkupExtension
-	{
-		public ColorPalette() { }
+	//public class ColorPalette : IMarkupExtension
+	//{
+	//	public ColorPalette() { }
 
-		public string Name { set; get; }
+	//	public string Name { set; get; }
 
-		public object ProvideValue(IServiceProvider serviceProvider)
-		{
-			var palette = Satchel.ColorPalette.ByName(Name);
-			return palette;
-		}
-	}
+	//	public object ProvideValue(IServiceProvider serviceProvider)
+	//	{
+	//		var palette = Satchel.ColorPalette.ByName(Name);
+	//		return palette;
+	//	}
+	//}
 
 	//public class ColorScheme : IMarkupExtension
 	//{

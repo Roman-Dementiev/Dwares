@@ -39,7 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Satchel\ColorPalette.Material.2014.xaml">
+    <EmbeddedResource Update="Resources\Material.2014.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Material.Dark.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="UI\GlyphControl.xaml">

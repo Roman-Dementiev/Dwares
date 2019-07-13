@@ -6,7 +6,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Dwares.Druid.Xaml
 {
-	public class BindColor : IMarkupExtension<Color>
+	public class BindColor : MarkupExtension<Color>
 	{
 		//static ClassRef @class = new ClassRef(typeof(BindColor));
 
@@ -16,7 +16,7 @@ namespace Dwares.Druid.Xaml
 		}
 
 
-		Color IMarkupExtension<Color>.ProvideValue(IServiceProvider serviceProvider)
+		public override Color ProvideValue(IServiceProvider serviceProvider)
 		{
 			//if (TypedBinding == null)
 			//	return new Binding(Path, Mode, Converter, ConverterParameter, StringFormat, Source) {
@@ -37,9 +37,9 @@ namespace Dwares.Druid.Xaml
 			return default;
 		}
 
-		object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-		{
-			return (this as IMarkupExtension<BindingBase>).ProvideValue(serviceProvider);
-		}
+		//object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
+		//{
+		//	return (this as IMarkupExtension<BindingBase>).ProvideValue(serviceProvider);
+		//}
 	}
 }
