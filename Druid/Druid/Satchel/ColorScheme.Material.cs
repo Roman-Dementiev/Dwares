@@ -23,24 +23,32 @@ namespace Dwares.Druid.Satchel
 			//Debug.EnableTracing(@class);
 		}
 
-		public override string DefaultVariant {
-			get => Resources.MaterialDesign.DefaultColorVariant;
-		}
+		//public /*override*/ string DefaultVariant {
+		//	get => Resources.MaterialDesign.DefaultColorVariant;
+		//}
 
 		public Color Primary {
 			get => this.GetColor(nameof(Primary));
+		}
+
+		public Color PrimaryLight {
+			get => this.GetColor(nameof(PrimaryLight));
+		}
+
+		public Color PrimaryDark {
+			get => this.GetColor(nameof(PrimaryDark));
 		}
 
 		public Color Secondary {
 			get => this.GetColor(nameof(Secondary));
 		}
 
-		public Color PrimaryVariant {
-			get => this.GetColor(nameof(PrimaryVariant));
+		public Color SecondaryLight {
+			get => this.GetColor(nameof(SecondaryLight));
 		}
 
-		public Color SecondaryVarianr {
-			get => this.GetColor(nameof(SecondaryVarianr));
+		public Color SecondaryDark {
+			get => this.GetColor(nameof(SecondaryDark));
 		}
 
 		public Color Background {
@@ -69,6 +77,16 @@ namespace Dwares.Druid.Satchel
 
 		public Color OnError {
 			get => this.GetColor(nameof(OnError));
+		}
+
+		public Color Accent {
+			get => this.GetColor(nameof(Accent));
+		}
+		public Color Inverted {
+			get => this.GetColor(nameof(Inverted));
+		}
+		public Color OnInverted {
+			get => this.GetColor(nameof(OnInverted));
 		}
 	}
 }

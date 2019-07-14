@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf.Runtime;
 
 
 namespace Dwares.Druid.Satchel
 {
-	public class ColorScheme : BindableObject, IColorPalette
+	public class ColorScheme : IColorPalette
 	{
 		//static ClassRef @class = new ClassRef(typeof(ColorScheme));
 
@@ -22,44 +23,51 @@ namespace Dwares.Druid.Satchel
 			Satchel.ColorPalette.AddNamedPalette(this);
 		}
 
-		public ColorScheme(IDictionary<string, object> dict, string name = null, string design = null) :
+		public ColorScheme(IDictionary<string, object> resources, string name = null, string design = null) :
 			this(name, design)
 		{
 			//Debug.EnableTracing(@class);
 
-			if (dict != null) {
-				Load(dict);
-			}
+			if (resources != null) {
+				Load(resources);
+			}	
 		}
 
-		public string Name { get; }
-		public string Design { get; }
+		string name;
+		public string Name {
+			get => name;
+			set {
+				var oldName = name;
+				name = value;
+				Satchel.ColorPalette.OnNameChanged(this, oldName, value);
+			}
+		}
+		public string Design { get; set; }
+
+		//public virtual string DefaultVariant => null;
 
 		public ColorCollection Colors { get; } = new ColorCollection();
 
-		public virtual string DefaultVariant => null;
+		public IColorPalette ColorPalette { get; set; }
 
+		//public static IColorPalette BindingPalette { get; set; }
 
-		IColorPalette colorPalette;
-		public IColorPalette ColorPalette {
-			get => colorPalette;
-			set {
-				if (value != colorPalette) {
-					OnPropertyChanging();
-					if (BindingContext == null || BindingContext == colorPalette) {
-						BindingContext = colorPalette = value;
-					} else {
-						colorPalette = value;
-					}
-					OnPropertyChanged();
-				}
-			}
+		public void Load(IDictionary<string, object> resources)
+		{
+			//Colors.Load(dict, this, LoadProperty);
+			ResourcesLoader.Load(resources, this, metadata, LoadValue);
+			//BindingPalette = null;
 		}
 
-
-		public void Load(IDictionary<string, object> dict)
+		static bool LoadValue(ColorScheme target, string key, object value)
 		{
-			Colors.Load(dict, metadata, this);
+			//if (key == nameof(ColorPalette)) {
+			//	//BindingPalette = 
+			//	target.ColorPalette = value as IColorPalette;
+			//	return true;
+			//}
+
+			return ColorCollection.LoadColor(target.Colors, key, value);
 		}
 
 		public virtual bool TryGetColor(string name, string variant, out Color color)
@@ -69,10 +77,9 @@ namespace Dwares.Druid.Satchel
 			}
 
 			if (ColorPalette != null) {
-				var colorName = metadata.GetAsString(name);
-				if (!string.IsNullOrEmpty(colorName) && ColorPalette.TryGetColor(colorName, variant ?? DefaultVariant, out color)) {
+				var colorName = new ColorName(metadata.GetAsString(name));
+				if (ColorPalette.TryGetColor(colorName, variant, out color))
 					return true;
-				}
 			}
 
 			return false;

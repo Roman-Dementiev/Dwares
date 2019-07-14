@@ -12,8 +12,8 @@
 		</Grid.RowDefinitions>
 
 		<ui:ArtButtonEx Grid.Row="0"
-						DefaultFlavor="TopButton-default"
-						PushedFlavor="TopButton-active"
+						DefaultFlavor="TabButton-default"
+						PushedFlavor="TabButton-active"
 						DefaultArt="Phone"
 						PushedArt="Phone_active"
 						LabelText="Phones"
@@ -21,8 +21,8 @@
 						IsPushed="{Binding PhonesViewIsActive, Mode=OneWay}"
 						/>
 		<ui:ArtButtonEx Grid.Row="1"
-						DefaultFlavor="TopButton-default"
-						PushedFlavor="TopButton-active"
+						DefaultFlavor="TabButton-default"
+						PushedFlavor="TabButton-active"
 						DefaultArt="Place"
 						PushedArt="Place_active"
 						LabelText="Places"
@@ -30,8 +30,8 @@
 						IsPushed="{Binding PlacesViewIsActive, Mode=OneWay}"
 						/>
 		<ui:ArtButtonEx Grid.Row="2"
-						DefaultFlavor="TopButton-default"
-						PushedFlavor="TopButton-active"
+						DefaultFlavor="TabButton-default"
+						PushedFlavor="TabButton-active"
 						DefaultArt="Client"
 						PushedArt="Client_active"
 						LabelText="Clients"

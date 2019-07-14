@@ -23,9 +23,6 @@
     <Compile Update="Themes\@Base.xaml.cs">
       <DependentUpon>%40Base.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Themes\Material\Material.2014.xaml.cs">
-      <DependentUpon>Material.2014.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\ContactsTopControls.xaml.cs">
       <DependentUpon>ContactsTopControls.xaml</DependentUpon>
     </Compile>
@@ -35,10 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Themes\Cold.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Themes\Material\Material.Teal.xaml">
+    <EmbeddedResource Update="Themes\Dark.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Themes\Default.xaml">

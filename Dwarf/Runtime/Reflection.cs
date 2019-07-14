@@ -126,7 +126,11 @@ namespace Dwares.Dwarf.Runtime
 			}
 		}
 
+
 		public static bool TrySetPropertyValue(object target, string propertyName, object value)
+			=> TrySetPropertyValue<object>(target, propertyName, value);
+
+		public static bool TrySetPropertyValue<Target>(Target target, string propertyName, object value)
 		{
 			Guard.ArgumentNotNull(target, nameof(target));
 			Guard.ArgumentNotEmpty(propertyName, nameof(propertyName));

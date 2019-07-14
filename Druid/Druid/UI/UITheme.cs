@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
+using Dwares.Dwarf.Runtime;
 using Dwares.Druid.Satchel;
 
-using ColorSchema=Dwares.Druid.Satchel.ColorScheme;
 
 namespace Dwares.Druid.UI
 {
@@ -25,6 +26,11 @@ namespace Dwares.Druid.UI
 		public static event EventHandler CurrentThemeChanged;
 
 		static Dictionary<string, UITheme> namedThemes = new Dictionary<string, UITheme>();
+		static Style emptyStyle = new Style(typeof(VisualElement));
+
+		Dictionary<string, Style> styles = new Dictionary<string, Style>();
+		Dictionary<string, ImageSource> images = new Dictionary<string, ImageSource>();
+		Metadata metadata = new Metadata();
 
 		public UITheme(ResourceDictionary resources, UITheme baseTheme = null)
 		{
@@ -34,27 +40,60 @@ namespace Dwares.Druid.UI
 			Resources = resources;
 			BaseTheme = baseTheme;
 
-			var name = ThemeName;
-			if (!string.IsNullOrEmpty(name)) {
-				namedThemes[name] = this;
+			if (resources != null) {
+				Load(resources);
 			}
 
-			var colorScheme = GetValue<ColorSchema>("ColorScheme", false);
-			if (colorScheme == null) {
-				colorScheme = new ColorSchema(resources);
+			if (!string.IsNullOrEmpty(ThemeName)) {
+				namedThemes[ThemeName] = this;
 			}
-			ColorScheme = colorScheme;
+
+			//var name = ThemeName;
+			//if (!string.IsNullOrEmpty(name)) {
+			//	namedThemes[name] = this;
+			//}
+
+			//var colorScheme = GetValue<ColorScheme>("ColorScheme", false);
+			////if (colorScheme == null) {
+			////	colorScheme = new ColorSchema(resources);
+			////}
+			//ColorScheme = colorScheme;
+		}
+
+		public void Load(IDictionary<string, object> resources)
+		{
+			ResourcesLoader.Load(resources, this, metadata, LoadValue);
+			//ColorScheme.BindingPalette = null;
+		}
+
+		static bool LoadValue(UITheme target, string key, object value)
+		{
+			if (value is Style style) {
+				target.AddStyle(key, style);
+				return true;
+			}
+			if (value is ImageSource image) {
+				target.AddImage(key, image);
+				return true;
+			}
+			//if (key == nameof(ColorScheme)) {
+			//	ColorScheme.BindingPalette = target.ColorScheme = value as ColorScheme;
+			//	return true;
+			//}
+			return false;
 		}
 
 		ResourceDictionary Resources { get; }
-		ColorSchema ColorScheme { get; }
+		ColorScheme ColorScheme { get; set; }
 
-		public string ThemeName {
-			get => GetString(nameof(ThemeName), false);
-		}
-		public string BasedOn { 
-			get => GetString(nameof(BasedOn), false);
-		}
+		//public string ThemeName {
+		//	get => GetString(nameof(ThemeName), false);
+		//}
+		//public string BasedOn { 
+		//	get => GetString(nameof(BasedOn), false);
+		//}
+		public string ThemeName { get; set; }
+		public string BasedOn { get; set; }
 
 		UITheme baseTheme;
 		public UITheme BaseTheme {
@@ -69,29 +108,40 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		public T GetValue<T>(string key, bool useBase, T defaultValue=default(T))
-		{
-			if (!string.IsNullOrEmpty(key))
-			{
-				object value;
-				if (Resources.TryGetValue(key, out value) && value is T val) {
-					return val;
-				} else if (useBase && BaseTheme != null) {
-					return BaseTheme.GetValue<T>(key, true);
-				}
-			}
-			return defaultValue;
-		}
+		//public T GetValue<T>(string key, bool useBase, T defaultValue=default(T))
+		//{
+		//	if (!string.IsNullOrEmpty(key))
+		//	{
+		//		object value;
+		//		if (Resources.TryGetValue(key, out value) && value is T val) {
+		//			return val;
+		//		} else if (useBase && BaseTheme != null) {
+		//			return BaseTheme.GetValue<T>(key, true);
+		//		}
+		//	}
+		//	return defaultValue;
+		//}
 
-		public string GetString(string key, bool useBase)
-			=> GetValue<string>(key, useBase);
+		//public string GetString(string key, bool useBase)
+		//	=> GetValue<string>(key, useBase);
 
-		public Color GetColor(string key, bool useBase = true)
-			=> GetValue(key, useBase, Color.Transparent);
+		//public Color GetColor(string key, bool useBase = true)
+		//	=> GetValue(key, useBase, Color.Transparent);
 
 		public ImageSource GetImage(string key, bool useBase = true, bool useArtProvider = true)
 		{
-			var image = GetValue<ImageSource>(key, useBase);
+			//var image = GetValue<ImageSource>(key, useBase);
+			//if (image == null && useArtProvider) {
+			//	image = ArtProvider.Instance.GetImageSource(key);
+			//}
+
+			//return image;
+
+			ImageSource image = null;
+			if (images.ContainsKey(key)) { 
+				image = images[key];
+			}
+
 			if (image == null && useArtProvider) {
 				image = ArtProvider.Instance.GetImageSource(key);
 			}
@@ -105,7 +155,7 @@ namespace Dwares.Druid.UI
 
 			if (!string.IsNullOrEmpty(key))
 			{
-				style = GetValue<Style>(key, false);
+				styles.TryGetValue(key, out style);
 
 				if (useBase) {
 					var baseStyle = BaseTheme?.GetStyle(key);
@@ -118,14 +168,18 @@ namespace Dwares.Druid.UI
 			}
 
 			if (style == null && notNull) {
-				style = new Style(typeof(VisualElement));
+				style = emptyStyle;
 			}
 			return style;
 		}
 
 		public void AddImage(string key, ImageSource image)
 		{
-			Resources.Add(key, image);
+			Guard.ArgumentNotEmpty(key, nameof(key));
+			Guard.ArgumentNotNull(image, nameof(image));
+
+			//Resources.Add(key, image);
+			images.Add(key, image);
 		}
 
 		public void AddStyle(string key, Style style)
@@ -133,7 +187,8 @@ namespace Dwares.Druid.UI
 			Guard.ArgumentNotEmpty(key, nameof(key));
 			Guard.ArgumentNotNull(style, nameof(style));
 
-			Resources.Add(key, style);
+			//Resources.Add(key, style);
+			styles.Add(key, style);
 		}
 
 		public void AddStyle(string key, Type type, params object[] propertiesAndValues)

@@ -24,33 +24,6 @@
 		</Grid.ColumnDefinitions>
 	
 
-		<!--<ui:ArtButtonEx Grid.Row="0" Grid.Column="1"
-						DefaultFlavor="TopButton-default"
-						PushedFlavor="TopButton-active"
-						DefaultArt="Phone"
-						PushedArt="Phone_active"
-						LabelText="Phones"
-						Command="{Binding PhonesCommand}"
-						IsPushed="{Binding PhonesViewIsActive}"
-						/>
-		<ui:ArtButtonEx Grid.Row="0" Grid.Column="2"
-						DefaultFlavor="TopButton-default"
-						PushedFlavor="TopButton-active"
-						DefaultArt="Place"
-						PushedArt="Place_active"
-						LabelText="Places"
-						Command="{Binding PlacesCommand}"
-						IsPushed="{Binding PlacesViewIsActive}"
-						/>
-		<ui:ArtButtonEx Grid.Row="0" Grid.Column="3"
-						DefaultFlavor="TopButton-default"
-						PushedFlavor="TopButton-active"
-						DefaultArt="Client"
-						PushedArt="Client_active"
-						LabelText="Clients"
-						Command="{Binding ClientsCommand}"
-						IsPushed="{Binding ClientsViewIsActive}"
-						/>-->
 
 		<Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
 			<Grid.RowDefinitions>
@@ -67,7 +40,9 @@
 				   WidthRequest="24"
 				   Source="looking.png"
 				   />
-			<Entry Grid.Row="0" Grid.Column="1" />
+			<ui:EntryEx Grid.Row="0" Grid.Column="1" 
+						Flavor="TextEntry"
+						/>
 		</Grid>
 
 		<ui:ListViewEx Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
@@ -95,34 +70,34 @@
 									</Grid.ColumnDefinitions>
 
 									<ui:LabelEx Grid.Row="0" Grid.Column="0"
-												Style="{Binding ItemFontBold}"
+												Flavor="ListView-item-text-bold"
 												Text="{Binding Name}"
 												/>
 									<ui:LabelEx Grid.Row="1" Grid.Column="0"
-												Style="{Binding ItemFontDefault}"
+												Flavor="ListView-item-text-default"
 												IsVisible="{Binding ShowPhoneNumber}"
 												Text="{Binding PhoneNumber}"
 												/>
 									<ui:LabelEx Grid.Row="2" Grid.Column="0"
-												Style="{Binding ItemFontDefault}"
+												Flavor="ListView-item-text-default"
 												IsVisible="{Binding ShowAddress, Mode=OneWay}"
 												Text="{Binding Address}"
 												/>
 
 									<ui:LabelEx Grid.Row="3" Grid.Column="0"
 												Margin="0,24,0,0"
-												Style="{Binding ItemFontBold}"
+												Flavor="ListView-item-text-bold"
 												FontAttributes="Bold"
 												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
 												Text="Regular destination:"
 												/>
 									<ui:LabelEx Grid.Row="4" Grid.Column="0"
-												Style="{Binding ItemFontDefault}"
+												Flavor="ListView-item-text-default"
 												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
 												Text="{Binding RegularPlace}"
 												/>
 									<ui:LabelEx Grid.Row="5" Grid.Column="0"
-												Style="{Binding ItemFontDefault}"
+												Flavor="ListView-item-text-default"
 												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
 												Text="{Binding RegularAddress}"
 												/>

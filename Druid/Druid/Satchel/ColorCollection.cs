@@ -28,23 +28,35 @@ namespace Dwares.Druid.Satchel
 		//public string Design { get; }
 
 
-		public virtual void Load(IDictionary<string, object> dict, Metadata metadata, object target)
+		//public virtual void Load<Target>(IDictionary<string, object> dict, Target target, Func<Target, string, object, bool> loadProperty = null)
+		//{
+		//	foreach (var pair in dict) {
+		//		if (pair.Value is NamedColor namedColor) {
+		//			Add(namedColor);
+		//		} else if (pair.Value is Color color) {
+		//			Add(new NamedColor { Name = pair.Key, Value = color });
+		//		} else {
+		//			if (target != null) {
+		//				if (loadProperty == null)
+		//					loadProperty = Reflection.TrySetPropertyValue<Target>;
+
+		//				loadProperty(target, pair.Key, pair.Value);
+		//			}
+		//		}
+		//	}
+		//}	
+
+		public static bool LoadColor(ColorCollection target, string key, object value)
 		{
-			foreach (var pair in dict) {
-				if (pair.Value is NamedColor namedColor) {
-					Add(namedColor);
-				} else if (pair.Value is Color color) {
-					Add(new NamedColor { Name = pair.Key, Value = color });
-				} else {
-					if (target != null) {
-						if (Reflection.TrySetPropertyValue(target, pair.Key, pair.Value))
-							return;
-					}
-					if (metadata != null) {
-						metadata.Set(pair.Key, pair.Value, target);
-					}
-				}
+			if (value is NamedColor namedColor) {
+				target.Add(namedColor);
+				return true;
 			}
+			if (value is Color color) {
+				target.Add(new NamedColor { Name = key, Value = color });
+				return true;
+			}
+			return false;
 		}
 
 
@@ -52,14 +64,8 @@ namespace Dwares.Druid.Satchel
 		{
 			if (!string.IsNullOrEmpty(name))
 			{ 
-				string key;
-				if (string.IsNullOrEmpty(variant)) {
-					key = name;
-				} else {
-					key = $"{name}:{variant}";
-				}
-
-				if (TryGetValue(key, out color)) {
+				var colorName = new ColorName { Name = name, Variant = variant };
+				if (TryGetValue(colorName, out color)) {
 					return true;
 				}
 			}

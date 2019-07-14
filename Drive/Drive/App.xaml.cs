@@ -22,11 +22,11 @@ namespace Drive
 			this.AddDefaultViewLocators();
 
 
-			var test1 = new MaterialColorPalette();
-			Debug.Print($"test1={test1}");
+			new MaterualDarkColorScheme();
 
 			new UITheme(new Themes.BaseTheme());
-			UITheme.Current = new UITheme(new Themes.Default());
+			//UITheme.Current = new UITheme(new Themes.Default());
+			UITheme.Current = new Themes.DarkTheme();
 		}
 
 		protected override async void OnStart()
@@ -40,9 +40,13 @@ namespace Drive
 			//var homePage = Forge.CreatePage(typeof(HomeViewModel));
 			//this.InitMainPageWithNavigation(homePage);
 
-			var page = AppScope.CreatePage(typeof(RootViewModel));
-			page.StartSendingPageSizeMessage();
-			this.InitMainPageWithNavigation(page);
+			var rootPage = AppScope.CreatePage(typeof(RootViewModel));
+			rootPage.StartSendingPageSizeMessage();
+
+			//this.InitMainPageWithNavigation(rootPage);
+			MainPage = new NavigationPageEx(rootPage, "NavigationPage");
+			Navigator.Initialize();
+
 			WritCommand.ExecuteWrit("GoToSchedule");
 
 			await AppScope.Instance.Initialize();

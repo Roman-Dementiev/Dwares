@@ -3,6 +3,27 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 					x:Class="Dwares.Druid.Resources.MaterialDarkResources">
+
+	<x:String x:Key="Name">Material.Dark</x:String>
+	<x:String x:Key="Design">Material</x:String>
+
+	<drx:MaterialColorPalette x:Key="ColorPalette" />
+
+	<x:String x:Key="Background">Black</x:String>
+	<x:String x:Key="OnBackground">Red:50</x:String>
+
+	<x:String x:Key="Surface">Gray:800</x:String>
+	<x:String x:Key="OnSurface">Gray:50</x:String>
+
+	<x:String x:Key="Primary">Orange</x:String>
+	<x:String x:Key="OnPrimary">White</x:String>
 	
+	<x:String x:Key="Secondary">Indigo</x:String>
+	<x:String x:Key="OnSecondary">White</x:String>
+	
+	<x:String x:Key="Inverted">White</x:String>
+	<x:String x:Key="OnInverted">Black</x:String>
+
+	<x:String x:Key="Accent">Orange:A700</x:String>
 
 </ResourceDictionary>

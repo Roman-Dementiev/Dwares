@@ -7,6 +7,7 @@
 
 	<Frame x:Name="frame"
 		   BorderColor="Transparent"
+		   BackgroundColor="Transparent"
 		   >
 		<StackLayout x:Name="layout"
 					 Margin="-12"

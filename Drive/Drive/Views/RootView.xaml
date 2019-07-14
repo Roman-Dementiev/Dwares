@@ -5,7 +5,7 @@
 				  Title="{Binding Title}"
 				  x:Class="Drive.Views.RootView">
 
-	<Grid x:Name="rootGrid" Margin="-20" BackgroundColor="Transparent" >
+	<ui:GridEx x:Name="rootGrid" Margin="-20" Flavor="RootGrid" >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -23,6 +23,7 @@
 		<Frame Grid.Row="1" Grid.Column="1"
 			   Margin="0"
 			   BorderColor="Black"
+			   BackgroundColor="Transparent"
 			   Content="{Binding Content, Mode=OneWay}"
 			   />
 
@@ -36,8 +37,8 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 			<ui:ArtButtonEx Grid.Column="0"
-						DefaultFlavor="TabButton-default"
-						PushedFlavor="TabButton-active"
+						DefaultFlavor="NavButton-default"
+						PushedFlavor="NavButton-active"
 						DefaultArt="Schedule"
 						PushedArt="Schedule_active"
 						LabelText="Schedule"
@@ -47,8 +48,8 @@
 						/>
 
 			<ui:ArtButtonEx Grid.Column="1"
-						DefaultFlavor="TabButton-default"
-						PushedFlavor="TabButton-active"
+						DefaultFlavor="NavButton-default"
+						PushedFlavor="NavButton-active"
 						DefaultArt="Route"
 						PushedArt="Route_active"
 						LabelText="Route"
@@ -58,8 +59,8 @@
 						/>
 
 			<ui:ArtButtonEx Grid.Column="2"
-						DefaultFlavor="TabButton-default"
-						PushedFlavor="TabButton-active"
+						DefaultFlavor="NavButton-default"
+						PushedFlavor="NavButton-active"
 						DefaultArt="Contacts"
 						PushedArt="Contacts_active"
 						LabelText="Contacts"
@@ -68,6 +69,6 @@
 						IsPushed="{Binding ContactsTabIsActive, Mode=OneWay}"
 						/>
 		</Grid>
-	</Grid>
+	</ui:GridEx>
 
 </ui:ContentViewEx>

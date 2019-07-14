@@ -26,19 +26,14 @@ namespace Dwares.Dwarf.Toolkit
 			}
 		}
 
-		public virtual void Set(string key, object value, object target = null)
+		public virtual void Set(string key, object value)
 		{
 			Guard.ArgumentNotEmpty(key, nameof(key));
-			if (value == null) {
+			if (value != null) {
+				dict[key] = value;
+			} else {
 				dict.Remove(key);
 				return;
-			}
-
-
-			dict[key] = value;
-
-			if (target != null) {
-				Reflection.TrySetPropertyValue(target, key, value);
 			}
 		}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Dwares.Druid.Satchel;
 using Dwares.Dwarf;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,31 +16,18 @@ namespace Dwares.Druid.Xaml
 			//Debug.EnableTracing(@class);
 		}
 
+		public IColorPalette Palette { get; set; }
+		public string Name { get; set; }
+		//public string Variant { set; get; }
 
 		public override Color ProvideValue(IServiceProvider serviceProvider)
 		{
-			//if (TypedBinding == null)
-			//	return new Binding(Path, Mode, Converter, ConverterParameter, StringFormat, Source) {
-			//		UpdateSourceEventName = UpdateSourceEventName,
-			//		FallbackValue = FallbackValue,
-			//		TargetNullValue = TargetNullValue,
-			//	};
+			var palette = Palette; //?? Satchel.ColorScheme.BindingPalette;
+			if (palette == null)
+				return default;
 
-			//TypedBinding.Mode = Mode;
-			//TypedBinding.Converter = Converter;
-			//TypedBinding.ConverterParameter = ConverterParameter;
-			//TypedBinding.StringFormat = StringFormat;
-			//TypedBinding.Source = Source;
-			//TypedBinding.UpdateSourceEventName = UpdateSourceEventName;
-			//TypedBinding.FallbackValue = FallbackValue;
-			//TypedBinding.TargetNullValue = TargetNullValue;
-			//return TypedBinding;
-			return default;
+			var colorName = new ColorName(Name);
+			return palette.GetColor(colorName, null/*Variant*/);
 		}
-
-		//object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-		//{
-		//	return (this as IMarkupExtension<BindingBase>).ProvideValue(serviceProvider);
-		//}
 	}
 }

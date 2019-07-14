@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Druid.UI;
 
-namespace Drive.Themes.Material
+
+namespace Drive.Themes
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Teal : ResourceDictionary
+	public class DarkTheme : UITheme
 	{
-		public Teal()
+		public DarkTheme() : base(new DarkThemeResources()) { }
+	}
+
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class DarkThemeResources : ResourceDictionary
+	{
+		public DarkThemeResources()
 		{
 			InitializeComponent();
 		}

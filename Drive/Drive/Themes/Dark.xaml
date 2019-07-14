@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Drive.Themes.DarkThemeResources">
+
+	<x:String x:Key="ThemeName">Default</x:String>
+	<x:String x:Key="BasedOn">@Base</x:String>
+
+	<drx:ColorScheme x:Key="ColorScheme" Name ="Material.Dark" />
+
+	<Style x:Key="NavigationPage" TargetType="NavigationPage">
+		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Background}" />
+		<Setter Property="BarBackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Primary}" />
+		<Setter Property="BarTextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnPrimary}" />
+	</Style>
+
+	<Style x:Key="RootGrid" TargetType="Grid">
+		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Background}" />
+	</Style>
+
+	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Surface}" />
+	</Style>
+	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
+		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Accent}" />
+		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+	</Style>
+
+	<Style x:Key="ListView-item-text-default" TargetType="Label">
+		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnSurface}" />
+	</Style>
+	<Style x:Key="ListView-item-text-small" TargetType="Label">
+		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnSurface}" />
+	</Style>
+	<Style x:Key="ListView-item-text-bold" TargetType="Label">
+		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Primary}" />
+	</Style>
+
+
+	<Style x:Key="NavButton-default" TargetType="ui:ArtButton">
+		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+	</Style>
+	<Style x:Key="NavButton-active" TargetType="ui:ArtButton">
+		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+	</Style>
+
+
+	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
+		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+	</Style>
+	<Style x:Key="TabButton-active" TargetType="ui:ArtButton">
+		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+	</Style>
+
+
+	<Style x:Key="TextEntry" TargetType="Entry">
+		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Inverted}" />
+		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnInverted}" />
+	</Style>
+
+
+</ResourceDictionary>

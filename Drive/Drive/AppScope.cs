@@ -61,6 +61,9 @@ namespace Drive
 				page.BorderIsVisible = false;
 			}
 
+			page.BackgroundColor = Color.Black;
+			contentView.BackgroundColor = Color.Green;
+
 			return page;
 		}
 	}

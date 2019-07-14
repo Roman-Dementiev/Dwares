@@ -33,18 +33,18 @@
 		<Setter Property="CornerRadius" Value="0" />
 	</Style>
 
-	<Style x:Key="ListView-item-font-default" TargetType="Label">
+	<Style x:Key="ListView-item-text-default" TargetType="Label">
 		<Setter Property="FontSize" Value="20" />
 	</Style>
-	<Style x:Key="ListView-item-font-small" TargetType="Label">
+	<Style x:Key="ListView-item-text-small" TargetType="Label">
 		<Setter Property="FontSize" Value="18" />
 	</Style>
-	<Style x:Key="ListView-item-font-bold" TargetType="Label">
+	<Style x:Key="ListView-item-text-bold" TargetType="Label">
 		<Setter Property="FontSize" Value="20" />
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
 
-	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
+	<Style x:Key="NavButton-default" TargetType="ui:ArtButton">
 		<Setter Property="HorizontalOptions" Value="Center" />
 		<Setter Property="VerticalOptions" Value="Center" />
 		<Setter Property="InnerMargin" Value="-8" />
@@ -52,22 +52,27 @@
 		<Setter Property="ImageHeight" Value="40" />
 		<Setter Property="FontSize" Value="16" />
 	</Style>
-
-	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TabButton-default}">
+	<Style x:Key="NavButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource NavButton-default}">
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
 
-	<Style x:Key="TopButton-default" TargetType="ui:ArtButton">
+	
+	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
+		<Setter Property="BackgroundColor" Value="Transparent" />
 		<Setter Property="Orientation" Value="Horizontal" />
 		<Setter Property="CornerRadius" Value="6" />
 		<Setter Property="ImageWidth" Value="20" />
 		<Setter Property="ImageHeight" Value="20" />
 		<Setter Property="FontSize" Value="16" />
 	</Style>
-	<Style x:Key="TopButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TopButton-default}">
+	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TabButton-default}">
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
 
+	<Style x:Key="TextEntry" TargetType="Entry">
+		<!--<Setter Property="FontSize" Value="18" />-->
+	</Style>
+	
 	<Style x:Key="StaticText" TargetType="Label">
 	</Style>
 

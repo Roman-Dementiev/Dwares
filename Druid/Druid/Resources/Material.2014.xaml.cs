@@ -26,6 +26,20 @@ namespace Dwares.Druid.Resources
 
 			return false;
 		}
+
+		//static MaterialColorPalette instance;
+		public static MaterialColorPalette Instance {
+			//get {
+			//	if (instance == null) {
+			//		instance = ByName("Material.2014") as MaterialColorPalette;
+			//		if (instance == null) {
+			//			instance = new MaterialColorPalette();
+			//		}
+			//	}
+			//	return instance;
+			//}
+			get => GetInstance<MaterialColorPalette>("Material.2014");
+		}
 	}
 
 	[XamlCompilation(XamlCompilationOptions.Compile)]
