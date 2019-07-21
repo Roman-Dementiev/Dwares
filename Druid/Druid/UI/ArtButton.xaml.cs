@@ -2,9 +2,11 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Druid.Painting;
 using Dwares.Druid.Satchel;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf;
+
 
 namespace Dwares.Druid.UI
 {
@@ -17,7 +19,6 @@ namespace Dwares.Druid.UI
 		public ArtButton()
 		{
 			wmix = new WritMixin(this);
-
 			InitializeComponent();
 		}
 
@@ -196,17 +197,6 @@ namespace Dwares.Druid.UI
 			get { return (double)GetValue(ImageHeightProperty); }
 		}
 
-		[TypeConverter(typeof(ImageSourceConverter))]
-		public ImageSource ImageSource {
-			get => image.Source;
-			set => image.Source = value;
-		}
-
-		protected virtual void SelectImageSource(string name)
-		{
-			ImageSource = ArtProvider.GetImageSource(name);
-		}
-
 		public static readonly BindableProperty ArtProperty =
 			BindableProperty.Create(
 				nameof(Art),
@@ -215,13 +205,36 @@ namespace Dwares.Druid.UI
 				defaultValue: string.Empty,
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ArtButton button && newValue is string value) {
-						button.SelectImageSource(value);
+						button.SelectImageSource(value, button.ArtColor);
 					}
 				});
 
 		public string Art {
 			set { SetValue(ArtProperty, value); }
 			get { return (string)GetValue(ArtProperty); }
+		}
+
+		public static readonly BindableProperty ArtColorProperty =
+			BindableProperty.Create(
+				nameof(ArtColor),
+				typeof(Color?),
+				typeof(ArtButton),
+				defaultValue: null,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButton button) {
+						if (newValue == null) {
+							button.SelectImageSource(button.Art, null);
+						}
+						else if (newValue is Color color) {
+							button.SelectImageSource(button.Art, color);
+						}
+					}
+				});
+
+		[TypeConverter(typeof(ColorTypeConverter))]
+		public Color? ArtColor {
+			set { SetValue(ArtColorProperty, value); }
+			get { return (Color?)GetValue(ArtColorProperty); }
 		}
 
 		public static readonly BindableProperty CommandProperty =
@@ -235,6 +248,21 @@ namespace Dwares.Druid.UI
 				//	}
 				//}
 				);
+
+		[TypeConverter(typeof(ImageSourceConverter))]
+		public ImageSource ImageSource {
+			get => image.Source;
+			set => image.Source = value;
+		}
+
+		protected virtual void SelectImageSource(string name, Color? color)
+		{
+			ImageSource = ArtBroker.Instance.GetImageSource(name, null, color?.ToSKColor());
+
+			//if (ImageSource == null) {
+			//	ImageSource = ImageProvider.GetImageSource(name);
+			//}
+		}
 
 		public ICommand Command {
 			set { SetValue(CommandProperty, value); }

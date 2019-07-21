@@ -143,7 +143,7 @@ namespace Dwares.Druid.UI
 			}
 
 			if (image == null && useArtProvider) {
-				image = ArtProvider.Instance.GetImageSource(key);
+				image = ImageProvider.Instance.GetImageSource(key);
 			}
 
 			return image;

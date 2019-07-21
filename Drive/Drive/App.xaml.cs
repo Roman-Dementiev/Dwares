@@ -4,6 +4,7 @@ using Xamarin.Forms.Xaml;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Satchel;
+using Dwares.Druid.Painting;
 using Dwares.Druid.UI;
 using Dwares.Druid.Resources;
 using Drive.ViewModels;
@@ -20,7 +21,6 @@ namespace Drive
 
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
-
 
 			new MaterualDarkColorScheme();
 

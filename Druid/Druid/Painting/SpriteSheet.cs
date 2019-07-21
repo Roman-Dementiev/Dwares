@@ -14,10 +14,10 @@ namespace Dwares.Druid.Painting
 		//{
 		//}
 
-		public SpriteSheet(ResourceId id, int numCols, int numRows = 1) :
-			this(Bitmaps.LoadBitmap(id), numCols, numRows)
-		{
-		}
+		//public SpriteSheet(ResourceId id, int numCols, int numRows = 1) :
+		//	this(Bitmaps.LoadBitmap(id), numCols, numRows)
+		//{
+		//}
 
 		public SpriteSheet(SKBitmap bitmap, int numCols, int numRows=1)
 		{

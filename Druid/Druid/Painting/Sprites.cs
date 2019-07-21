@@ -15,10 +15,10 @@ namespace Dwares.Druid.Painting
 
 	public class BitmapSprite : ISprite
 	{
-		public BitmapSprite(ResourceId resourceId)
-		{
-			Bitmap = Bitmaps.LoadBitmap(resourceId);
-		}
+		//public BitmapSprite(ResourceId resourceId)
+		//{
+		//	Bitmap = Bitmaps.LoadBitmap(resourceId);
+		//}
 
 		public BitmapSprite(SKBitmap bitmap)
 		{
@@ -37,11 +37,11 @@ namespace Dwares.Druid.Painting
 
 	public class ImageSprite : ISprite
 	{
-		public ImageSprite(ResourceId resourceId)
-		{
-			var bitmap = Bitmaps.LoadBitmap(resourceId);
-			Image = SKImage.FromBitmap(bitmap);
-		}
+		//public ImageSprite(ResourceId resourceId)
+		//{
+		//	var bitmap = Bitmaps.LoadBitmap(resourceId);
+		//	Image = SKImage.FromBitmap(bitmap);
+		//}
 
 		public ImageSprite(SKBitmap bitmap)
 		{

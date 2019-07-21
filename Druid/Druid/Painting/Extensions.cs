@@ -177,5 +177,15 @@ namespace Dwares.Druid.Painting
 		//	}
 		//}
 
+		public static Color ToXamColor(this SKColor color)
+		{
+			return new Color(color.Red / 255.0, color.Green / 255.0, color.Blue / 255.0, color.Alpha / 255.0);
+		}
+
+		public static SKColor ToSKColor(this Color color)
+		{
+			return new SKColor(AsByte(color.R), AsByte(color.G), AsByte(color.B), AsByte(color.A));
+		}
+		static Byte AsByte(double comp) => (byte)Math.Round(comp * 255);
 	}
 }

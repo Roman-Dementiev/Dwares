@@ -2,9 +2,11 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 			 x:Class="Drive.App">
 	
 	<Application.Resources>
+		<drx:Bitmap x:Key="search">Drive.Resources.ic_search_black_48dp.png</drx:Bitmap>
 
 	</Application.Resources>
 </Application>

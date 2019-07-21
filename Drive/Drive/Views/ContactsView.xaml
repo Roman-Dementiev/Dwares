@@ -25,7 +25,7 @@
 	
 
 
-		<Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+		<!--<Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
@@ -34,16 +34,23 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<Image Grid.Row="0" Grid.Column="0" 
-				   VerticalOptions="Center"
-				   HeightRequest="24"
-				   WidthRequest="24"
-				   Source="looking.png"
-				   />
+
+			<ui:ArtImage Grid.Row="0" Grid.Column="0" 
+						 VerticalOptions="Center"
+						 WidthRequest="24"
+						 HeightRequest="24"
+						 Art="lookup"
+						 ArtColor="White"
+						 />
 			<ui:EntryEx Grid.Row="0" Grid.Column="1" 
 						Flavor="TextEntry"
 						/>
-		</Grid>
+		</Grid>-->
+
+		<ui:EntryPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+					   Flavor="EntryPanel"
+					   IconArt="search"
+					   />
 
 		<ui:ListViewEx Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
 					   Flavor="ContactsListView"

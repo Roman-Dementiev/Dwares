@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DwMatter.TestPage">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="120" />
+			<RowDefinition Height="20" />
+			<RowDefinition Height="120" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<skia:SKCanvasView x:Name="sourceCanvas"
+						   Grid.Row="1" Grid.Column="1"
+						   PaintSurface="SourceView_PaintSurface"
+						   />
+
+		<skia:SKCanvasView x:Name="resultCanvas"
+						   Grid.Row="1" Grid.Column="2"
+						   PaintSurface="ResultView_PaintSurface"
+						   />
+
+		<Image x:Name="sourceImage"
+			   Grid.Row="3" Grid.Column="1"
+			   />
+
+		<Image x:Name="resultImage"
+			   Grid.Row="3" Grid.Column="2"
+			   />
+		
+	</Grid>
+</ContentPage>

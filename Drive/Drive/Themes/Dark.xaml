@@ -57,11 +57,16 @@
 		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
 	</Style>
 
-
-	<Style x:Key="TextEntry" TargetType="Entry">
-		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Inverted}" />
-		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnInverted}" />
+	<Style x:Key="EntryPanel" TargetType="ui:EntryPanel">
+		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Surface}" />
+		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+		<Setter Property="IconColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
 	</Style>
 
-
+	<Style x:Key="TextEntry" TargetType="Entry">
+		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Surface}" />
+		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnSurface}" />
+		<Setter Property="PlaceholderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+	</Style>
+	
 </ResourceDictionary>

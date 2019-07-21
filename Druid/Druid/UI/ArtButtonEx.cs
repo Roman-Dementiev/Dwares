@@ -234,7 +234,7 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		protected override void SelectImageSource(string name)
+		protected override void SelectImageSource(string name, Color? color)
 		{
 			ImageSource = UITheme.Current.GetImage(name);
 		}

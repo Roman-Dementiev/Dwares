@@ -6,14 +6,14 @@ namespace Dwares.Druid.Satchel
 	public class SumbolImageSource : ActionImageSource
 	{
 		public SumbolImageSource(SymbolEx symbol) :
-			base(symbol.ToString(), ArtProvider.kGroupSymbol)
+			base(symbol.ToString(), ImageProvider.kGroupSymbol)
 		{
 			Symbol = symbol;
 		}
 
 		public SymbolEx Symbol { get; }
 
-		protected override ImageSource GetImageSource(IArtProvider provider)
+		protected override ImageSource GetImageSource(IImageProvider provider)
 		{
 			return provider.GetImageSource(Group, string.Format("{0:x4}", (int)Symbol));
 		}
