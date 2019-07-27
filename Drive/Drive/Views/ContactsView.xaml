@@ -6,6 +6,10 @@
 				  x:Class="Drive.Views.ContactsView"
 				  >
 
+	<!--<ui:ContentViewEx.Resources>
+		<views:ContactCard x:Key="ContactCard" />
+	</ui:ContentViewEx.Resources>-->
+	
 	<ui:ContentViewEx.ToolbarItems>
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
@@ -60,9 +64,10 @@
 
 			<ListView.ItemTemplate>
 				<DataTemplate>
+					<!--<ViewCell View="{StaticResource ContactCard}" />-->
 					<ViewCell>
 						<ContentView Margin="0">
-							<Frame Style="{Binding ItemFrameStyle, Mode=OneWay}">
+							<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
 								<Grid>
 									<Grid.RowDefinitions>
 										<RowDefinition Height="Auto" />
@@ -77,40 +82,40 @@
 									</Grid.ColumnDefinitions>
 
 									<ui:LabelEx Grid.Row="0" Grid.Column="0"
-												Flavor="ListView-item-text-bold"
+												Flavor="Card-text-primary"
 												Text="{Binding Name}"
 												/>
 									<ui:LabelEx Grid.Row="1" Grid.Column="0"
-												Flavor="ListView-item-text-default"
+												Flavor="Card-text-default"
 												IsVisible="{Binding ShowPhoneNumber}"
 												Text="{Binding PhoneNumber}"
 												/>
 									<ui:LabelEx Grid.Row="2" Grid.Column="0"
-												Flavor="ListView-item-text-default"
+												Flavor="Card-text-default"
 												IsVisible="{Binding ShowAddress, Mode=OneWay}"
 												Text="{Binding Address}"
 												/>
 
 									<ui:LabelEx Grid.Row="3" Grid.Column="0"
 												Margin="0,24,0,0"
-												Flavor="ListView-item-text-bold"
+												Flavor="Card-text-bold"
 												FontAttributes="Bold"
 												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
 												Text="Regular destination:"
 												/>
 									<ui:LabelEx Grid.Row="4" Grid.Column="0"
-												Flavor="ListView-item-text-default"
+												Flavor="Card-text-default"
 												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
 												Text="{Binding RegularPlace}"
 												/>
 									<ui:LabelEx Grid.Row="5" Grid.Column="0"
-												Flavor="ListView-item-text-default"
+												Flavor="Card-text-default"
 												IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
 												Text="{Binding RegularAddress}"
 												/>
 
 								</Grid>
-							</Frame>
+							</ui:FrameEx>
 						</ContentView>
 					</ViewCell>
 				</DataTemplate>

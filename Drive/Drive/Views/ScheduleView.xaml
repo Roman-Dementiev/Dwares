@@ -15,13 +15,12 @@
 	</ui:ContentViewEx.ToolbarItems>
 
 
-	<ui:ListViewEx Flavor="ListView"
+	<ui:ListViewEx Flavor="CardsListView"
 				   ItemsSource="{Binding Items}"
 				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 				   >
 		<ListView.ItemTemplate>
 			<DataTemplate>
-				<!--<ViewCell View="{StaticResource ScheduleItemView}"/>-->
 				<ViewCell>
 					<ContentView Margin="0">
 						<Frame Style="{Binding ItemFrameStyle, Mode=OneWay}">

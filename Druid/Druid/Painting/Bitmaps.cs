@@ -22,8 +22,8 @@ namespace Dwares.Druid.Painting
 		public static SKBitmap LoadBitmap(PackageUnit package, string resourceName)
 			=> LoadBitmap(package.Assembly, resourceName);
 
-		//public static SKBitmap LoadBitmap(ResourceId resourceId)
-		//	=> LoadBitmap(resourceId.Assembly, resourceId.Name);
+		public static SKBitmap LoadBitmap(ResourceId resourceId)
+			=> LoadBitmap(resourceId.Assembly, resourceId.ResourceName);
 
 
 		public static SKBitmap Recolor(this SKBitmap source, Func<SKColor, SKColor> func)

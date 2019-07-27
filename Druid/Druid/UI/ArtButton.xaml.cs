@@ -162,9 +162,9 @@ namespace Dwares.Druid.UI
 
 
 
-		public static readonly BindableProperty ImageWidthProperty =
+		public static readonly BindableProperty IconWidthProperty =
 			BindableProperty.Create(
-				nameof(ImageWidth),
+				nameof(IconWidth),
 				typeof(double),
 				typeof(ArtButton),
 				//defaultValue: 80,
@@ -174,14 +174,14 @@ namespace Dwares.Druid.UI
 					}
 				});
 
-		public double ImageWidth {
-			set { SetValue(ImageWidthProperty, value); }
-			get { return (double)GetValue(ImageWidthProperty); }
+		public double IconWidth {
+			set { SetValue(IconWidthProperty, value); }
+			get { return (double)GetValue(IconWidthProperty); }
 		}
 
-		public static readonly BindableProperty ImageHeightProperty =
+		public static readonly BindableProperty IconHeightProperty =
 			BindableProperty.Create(
-				nameof(ImageHeight),
+				nameof(IconHeight),
 				typeof(double),
 				typeof(ArtButton),
 				//defaultValue: 80,
@@ -192,9 +192,9 @@ namespace Dwares.Druid.UI
 					}
 				});
 
-		public double ImageHeight {
-			set { SetValue(ImageHeightProperty, value); }
-			get { return (double)GetValue(ImageHeightProperty); }
+		public double IconHeight {
+			set { SetValue(IconHeightProperty, value); }
+			get { return (double)GetValue(IconHeightProperty); }
 		}
 
 		public static readonly BindableProperty ArtProperty =

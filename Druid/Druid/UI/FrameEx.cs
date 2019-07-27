@@ -21,5 +21,21 @@ namespace Dwares.Druid.UI
 		}
 
 		public Element GetTargetElement() => ContentView;
+
+		public static readonly BindableProperty FlavorProperty =
+			BindableProperty.Create(
+				nameof(Flavor),
+				typeof(string),
+				typeof(FrameEx),
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is FrameEx frame) {
+						frame.ApplyFlavor(frame.Flavor);
+					}
+				});
+
+		public string Flavor {
+			set { SetValue(FlavorProperty, value); }
+			get { return (string)GetValue(FlavorProperty); }
+		}
 	}
 }

@@ -7,11 +7,11 @@ using Drive.Models;
 
 namespace Drive.ViewModels
 {
-	public class ContactItem : ListViewItem<IContact>
+	public class ContactCardViewModel : CardViewModel<IContact>
     {
-		//static ClassRef @class = new ClassRef(typeof(ContactItemViewModel));
+		//static ClassRef @class = new ClassRef(typeof(ContactCardViewModel));
 
-		public ContactItem(IContact contact) :
+		public ContactCardViewModel(IContact contact) :
 			base(contact)
 		{
 			//Debug.EnableTracing(@class);
@@ -112,7 +112,7 @@ namespace Drive.ViewModels
 		}
 	}
 
-	public class ContactItemsCollection : ShadowCollection<ContactItem, IContact>
+	public class ContactItemsCollection : ShadowCollection<ContactCardViewModel, IContact>
 	{
 		public ContactItemsCollection() { }
 
@@ -125,7 +125,7 @@ namespace Drive.ViewModels
 		{
 			SetSource(AppScope.Instance.Contacts, (contact) => {
 				if (contactType == null || contact.GetType() == contactType) {
-					return new ContactItem(contact);
+					return new ContactCardViewModel(contact);
 				} else {
 					return null;
 				}

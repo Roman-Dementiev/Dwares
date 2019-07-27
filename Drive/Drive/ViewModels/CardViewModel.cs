@@ -8,22 +8,23 @@ using Xamarin.Forms;
 
 namespace Drive.ViewModels
 {
-	public class ListViewItem<TSource> : PropertyNotifier, ISelectable where TSource : class, IModel
+	public class CardViewModel<TSource> : PropertyNotifier, ISelectable where TSource : class, IModel
 	{
 		protected StyleSet Styles { get; } = new StyleSet();
 
-		protected ListViewItem(TSource source, bool initStyles = true)
+		protected CardViewModel(TSource source, bool initStyles = true)
 		{
 			Source = source ?? throw new ArgumentNullException(nameof(source));
 			Source.ModelChanged += (sender, e) => OnSourceChanged(e.ChangedProperties);
 
+			CardFrameFlavor = "Card-frame-default";
 
 			if (initStyles) {
-				Styles.Add(nameof(ItemFrameDefault), "ListView-item-frame-default");
-				Styles.Add(nameof(ItemFrameSelected), "ListView-item-frame-selected");
-				Styles.Add(nameof(ItemFontDefault), "ListView-item-font-default");
-				Styles.Add(nameof(ItemFontSmall), "ListView-item-font-small");
-				Styles.Add(nameof(ItemFontBold), "ListView-item-font-bold");
+				Styles.Add(nameof(ItemFrameDefault), "Card-frame-default");
+				Styles.Add(nameof(ItemFrameSelected), "Card-frame-selected");
+				Styles.Add(nameof(ItemFontDefault), "Card-text-default");
+				Styles.Add(nameof(ItemFontSmall), "Card-text-small");
+				Styles.Add(nameof(ItemFontBold), "Card-text-bold");
 				
 				UpdateStyles();
 			}
@@ -59,6 +60,7 @@ namespace Drive.ViewModels
 			get => isSelected;
 			set {
 				if (SetProperty(ref isSelected, value)) {
+					CardFrameFlavor = isSelected ? "Card-frame-selected" : "Card-frame-default";
 					ItemFrameStyle = isSelected ? ItemFrameSelected : ItemFrameDefault;
 					// TODO: why UneventRows doesn't work on UWP??
 					ShowDetails = isSelected || Device.RuntimePlatform == Device.UWP;
@@ -78,12 +80,6 @@ namespace Drive.ViewModels
 
 		protected virtual void OnShowDetailsChanged() { }
 
-		//public Style ItemFrameDefault { get; protected set; }
-		//public Style ItemFrameSelected { get; protected set; }
-		//public Style ItemFontDefault { get; protected set; }
-		//public Style ItemFontSmall { get; protected set; }
-		//public Style ItemFontBold { get; protected set; }
-
 		public Style ItemFrameDefault => Styles.Get(nameof(ItemFrameDefault));
 		public Style ItemFrameSelected => Styles.Get(nameof(ItemFrameSelected));
 		public Style ItemFontDefault => Styles.Get(nameof(ItemFontDefault));
@@ -94,6 +90,12 @@ namespace Drive.ViewModels
 		public Style ItemFrameStyle {
 			get => itemFrameStyle;
 			set => SetProperty(ref itemFrameStyle, value);
+		}
+
+		string cardFrameFlavor;
+		public string CardFrameFlavor {
+			get => cardFrameFlavor;
+			set => SetProperty(ref cardFrameFlavor, value);
 		}
 	}
 }

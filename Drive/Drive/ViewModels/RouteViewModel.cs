@@ -7,12 +7,12 @@ using Drive.Views;
 
 namespace Drive.ViewModels
 {
-	public class RouteViewModel : CollectionViewModel<RouteItem>, ITabContentViewModel
+	public class RouteViewModel : CollectionViewModel<RouteCardViewModel>, ITabContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteViewModel));
 
 		public RouteViewModel() :
-			base(ApplicationScope, RouteItem.CreateCollection())
+			base(ApplicationScope, RouteCardViewModel.CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 

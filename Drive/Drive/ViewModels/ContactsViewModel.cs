@@ -16,7 +16,7 @@ namespace Drive.ViewModels
 	//	Clients
 	//}
 
-	public class ContactsViewModel : CollectionViewModel<ContactItem>, ITabContentViewModel
+	public class ContactsViewModel : CollectionViewModel<ContactCardViewModel>, ITabContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ContactsViewModel1cs));
 		static readonly Type initialContactType = typeof(Person);
@@ -24,7 +24,7 @@ namespace Drive.ViewModels
 		public ContactsViewModel() : this(initialContactType) { }
 
 		public ContactsViewModel(Type contactType) :
-			base(ApplicationScope, ContactItem.CreateCollection(contactType))
+			base(ApplicationScope, ContactCardViewModel.CreateCollection(contactType))
 		{
 			//Debug.EnableTracing(@class);
 

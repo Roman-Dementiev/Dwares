@@ -10,7 +10,7 @@
 	<Style x:Key="RootView" TargetType="View" >
 	</Style>
 
-	<Style x:Key="ListView" TargetType="ListView">
+	<Style x:Key="CardsListView" TargetType="ListView">
 		<Setter Property="Margin" Value="-16,-16,-16,4" />
 		<Setter Property="HorizontalOptions" Value="FillAndExpand" />
 		<Setter Property="VerticalOptions" Value="FillAndExpand" />
@@ -18,29 +18,33 @@
 		<Setter Property="HasUnevenRows" Value="True" />
 	</Style>
 
-	<Style x:Key="ContactsListView" TargetType="ListView" BasedOn="{StaticResource ListView}">
+	<Style x:Key="ContactsListView" TargetType="ListView" BasedOn="{StaticResource CardsListView}">
 		<Setter Property="Margin" Value="0,0,0,0" />
 	</Style>
 
-	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
+	<Style x:Key="Card-frame-default" TargetType="Frame">
 		<Setter Property="Margin" Value="1" />
 		<Setter Property="BorderColor" Value="Transparent" />
 		<Setter Property="CornerRadius" Value="8" />
 	</Style>
 
-	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
+	<Style x:Key="Card-frame-selected" TargetType="Frame">
 		<Setter Property="Margin" Value="1" />
 		<Setter Property="CornerRadius" Value="0" />
 	</Style>
 
-	<Style x:Key="ListView-item-text-default" TargetType="Label">
-		<Setter Property="FontSize" Value="20" />
+	<Style x:Key="Card-text-default" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
 	</Style>
-	<Style x:Key="ListView-item-text-small" TargetType="Label">
-		<Setter Property="FontSize" Value="18" />
+	<Style x:Key="Card-text-primary" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
-	<Style x:Key="ListView-item-text-bold" TargetType="Label">
-		<Setter Property="FontSize" Value="20" />
+	<Style x:Key="Card-text-small" TargetType="Label">
+		<Setter Property="FontSize" Value="14" />
+	</Style>
+	<Style x:Key="Card-text-bold" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
 
@@ -48,8 +52,8 @@
 		<Setter Property="HorizontalOptions" Value="Center" />
 		<Setter Property="VerticalOptions" Value="Center" />
 		<Setter Property="InnerMargin" Value="-8" />
-		<Setter Property="ImageWidth" Value="40" />
-		<Setter Property="ImageHeight" Value="40" />
+		<Setter Property="IconWidth" Value="40" />
+		<Setter Property="IconHeight" Value="40" />
 		<Setter Property="FontSize" Value="16" />
 	</Style>
 	<Style x:Key="NavButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource NavButton-default}">
@@ -61,8 +65,8 @@
 		<Setter Property="BackgroundColor" Value="Transparent" />
 		<Setter Property="Orientation" Value="Horizontal" />
 		<Setter Property="CornerRadius" Value="6" />
-		<Setter Property="ImageWidth" Value="20" />
-		<Setter Property="ImageHeight" Value="20" />
+		<Setter Property="IconWidth" Value="20" />
+		<Setter Property="IconHeight" Value="20" />
 		<Setter Property="FontSize" Value="16" />
 	</Style>
 	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" BasedOn="{StaticResource TabButton-default}">
@@ -70,10 +74,6 @@
 	</Style>
 
 	<Style x:Key="EntryPanel" TargetType="Entry">
-	</Style>
-
-	<Style x:Key="TextEntry" TargetType="Entry">
-		<Setter Property="FontSize" Value="18" />
 	</Style>
 	
 	<Style x:Key="StaticText" TargetType="Label">

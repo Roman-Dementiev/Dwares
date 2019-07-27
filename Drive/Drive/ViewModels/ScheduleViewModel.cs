@@ -9,12 +9,12 @@ using Drive.Views;
 
 namespace Drive.ViewModels
 {
-	public class ScheduleViewModel : CollectionViewModel<ScheduleItem>, ITabContentViewModel
+	public class ScheduleViewModel : CollectionViewModel<ScheduleCardViewModel>, ITabContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ScheduleViewModel));
 
 		public ScheduleViewModel() :
-			base(ApplicationScope, ScheduleItem.CreateCollection())
+			base(ApplicationScope, ScheduleCardViewModel.CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 

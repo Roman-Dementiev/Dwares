@@ -9,11 +9,11 @@ using System.Collections.Generic;
 
 namespace Drive.ViewModels
 {
-	public class RouteItem : ListViewItem<RouteStop>
+	public class RouteCardViewModel : CardViewModel<RouteStop>
 	{
-		//static ClassRef @class = new ClassRef(typeof(RouteItem));
+		//static ClassRef @class = new ClassRef(typeof(RouteCardViewModel));
 
-		public RouteItem(RouteStop stop) :
+		public RouteCardViewModel(RouteStop stop) :
 			base(stop)
 		{
 			//Debug.EnableTracing(@class);
@@ -71,11 +71,11 @@ namespace Drive.ViewModels
 			set => SetProperty(ref estimatedDeparture, value);
 		}
 
-		public static ObservableCollection<RouteItem> CreateCollection()
+		public static ObservableCollection<RouteCardViewModel> CreateCollection()
 		{
-			return new ShadowCollection<RouteItem, RouteStop>(
+			return new ShadowCollection<RouteCardViewModel, RouteStop>(
 				AppScope.Instance.Route,
-				(stop) => new RouteItem(stop)
+				(stop) => new RouteCardViewModel(stop)
 				);
 		}
 	}

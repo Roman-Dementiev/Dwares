@@ -8,11 +8,11 @@ using Drive.Models;
 
 namespace Drive.ViewModels
 {
-	public class ScheduleItem : ListViewItem<Ride>
+	public class ScheduleCardViewModel : CardViewModel<Ride>
 	{
-		//static ClassRef @class = new ClassRef(typeof(ScheduleItemViewModel));
+		//static ClassRef @class = new ClassRef(typeof(ScheduleCardViewModel));
 
-		public ScheduleItem(Ride ride) :
+		public ScheduleCardViewModel(Ride ride) :
 			base(ride)
 		{
 			//Debug.EnableTracing(@class);
@@ -141,11 +141,11 @@ namespace Drive.ViewModels
 		}
 
 
-		public static ObservableCollection<ScheduleItem> CreateCollection()
+		public static ObservableCollection<ScheduleCardViewModel> CreateCollection()
 		{
-			return new ShadowCollection<ScheduleItem, Ride>(
+			return new ShadowCollection<ScheduleCardViewModel, Ride>(
 				AppScope.Instance.Schedule,
-				(ride) => new ScheduleItem(ride)
+				(ride) => new ScheduleCardViewModel(ride)
 				);
 		}
 	}

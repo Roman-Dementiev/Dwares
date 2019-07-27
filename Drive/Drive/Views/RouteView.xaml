@@ -9,7 +9,7 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
-	<ui:ListViewEx Flavor="ListView"
+	<ui:ListViewEx Flavor="CardsListView"
 				   ItemsSource="{Binding Items}"
 				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 				   >

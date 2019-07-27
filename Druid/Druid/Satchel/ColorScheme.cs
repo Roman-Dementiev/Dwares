@@ -78,8 +78,15 @@ namespace Dwares.Druid.Satchel
 
 			if (ColorPalette != null) {
 				var colorName = new ColorName(metadata.GetAsString(name));
-				if (ColorPalette.TryGetColor(colorName, variant, out color))
-					return true;
+				if (!string.IsNullOrEmpty(colorName)) {
+					if (ColorPalette.TryGetColor(colorName, variant, out color))
+						return true;
+				} else {
+					if (ColorPalette.TryGetColor(name, variant, out color))
+						return true;
+				}
+
+
 			}
 
 			return false;

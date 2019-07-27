@@ -9,64 +9,70 @@
 	<x:String x:Key="BasedOn">@Base</x:String>
 
 	<drx:ColorScheme x:Key="ColorScheme" Name ="Material.Dark" />
+	<drx:BindColor x:Key="PrimaryColor" Palette="{StaticResource ColorScheme}" Name="Primary" />
+	<drx:BindColor x:Key="OnPrimaryColor" Palette="{StaticResource ColorScheme}" Name="OnPrimary" />
+	<drx:BindColor x:Key="SecondaryColor" Palette="{StaticResource ColorScheme}" Name="Secondary" />
+	<drx:BindColor x:Key="OnSecondaryColor" Palette="{StaticResource ColorScheme}" Name="OnSecondary" />
+	<drx:BindColor x:Key="BackgroundColor" Palette="{StaticResource ColorScheme}" Name="Background" />
+	<drx:BindColor x:Key="OnBackgroundColor" Palette="{StaticResource ColorScheme}" Name="OnBackground" />
+	<drx:BindColor x:Key="SurfaceColor" Palette="{StaticResource ColorScheme}" Name="Surface" />
+	<drx:BindColor x:Key="OnSurfaceColor" Palette="{StaticResource ColorScheme}" Name="OnSurface" />
+	<drx:BindColor x:Key="AccentColor" Palette="{StaticResource ColorScheme}" Name="Accent" />
 
 	<Style x:Key="NavigationPage" TargetType="NavigationPage">
-		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Background}" />
-		<Setter Property="BarBackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Primary}" />
-		<Setter Property="BarTextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnPrimary}" />
+		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+		<Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
+		<Setter Property="BarTextColor" Value="{StaticResource OnPrimaryColor}" />
 	</Style>
 
 	<Style x:Key="RootGrid" TargetType="Grid">
-		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Background}" />
+		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 	</Style>
 
-	<Style x:Key="ListView-item-frame-default" TargetType="Frame">
+	<Style x:Key="Card-frame-default" TargetType="Frame">
 		<Setter Property="BorderColor" Value="Transparent" />
-		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Surface}" />
+		<Setter Property="BackgroundColor" Value="{StaticResource SurfaceColor}" />
 	</Style>
-	<Style x:Key="ListView-item-frame-selected" TargetType="Frame">
-		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Accent}" />
-		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+	<Style x:Key="Card-frame-selected" TargetType="Frame">
+		<Setter Property="BorderColor" Value="{StaticResource AccentColor}" />
+		<Setter Property="BackgroundColor" Value="{StaticResource SecondaryColor}" />
 	</Style>
 
-	<Style x:Key="ListView-item-text-default" TargetType="Label">
-		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnSurface}" />
+	<Style x:Key="Card-text-default" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
 	</Style>
-	<Style x:Key="ListView-item-text-small" TargetType="Label">
-		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnSurface}" />
+	<Style x:Key="Card-text-primary" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
 	</Style>
-	<Style x:Key="ListView-item-text-bold" TargetType="Label">
-		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Primary}" />
+	<Style x:Key="Card-text-small" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
+	</Style>
+	<Style x:Key="Card-text-bold" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
 	</Style>
 
 
 	<Style x:Key="NavButton-default" TargetType="ui:ArtButton">
-		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+		<Setter Property="LabelColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 	<Style x:Key="NavButton-active" TargetType="ui:ArtButton">
-		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+		<Setter Property="LabelColor" Value="{StaticResource SecondaryColor}" />
 	</Style>
 
 
 	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
-		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
-		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+		<Setter Property="BorderColor" Value="{StaticResource OnBackgroundColor}" />
+		<Setter Property="LabelColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 	<Style x:Key="TabButton-active" TargetType="ui:ArtButton">
-		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
-		<Setter Property="LabelColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Secondary}" />
+		<Setter Property="BorderColor" Value="{StaticResource SecondaryColor}" />
+		<Setter Property="LabelColor" Value="{StaticResource SecondaryColor}" />
 	</Style>
 
 	<Style x:Key="EntryPanel" TargetType="ui:EntryPanel">
-		<Setter Property="BorderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Surface}" />
-		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
-		<Setter Property="IconColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
+		<Setter Property="BorderColor" Value="{StaticResource SurfaceColor}" />
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+		<Setter Property="IconColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 
-	<Style x:Key="TextEntry" TargetType="Entry">
-		<Setter Property="BackgroundColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=Surface}" />
-		<Setter Property="TextColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnSurface}" />
-		<Setter Property="PlaceholderColor" Value="{drx:BindColor Palette={StaticResource ColorScheme}, Name=OnBackground}" />
-	</Style>
-	
 </ResourceDictionary>
