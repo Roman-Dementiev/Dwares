@@ -51,10 +51,10 @@ namespace Dwares.Druid.Painting
 
 		public IPainting GetPainting(string name, SKSize? size, SKColor? color)
 		{
-			string resourceId;
+			string resourceName;
 
-			if (bitmaps.TryGetValue(name, out resourceId)) {
-				var bitmap = Bitmaps.LoadBitmap(Assembly, resourceId);
+			if (bitmaps.TryGetValue(name, out resourceName)) {
+				var bitmap = Bitmaps.LoadBitmap(Assembly, resourceName);
 
 				if (color != null && color != SKColors.Black) {
 					bitmap = bitmap.Recolor(SKColors.Black, (SKColor)color);

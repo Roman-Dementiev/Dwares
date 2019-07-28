@@ -8,12 +8,25 @@ using Xamarin.Forms;
 
 namespace Drive.ViewModels
 {
-	public enum RootTab
+	public enum RootContentType
 	{
 		Schedule,
 		Route,
 		Contacts
 	}
+
+	interface IRootContentViewModel
+	{
+		Type ContentViewType();
+		Type ControlsViewType(bool landscape);
+	}
+
+	public class ActiveContentMessage
+	{
+		public RootContentType? ActiveContent { get; set; }
+	}
+
+
 
 	public class RootViewModel : ViewModel
 	{
@@ -52,16 +65,14 @@ namespace Drive.ViewModels
 			get => isLandscape;
 			private set {
 				if (SetProperty(ref isLandscape, value)) {
-					PropertiesChanged(nameof(TabButtonsOrientation), nameof(ControlBarRow), nameof(ControlBarColumn));
+					PropertiesChanged(nameof(ControlBarRow), nameof(ControlBarColumn),
+						nameof(NavigationBarRow), nameof(NavigationBarColumn),
+						nameof(NavigationBarOrientation), nameof(NavButtonsOrientation));
 					if (ContentViewModel != null) {
 						Controls = Forge.CreateView(ContentViewModel.ControlsViewType(IsLandscape), ContentViewModel);
 					}
 				}
 			}
-		}
-
-		public StackOrientation TabButtonsOrientation {
-			get => IsLandscape ? StackOrientation.Horizontal : StackOrientation.Vertical;
 		}
 
 		public int ControlBarRow {
@@ -72,26 +83,45 @@ namespace Drive.ViewModels
 			get => IsLandscape ? 0 : 1;
 		}
 
-
-		RootTab? activeTab;
-		public RootTab? ActiveTab {
-			get => activeTab;
-			set => SetPropertyEx(ref activeTab, value, nameof(ActiveTab),
-				nameof(ScheduleTabIsActive), nameof(RouteTabIsActive), nameof(ContactsTabIsActive)
-				);
+		public int NavigationBarRow {
+			get => IsLandscape ? 1 : 2;
 		}
 
-		public bool ScheduleTabIsActive {
-			get => ActiveTab == RootTab.Schedule;
-		}
-		public bool RouteTabIsActive {
-			get => ActiveTab == RootTab.Route;
-		}
-		public bool ContactsTabIsActive {
-			get => ActiveTab == RootTab.Contacts;
+		public int NavigationBarColumn {
+			get => IsLandscape ? 2 : 1;
 		}
 
-		ITabContentViewModel ContentViewModel { get; set; }
+		public StackOrientation NavigationBarOrientation {
+			get => IsLandscape ? StackOrientation.Vertical : StackOrientation.Horizontal;
+		}
+
+		public StackOrientation NavButtonsOrientation {
+			get => IsLandscape ? StackOrientation.Horizontal : StackOrientation.Vertical;
+		}
+
+
+		RootContentType? activeContent;
+		public RootContentType? ActiveContent {
+			get => activeContent;
+			set {
+				if (SetProperty(ref activeContent, value)) {
+					var message = new ActiveContentMessage() { ActiveContent = activeContent };
+					MessageBroker.Send(message);
+				}
+			}
+		}
+
+		//public bool ScheduleTabIsActive {
+		//	get => ActiveTab == RootTab.Schedule;
+		//}
+		//public bool RouteTabIsActive {
+		//	get => ActiveTab == RootTab.Route;
+		//}
+		//public bool ContactsTabIsActive {
+		//	get => ActiveTab == RootTab.Contacts;
+		//}
+
+		IRootContentViewModel ContentViewModel { get; set; }
 
 		View content;
 		public View Content {
@@ -106,33 +136,32 @@ namespace Drive.ViewModels
 		}
 
 
-		void GoToTab(RootTab tab, ITabContentViewModel contentViewModel)
+		void GoTo(RootContentType contentType, IRootContentViewModel contentViewModel)
 		{
-			if (tab == ActiveTab)
+			if (contentType == ActiveContent)
 				return;
 
-			ActiveTab = tab;
+			ActiveContent = contentType;
 			ContentViewModel = contentViewModel;
 
 			Content = Forge.CreateView(ContentViewModel.ContentViewType(), ContentViewModel);
 			Controls = Forge.CreateView(ContentViewModel.ControlsViewType(IsLandscape), ContentViewModel);
 
 			var mainPage = Application.Current.MainPage;
-			if (mainPage != null && content is ContentViewEx contentEx) {
+			if (mainPage != null && Content is ContentViewEx contentEx) {
 				mainPage.SetToolbarItems(contentEx.ToolbarItems);
 				//mainPage.SetPageTitle(contentEx.Title);
 			}
-
 		}
 
 		public void OnGoToSchedule() 
-			=> GoToTab(RootTab.Schedule, new ScheduleViewModel());
+			=> GoTo(RootContentType.Schedule, new ScheduleViewModel());
 
 		public void OnGoToRoute() 
-			=> GoToTab(RootTab.Route, new RouteViewModel());
+			=> GoTo(RootContentType.Route, new RouteViewModel());
 
 		public void OnGoToContacts() 
-			=> GoToTab(RootTab.Contacts, new ContactsViewModel());
+			=> GoTo(RootContentType.Contacts, new ContactsViewModel());
 	
 	
 	}

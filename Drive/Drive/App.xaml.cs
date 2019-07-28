@@ -22,11 +22,12 @@ namespace Drive
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			new MaterualDarkColorScheme();
+			new MaterialDarkColorScheme();
+			new MaterialLightColorScheme();
 
 			new UITheme(new Themes.BaseTheme());
-			//UITheme.Current = new UITheme(new Themes.Default());
 			UITheme.Current = new Themes.DarkTheme();
+			//UITheme.Current = new Themes.LightTheme();
 		}
 
 		protected override async void OnStart()

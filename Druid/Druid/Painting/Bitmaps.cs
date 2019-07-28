@@ -11,8 +11,14 @@ namespace Dwares.Druid.Painting
 	{
 		public static SKBitmap LoadBitmap(Assembly assembly, string resourceName)
 		{
-			using (var stream = assembly.GetManifestResourceStream(resourceName)) {
-				return SKBitmap.Decode(stream);
+			try {
+				using (var stream = assembly.GetManifestResourceStream(resourceName)) {
+					return SKBitmap.Decode(stream);
+				}
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+				return null;
 			}
 		}
 

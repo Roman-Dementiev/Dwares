@@ -1,14 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-					x:Class="Drive.Themes.DarkThemeResources">
+					mc:Ignorable="d"
+					x:Class="Drive.Themes.LightThemeResources"
+					>
 
-	<x:String x:Key="ThemeName">Dark</x:String>
+	<x:String x:Key="ThemeName">Light</x:String>
 	<x:String x:Key="BasedOn">@Base</x:String>
 
-	<drx:ColorScheme x:Key="ColorScheme" Name ="Material.Dark" />
+	<drx:ColorScheme x:Key="ColorScheme" Name ="Material.Light" />
 	<drx:BindColor x:Key="PrimaryColor" Palette="{StaticResource ColorScheme}" Name="Primary" />
 	<drx:BindColor x:Key="OnPrimaryColor" Palette="{StaticResource ColorScheme}" Name="OnPrimary" />
 	<drx:BindColor x:Key="SecondaryColor" Palette="{StaticResource ColorScheme}" Name="Secondary" />
@@ -54,11 +58,11 @@
 	</Style>
 
 
-	<Style x:Key="NavButton-default" TargetType="ui:ArtButton">
+	<Style x:Key="NavButton-default" TargetType="ui:ArtButtonEx">
 		<Setter Property="LabelColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="ArtColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
-	<Style x:Key="NavButton-active" TargetType="ui:ArtButton">
+	<Style x:Key="NavButton-active" TargetType="ui:ArtButtonEx">
 		<Setter Property="LabelColor" Value="{StaticResource SecondaryColor}" />
 		<Setter Property="ArtColor" Value="{StaticResource SecondaryColor}" />
 	</Style>
@@ -80,5 +84,4 @@
 		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="IconColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
-
 </ResourceDictionary>

@@ -10,11 +10,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\client.png" />
+    <None Remove="Resources\contacts.png" />
+    <None Remove="Resources\ic_account_circle_black_48dp.png" />
+    <None Remove="Resources\ic_date_range_black_48dp.png" />
+    <None Remove="Resources\ic_phone_black_48dp.png" />
+    <None Remove="Resources\ic_place_black_48dp.png" />
+    <None Remove="Resources\ic_schedule_black_48dp.png" />
     <None Remove="Resources\ic_search_black_48dp.png" />
+    <None Remove="Resources\ic_supervisor_account_black_48dp.png" />
+    <None Remove="Resources\phone.png" />
+    <None Remove="Resources\place.png" />
+    <None Remove="Resources\route.png" />
+    <None Remove="Resources\schedule.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\ic_place_black_48dp.png" />
     <EmbeddedResource Include="Resources\ic_search_black_48dp.png" />
+    <EmbeddedResource Include="Resources\ic_supervisor_account_black_48dp.png" />
+    <EmbeddedResource Include="Resources\phone.png" />
+    <EmbeddedResource Include="Resources\place.png" />
+    <EmbeddedResource Include="Resources\route.png" />
+    <EmbeddedResource Include="Resources\schedule.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +43,15 @@
     <ProjectReference Include="..\..\Drudge\Drudge.csproj" />
     <ProjectReference Include="..\..\Druid\Druid\Druid.csproj" />
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\client.png" />
+    <EmbeddedResource Include="Resources\contacts.png" />
+    <EmbeddedResource Include="Resources\ic_account_circle_black_48dp.png" />
+    <EmbeddedResource Include="Resources\ic_date_range_black_48dp.png" />
+    <EmbeddedResource Include="Resources\ic_phone_black_48dp.png" />
+    <EmbeddedResource Include="Resources\ic_schedule_black_48dp.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +71,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Themes\@Base.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Light.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ContactsSideControls.xaml">

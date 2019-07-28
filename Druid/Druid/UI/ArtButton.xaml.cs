@@ -11,7 +11,7 @@ using Dwares.Dwarf;
 namespace Dwares.Druid.UI
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ArtButton : ContentView, ICommandHolder //, ISelectable
+	public partial class ArtButton : ContentView, ICommandHolder
 	{
 		WritMixin wmix;
 		//public event EventHandler Tapped;
@@ -197,9 +197,9 @@ namespace Dwares.Druid.UI
 			get { return (double)GetValue(IconHeightProperty); }
 		}
 
-		public static readonly BindableProperty ArtProperty =
+		public static readonly BindableProperty IconArtProperty =
 			BindableProperty.Create(
-				nameof(Art),
+				nameof(IconArt),
 				typeof(string),
 				typeof(ArtButton),
 				defaultValue: string.Empty,
@@ -209,9 +209,9 @@ namespace Dwares.Druid.UI
 					}
 				});
 
-		public string Art {
-			set { SetValue(ArtProperty, value); }
-			get { return (string)GetValue(ArtProperty); }
+		public string IconArt {
+			set { SetValue(IconArtProperty, value); }
+			get { return (string)GetValue(IconArtProperty); }
 		}
 
 		public static readonly BindableProperty ArtColorProperty =
@@ -223,10 +223,10 @@ namespace Dwares.Druid.UI
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ArtButton button) {
 						if (newValue == null) {
-							button.SelectImageSource(button.Art, null);
+							button.SelectImageSource(button.IconArt, null);
 						}
 						else if (newValue is Color color) {
-							button.SelectImageSource(button.Art, color);
+							button.SelectImageSource(button.IconArt, color);
 						}
 					}
 				});
@@ -249,24 +249,37 @@ namespace Dwares.Druid.UI
 				//}
 				);
 
-		[TypeConverter(typeof(ImageSourceConverter))]
-		public ImageSource ImageSource {
-			get => image.Source;
-			set => image.Source = value;
-		}
-
-		protected virtual void SelectImageSource(string name, Color? color)
-		{
-			ImageSource = ArtBroker.Instance.GetImageSource(name, null, color?.ToSKColor());
-
-			//if (ImageSource == null) {
-			//	ImageSource = ImageProvider.GetImageSource(name);
-			//}
-		}
-
 		public ICommand Command {
 			set { SetValue(CommandProperty, value); }
 			get { return (ICommand)GetValue(CommandProperty); }
+		}
+
+		public static readonly BindableProperty FlavorProperty =
+			BindableProperty.Create(
+				nameof(Flavor),
+				typeof(string),
+				typeof(ArtButton),
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButton button) {
+						button.ApplyFlavor(button.Flavor);
+					}
+				});
+
+		public string Flavor {
+			set { SetValue(FlavorProperty, value); }
+			get { return (string)GetValue(FlavorProperty); }
+		}
+
+
+		//[TypeConverter(typeof(ImageSourceConverter))]
+		//public ImageSource ImageSource {
+		//	get => image.Source;
+		//	set => image.Source = value;
+		//}
+
+		protected virtual void SelectImageSource(string name, Color? color)
+		{
+			image.Source = ArtBroker.Instance.GetImageSource(name, null, color?.ToSKColor());
 		}
 
 		public WritCommand WritCommand {

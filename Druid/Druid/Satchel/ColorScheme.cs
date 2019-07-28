@@ -17,6 +17,7 @@ namespace Dwares.Druid.Satchel
 		public ColorScheme(string name, string design = null)
 		{
 			//Debug.EnableTracing(@class);
+
 			Name = name;
 			Design = design;
 
@@ -26,8 +27,6 @@ namespace Dwares.Druid.Satchel
 		public ColorScheme(IDictionary<string, object> resources, string name = null, string design = null) :
 			this(name, design)
 		{
-			//Debug.EnableTracing(@class);
-
 			if (resources != null) {
 				Load(resources);
 			}	
@@ -37,9 +36,11 @@ namespace Dwares.Druid.Satchel
 		public string Name {
 			get => name;
 			set {
-				var oldName = name;
-				name = value;
-				Satchel.ColorPalette.OnNameChanged(this, oldName, value);
+				if (value != name) {
+					var oldName = name;
+					name = value;
+					Satchel.ColorPalette.OnNameChanged(this, oldName, value);
+				}
 			}
 		}
 		public string Design { get; set; }
@@ -54,7 +55,6 @@ namespace Dwares.Druid.Satchel
 
 		public void Load(IDictionary<string, object> resources)
 		{
-			//Colors.Load(dict, this, LoadProperty);
 			ResourcesLoader.Load(resources, this, metadata, LoadValue);
 			//BindingPalette = null;
 		}

@@ -7,7 +7,7 @@ using Drive.Views;
 
 namespace Drive.ViewModels
 {
-	public class RouteViewModel : CollectionViewModel<RouteCardViewModel>, ITabContentViewModel
+	public class RouteViewModel : CollectionViewModel<RouteCardViewModel>, IRootContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteViewModel));
 

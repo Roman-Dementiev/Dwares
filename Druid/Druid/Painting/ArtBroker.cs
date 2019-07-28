@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Dwares.Dwarf;
 //using Dwares.Druid.Satchel;
@@ -12,6 +13,8 @@ namespace Dwares.Druid.Painting
 	public class ArtBroker : IArtProvider //, IImageProvider
 	{
 		//static ClassRef @class = new ClassRef(typeof(ArtBroker));
+
+		static Dictionary<string, IArtProvider> providers = new Dictionary<string, IArtProvider>();
 
 		public ArtBroker()
 		{
@@ -38,6 +41,9 @@ namespace Dwares.Druid.Painting
 
 		public IPainting GetPainting(string name, SKSize? size = null, SKColor? color = null)
 		{
+			if (string.IsNullOrEmpty(name))
+				return null;
+
 			var provider = GetProvider(ref name);
 			return provider.GetPainting(name, size, color);
 		}

@@ -3,37 +3,44 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Dwares.Druid.Satchel;
 using Drive.Models;
 using Drive.Views;
 
 
 namespace Drive.ViewModels
 {
-	//public enum ContactsSelector
-	//{
-	//	Phones,
-	//	Places,
-	//	Clients
-	//}
+	public enum ContactsTab
+	{
+		Phones,
+		Places,
+		Clients
+	}
 
-	public class ContactsViewModel : CollectionViewModel<ContactCardViewModel>, ITabContentViewModel
+	public class ActiveContactsMessage
+	{
+		public ContactsTab ActiveContactsTab { get; set; }
+	}
+
+
+	public class ContactsViewModel : CollectionViewModel<ContactCardViewModel>, IRootContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ContactsViewModel1cs));
-		static readonly Type initialContactType = typeof(Person);
+		static readonly ContactsTab initialContactTab = ContactsTab.Phones;
 
-		public ContactsViewModel() : this(initialContactType) { }
+		public ContactsViewModel() : this(ContactsTab.Phones, typeof(Person)) { }
 
-		public ContactsViewModel(Type contactType) :
+		public ContactsViewModel(ContactsTab tab, Type contactType) :
 			base(ApplicationScope, ContactCardViewModel.CreateCollection(contactType))
 		{
 			//Debug.EnableTracing(@class);
 
 			Title = "Contacts";
-			ContactsType = contactsType;
+			ContactsTab = tab;
 
-			PhonesCommand = new Command(() => SelectView(typeof(Person)));
-			PlacesCommand = new Command(() => SelectView(typeof(Place)));
-			ClientsCommand = new Command(() => SelectView(typeof(Client)));
+			PhonesCommand = new Command(() => SelectTab(ContactsTab.Phones, typeof(Person)));
+			PlacesCommand = new Command(() => SelectTab(ContactsTab.Places, typeof(Place)));
+			ClientsCommand = new Command(() => SelectTab(ContactsTab.Clients, typeof(Client)));
 		}
 
 		public ContactItemsCollection ContactItems {
@@ -44,35 +51,39 @@ namespace Drive.ViewModels
 		public ICommand PlacesCommand { get; set; }
 		public ICommand ClientsCommand { get; set; }
 
-		Type contactsType = initialContactType;
-		public Type ContactsType {
-			get => contactsType;
-			set => SetPropertyEx(ref contactsType, value, nameof(ContactsType),
-				nameof(PhonesViewIsActive), nameof(PlacesViewIsActive), nameof(ClientsViewIsActive));
-		}
-
-		public bool PhonesViewIsActive {
-			//get => ContactsType == typeof(Person);
-			get {
-				var value = ContactsType == typeof(Person);
-				Debug.Print($"PhonesViewIsActive={value}");
-				return value;
+		ContactsTab contactsTab;
+		public ContactsTab ContactsTab {
+			get => contactsTab;
+			set {
+				if (SetProperty(ref contactsTab, value)) {
+					var message = new ActiveContactsMessage() { ActiveContactsTab = contactsTab };
+					MessageBroker.Send(message);
+				}
 			}
-
-		}
-		public bool PlacesViewIsActive {
-			get => ContactsType == typeof(Place);
-		}
-		public bool ClientsViewIsActive {
-			get => ContactsType == typeof(Client);
 		}
 
-		void SelectView(Type contactsType)
+		//public bool PhonesViewIsActive {
+		//	//get => ContactsType == typeof(Person);
+		//	get {
+		//		var value = ContactsType == typeof(Person);
+		//		Debug.Print($"PhonesViewIsActive={value}");
+		//		return value;
+		//	}
+
+		//}
+		//public bool PlacesViewIsActive {
+		//	get => ContactsType == typeof(Place);
+		//}
+		//public bool ClientsViewIsActive {
+		//	get => ContactsType == typeof(Client);
+		//}
+
+		void SelectTab(ContactsTab tab, Type contactsType)
 		{
 			//Debug.Print($"ContactsViewModel.SelectView(): selector={selector}");
 
-			if (contactsType != ContactsType) {
-				ContactsType = contactsType;
+			if (tab != ContactsTab) {
+				ContactsTab = tab;
 				ContactItems?.Recollect(contactsType);
 			}
 		}

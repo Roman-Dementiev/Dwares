@@ -9,7 +9,7 @@ using Drive.Views;
 
 namespace Drive.ViewModels
 {
-	public class ScheduleViewModel : CollectionViewModel<ScheduleCardViewModel>, ITabContentViewModel
+	public class ScheduleViewModel : CollectionViewModel<ScheduleCardViewModel>, IRootContentViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ScheduleViewModel));
 

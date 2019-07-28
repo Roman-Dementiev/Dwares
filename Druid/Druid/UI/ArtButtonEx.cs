@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
+using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Satchel;
 using Dwares.Dwarf;
 using Xamarin.Forms;
 
 namespace Dwares.Druid.UI
 {
-	public class ArtButtonEx : ArtButton
+	public class ArtButtonEx : ArtButton, ISelectable
 	{
 		//static ClassRef @class = new ClassRef(typeof(ArtButtonEx));
 
@@ -19,49 +20,32 @@ namespace Dwares.Druid.UI
 
 		private void UITheme_CurrentThemeChanged(object sender, EventArgs e)
 		{
-			defaultStyle = UITheme.Current.GetStyle(DefaultFlavor);
-			pushedStyle = UITheme.Current.GetStyle(PushedFlavor);
-			disabledStyle = UITheme.Current.GetStyle(DisabledFlavor);
-			ApplyStyle();
+			Update();
 		}
 
-		public event EventHandler StateChanged;
+		//public static readonly BindableProperty IsSelectedProperty =
+		//	BindableProperty.Create(
+		//		nameof(IsSelected),
+		//		typeof(bool),
+		//		typeof(ArtButtonEx),
+		//		propertyChanged: (bindable, oldValue, newValue) => {
+		//			if (bindable is ArtButtonEx button && newValue is bool value) {
+		//				button.Update();
+		//			}
+		//		});
 
-		public Style defaultStyle;
-		public Style DefaultStyle {
-			get {
-				if (defaultStyle == null) {
-					defaultStyle = new Style(typeof(ArtButtonEx));
-					// TODO
-				}
-				return defaultStyle;
-			}
-			set {
-				if (value != defaultStyle) {
-					defaultStyle = value;
-					ApplyStyle();
-				}
-			}
-		}
+		//public bool IsSelected {
+		//	set { SetValue(IsSelectedProperty, value); }
+		//	get { return (bool)GetValue(IsSelectedProperty); }
+		//}
 
-		Style pushedStyle;
-		public Style PushedStyle {
-			get => pushedStyle ?? DefaultStyle;
+		bool isSelected;
+		public bool IsSelected {
+			get => isSelected;
 			set {
-				if (value != pushedStyle) {
-					pushedStyle = value;
-					ApplyStyle();
-				}
-			}
-		}
-
-		Style disabledStyle;
-		public Style DisabledStyle {
-			get => disabledStyle ?? DefaultStyle;
-			set {
-				if (value != disabledStyle) {
-					disabledStyle = value;
-					ApplyStyle();
+				if (value != isSelected) {
+					isSelected = value;
+					Update();
 				}
 			}
 		}
@@ -72,8 +56,8 @@ namespace Dwares.Druid.UI
 				typeof(string),
 				typeof(ArtButtonEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is string value) {
-						button.DefaultStyle = UITheme.Current.GetStyle(value);
+					if (bindable is ArtButtonEx button) {
+						button.Update();
 					}
 				});
 
@@ -82,20 +66,20 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(DefaultFlavorProperty); }
 		}
 
-		public static readonly BindableProperty PushedFlavorProperty =
+		public static readonly BindableProperty SelectedFlavorProperty =
 			BindableProperty.Create(
-				nameof(PushedFlavor),
+				nameof(SelectedFlavor),
 				typeof(string),
 				typeof(ArtButtonEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is string value) {
-						button.PushedStyle = UITheme.Current.GetStyle(value);
+					if (bindable is ArtButtonEx button) {
+						button.Update();
 					}
 				});
 
-		public string PushedFlavor {
-			set { SetValue(PushedFlavorProperty, value); }
-			get { return (string)GetValue(PushedFlavorProperty); }
+		public string SelectedFlavor {
+			set { SetValue(SelectedFlavorProperty, value); }
+			get { return (string)GetValue(SelectedFlavorProperty); }
 		}
 
 		public static readonly BindableProperty DisabledFlavorProperty =
@@ -104,8 +88,8 @@ namespace Dwares.Druid.UI
 				typeof(string),
 				typeof(ArtButtonEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is string value) {
-						button.DisabledStyle = UITheme.Current.GetStyle(value);
+					if (bindable is ArtButtonEx button) {
+						button.Update();
 					}
 				});
 
@@ -114,136 +98,87 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(DisabledFlavorProperty); }
 		}
 
-		public static readonly BindableProperty IsPushedProperty =
-			BindableProperty.Create(
-				nameof(IsPushed),
-				typeof(bool),
-				typeof(ArtButtonEx),
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is bool value) {
-						button.OnStateChanged();
-					}
-				});
+		//public static readonly BindableProperty DefaultArtProperty =
+		//	BindableProperty.Create(
+		//		nameof(DefaultArt),
+		//		typeof(string),
+		//		typeof(ArtButton),
+		//		defaultValue: string.Empty,
+		//		propertyChanged: (bindable, oldValue, newValue) => {
+		//			if (bindable is ArtButtonEx button && newValue is string value) {
+		//				button.Update();
+		//			}
+		//		});
 
-		public bool IsPushed {
-			set { SetValue(IsPushedProperty, value); }
-			get { return (bool)GetValue(IsPushedProperty); }
-		}
+		//public string DefaultArt {
+		//	set { SetValue(DefaultArtProperty, value); }
+		//	get { return (string)GetValue(DefaultArtProperty); }
+		//}
 
-		public static readonly BindableProperty IsDisabledProperty =
-			BindableProperty.Create(
-				nameof(IsDisabled),
-				typeof(bool),
-				typeof(ArtButtonEx),
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is bool value) {
-						button.OnStateChanged();
-					}
-				});
+		//public static readonly BindableProperty SelectedArtProperty =
+		//	BindableProperty.Create(
+		//		nameof(SelectedArt),
+		//		typeof(string),
+		//		typeof(ArtButton),
+		//		defaultValue: string.Empty,
+		//		propertyChanged: (bindable, oldValue, newValue) => {
+		//			if (bindable is ArtButtonEx button && newValue is string value) {
+		//				button.Update();
+		//			}
+		//		});
 
-		public static readonly BindableProperty DefaultArtProperty =
-			BindableProperty.Create(
-				nameof(DefaultArt),
-				typeof(string),
-				typeof(ArtButton),
-				defaultValue: string.Empty,
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is string value) {
-						button.ApplyArt();
-					}
-				});
+		//public string SelectedArt {
+		//	set { SetValue(SelectedArtProperty, value); }
+		//	get { return (string)GetValue(SelectedArtProperty); }
+		//}
 
-		public string DefaultArt {
-			set { SetValue(DefaultArtProperty, value); }
-			get { return (string)GetValue(DefaultArtProperty); }
-		}
+		//public static readonly BindableProperty DisabledArtProperty =
+		//	BindableProperty.Create(
+		//		nameof(DisabledArt),
+		//		typeof(string),
+		//		typeof(ArtButton),
+		//		defaultValue: string.Empty,
+		//		propertyChanged: (bindable, oldValue, newValue) => {
+		//			if (bindable is ArtButtonEx button && newValue is string value) {
+		//				button.Update();
+		//			}
+		//		});
 
-		public static readonly BindableProperty PushedArtProperty =
-			BindableProperty.Create(
-				nameof(PushedArt),
-				typeof(string),
-				typeof(ArtButton),
-				defaultValue: string.Empty,
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is string value) {
-						button.ApplyArt();
-					}
-				});
+		//public string DisabledArt {
+		//	set { SetValue(DisabledArtProperty, value); }
+		//	get { return (string)GetValue(DisabledArtProperty); }
+		//}
 
-		public string PushedArt {
-			set { SetValue(PushedArtProperty, value); }
-			get { return (string)GetValue(PushedArtProperty); }
-		}
-
-		public static readonly BindableProperty DisabledArtProperty =
-			BindableProperty.Create(
-				nameof(DisabledArt),
-				typeof(string),
-				typeof(ArtButton),
-				defaultValue: string.Empty,
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ArtButtonEx button && newValue is string value) {
-						button.ApplyArt();
-					}
-				});
-
-		public string DisabledArt {
-			set { SetValue(DisabledArtProperty, value); }
-			get { return (string)GetValue(DisabledArtProperty); }
-		}
-
-		public bool IsDisabled {
-			set { SetValue(IsDisabledProperty, value); }
-			get { return (bool)GetValue(IsDisabledProperty); }
-		}
-
-		public new bool IsEnabled {
-			get => !IsDisabled;
-			set {
-				if (value == IsDisabled) {
-					IsDisabled = !value;
-					base.IsEnabled = value;
-				}
-			}
-		}
-
-		protected virtual void ApplyStyle()
+		protected virtual void Update()
 		{
-			if (IsDisabled) {
-				Style = DisabledStyle;
-			} else if (IsPushed) {
-				Style = PushedStyle;
-			} else {
-				Style = DefaultStyle;
-			}
-		}
-
-		protected virtual void ApplyArt()
-		{
-			string art;
-			if (IsDisabled && !string.IsNullOrEmpty(DisabledArt)) {
-				art = DisabledArt;
-			} else if (IsPushed && !string.IsNullOrEmpty(PushedArt)) {
-				art = PushedArt;
-			} else {
-				art = DefaultArt;
+			string /*art = null,*/ flavor = null;
+			if (!IsEnabled) {
+				//if (!string.IsNullOrEmpty(DisabledArt))
+				//	art = DisabledArt;
+				if (!string.IsNullOrEmpty(DisabledFlavor))
+					flavor = DisabledFlavor;
+			} else if (IsSelected) {
+				//if (!string.IsNullOrEmpty(SelectedArt))
+				//	art = SelectedArt;
+				if (!string.IsNullOrEmpty(SelectedFlavor))
+					flavor = SelectedFlavor;
 			}
 
-			if (!string.IsNullOrEmpty(art)) {
-				Art = art;
-			}
+			//if (string.IsNullOrEmpty(art))
+			//	art = DefaultArt;
+			if (string.IsNullOrEmpty(flavor))
+				flavor = DefaultFlavor;
+
+			//if (!string.IsNullOrEmpty(art))
+			//	IconArt = art;
+			if (!string.IsNullOrEmpty(flavor))
+				Flavor = flavor;
 		}
 
 		protected override void SelectImageSource(string name, Color? color)
 		{
-			ImageSource = UITheme.Current.GetImage(name);
-		}
-
-		protected virtual void OnStateChanged()
-		{
-			ApplyStyle();
-			ApplyArt();
-			StateChanged?.Invoke(this, EventArgs.Empty);
+			base.SelectImageSource(name, color);
+			//ImageSource = UITheme.Current.GetImage(name);
 		}
 	}
 }

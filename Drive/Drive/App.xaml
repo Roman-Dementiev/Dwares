@@ -6,6 +6,17 @@
 			 x:Class="Drive.App">
 	
 	<Application.Resources>
+		<drx:Bitmap x:Key="Schedule">Drive.Resources.schedule.png</drx:Bitmap>
+		<drx:Bitmap x:Key="Route">Drive.Resources.route.png</drx:Bitmap>
+		<drx:Bitmap x:Key="Contacts">Drive.Resources.contacts.png</drx:Bitmap>
+
+		<drx:Bitmap x:Key="Phone">Drive.Resources.phone.png</drx:Bitmap>
+		<!--<drx:Bitmap x:Key="Phone">Drive.Resources.ic_phone_black_48dp.png</drx:Bitmap>-->
+		<drx:Bitmap x:Key="Place">Drive.Resources.place.png</drx:Bitmap>
+		<!--<drx:Bitmap x:Key="Place">Drive.Resources.ic_place_black_48dp.png</drx:Bitmap>-->
+		<drx:Bitmap x:Key="Client">Drive.Resources.client.png</drx:Bitmap>
+		<!--<drx:Bitmap x:Key="Client">Drive.Resources.ic_account_circle_black_48dp.png</drx:Bitmap>-->
+
 		<drx:Bitmap x:Key="search">Drive.Resources.ic_search_black_48dp.png</drx:Bitmap>
 
 	</Application.Resources>

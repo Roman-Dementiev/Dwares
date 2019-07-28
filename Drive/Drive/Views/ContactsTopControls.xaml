@@ -2,6 +2,7 @@
 <ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
 				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:views="clr-namespace:Drive.Views"
 				  x:Class="Drive.Views.ContactsTopControls"
 				  >
 	<Grid>
@@ -11,32 +12,23 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ui:ArtButtonEx Grid.Column="0"
-						DefaultFlavor="TabButton-default"
-						PushedFlavor="TabButton-active"
-						DefaultArt="Phone"
-						PushedArt="Phone_active"
-						LabelText="Phones"
-						Command="{Binding PhonesCommand}"
-						IsPushed="{Binding PhonesViewIsActive, Mode=OneWay}"
-						/>
-		<ui:ArtButtonEx Grid.Column="1"
-						DefaultFlavor="TabButton-default"
-						PushedFlavor="TabButton-active"
-						DefaultArt="Place"
-						PushedArt="Place_active"
-						LabelText="Places"
-						Command="{Binding PlacesCommand}"
-						IsPushed="{Binding PlacesViewIsActive, Mode=OneWay}"
-						/>
-		<ui:ArtButtonEx Grid.Column="2"
-						DefaultFlavor="TabButton-default"
-						PushedFlavor="TabButton-active"
-						DefaultArt="Client"
-						PushedArt="Client_active"
-						LabelText="Clients"
-						Command="{Binding ClientsCommand}"
-						IsPushed="{Binding ClientsViewIsActive, Mode=OneWay}"
-						/>
+		<views:ContactsButton Grid.Column="0"
+							  ContactsTab="Phones"
+							  IconArt="Phone"
+							  LabelText="Phones"
+							  Command="{Binding PhonesCommand}"
+							  />
+		<views:ContactsButton Grid.Column="1"
+							  ContactsTab="Places"
+							  IconArt="Place"
+							  LabelText="Places"
+							  Command="{Binding PlacesCommand}"
+							  />
+		<views:ContactsButton Grid.Column="2"
+							  ContactsTab="Clients"
+							  IconArt="Client"
+							  LabelText="Clients"
+							  Command="{Binding ClientsCommand}"
+							  />
 	</Grid>
 </ui:ContentViewEx>

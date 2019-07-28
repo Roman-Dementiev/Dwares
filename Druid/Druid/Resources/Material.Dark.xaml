@@ -12,13 +12,14 @@
 	<x:String x:Key="Background">Black</x:String>
 	<x:String x:Key="OnBackground">Red:50</x:String>
 
-	<x:String x:Key="Surface">Gray:800</x:String>
+	<x:String x:Key="Surface">Gray:700</x:String>
+	<x:String x:Key="ActiveSurface">Gray:900</x:String>
 	<x:String x:Key="OnSurface">Gray:50</x:String>
 
 	<x:String x:Key="Primary">Orange</x:String>
 	<x:String x:Key="OnPrimary">White</x:String>
 	
-	<x:String x:Key="Secondary">Indigo</x:String>
+	<x:String x:Key="Secondary">Indigo:400</x:String>
 	<x:String x:Key="OnSecondary">White</x:String>
 	
 	<x:String x:Key="Inverted">White</x:String>

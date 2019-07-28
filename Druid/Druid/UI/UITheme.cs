@@ -37,7 +37,7 @@ namespace Dwares.Druid.UI
 			//Debug.EnableTracing(@class);
 			Guard.ArgumentNotNull(resources, nameof(resources));
 
-			Resources = resources;
+			//Resources = resources;
 			BaseTheme = baseTheme;
 
 			if (resources != null) {
@@ -83,8 +83,9 @@ namespace Dwares.Druid.UI
 			return false;
 		}
 
-		ResourceDictionary Resources { get; }
-		ColorScheme ColorScheme { get; set; }
+		//ResourceDictionary Resources { get; }
+
+		public ColorScheme ColorScheme { get; set; }
 
 		//public string ThemeName {
 		//	get => GetString(nameof(ThemeName), false);

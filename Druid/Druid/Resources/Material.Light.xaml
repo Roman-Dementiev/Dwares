@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
+					mc:Ignorable="d"
+					x:Class="Dwares.Druid.Resources.MaterialLightResources"
+					>
+	<x:String x:Key="Name">Material.Light</x:String>
+	<x:String x:Key="Design">Material</x:String>
+
+	<drx:MaterialColorPalette x:Key="ColorPalette" />
+
+	<x:String x:Key="Background">White</x:String>
+	<x:String x:Key="OnBackground">Black</x:String>
+
+	<x:String x:Key="Surface">Gray:100</x:String>
+	<x:String x:Key="ActiveSurface">Gray:300</x:String>
+	<x:String x:Key="OnSurface">Gray:900</x:String>
+
+	<x:String x:Key="Primary">Orange</x:String>
+	<x:String x:Key="OnPrimary">White</x:String>
+
+	<x:String x:Key="Secondary">Indigo</x:String>
+	<x:String x:Key="OnSecondary">White</x:String>
+
+	<x:String x:Key="Inverted">Black</x:String>
+	<x:String x:Key="OnInverted">White</x:String>
+
+	<x:String x:Key="Accent">Orange:A700</x:String>
+
+</ResourceDictionary>

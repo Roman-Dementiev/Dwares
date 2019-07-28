@@ -2,6 +2,7 @@
 <ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
 				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:views="clr-namespace:Drive.Views"
 				  Title="{Binding Title}"
 				  x:Class="Drive.Views.RootView">
 
@@ -14,9 +15,10 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
-		<ui:ContentViewEx Grid.Row="{Binding ControlBarRow}" Grid.Column="{Binding ControlBarColumn}"
+		<ui:ContentViewEx Grid.Row="{Binding ControlBarRow, Mode=OneWay}" Grid.Column="{Binding ControlBarColumn, Mode=OneWay}"
 						  Content="{Binding Controls, Mode=OneWay}">
 		</ui:ContentViewEx>
 		
@@ -27,7 +29,7 @@
 			   Content="{Binding Content, Mode=OneWay}"
 			   />
 
-		<Grid Grid.Row="2" Grid.Column="1">
+		<!--<Grid Grid.Row="2" Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
@@ -68,7 +70,34 @@
 						Orientation="{Binding TabButtonsOrientation, Mode=OneWay}"
 						IsPushed="{Binding ContactsTabIsActive, Mode=OneWay}"
 						/>
-		</Grid>
+		</Grid>-->
+
+		<StackLayout Grid.Row="{Binding NavigationBarRow, Mode=OneWay}" 
+					 Grid.Column="{Binding NavigationBarColumn, Mode=OneWay}"
+					 Orientation="{Binding NavigationBarOrientation, Mode=OneWay}"
+					 >
+			<views:NavButton ContentType="Schedule"
+							 IconArt="Schedule"
+							 LabelText="Schedule"
+							 Writ="GoToSchedule"
+							 Orientation="{Binding NavButtonsOrientation, Mode=OneWay}"
+							 />
+
+			<views:NavButton ContentType="Route"
+							 IconArt="Route"
+							 LabelText="Route"
+							 Writ="GoToRoute"
+							 Orientation="{Binding NavButtonsOrientation, Mode=OneWay}"
+							 />
+
+			<views:NavButton ContentType="Contacts"
+							 IconArt="Contacts"
+							 LabelText="Contacts"
+							 Writ="GoToContacts"
+							 Orientation="{Binding NavButtonsOrientation, Mode=OneWay}"
+							 />
+
+		</StackLayout>
 	</ui:GridEx>
 
 </ui:ContentViewEx>
