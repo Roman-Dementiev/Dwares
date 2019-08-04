@@ -5,15 +5,28 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.Xaml
 {
-	class ColorPalette : MarkupExtension<IColorPalette>
+	public class ColorPalette : MarkupExtension<Satchel.ColorPalette>
 	{
 		public ColorPalette() { }
 
 		public string Name { set; get; }
 
-		public override IColorPalette ProvideValue(IServiceProvider serviceProvider)
+		public override Satchel.ColorPalette ProvideValue(IServiceProvider serviceProvider)
 		{
 			var palette = Satchel.ColorPalette.ByName(Name);
+			return palette;
+		}
+	}
+
+	public class MaterialColorPalette : ColorPalette
+	{
+		public override Satchel.ColorPalette ProvideValue(IServiceProvider serviceProvider)
+		{
+			var name = Name;
+			if (string.IsNullOrEmpty(name))
+				name = Resources.MaterialPalette.DefaultName;
+
+			var palette = Satchel.ColorPalette.GetInstance<Resources.MaterialPalette>(name);
 			return palette;
 		}
 	}

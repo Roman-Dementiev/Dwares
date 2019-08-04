@@ -28,14 +28,20 @@ namespace Dwares.Druid.UI
 		static Dictionary<string, UITheme> namedThemes = new Dictionary<string, UITheme>();
 		static Style emptyStyle = new Style(typeof(VisualElement));
 
-		Dictionary<string, Style> styles = new Dictionary<string, Style>();
+		//Dictionary<string, Style> styles = new Dictionary<string, Style>();
 		Dictionary<string, ImageSource> images = new Dictionary<string, ImageSource>();
 		Metadata metadata = new Metadata();
+
+		protected UITheme() : this(null) { }
+
+		public ResourceDictionary Styles { get; } = new ResourceDictionary();
+		//public ResourceDictionary Colors { get; } = new ResourceDictionary();
+
 
 		public UITheme(ResourceDictionary resources, UITheme baseTheme = null)
 		{
 			//Debug.EnableTracing(@class);
-			Guard.ArgumentNotNull(resources, nameof(resources));
+			//Guard.ArgumentNotNull(resources, nameof(resources));
 
 			//Resources = resources;
 			BaseTheme = baseTheme;
@@ -47,17 +53,6 @@ namespace Dwares.Druid.UI
 			if (!string.IsNullOrEmpty(ThemeName)) {
 				namedThemes[ThemeName] = this;
 			}
-
-			//var name = ThemeName;
-			//if (!string.IsNullOrEmpty(name)) {
-			//	namedThemes[name] = this;
-			//}
-
-			//var colorScheme = GetValue<ColorScheme>("ColorScheme", false);
-			////if (colorScheme == null) {
-			////	colorScheme = new ColorSchema(resources);
-			////}
-			//ColorScheme = colorScheme;
 		}
 
 		public void Load(IDictionary<string, object> resources)
@@ -83,16 +78,21 @@ namespace Dwares.Druid.UI
 			return false;
 		}
 
-		//ResourceDictionary Resources { get; }
-
-		public ColorScheme ColorScheme { get; set; }
-
-		//public string ThemeName {
-		//	get => GetString(nameof(ThemeName), false);
+		//ColorScheme colorScheme;
+		//public ColorScheme ColorScheme { 
+		//	get {
+		//		if (colorScheme == null) {
+		//			colorScheme = new ColorScheme(Colors);
+		//		}
+		//		return colorScheme;
+		//	}
+		//	set {
+		//		if (value != colorScheme) {
+		//			colorScheme = value;
+		//		}
+		//	}
 		//}
-		//public string BasedOn { 
-		//	get => GetString(nameof(BasedOn), false);
-		//}
+
 		public string ThemeName { get; set; }
 		public string BasedOn { get; set; }
 
@@ -150,21 +150,26 @@ namespace Dwares.Druid.UI
 			return image;
 		}
 
-		public Style GetStyle(string key, bool useBase = true, bool notNull = false)
+		Style TryGetStyle(string flavor)
 		{
-			Style style = null;
+			object value;
+			if (!string.IsNullOrEmpty(flavor) && Styles.TryGetValue(flavor, out value)) {
+				return value as Style;
+			} else {
+				return null;
+			}
+		}
 
-			if (!string.IsNullOrEmpty(key))
-			{
-				styles.TryGetValue(key, out style);
+		public Style GetStyle(string flavor, bool useBase = true, bool notNull = false)
+		{
+			var style = TryGetStyle(flavor);
 
-				if (useBase) {
-					var baseStyle = BaseTheme?.GetStyle(key);
-					if (style != null) {
-						style.MergeIn(baseStyle);
-					} else {
-						style = baseStyle;
-					}
+			if (useBase) {
+				var baseStyle = BaseTheme?.GetStyle(flavor);
+				if (style != null) {
+					style.MergeIn(baseStyle);
+				} else {
+					style = baseStyle;
 				}
 			}
 
@@ -189,7 +194,7 @@ namespace Dwares.Druid.UI
 			Guard.ArgumentNotNull(style, nameof(style));
 
 			//Resources.Add(key, style);
-			styles.Add(key, style);
+			Styles.Add(key, style);
 		}
 
 		public void AddStyle(string key, Type type, params object[] propertiesAndValues)

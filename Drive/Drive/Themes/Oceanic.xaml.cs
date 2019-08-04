@@ -6,17 +6,17 @@ using Dwares.Druid.UI;
 
 namespace Drive.Themes
 {
-	public class BaseTheme : UITheme
+	public class OceanicTheme : UITheme
 	{
-		public BaseTheme() : base(new BaseThemeResources()) { }
+		public OceanicTheme() : base(new OceanicThemeResources()) { }
 	}
 
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BaseThemeResources : ResourceDictionary
+	public partial class OceanicThemeResources : ResourceDictionary
 	{
-		public BaseThemeResources()
+		public OceanicThemeResources()
 		{
 			InitializeComponent();
-		}	
+		}
 	}
 }

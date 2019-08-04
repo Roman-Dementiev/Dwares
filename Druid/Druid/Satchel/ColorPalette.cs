@@ -1,96 +1,102 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Dwares.Druid.Resources;
 using Dwares.Dwarf;
 using Xamarin.Forms;
 
 namespace Dwares.Druid.Satchel
 {
-	public interface IColorPalette
+	[ContentProperty("Resources")]
+	public class ColorPalette /* : ColorCollection, IColorPalette */
 	{
-		string Name { get; }
-		string Design { get; }
+		//static ClassRef @class = new ClassRef(typeof(ColorPalette));
+		static Dictionary<string, ColorPalette> namedPalettes = new Dictionary<string, ColorPalette>();
 
-		bool TryGetColor(string name, string variant, out Color color);
-	}
-
-	public static partial class Extensions
-	{
-		public static bool TryGetColor(this IColorPalette palette, ColorName colorName, string variant, out Color color)
+		public ColorPalette()
 		{
-			if (colorName.IsValid) {
-				if (string.IsNullOrEmpty(variant))
-					variant = colorName.Variant;
+			Resources = new ResourceDictionary();
+		}
 
-				return palette.TryGetColor(colorName.Name, variant, out color);
+		public ColorPalette(ResourceDictionary resources)
+		{
+			Guard.ArgumentNotNull(resources, nameof(resources));
+
+			Resources = resources;
+		}
+
+		public ResourceDictionary Resources { get; set; }
+
+		public string Design { get; set; }
+		public string DefaultVariant { get; set; }
+
+		string name;
+		public string Name {
+			get => name;
+			set => ChangeName(name, value);
+		}
+
+		void ChangeName(string oldName, string newName)
+		{
+			if (newName == oldName)
+				return;
+
+			if (!string.IsNullOrEmpty(oldName))
+				namedPalettes.Remove(oldName);
+
+			name = newName;
+
+			if (!string.IsNullOrEmpty(newName))
+				namedPalettes[newName] = this;
+		}
+
+		protected virtual bool TryGetColor(object value, out Color color)
+		{
+			if (value is Color colorValue) {
+				color = colorValue;
+				return true;
 			} else {
 				color = default;
-				return false;	
-			}
-		}
-	
-		public static Color GetColor(this IColorPalette palette, string name, string variant = null, Color defaultValue = default)
-		{
-			Color color;
-			if (palette.TryGetColor(name, variant, out color)) {
-				return color;
-			} else {
-				return defaultValue;
+				return false;
 			}
 		}
 
-		public static Color GetColor(this IColorPalette palette, ColorName colorName, string variant = null, Color defaultValue = default)
+		public bool TryGetColor(ColorName colorName, out Color color)
+		{
+			if (colorName.IsValid) {
+				object value;
+				if (Resources.TryGetValue(colorName, out value)) {
+					return TryGetColor(value, out color);
+				}
+			}
+
+			color = default;
+			return false;
+		}
+
+		public Color GetColor(string name, Color defaultValue = default)
+		{
+			return GetColor(new ColorName(name), defaultValue);
+		}
+
+		public Color GetColor(ColorName colorName, Color defaultValue = default)
 		{
 			if (colorName.IsValid) {
 				Color color;
-				if (string.IsNullOrEmpty(variant))
-					variant = colorName.Variant;
-					
-				if (palette.TryGetColor(colorName.Name, variant, out color))
+				if (TryGetColor(colorName, out color))
 					return color;
+
+				if (colorName.Variant == null && DefaultVariant != null) {
+					colorName = new ColorName { Name = colorName.Name, Variant = DefaultVariant };
+					if (TryGetColor(colorName, out color))
+						return color;
+				}
 			}
 
 			return defaultValue;
 		}
 
-	}
-
-
-	public class ColorPalette : ColorCollection, IColorPalette
-	{
-		//static ClassRef @class = new ClassRef(typeof(ColorPalette));
-		static Dictionary<string, IColorPalette> namedPalettes = new Dictionary<string, IColorPalette>();
-
-		public ColorPalette(string name, string design)
-		{
-			//Debug.EnableTracing(@class);
-			Name = name;
-			Design = design;
-			
-			AddNamedPalette(this);
-		}
-
-		public ColorPalette(IDictionary<string, object> resources, string name = null, string design = null) :
-			this(name, design)
-		{
-			if (resources != null) {
-				//Load(dict, this);
-				ResourcesLoader.Load(resources, this, LoadColor);
-			}
-		}
-
-		string name;
-		public string Name {
-			get => name;
-			set {
-				var oldName = name;
-				name = value;
-				OnNameChanged(this, oldName, value);
-			}
-		}
-		public string Design { get; set; }
-
-		public static IColorPalette ByName(string name)
+		public static ColorPalette ByName(string name)
 		{
 			if (!string.IsNullOrEmpty(name) && namedPalettes.TryGetValue(name, out var palette)) {
 				return palette;
@@ -99,26 +105,7 @@ namespace Dwares.Druid.Satchel
 			}
 		}
 
-		public static void AddNamedPalette(IColorPalette palette)
-		{
-			if (!string.IsNullOrEmpty(palette.Name)) {
-				namedPalettes[palette.Name] = palette;
-			}
-		}
-
-		public static void OnNameChanged(IColorPalette palette, string oldName, string newName)
-		{
-			if (newName == oldName)
-				return;
-
-			if (!string.IsNullOrEmpty(oldName))
-				namedPalettes.Remove(oldName);
-
-			if (!string.IsNullOrEmpty(newName))
-				namedPalettes[newName] = palette;
-		}
-
-		public static T GetInstance<T>(string name) where T : IColorPalette, new()
+		public static T GetInstance<T>(string name) where T : ColorPalette, new()
 		{
 			var palette = ByName(name);
 			if (palette is T result) {

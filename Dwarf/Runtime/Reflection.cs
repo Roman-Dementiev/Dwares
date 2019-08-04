@@ -130,7 +130,7 @@ namespace Dwares.Dwarf.Runtime
 		public static bool TrySetPropertyValue(object target, string propertyName, object value)
 			=> TrySetPropertyValue<object>(target, propertyName, value);
 
-		public static bool TrySetPropertyValue<Target>(Target target, string propertyName, object value)
+		public static bool TrySetPropertyValue<Target>(Target target, string propertyName, object value, bool tryConstructor = false)
 		{
 			Guard.ArgumentNotNull(target, nameof(target));
 			Guard.ArgumentNotEmpty(propertyName, nameof(propertyName));
@@ -139,14 +139,8 @@ namespace Dwares.Dwarf.Runtime
 			if (propertyInfo?.SetMethod == null)
 				return false;
 
-			if (value != null && !propertyInfo.PropertyType.IsAssignableFrom(value.GetType())) {
-				try {
-					value = Convert.ChangeType(value, propertyInfo.PropertyType);
-				}
-				catch (Exception exc) {
-					Debug.Print($"Reflection.TrySetPropertyValue(): can not convert {value} to {propertyInfo.PropertyType} => {exc}");
-					return false;
-				}
+			if (value != null && value.GetType() != propertyInfo.PropertyType) {
+				TryMakeAssignabeValue(propertyInfo.PropertyType, ref value, tryConstructor);
 			}
 
 			try {
@@ -158,6 +152,34 @@ namespace Dwares.Dwarf.Runtime
 			}
 
 			return true;
+		}
+
+		public static void TryMakeAssignabeValue(Type targetType, ref object value, bool tryConstructor = false)
+		{
+			if (value == null || value.GetType() == targetType)
+				return;
+
+			if (tryConstructor) {
+				var ctor = GetConstructor(targetType, value.GetType());
+				if (ctor != null) {
+					try {
+						value = ctor.Invoke(new object[] { value });
+					}
+					catch (Exception exc) {
+						Debug.Print($"Reflection.TryMakeAssignabeValue(): constructor {targetType}({value}) failed => {exc}");
+					}
+					return;
+				}
+			}
+
+			if (!targetType.IsAssignableFrom(value.GetType())) {
+				try {
+					value = Convert.ChangeType(value, targetType);
+				}
+				catch (Exception exc) {
+					Debug.Print($"Reflection.TryMakeAssignabeValue(): can not convert {value} to {targetType} => {exc}");
+				}
+			}
 		}
 
 		//public static TValue GetPropertyValue<TValue>(object target, string propertyName, bool required)
@@ -347,6 +369,23 @@ namespace Dwares.Dwarf.Runtime
 			foreach (var ctor in constructors)
 			{
 				if (ctor.GetParameters().Length == 0) {
+					if (publicOnly && !ctor.IsPublic)
+						break;
+					return ctor;
+				}
+			}
+
+			return null;
+		}
+
+		public static ConstructorInfo GetConstructor(Type type, Type argType, bool publicOnly = true)
+		{
+			var typeInfo = type.GetTypeInfo();
+
+			var constructors = typeInfo.DeclaredConstructors;
+			foreach (var ctor in constructors) {
+				var parameters = ctor.GetParameters();
+				if (parameters.Length == 1 && parameters[0].ParameterType == argType) {
 					if (publicOnly && !ctor.IsPublic)
 						break;
 					return ctor;

@@ -16,18 +16,17 @@ namespace Dwares.Druid.Xaml
 			//Debug.EnableTracing(@class);
 		}
 
-		public IColorPalette Palette { get; set; }
+		public Satchel.ColorPalette Source { get; set; }
 		public string Name { get; set; }
-		//public string Variant { set; get; }
 
 		public override Color ProvideValue(IServiceProvider serviceProvider)
 		{
-			var palette = Palette; //?? Satchel.ColorScheme.BindingPalette;
+			var palette = Source; //?? Satchel.ColorScheme.BindingPalette;
 			if (palette == null)
 				return default;
 
-			var colorName = new ColorName(Name);
-			return palette.GetColor(colorName, null/*Variant*/);
+			var color = palette.GetColor(Name);
+			return color;
 		}
 	}
 }

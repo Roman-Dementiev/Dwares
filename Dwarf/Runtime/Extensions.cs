@@ -90,5 +90,36 @@ namespace Dwares.Dwarf.Runtime
 
 		public static string GetName(this object target, bool required = false)
 			=> Reflection.GetStringProperty(target, "Name", required);
+
+		public static Type GetTypeByName(this Assembly assembly, string name)
+		{
+			if (assembly == null || string.IsNullOrEmpty(name))
+				return null;
+
+			var types = assembly.GetExportedTypes();
+			foreach (var type in types) {
+				if (type.FullName == name)
+					return type;
+			}
+
+			return null;
+		}
+
+		//public static Type GetTypeByName(string name, Assembly defaultAssembly = null)
+		//{
+		//	if (string.IsNullOrEmpty(name))
+		//		return null;
+
+		//	Assembly assembly;
+		//	var sep = name.IndexOf(':');
+		//	if (sep > 0) {
+		//		assembly = CompilationUnit.GetPackage(name.Substring(0, sep))?.Assembly;
+		//		name = name.Substring(sep + 1);
+		//	} else {
+		//		assembly = defaultAssembly;
+		//	}
+
+		//	return GetTypeByName(assembly, name);
+		//}
 	}
 }

@@ -17,17 +17,17 @@ namespace Drive
 	{
 		public App()
 		{
+			Dwares.Dwarf.Package.Init();
+			Dwares.Druid.Package.Init();
+
 			InitializeComponent();
 
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			new MaterialDarkColorScheme();
-			new MaterialLightColorScheme();
-
-			new UITheme(new Themes.BaseTheme());
-			UITheme.Current = new Themes.DarkTheme();
-			//UITheme.Current = new Themes.LightTheme();
+			//UITheme.Current = UITheme.ByName("Dark");
+			//UITheme.Current = UITheme.ByName("Light");
+			UITheme.Current = UITheme.ByName("Oceanic");
 		}
 
 		protected override async void OnStart()

@@ -19,5 +19,16 @@
 
 		<drx:Bitmap x:Key="search">Drive.Resources.ic_search_black_48dp.png</drx:Bitmap>
 
+		<!--<drx:List x:Key="Palettes">
+			<drx:Instance Class="Dwares.Druid:Resources.MaterialPalette"></drx:Instance>
+		</drx:List>-->
+
+		<drx:List x:Key="Themes">
+			<drx:UITheme Class="Drive.Themes.BaseTheme"></drx:UITheme>
+			<drx:UITheme Class="Drive.Themes.DarkTheme"></drx:UITheme>
+			<drx:UITheme Class="Drive.Themes.LightTheme"></drx:UITheme>
+			<drx:UITheme Class="Drive.Themes.OceanicTheme"></drx:UITheme>
+		</drx:List>
+		
 	</Application.Resources>
 </Application>

@@ -2,7 +2,7 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-					x:Class="Drive.Themes.BaseTheme"
+					x:Class="Drive.Themes.BaseThemeResources"
 					>
 
 	<x:String x:Key="ThemeName">@Base</x:String>

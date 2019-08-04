@@ -6,25 +6,24 @@
 					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 					mc:Ignorable="d"
-					x:Class="Drive.Themes.LightThemeResources"
+					x:Class="Drive.Themes.OceanicThemeResources"
 					>
-
-	<x:String x:Key="ThemeName">Light</x:String>
+	<x:String x:Key="ThemeName">Oceanic</x:String>
 	<x:String x:Key="BasedOn">@Base</x:String>
 
 	<drx:MaterialColorPalette x:Key="ColorPalette" />
-	<drx:BindColor x:Key="PrimaryColor" Source="{StaticResource ColorPalette}" Name="Orange" />
-	<drx:BindColor x:Key="OnPrimaryColor" Source="{StaticResource ColorPalette}" Name="White" />
-	<drx:BindColor x:Key="SecondaryColor" Source="{StaticResource ColorPalette}" Name="Indigo" />
-	<drx:BindColor x:Key="OnSecondaryColor" Source="{StaticResource ColorPalette}" Name="White" />
-	<drx:BindColor x:Key="BackgroundColor" Source="{StaticResource ColorPalette}" Name="White" />
-	<drx:BindColor x:Key="OnBackgroundColor" Source="{StaticResource ColorPalette}" Name="Black" />
-	<drx:BindColor x:Key="SurfaceColor" Source="{StaticResource ColorPalette}" Name="Gray:100" />
-	<drx:BindColor x:Key="ActiveSurface" Source="{StaticResource ColorPalette}" Name="Gray:300" />
-	<drx:BindColor x:Key="OnSurfaceColor" Source="{StaticResource ColorPalette}" Name="Gray:900" />
-	<drx:BindColor x:Key="AccentColor" Source="{StaticResource ColorPalette}" Name="Orange:A700" />
+	<drx:BindColor x:Key="PrimaryColor" Source="{StaticResource ColorPalette}" Name="Purple" />
+	<drx:BindColor x:Key="OnPrimaryColor" Source="{StaticResource ColorPalette}" Name="Blue Gray:100" />
+	<drx:BindColor x:Key="SecondaryColor" Source="{StaticResource ColorPalette}" Name="Teal:300" />
+	<drx:BindColor x:Key="OnSecondaryColor" Source="{StaticResource ColorPalette}" Name="Black" />
+	<drx:BindColor x:Key="BackgroundColor" Source="{StaticResource ColorPalette}" Name="Blue Gray:700" />
+	<drx:BindColor x:Key="OnBackgroundColor" Source="{StaticResource ColorPalette}" Name="Blue Gray:100" />
+	<drx:BindColor x:Key="SurfaceColor" Source="{StaticResource ColorPalette}" Name="Blue Gray:300" />
+	<!--<drx:BindColor x:Key="ActiveSurface" Source="{StaticResource ColorPalette}" Name="Blue Gray:600" />-->
+	<drx:BindColor x:Key="ActiveSurface" Source="{StaticResource ColorPalette}" Name="Cyan:700" />
+	<drx:BindColor x:Key="OnSurfaceColor" Source="{StaticResource ColorPalette}" Name="Black" />
+	<drx:BindColor x:Key="AccentColor" Source="{StaticResource ColorPalette}" Name="Deep Purple:A100" />
 
-	
 	<Style x:Key="NavigationPage" TargetType="NavigationPage">
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 		<Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
@@ -32,6 +31,7 @@
 	</Style>
 
 	<Style x:Key="RootGrid" TargetType="Grid">
+		<!--<Setter Property="BackgroundColor" Value="Black" />-->
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 	</Style>
 
@@ -59,11 +59,11 @@
 	</Style>
 
 
-	<Style x:Key="NavButton-default" TargetType="ui:ArtButtonEx">
+	<Style x:Key="NavButton-default" TargetType="ui:ArtButton">
 		<Setter Property="LabelColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="ArtColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
-	<Style x:Key="NavButton-active" TargetType="ui:ArtButtonEx">
+	<Style x:Key="NavButton-active" TargetType="ui:ArtButton">
 		<Setter Property="LabelColor" Value="{StaticResource SecondaryColor}" />
 		<Setter Property="ArtColor" Value="{StaticResource SecondaryColor}" />
 	</Style>
@@ -85,4 +85,5 @@
 		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="IconColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
+
 </ResourceDictionary>

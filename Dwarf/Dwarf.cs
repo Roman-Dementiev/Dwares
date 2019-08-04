@@ -10,6 +10,11 @@ namespace Dwares.Dwarf
 		public static readonly Package Instance = new Package();
 
 		Package() : base(typeof(Package)) { }
+
+		public static void Init()
+		{
+			Instance.Initialize();
+		}
 	}
 
 	public interface INull

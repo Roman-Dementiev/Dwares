@@ -8,17 +8,17 @@
 	<x:String x:Key="ThemeName">Dark</x:String>
 	<x:String x:Key="BasedOn">@Base</x:String>
 
-	<drx:ColorScheme x:Key="ColorScheme" Name ="Material.Dark" />
-	<drx:BindColor x:Key="PrimaryColor" Palette="{StaticResource ColorScheme}" Name="Primary" />
-	<drx:BindColor x:Key="OnPrimaryColor" Palette="{StaticResource ColorScheme}" Name="OnPrimary" />
-	<drx:BindColor x:Key="SecondaryColor" Palette="{StaticResource ColorScheme}" Name="Secondary" />
-	<drx:BindColor x:Key="OnSecondaryColor" Palette="{StaticResource ColorScheme}" Name="OnSecondary" />
-	<drx:BindColor x:Key="BackgroundColor" Palette="{StaticResource ColorScheme}" Name="Background" />
-	<drx:BindColor x:Key="OnBackgroundColor" Palette="{StaticResource ColorScheme}" Name="OnBackground" />
-	<drx:BindColor x:Key="SurfaceColor" Palette="{StaticResource ColorScheme}" Name="Surface" />
-	<drx:BindColor x:Key="ActiveSurface" Palette="{StaticResource ColorScheme}" Name="ActiveSurface" />
-	<drx:BindColor x:Key="OnSurfaceColor" Palette="{StaticResource ColorScheme}" Name="OnSurface" />
-	<drx:BindColor x:Key="AccentColor" Palette="{StaticResource ColorScheme}" Name="Accent" />
+	<drx:MaterialColorPalette x:Key="ColorPalette" />
+	<drx:BindColor x:Key="PrimaryColor" Source="{StaticResource ColorPalette}" Name="Orange" />
+	<drx:BindColor x:Key="OnPrimaryColor" Source="{StaticResource ColorPalette}" Name="White" />
+	<drx:BindColor x:Key="SecondaryColor" Source="{StaticResource ColorPalette}" Name="Indigo:400" />
+	<drx:BindColor x:Key="OnSecondaryColor" Source="{StaticResource ColorPalette}" Name="White" />
+	<drx:BindColor x:Key="BackgroundColor" Source="{StaticResource ColorPalette}" Name="Black" />
+	<drx:BindColor x:Key="OnBackgroundColor" Source="{StaticResource ColorPalette}" Name="Red:50" />
+	<drx:BindColor x:Key="SurfaceColor" Source="{StaticResource ColorPalette}" Name="Gray:700" />
+	<drx:BindColor x:Key="ActiveSurface" Source="{StaticResource ColorPalette}" Name="Gray:900" />
+	<drx:BindColor x:Key="OnSurfaceColor" Source="{StaticResource ColorPalette}" Name="Gray:50" />
+	<drx:BindColor x:Key="AccentColor" Source="{StaticResource ColorPalette}" Name="Orange:A700" />
 
 	<Style x:Key="NavigationPage" TargetType="NavigationPage">
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
@@ -27,6 +27,7 @@
 	</Style>
 
 	<Style x:Key="RootGrid" TargetType="Grid">
+		<!--<Setter Property="BackgroundColor" Value="Black" />-->
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 	</Style>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Dwares.Dwarf.Collections;
+using Dwares.Dwarf.Runtime;
 
 
 namespace Dwares.Dwarf.Runtime
@@ -32,18 +33,32 @@ namespace Dwares.Dwarf.Runtime
 
 		//protected CompilationUnit() { }
 
-		static Dictionary<Assembly, PackageUnit> packages = new Dictionary<Assembly, PackageUnit>();
-		static Dictionary<string, NamespaceUnit> namespaces = new Dictionary<string, NamespaceUnit>();
-		static Dictionary<Type, ClassUnit> classes = new Dictionary<Type, ClassUnit>();
+		protected static List<PackageUnit> packages = new List<PackageUnit>();
+		protected static Dictionary<string, NamespaceUnit> namespaces = new Dictionary<string, NamespaceUnit>();
+		protected static Dictionary<Type, ClassUnit> classes = new Dictionary<Type, ClassUnit>();
 
 		public static PackageUnit GetPackage(Assembly assembly, bool create = true)
 		{
-			var package = packages.GetValue(assembly);
-			if (package == null && create) {
-				package = new PackageUnit(assembly, null);
-				packages.Add(assembly, package);
+			foreach (var package in packages) {
+				if (package.Assembly == assembly)
+					return package;
 			}
-			return package;
+
+			if (create) {
+				var package = new PackageUnit(assembly, null);
+				return package;
+			}
+
+			return null;
+		}
+
+		public static PackageUnit GetPackage(string name)
+		{
+			foreach (var package in packages) {
+				if (package.Name == name)
+					return package;
+			}
+			return null;
 		}
 
 		public static NamespaceUnit GetNamespace(string fullName, bool create = true)
@@ -51,7 +66,6 @@ namespace Dwares.Dwarf.Runtime
 			var @namespace = namespaces.GetValue(fullName);
 			if (@namespace == null && create) {
 				@namespace = new NamespaceUnit(fullName, null);
-				namespaces.Add(fullName, @namespace);
 			}
 			return @namespace;
 		}
@@ -62,7 +76,6 @@ namespace Dwares.Dwarf.Runtime
 			if (@class == null && create) {
 				var @namespace = GetNamespace(type.Namespace);
 				@class = new ClassUnit(type);
-				classes.Add(type, @class);
 			}
 			return @class;
 		}
@@ -70,11 +83,12 @@ namespace Dwares.Dwarf.Runtime
 		public static List<Assembly> GetAssemblies()
 		{
 			var list = new List<Assembly>();
-			foreach (var package in packages.Values) {
+			foreach (var package in packages) {
 				list.Add(package.Assembly);
 			}
 			return list;
 		}
+
 	}
 
 	public class PackageUnit : CompilationUnit
@@ -82,7 +96,7 @@ namespace Dwares.Dwarf.Runtime
 		public Assembly Assembly { get; }
 
 		public PackageUnit(Type type, string name = null) :
-			this(type.GetTypeInfo().Assembly, name)
+			this(type.Assembly, name)
 		{
 		}
 
@@ -90,11 +104,48 @@ namespace Dwares.Dwarf.Runtime
 		{
 			Debug.AssertNotNull(assembly);
 			Assembly = assembly;
-			Name = name ?? assembly.FullName;
+			Namespace = GetType().Namespace;
+			Name = name ?? Namespace;
+			packages.Add(this);
 		}
 
 		public override string Name { get; }
-		public override string FullName => Assembly.FullName;
+		public override string FullName {
+			get => Assembly.FullName;
+		}
+
+		public string Namespace { get; }
+
+		protected bool initialized = false;
+		public virtual void Initialize()
+		{
+			initialized = true;
+		}
+
+		public static Type GetTypeByName(string name, Assembly defaultAssembly = null)
+		{
+			if (string.IsNullOrEmpty(name))
+				return null;
+
+			var sep = name.IndexOf(':');
+			if (sep > 0) {
+				var packageName = name.Substring(0, sep);
+				var package = GetPackage(packageName);
+				if (package == null) {
+					Debug.Print($"PackageUnit.GetTypeByName(): unknown package {packageName}");
+					return null;
+				}
+
+				name = name.Substring(sep + 1);
+				var type = package.Assembly.GetTypeByName(name);
+				if (type == null) {
+					type = package.Assembly.GetTypeByName(package.Namespace + '.' + name);
+				}
+				return type;
+			} else {
+				return defaultAssembly?.GetTypeByName(name);
+			}
+		}
 	}
 
 	public class NamespaceUnit : CompilationUnit
@@ -115,6 +166,8 @@ namespace Dwares.Dwarf.Runtime
 					Parent = GetPackage(assembly);
 				}
 			}
+			
+			namespaces.Add(fullName, this);
 		}
 
 		public override string Name { get; }
@@ -138,6 +191,7 @@ namespace Dwares.Dwarf.Runtime
 			} else {
 				Parent = Namespace;
 			}
+			classes.Add(type, this);
 		}
 
 		public override string Name => Type.Name;

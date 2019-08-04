@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Reflection;
 using Dwares.Dwarf.Runtime;
-
+using Xamarin.Forms;
 
 namespace Dwares.Druid
 {
@@ -11,6 +12,11 @@ namespace Dwares.Druid
 		public static readonly Package Instance = new Package();
 
 		Package() : base(typeof(Package)) { }
-	}
 
+		public static void Init()
+		{
+			Instance.Initialize();
+		}
+
+	}
 }

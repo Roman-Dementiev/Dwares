@@ -10,7 +10,7 @@ namespace Dwares.Druid.Xaml
 		public override string ToString() => Id;
 	}
 
-	public class BitmapId: ResourceId { }
+	public class BitmapId : ResourceId { }
 
 
 	[ContentProperty(nameof(ResourceId))]
