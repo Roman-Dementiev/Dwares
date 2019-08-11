@@ -279,7 +279,7 @@ namespace Dwares.Druid.UI
 
 		protected virtual void SelectImageSource(string name, Color? color)
 		{
-			image.Source = ArtBroker.Instance.GetImageSource(name, null, color?.ToSKColor());
+			image.Source = ArtBroker.Instance.GetImageSource(name, null, color);
 		}
 
 		public WritCommand WritCommand {

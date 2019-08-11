@@ -7,8 +7,8 @@
 				  x:Class="Drive.Views.AppoitmentForm">
 
 	<ui:ContentViewEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" ActionIcon="Accept" />
-		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" ActionIcon="Cancel" />
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" IconArt="Accept" />
+		<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" IconArt="Cancel" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 

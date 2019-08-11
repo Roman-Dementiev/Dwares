@@ -26,20 +26,14 @@ namespace Drive
 			this.AddDefaultViewLocators();
 
 			//UITheme.Current = UITheme.ByName("Dark");
-			//UITheme.Current = UITheme.ByName("Light");
-			UITheme.Current = UITheme.ByName("Oceanic");
+			UITheme.Current = UITheme.ByName("Light");
+			//UITheme.Current = UITheme.ByName("Oceanic");
 		}
 
 		protected override async void OnStart()
 		{
 			//AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
-
-			//var page = AppScope.CreatePage(typeof(ScheduleViewModel));
-			//this.InitMainPageWithNavigation(page);
-
-			//var homePage = Forge.CreatePage(typeof(HomeViewModel));
-			//this.InitMainPageWithNavigation(homePage);
 
 			var rootPage = AppScope.CreatePage(typeof(RootViewModel));
 			rootPage.StartSendingPageSizeMessage();

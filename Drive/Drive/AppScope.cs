@@ -61,10 +61,20 @@ namespace Drive
 				page.BorderIsVisible = false;
 			}
 
-			page.BackgroundColor = Color.Black;
-			contentView.BackgroundColor = Color.Green;
-
 			return page;
+		}
+
+		public async void OnSettings()
+		{
+			Debug.Print("AppScope.OnSettings()");
+
+			var page = CreatePage(typeof(SettingsViewModel));
+			await Navigator.PushPage(page);
+		}
+
+		public void OnAbout()
+		{
+			Debug.Print("AppScope.OnAbout()");
 		}
 	}
 }

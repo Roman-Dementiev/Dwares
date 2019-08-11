@@ -24,6 +24,7 @@
 	<drx:BindColor x:Key="OnSurfaceColor" Source="{StaticResource ColorPalette}" Name="Gray:900" />
 	<drx:BindColor x:Key="AccentColor" Source="{StaticResource ColorPalette}" Name="Orange:A700" />
 
+	<x:String x:Key="ic_Accept">ic_Accept.white</x:String>
 	
 	<Style x:Key="NavigationPage" TargetType="NavigationPage">
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
@@ -35,30 +36,6 @@
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 	</Style>
 
-	<Style x:Key="Card-frame-default" TargetType="Frame">
-		<Setter Property="BorderColor" Value="Transparent" />
-		<Setter Property="BackgroundColor" Value="{StaticResource SurfaceColor}" />
-	</Style>
-	<Style x:Key="Card-frame-selected" TargetType="Frame">
-		<Setter Property="BorderColor" Value="{StaticResource AccentColor}" />
-		<!--<Setter Property="BackgroundColor" Value="{StaticResource SecondaryColor}" />-->
-		<Setter Property="BackgroundColor" Value="{StaticResource ActiveSurface}" />
-	</Style>
-
-	<Style x:Key="Card-text-default" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
-	</Style>
-	<Style x:Key="Card-text-primary" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
-	</Style>
-	<Style x:Key="Card-text-small" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
-	</Style>
-	<Style x:Key="Card-text-bold" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
-	</Style>
-
-
 	<Style x:Key="NavButton-default" TargetType="ui:ArtButtonEx">
 		<Setter Property="LabelColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="ArtColor" Value="{StaticResource OnBackgroundColor}" />
@@ -67,7 +44,6 @@
 		<Setter Property="LabelColor" Value="{StaticResource SecondaryColor}" />
 		<Setter Property="ArtColor" Value="{StaticResource SecondaryColor}" />
 	</Style>
-
 
 	<Style x:Key="TabButton-default" TargetType="ui:ArtButton">
 		<Setter Property="BorderColor" Value="{StaticResource OnBackgroundColor}" />
@@ -85,4 +61,37 @@
 		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="IconColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
+
+	<!--
+	<Style x:Key="Card-frame-default" TargetType="Frame">
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="BackgroundColor" Value="{StaticResource SurfaceColor}" />
+	</Style>
+	-->
+
+	<Style x:Key="Card-frame-default" TargetType="Frame">
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="BackgroundColor" Value="Transparent" />
+	</Style>
+	<Style x:Key="Card-frame-selected" TargetType="Frame">
+		<Setter Property="BorderColor" Value="{StaticResource AccentColor}" />
+		<Setter Property="BackgroundColor" Value="{StaticResource ActiveSurface}" />
+	</Style>
+
+	<Style x:Key="Card-text-default" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+	<Style x:Key="Card-text-primary" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+	</Style>
+	<Style x:Key="Card-text-small" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+	<Style x:Key="Card-text-bold" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+
+
+
 </ResourceDictionary>
+	

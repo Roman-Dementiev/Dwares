@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
+				  Title="{Binding Title}"
+				  x:Class="Drive.Views.SettingsForm">
+
+	<ui:ContentViewEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" IconArt="ic_Accept" />
+		<!--<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" IconArt="ic_Cancel" />-->
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentViewEx.ToolbarItems>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+	</Grid>
+</ui:ContentViewEx>

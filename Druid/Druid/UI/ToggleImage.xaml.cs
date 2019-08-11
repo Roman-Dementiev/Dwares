@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.Satchel;
-
+using Dwares.Druid.Painting;
 
 namespace Dwares.Druid.UI
 {
@@ -113,15 +113,15 @@ namespace Dwares.Druid.UI
 			return UncheckedImage;
 		}
 
-		public string CheckedActionImage {
+		public string CheckedArt {
 			set {
-				CheckedImage = new ActionImageSource(value);
+				CheckedImage = ArtBroker.Instance.GetImageSource(value);
 			}
 		}
 
-		public string UncheckedActionImage {
+		public string UncheckedArt {
 			set {
-				UncheckedImage = new ActionImageSource(value);
+				UncheckedImage = ArtBroker.Instance.GetImageSource(value);
 			}
 		}
 

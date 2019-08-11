@@ -13,7 +13,7 @@ namespace Dwares.Druid.Painting
 	{
 		//static ClassRef @class = new ClassRef(typeof(ArtResources));
 
-		Dictionary<string, string> bitmaps = new Dictionary<string, string>();
+		//Dictionary<string, string> bitmaps = new Dictionary<string, string>();
 
 		public ArtResources() : this(Application.Current) { }
 
@@ -22,53 +22,53 @@ namespace Dwares.Druid.Painting
 			Guard.ArgumentNotNull(application, nameof(application));
 
 			Assembly = application.GetType().Assembly;
-			LoadFrom(application.Resources);
+			Resources = application.Resources;
 		}
 
 		public ArtResources(Assembly assembly, ResourceDictionary resources = null)
 		{
 			//Debug.EnableTracing(@class);
 			Assembly = assembly;
-
-			if (resources != null) {
-				LoadFrom(resources);
-			}
+			Resources = resources;
 		}
 
 		public Assembly Assembly { get;}
+		public ResourceDictionary Resources { get; }
 
-		public void LoadFrom(ResourceDictionary resources)
+		public IPicture GetPicture(string name, Size? desiredSize, Color? desiredColor)
 		{
-			Guard.ArgumentNotNull(resources, nameof(resources));
+			object value;
+			if (!Resources.TryGetValue(name, out value) || value == null)
+				return null;
 
-			foreach (var pair in resources) {
-				if (pair.Value is BitmapId bitmap) {
-					var id = string.IsNullOrEmpty(bitmap.Id) ? pair.Key : bitmap.Id;
-					bitmaps.Add(pair.Key, id);
+			if (value is IBitmap bitmap) {
+				if (desiredColor != null && bitmap.DefaultColor != null && desiredColor != bitmap.DefaultColor) {
+					bitmap = bitmap.Recolor((Color)bitmap.DefaultColor, (Color)desiredColor, true);
 				}
+
+				//if (desiredSize != null) {
+				//	bitmap = bitmap.Resize((Size)desiredSize);
+				//}
+
+				return bitmap;
 			}
+
+
+			return null;
 		}
 
-		public IPainting GetPainting(string name, SKSize? size, SKColor? color)
+		public ImageSource GetImageSource(string name, Size? desiredSize, Color? desiredColor)
 		{
-			string resourceName;
+			object value;
+			if (Resources.TryGetValue(name, out value) && value != null)
+			{
+				if (value is ImageSource imageSource)
+					return imageSource;
 
-			if (bitmaps.TryGetValue(name, out resourceName)) {
-				var bitmap = Bitmaps.LoadBitmap(Assembly, resourceName);
-
-				if (color != null && color != SKColors.Black) {
-					bitmap = bitmap.Recolor(SKColors.Black, (SKColor)color);
-				}
-
-				if (size != null) {
-					int width = (int)Math.Round(((SKSize)size).Width);
-					int height = (int)Math.Round(((SKSize)size).Height);
-					if (width != bitmap.Width || height != bitmap.Height) {
-						bitmap = bitmap.Resize(width, height);
-					}
-				}
-
-				return new BitmapPainting(bitmap);
+				// TODO
+				//if (value is IBitmap bitmap) {
+				//	return bitmap.ToImageSource();
+				//}
 			}
 
 			return null;

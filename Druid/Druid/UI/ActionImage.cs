@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Dwares.Druid.Satchel;
 using System.Windows.Input;
+using Dwares.Druid.Painting;
 
 namespace Dwares.Druid.UI
 {
@@ -36,7 +37,7 @@ namespace Dwares.Druid.UI
 				typeof(ActionImage),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ActionImage image && newValue is string name) {
-						image.Source = ActionImageSource.ForName(name);
+						image.Source = ArtBroker.Instance.GetImageSource(name);
 					}
 				});
 

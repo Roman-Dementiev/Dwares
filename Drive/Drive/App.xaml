@@ -6,18 +6,19 @@
 			 x:Class="Drive.App">
 	
 	<Application.Resources>
-		<drx:Bitmap x:Key="Schedule">Drive.Resources.schedule.png</drx:Bitmap>
-		<drx:Bitmap x:Key="Route">Drive.Resources.route.png</drx:Bitmap>
-		<drx:Bitmap x:Key="Contacts">Drive.Resources.contacts.png</drx:Bitmap>
+		<drx:BitmapAsset x:Key="Schedule" BitmapSize="72" Color="Black">Drive.Resources.schedule_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Route" BitmapSize="72" Color="Black">Drive.Resources.route_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Contacts" BitmapSize="72" Color="Black">Drive.Resources.contacts_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Phone" BitmapSize="72,72" Color="Black">Drive.Resources.phone_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Place" BitmapSize="72,72" Color="Black">Drive.Resources.place_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Client" BitmapSize="72,72" Color="Black">Drive.Resources.client_48dp.png</drx:BitmapAsset>
 
-		<drx:Bitmap x:Key="Phone">Drive.Resources.phone.png</drx:Bitmap>
-		<!--<drx:Bitmap x:Key="Phone">Drive.Resources.ic_phone_black_48dp.png</drx:Bitmap>-->
-		<drx:Bitmap x:Key="Place">Drive.Resources.place.png</drx:Bitmap>
-		<!--<drx:Bitmap x:Key="Place">Drive.Resources.ic_place_black_48dp.png</drx:Bitmap>-->
-		<drx:Bitmap x:Key="Client">Drive.Resources.client.png</drx:Bitmap>
-		<!--<drx:Bitmap x:Key="Client">Drive.Resources.ic_account_circle_black_48dp.png</drx:Bitmap>-->
+		<drx:BitmapAsset x:Key="search" BitmapSize="72,72" Color="Black">Drive.Resources.ic_search_black_48dp.png</drx:BitmapAsset>
 
-		<drx:Bitmap x:Key="search">Drive.Resources.ic_search_black_48dp.png</drx:Bitmap>
+		<FileImageSource x:Key="Appoitment" File="{OnPlatform Android=ic_appoitment.png, UWP=Images/Appoitment.png}"/>
+		<FileImageSource x:Key="ic_Accept.black" File="{OnPlatform Android=ic_done_black_48dp.png, UWP=Images/Accept.png}"/>
+		<FileImageSource x:Key="ic_Accept.white" File="{OnPlatform Android=ic_done_white_48dp.png, UWP=Images/Accept.png}"/>
+
 
 		<!--<drx:List x:Key="Palettes">
 			<drx:Instance Class="Dwares.Druid:Resources.MaterialPalette"></drx:Instance>

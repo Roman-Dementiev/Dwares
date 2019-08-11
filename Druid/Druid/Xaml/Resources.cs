@@ -2,37 +2,51 @@
 using Dwares.Dwarf;
 using Xamarin.Forms;
 
+
 namespace Dwares.Druid.Xaml
 {
-	public class ResourceId
-	{
-		public string Id { get; set; }
-		public override string ToString() => Id;
-	}
-
-	public class BitmapId : ResourceId { }
-
-
 	[ContentProperty(nameof(ResourceId))]
-	public class Resource<T> : MarkupExtension<T> where T : ResourceId, new()
+	public abstract class Resource<T> : MarkupExtension<T>
 	{
-		//static ClassRef @class = new ClassRef(typeof(Resources));
-
-		public Resource()
-		{
-			//Debug.EnableTracing(@class);
-		}
+		public Resource() { }
 
 		public string ResourceId { get; set; }
+	}
 
-		public override T ProvideValue(IServiceProvider serviceProvider)
+	public class Bitmap : Resource<Painting.Bitmap>
+	{
+		public Bitmap() { }
+
+		public override Painting.Bitmap ProvideValue(IServiceProvider serviceProvider)
 		{
-			return new T { Id = ResourceId };
+			var resourceId = Application.Current.GetResourceId(ResourceId);
+			return new Painting.Bitmap(resourceId);
 		}
 	}
 
-	public class Bitmap : Resource<BitmapId>
+	public class BitmapAsset : Resource<Painting.BitmapAsset>
 	{
-		public Bitmap() { }
+		public BitmapAsset() { }
+
+		[TypeConverter(typeof(SizeTypeConverter))]
+		public Size BitmapSize {
+			get => new Size(BitmapWidth, BitmapHeight);
+			set {
+				BitmapWidth = (int)value.Width;
+				BitmapHeight = (int)value.Height;
+			}
+		}
+
+		public int BitmapWidth { get; set; }
+		public int BitmapHeight { get; set; }
+
+		public double Resolution { get; }
+		public Color Color { get; set; }
+
+		public override Painting.BitmapAsset ProvideValue(IServiceProvider serviceProvider)
+		{
+			var resourceId = Application.Current.GetResourceId(ResourceId);
+			return new Painting.BitmapAsset(resourceId, BitmapWidth, BitmapHeight, Resolution, Color);
+		}
 	}
 }

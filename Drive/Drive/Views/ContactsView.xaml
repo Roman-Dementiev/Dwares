@@ -11,6 +11,7 @@
 	</ui:ContentViewEx.Resources>-->
 	
 	<ui:ContentViewEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
@@ -68,7 +69,7 @@
 					<ViewCell>
 						<ContentView Margin="0">
 							<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
-								<Grid>
+								<Grid Margin="-16">
 									<Grid.RowDefinitions>
 										<RowDefinition Height="Auto" />
 										<RowDefinition Height="Auto" />

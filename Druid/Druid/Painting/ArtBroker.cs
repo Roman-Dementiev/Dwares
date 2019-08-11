@@ -39,20 +39,28 @@ namespace Dwares.Druid.Painting
 			return DefaultProvider;
 		}
 
-		public IPainting GetPainting(string name, SKSize? size = null, SKColor? color = null)
+		public IPicture GetPicture(string name, Size? desiredSize = null, Color? desiredColor = null)
 		{
 			if (string.IsNullOrEmpty(name))
 				return null;
 
 			var provider = GetProvider(ref name);
-			return provider.GetPainting(name, size, color);
+			return provider.GetPicture(name, desiredSize, desiredColor);
 		}
 
-		public ImageSource GetImageSource(string name, SKSize? size = null, SKColor? color = null)
+		public ImageSource GetImageSource(string name, Size? desiredSize = null, Color? desiredColor = null)
 		{
-			var painting = GetPainting(name, size, color);
-			if (painting != null) {
-				var bitmap = painting.ToBitmap();
+			if (string.IsNullOrEmpty(name))
+				return null;
+
+			var provider = GetProvider(ref name);
+			var imageSource = provider.GetImageSource(name, desiredSize, desiredColor);
+			if (imageSource != null)
+				return imageSource;
+
+			var picture = provider.GetPicture(name, desiredSize, desiredColor);
+			if (picture != null) {
+				var bitmap = picture.ToBitmap();
 				if (bitmap != null) {
 					return new SKBitmapImageSource { Bitmap = bitmap };
 				}
@@ -60,8 +68,5 @@ namespace Dwares.Druid.Painting
 
 			return null;
 		}
-
-		//public ImageSource GetImageSource(string group, string name)
-		//	=> GetImageSource(name);
 	}
 }

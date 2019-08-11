@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Dwares.Druid.Satchel;
-
+using Dwares.Druid.Painting;
 
 namespace Dwares.Druid.UI
 {
@@ -10,8 +10,9 @@ namespace Dwares.Druid.UI
 		public ToolbarItemEx()
 		{
 			writ = new WritMixin(this);
+			UITheme.CurrentThemeChanged += (s, e) => UpdateIcon(IconArt);
 		}
-		
+
 		public ToolbarItemEx(string name, string icon, Action activated, ToolbarItemOrder order = ToolbarItemOrder.Default, int priority = 0) :
 			base(name, icon, activated, order, priority)
 		{
@@ -30,57 +31,27 @@ namespace Dwares.Druid.UI
 			set => writ.Writ = value;
 		}
 
-		SymbolEx symbol;
-		public SymbolEx Symbol {
-			get => symbol;
+		string iconArt;
+		public string IconArt { 
+			get => iconArt;
 			set {
-				if (value != symbol) {
-					symbol = value;
-					Icon = value.ImageSource() as FileImageSource;
+				if (value != iconArt) {
+					iconArt = value;
+					UpdateIcon(value);
 				}
 			}
 		}
 
-		string actionIcon;
-		public string ActionIcon { 
-			get => actionIcon;
-			set {
-				if (value != actionIcon) {
-					actionIcon = value;
-					Icon = ActionImageSource.ToobarIconSource(actionIcon);
-				}
+		protected virtual void UpdateIcon(string art)
+		{
+			if (!string.IsNullOrEmpty(art)) {
+				var imageSource = UITheme.Current?.GetImageSource(art);
+				if (imageSource == null)
+					imageSource = ArtBroker.Instance.GetImageSource(iconArt);
+				Icon = imageSource as FileImageSource;
+			} else {
+				Icon = null;
 			}
 		}
-
-		//string uid;
-		//public string Uid {
-		//	get => uid;
-		//	set {
-		//		if (value != uid) {
-		//			bool changeText, changeWrit, changeSymbol;
-		//			if (String.IsNullOrEmpty(uid)) {
-		//				changeText = String.IsNullOrEmpty(Text);
-		//				changeWrit = String.IsNullOrEmpty(Writ);
-		//				changeSymbol = Symbol == SymbolEx.None;
-		//			} else {
-		//				changeText = Text == uid;
-		//				changeWrit = Writ == uid;
-		//				changeSymbol = Symbol.Name() == uid;
-		//			}
-
-		//			uid = value;
-
-		//			if (changeText) {
-		//				Text = uid;
-		//			}
-		//			if (changeWrit) {
-		//				Writ = uid;
-		//			}
-		//			if (changeSymbol /*&& Order != ToolbarItemOrder.Secondary*/) {
-		//				Symbol = Symbols.GetSymbolByName(uid);
-		//			}
-		//		}
-		//	}
-		//}
 	}
 }

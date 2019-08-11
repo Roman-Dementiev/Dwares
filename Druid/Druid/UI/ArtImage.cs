@@ -55,7 +55,7 @@ namespace Dwares.Druid.UI
 			if (color == default) {
 				Source = ArtBroker.Instance.GetImageSource(name);
 			} else {
-				Source = ArtBroker.Instance.GetImageSource(name, null, color.ToSKColor());
+				Source = ArtBroker.Instance.GetImageSource(name, null, color);
 			}
 		}
 	}

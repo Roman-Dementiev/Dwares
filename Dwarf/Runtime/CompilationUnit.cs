@@ -122,28 +122,58 @@ namespace Dwares.Dwarf.Runtime
 			initialized = true;
 		}
 
-		public static Type GetTypeByName(string name, Assembly defaultAssembly = null)
+		public static bool ResolveName(ref string name, out Assembly assembly, out string @namespace, Assembly defaultAssembly = null)
 		{
+			assembly = null;
+			@namespace = null;
 			if (string.IsNullOrEmpty(name))
-				return null;
+				return false;
+
 
 			var sep = name.IndexOf(':');
 			if (sep > 0) {
 				var packageName = name.Substring(0, sep);
 				var package = GetPackage(packageName);
 				if (package == null) {
-					Debug.Print($"PackageUnit.GetTypeByName(): unknown package {packageName}");
-					return null;
+					Debug.Print($"PackageUnit.ResolveName(): unknown package {packageName}");
+					return false;
 				}
 
 				name = name.Substring(sep + 1);
-				var type = package.Assembly.GetTypeByName(name);
-				if (type == null) {
-					type = package.Assembly.GetTypeByName(package.Namespace + '.' + name);
+				assembly = package.Assembly;
+				@namespace = package.Namespace;
+				return true;
+			} else {
+				assembly = defaultAssembly;
+				return assembly != null;
+			}
+		}
+
+		public static Type GetTypeByName(string name, Assembly defaultAssembly = null)
+		{
+			Assembly assembly;
+			string @namespace;
+			if (ResolveName(ref name, out assembly, out @namespace, defaultAssembly)) {
+				var type = assembly.GetTypeByName(name);
+				if (type == null && @namespace != null) {
+					type = assembly.GetTypeByName(@namespace + '.' + name);
 				}
 				return type;
 			} else {
 				return defaultAssembly?.GetTypeByName(name);
+			}
+		}
+
+		public static ResourceId GetResourceId(string name, Assembly defaultAssembly)
+		{
+			Assembly assembly;
+			string @namespace;
+			if (!ResolveName(ref name, out assembly, out @namespace, defaultAssembly)) {
+				return new ResourceId(assembly, name);
+			} else if (defaultAssembly != null) {
+				return new ResourceId(defaultAssembly, name);
+			} else {
+				return default;
 			}
 		}
 	}

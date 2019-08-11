@@ -1,11 +1,14 @@
 ﻿using System;
+using Dwares.Druid.Satchel;
 using SkiaSharp;
-
+using Xamarin.Forms;
 
 namespace Dwares.Druid.Painting
 {
 	public interface IArtProvider
 	{
-		IPainting GetPainting(string name, SKSize? size, SKColor? color);
+		IPicture GetPicture(string name, Size? desiredSize, Color? desiredColor);
+
+		ImageSource GetImageSource(string name, Size? desiredSize, Color? desiredColor);
 	}
 }

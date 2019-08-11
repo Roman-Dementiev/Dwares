@@ -130,14 +130,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="Images\Add.png" />
+    <Content Include="Images\Accept.png" />
     <Content Include="Images\Appoitment.png" />
-    <Content Include="Images\Contacts.png" />
-    <Content Include="Images\Contacts_active.png" />
-    <Content Include="Images\Route.png" />
-    <Content Include="Images\Route_active.png" />
-    <Content Include="Images\Schedule.png" />
-    <Content Include="Images\Schedule_active.png" />
+    <Content Include="Images\Cancel.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
