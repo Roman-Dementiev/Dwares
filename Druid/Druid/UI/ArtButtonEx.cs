@@ -16,12 +16,7 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			UITheme.CurrentThemeChanged += UITheme_CurrentThemeChanged;
-		}
-
-		private void UITheme_CurrentThemeChanged(object sender, EventArgs e)
-		{
-			Update();
+			UITheme.OnCurrentThemeChanged(Update);
 		}
 
 		//public static readonly BindableProperty IsSelectedProperty =

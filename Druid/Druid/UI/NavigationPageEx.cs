@@ -12,21 +12,21 @@ namespace Dwares.Druid.UI
 		public NavigationPageEx()
 		{
 			//Debug.EnableTracing(@class);
-			UITheme.CurrentThemeChanged += UITheme_CurrentThemeChanged;
+			UITheme.OnCurrentThemeChanged(UITheme_CurrentThemeChanged);
 		}
 
 		public NavigationPageEx(Page root, string flavor = null) :
 			base(root)
 		{
 			//Debug.EnableTracing(@class);
-			UITheme.CurrentThemeChanged += UITheme_CurrentThemeChanged;
+			UITheme.OnCurrentThemeChanged(UITheme_CurrentThemeChanged);
 
 			if (!string.IsNullOrEmpty(flavor)) {
 				Flavor = flavor;
 			}
 		}
 
-		private void UITheme_CurrentThemeChanged(object sender, EventArgs e)
+		private void UITheme_CurrentThemeChanged()
 		{
 			Style = UITheme.Current.GetStyle(Flavor);
 		}

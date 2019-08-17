@@ -3,10 +3,11 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-					x:Class="Drive.Themes.DarkThemeResources">
+					x:Class="Drive.Themes.Dark">
 
 	<x:String x:Key="ThemeName">Dark</x:String>
 	<x:String x:Key="BasedOn">@Base</x:String>
+
 
 	<drx:MaterialColorPalette x:Key="ColorPalette" />
 	<drx:BindColor x:Key="PrimaryColor" Source="{StaticResource ColorPalette}" Name="Orange" />
@@ -27,7 +28,6 @@
 	</Style>
 
 	<Style x:Key="RootGrid" TargetType="Grid">
-		<!--<Setter Property="BackgroundColor" Value="Black" />-->
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 	</Style>
 
@@ -58,6 +58,19 @@
 		<Setter Property="IconColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 
+	<Style x:Key="Settings-icon" TargetType="ui:ArtImage">
+		<Setter Property="ArtColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+
+	<Style x:Key="Settings-caption" TargetType="Label">
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+
+	<Style x:Key="Settings-picker" TargetType="Picker">
+		<Setter Property="TitleColor" Value="Red" />
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+	
 	<!--<Style x:Key="Card-frame-default" TargetType="Frame">
 		<Setter Property="BorderColor" Value="Transparent" />
 		<Setter Property="BackgroundColor" Value="{StaticResource SurfaceColor}" />

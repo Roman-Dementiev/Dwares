@@ -6,7 +6,7 @@
 					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 					mc:Ignorable="d"
-					x:Class="Drive.Themes.OceanicThemeResources"
+					x:Class="Drive.Themes.Oceanic"
 					>
 	<x:String x:Key="ThemeName">Oceanic</x:String>
 	<x:String x:Key="BasedOn">@Base</x:String>
@@ -31,7 +31,6 @@
 	</Style>
 
 	<Style x:Key="RootGrid" TargetType="Grid">
-		<!--<Setter Property="BackgroundColor" Value="Black" />-->
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 	</Style>
 

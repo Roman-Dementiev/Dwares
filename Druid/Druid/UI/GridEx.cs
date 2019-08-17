@@ -12,12 +12,7 @@ namespace Dwares.Druid.UI
 		public GridEx()
 		{
 			//Debug.EnableTracing(@class);
-			UITheme.CurrentThemeChanged += UITheme_CurrentThemeChanged;
-		}
-
-		private void UITheme_CurrentThemeChanged(object sender, EventArgs e)
-		{
-			Style = UITheme.Current.GetStyle(Flavor);
+			UITheme.OnCurrentThemeChanged(() => { Style = UITheme.Current.GetStyle(Flavor); });
 		}
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Runtime;
-using Dwares.Druid.Forms;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid
@@ -101,11 +101,6 @@ namespace Dwares.Druid
 			if (page != null) {
 				page.Title = title ?? string.Empty;
 			}
-		}
-
-		public static ResourceId GetResourceId(this Application app, string name)
-		{
-			return PackageUnit.GetResourceId(name, app.GetType().Assembly);
 		}
 	}
 }

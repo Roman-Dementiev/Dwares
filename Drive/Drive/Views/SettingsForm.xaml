@@ -13,13 +13,32 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 
-	<Grid>
+	<ui:GridEx Flavor="RootGrid" >
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-	</Grid>
+		<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+					 Flavor="Settings-icon"
+					 Art="palette"
+					 />
+		<ui:LabelEx Grid.Row="0" Grid.Column="1"
+					Flavor="Settings-caption"
+					Text="UI Theme"
+					/>
+		<ui:PickerEx Grid.Row="1" Grid.Column="1"
+					 Flavor="Settings-picker"
+					 >
+			<ui:PickerEx.Items>
+				<x:String>Light</x:String>
+				<x:String>Dark</x:String>
+				<x:String>Oceanic</x:String>
+			</ui:PickerEx.Items>
+		</ui:PickerEx>
+	</ui:GridEx>
 </ui:ContentViewEx>

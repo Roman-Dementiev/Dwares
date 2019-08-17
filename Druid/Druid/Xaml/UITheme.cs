@@ -1,16 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Dwares.Dwarf;
+using Xamarin.Forms;
+
 
 namespace Dwares.Druid.Xaml
 {
-	public class UITheme : Instance<UI.UITheme>
+	public class UITheme : Asset<UI.UITheme>
 	{
 		//
-	}
+		public UITheme() { }
 
-	public class UIThemes : List<UI.UITheme>
-	{
-		//
+		protected override UI.UITheme CreateValue()
+		{
+			var obj = AssetLocator.CreateInstance(Class);
+			if (obj is UI.UITheme theme)
+				return theme;
+
+			if (obj is ResourceDictionary resources)
+				return new UI.UITheme(resources);
+
+			Debug.Print($"Invalid type of asset value {obj.GetType()} (expected {typeof(UI.UITheme)})");
+			return null;
+		}
 	}
 }

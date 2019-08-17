@@ -15,6 +15,22 @@ namespace Dwares.Druid.UI
 			//Debug.EnableTracing(@class);
 		}
 
+		public static readonly BindableProperty FlavorProperty =
+			BindableProperty.Create(
+				nameof(Flavor),
+				typeof(string),
+				typeof(ArtImage),
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtImage image) {
+						image.ApplyFlavor(image.Flavor);
+					}
+				});
+
+		public string Flavor {
+			set { SetValue(FlavorProperty, value); }
+			get { return (string)GetValue(FlavorProperty); }
+		}
+
 		public static readonly BindableProperty ArtProperty =
 			BindableProperty.Create(
 				nameof(Art),

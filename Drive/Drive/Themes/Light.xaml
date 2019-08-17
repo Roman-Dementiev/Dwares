@@ -6,7 +6,7 @@
 					xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 					mc:Ignorable="d"
-					x:Class="Drive.Themes.LightThemeResources"
+					x:Class="Drive.Themes.Light"
 					>
 
 	<x:String x:Key="ThemeName">Light</x:String>
@@ -24,8 +24,6 @@
 	<drx:BindColor x:Key="OnSurfaceColor" Source="{StaticResource ColorPalette}" Name="Gray:900" />
 	<drx:BindColor x:Key="AccentColor" Source="{StaticResource ColorPalette}" Name="Orange:A700" />
 
-	<x:String x:Key="ic_Accept">ic_Accept.white</x:String>
-	
 	<Style x:Key="NavigationPage" TargetType="NavigationPage">
 		<Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
 		<Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />

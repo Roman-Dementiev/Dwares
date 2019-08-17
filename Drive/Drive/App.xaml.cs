@@ -25,8 +25,13 @@ namespace Drive
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
+			//var themes = new Themes.ThemeResources();
+			//UIThemeManager.Instance = new UIThemeManager(themes);
+
+			UIThemeManager.Instance = new UIThemes();
+
 			//UITheme.Current = UITheme.ByName("Dark");
-			UITheme.Current = UITheme.ByName("Light");
+			//UITheme.Current = UITheme.ByName("Light");
 			//UITheme.Current = UITheme.ByName("Oceanic");
 		}
 

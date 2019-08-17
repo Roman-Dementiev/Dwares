@@ -6,15 +6,10 @@ using Dwares.Druid.UI;
 
 namespace Drive.Themes
 {
-	public class BaseTheme : UITheme
-	{
-		public BaseTheme() : base(new BaseThemeResources()) { }
-	}
-
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BaseThemeResources : ResourceDictionary
+	public partial class Base : ResourceDictionary
 	{
-		public BaseThemeResources()
+		public Base()
 		{
 			InitializeComponent();
 		}	

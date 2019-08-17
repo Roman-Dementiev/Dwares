@@ -11,7 +11,7 @@
 	</ui:ContentViewEx.Resources>-->
 	
 	<ui:ContentViewEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" IconArt="ic_Settings" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>
 

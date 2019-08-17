@@ -2,10 +2,14 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-					x:Class="Drive.Themes.BaseThemeResources"
+					x:Class="Drive.Themes.Base"
 					>
 
 	<x:String x:Key="ThemeName">@Base</x:String>
+
+	<x:String x:Key="ic_Accept">ic_Accept.white</x:String>
+	<x:String x:Key="ic_Cancel">ic_Cancel.white</x:String>
+	<x:String x:Key="ic_Settings">ic_Settings.white</x:String>
 
 	<!--<Style x:Key="NavigationPage" TargetType="NavigationPage">
 		<Setter Property="BackgroundColor" Value="{Binding Background}" />
@@ -13,6 +17,10 @@
 		<Setter Property="BarTextColor" Value="{Binding OnPrimary}" />
 	</Style>-->
 
+	<Style x:Key="RootGrid" TargetType="Grid">
+		<Setter Property="Margin" Value="-20" />
+	</Style>
+	
 	<Style x:Key="RootView" TargetType="View" >
 	</Style>
 
@@ -95,20 +103,38 @@
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
 
+	<Style x:Key="Settings-icon" TargetType="ui:ArtImage">
+		<Setter Property="HorizontalOptions" Value="Center" />
+		<Setter Property="VerticalOptions" Value="Start" />
+		<Setter Property="WidthRequest" Value="48" />
+		<Setter Property="HeightRequest" Value="48" />
+	</Style>
+	
+	<Style x:Key="Settings-caption" TargetType="Label">
+		<Setter Property="HorizontalOptions" Value="Start" />
+		<Setter Property="VerticalOptions" Value="Start" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	
+	<Style x:Key="Settings-picker" TargetType="Picker">
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+
+
 	<Style x:Key="EntryPanel" TargetType="Entry">
 	</Style>
 	
 	<Style x:Key="StaticText" TargetType="Label">
 	</Style>
 
-	<Style x:Key="LabelField" TargetType="Label">
+	<Style x:Key="FieldLabel" TargetType="Label">
 		<Setter Property="HorizontalOptions" Value="End" />
 		<Setter Property="VerticalOptions" Value="Center" />
 		<Setter Property="FontAttributes" Value="Bold" />
 		<Setter Property="Margin" Value="4,0,4,0" />
 	</Style>
 
-	<Style x:Key="EditorLabel" TargetType="Label" BasedOn="LabelField">
+	<Style x:Key="EditorLabel" TargetType="Label">
 		<Setter Property="HorizontalOptions" Value="End" />
 		<Setter Property="VerticalOptions" Value="Start" />
 		<Setter Property="FontAttributes" Value="Bold" />

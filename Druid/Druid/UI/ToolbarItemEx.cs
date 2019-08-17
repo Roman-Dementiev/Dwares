@@ -10,7 +10,7 @@ namespace Dwares.Druid.UI
 		public ToolbarItemEx()
 		{
 			writ = new WritMixin(this);
-			UITheme.CurrentThemeChanged += (s, e) => UpdateIcon(IconArt);
+			UITheme.OnCurrentThemeChanged(() => UpdateIcon(IconArt));
 		}
 
 		public ToolbarItemEx(string name, string icon, Action activated, ToolbarItemOrder order = ToolbarItemOrder.Default, int priority = 0) :

@@ -9,27 +9,28 @@
 		<drx:BitmapAsset x:Key="Schedule" BitmapSize="72" Color="Black">Drive.Resources.schedule_48dp.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="Route" BitmapSize="72" Color="Black">Drive.Resources.route_48dp.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="Contacts" BitmapSize="72" Color="Black">Drive.Resources.contacts_48dp.png</drx:BitmapAsset>
-		<drx:BitmapAsset x:Key="Phone" BitmapSize="72,72" Color="Black">Drive.Resources.phone_48dp.png</drx:BitmapAsset>
-		<drx:BitmapAsset x:Key="Place" BitmapSize="72,72" Color="Black">Drive.Resources.place_48dp.png</drx:BitmapAsset>
-		<drx:BitmapAsset x:Key="Client" BitmapSize="72,72" Color="Black">Drive.Resources.client_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Phone" BitmapSize="72" Color="Black">Drive.Resources.phone_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Place" BitmapSize="72" Color="Black">Drive.Resources.place_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="Client" BitmapSize="72" Color="Black">Drive.Resources.client_48dp.png</drx:BitmapAsset>
 
-		<drx:BitmapAsset x:Key="search" BitmapSize="72,72" Color="Black">Drive.Resources.ic_search_black_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="search" BitmapSize="72" Color="Black">Drive.Resources.ic_search_black_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="palette" BitmapSize="72" Color="Black">Drive.Resources.ic_palette_black_48dp.png</drx:BitmapAsset>
 
-		<FileImageSource x:Key="Appoitment" File="{OnPlatform Android=ic_appoitment.png, UWP=Images/Appoitment.png}"/>
 		<FileImageSource x:Key="ic_Accept.black" File="{OnPlatform Android=ic_done_black_48dp.png, UWP=Images/Accept.png}"/>
 		<FileImageSource x:Key="ic_Accept.white" File="{OnPlatform Android=ic_done_white_48dp.png, UWP=Images/Accept.png}"/>
+		<FileImageSource x:Key="ic_Cancel.black" File="{OnPlatform Android=ic_close_black_48dp.png, UWP=Images/Cancel.png}"/>
+		<FileImageSource x:Key="ic_Cancel.white" File="{OnPlatform Android=ic_close_white_48dp.png, UWP=Images/Cancel.png}"/>
+		<FileImageSource x:Key="ic_Settings.black" File="{OnPlatform Android=ic_settings_black_48dp.png, UWP=Images/Settings.png}"/>
+		<FileImageSource x:Key="ic_Settings.white" File="{OnPlatform Android=ic_settings_white_48dp.png, UWP=Images/Settings.png}"/>
 
+		<FileImageSource x:Key="Appoitment" File="{OnPlatform Android=ic_appoitment.png, UWP=Images/Appoitment.png}"/>
 
-		<!--<drx:List x:Key="Palettes">
-			<drx:Instance Class="Dwares.Druid:Resources.MaterialPalette"></drx:Instance>
-		</drx:List>-->
-
-		<drx:List x:Key="Themes">
-			<drx:UITheme Class="Drive.Themes.BaseTheme"></drx:UITheme>
-			<drx:UITheme Class="Drive.Themes.DarkTheme"></drx:UITheme>
-			<drx:UITheme Class="Drive.Themes.LightTheme"></drx:UITheme>
-			<drx:UITheme Class="Drive.Themes.OceanicTheme"></drx:UITheme>
-		</drx:List>
+		<!--<ResourceDictionary x:Key="Themes">
+			<drx:UITheme x:Key="@Base" Class="Drive.Themes.BaseTheme"></drx:UITheme>
+			<drx:UITheme x:Key="Light" Class="Drive.Themes.LightTheme"></drx:UITheme>
+			<drx:UITheme x:Key="Dark" Class="Drive.Themes.DarkTheme"></drx:UITheme>
+			<drx:UITheme x:Key="Ocean" Class="Drive.Themes.OceanicTheme"></drx:UITheme>
+		</ResourceDictionary>-->
 		
 	</Application.Resources>
 </Application>

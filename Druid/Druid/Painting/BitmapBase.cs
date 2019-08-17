@@ -34,7 +34,7 @@ namespace Dwares.Druid.Painting
 			if (bitmap != null) {
 				return new BitmapInfo(bitmap.Width, bitmap.Height, resolution, color);
 			} else {
-				return new BitmapInfo(0, 0, resolution, color);
+				return new BitmapInfo(0, 0);
 			}
 		}
 
@@ -140,7 +140,6 @@ namespace Dwares.Druid.Painting
 		//	int newHeight = (int)Math.Round(newSize.Height);
 		//	return Resize(newWidth, newHeight);
 		//}
-
 
 		public static SKBitmap LoadResource(ResourceId resourceId, bool throwIfError = true)
 		{

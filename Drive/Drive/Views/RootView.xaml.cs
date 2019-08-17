@@ -16,7 +16,7 @@ namespace Drive.Views
 			InitializeComponent();
 
 			ApplyTheme();
-			UITheme.CurrentThemeChanged += (s,e) => ApplyTheme();
+			UITheme.OnCurrentThemeChanged(ApplyTheme);
 		}
 
 		private void ApplyTheme()

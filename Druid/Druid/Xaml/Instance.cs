@@ -1,8 +1,8 @@
 ﻿using System;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Runtime;
+using Dwares.Druid.Satchel;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms;
 
 
 namespace Dwares.Druid.Xaml
@@ -13,18 +13,7 @@ namespace Dwares.Druid.Xaml
 
 		public object ProvideValue(IServiceProvider serviceProvider)
 		{
-			var type = PackageUnit.GetTypeByName(Class, Application.Current.GetType().Assembly);
-			if (type != null) {
-				try {
-					var instance = Activator.CreateInstance(type);
-					return instance;
-				}
-				catch (Exception ex) {
-					Debug.ExceptionCaught(ex);
-				}
-
-			}
-			return null;
+			return AssetLocator.CreateInstance(Class);
 		}
 	}
 

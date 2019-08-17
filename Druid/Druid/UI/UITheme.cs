@@ -13,34 +13,15 @@ namespace Dwares.Druid.UI
 	{
 		//static ClassRef @class = new ClassRef(typeof(UITheme));
 
-		static UITheme current;
-		public static UITheme Current {
-			get => current;
-			set {
-				if (value != current) {
-					current = value;
-					CurrentThemeChanged?.Invoke(typeof(UITheme), new EventArgs());
-				}
-			}
-		}
-		public static event EventHandler CurrentThemeChanged;
-
-		static Dictionary<string, UITheme> namedThemes = new Dictionary<string, UITheme>();
 		static Style emptyStyle = new Style(typeof(VisualElement));
-
 
 		public UITheme(ResourceDictionary resources, UITheme baseTheme = null)
 		{
 			//Debug.EnableTracing(@class);
 			Guard.ArgumentNotNull(resources, nameof(resources));
 
-			//Resources = resources;
-			BaseTheme = baseTheme;
 			Resources = resources;
-
-			if (!string.IsNullOrEmpty(ThemeName)) {
-				namedThemes[ThemeName] = this;
-			}
+			BaseTheme = baseTheme;
 		}
 
 		public ResourceDictionary Resources { get; }
@@ -158,13 +139,25 @@ namespace Dwares.Druid.UI
 
 		public static UITheme ByName(string name)
 		{
-			UITheme theme;
-			if (!string.IsNullOrEmpty(name) && namedThemes.TryGetValue(name, out theme)) {
-				return theme;
-			} else {
-				return null;
+			return UIThemeManager.Instance.GetTheme(name);
+		}
+
+		public static UITheme Default {
+			get {
+				var manager = UIThemeManager.Instance;
+				return manager.GetTheme(manager.DefaultTheme);
 			}
 		}
 
+		public static UITheme Current {
+			get => UIThemeManager.Instance.CurrentTheme;
+			set => UIThemeManager.Instance.CurrentTheme = value;
+		}
+
+		public static void OnCurrentThemeChanged(Action action)
+		{
+			UIThemeManager.Instance.CurrentThemeChanged += (sender, args) => action?.Invoke();
+
+		}
 	}
 }

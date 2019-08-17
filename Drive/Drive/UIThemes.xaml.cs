@@ -4,13 +4,12 @@ using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
 
 
-namespace Drive.Themes
+namespace Drive
 {
-
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Dark : ResourceDictionary
+	public partial class UIThemes : UIThemeManager
 	{
-		public Dark()
+		public UIThemes()
 		{
 			InitializeComponent();
 		}

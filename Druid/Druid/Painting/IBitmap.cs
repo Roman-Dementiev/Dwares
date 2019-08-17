@@ -27,6 +27,8 @@ namespace Dwares.Druid.Painting
 				bitmapHeight = 0;
 			if (resolution <= 0)
 				resolution = DefaultResolution;
+			if (color == default(Color))
+				color = null;
 
 			BitmapSize = new SKSizeI(bitmapWidth, bitmapHeight);
 			Resolution = resolution;

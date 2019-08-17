@@ -14,7 +14,7 @@ namespace Dwares.Druid.UI
 			//Debug.EnableTracing(@class);
 
 			this.ApplyFlavor(Flavor);
-			UITheme.CurrentThemeChanged += (s, e) => this.ApplyFlavor(Flavor);
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
 		}
 
 
