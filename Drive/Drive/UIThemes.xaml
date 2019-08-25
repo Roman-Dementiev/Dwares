@@ -7,7 +7,7 @@
 				   xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 				   mc:Ignorable="d"
 				   x:Class="Drive.UIThemes"
-				   DefaultTheme="Oceanic"
+				   DefaultTheme="Light"
 				   >
 
 	<!--<x:String x:Key="DefaultTheme">Light</x:String>-->

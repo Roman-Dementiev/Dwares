@@ -50,7 +50,7 @@ namespace Drive.Models
 			get => Home?.Address;
 			set {
 				if (value != Home?.Address) {
-					Home = value == null ? null : new Home(value);
+					Home = value == null ? null : new Home(this, value);
 					FirePropertyChanged();
 				}
 			}

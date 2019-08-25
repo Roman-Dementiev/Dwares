@@ -67,7 +67,7 @@
 	</Style>
 
 	<Style x:Key="Settings-picker" TargetType="Picker">
-		<Setter Property="TitleColor" Value="Red" />
+		<Setter Property="TitleColor" Value="{StaticResource OnBackgroundColor}" />
 		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 	
@@ -85,16 +85,23 @@
 	</Style>
 
 	<Style x:Key="Card-text-default" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 	<Style x:Key="Card-text-primary" TargetType="Label">
 		<Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
 	</Style>
 	<Style x:Key="Card-text-small" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 	<Style x:Key="Card-text-bold" TargetType="Label">
-		<Setter Property="TextColor" Value="{StaticResource OnSurfaceColor}" />
+		<Setter Property="TextColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+	<Style x:Key="Card-separator" TargetType="BoxView">
+		<Setter Property="BackgroundColor" Value="{StaticResource OnBackgroundColor}" />
+	</Style>
+	<Style x:Key="Card-action" TargetType="ui:ArtButton">
+		<Setter Property="ArtColor" Value="{StaticResource OnBackgroundColor}" />
+		<Setter Property="LabelColor" Value="{StaticResource OnBackgroundColor}" />
 	</Style>
 
 

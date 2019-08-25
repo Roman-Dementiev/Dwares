@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 mc:Ignorable="d"
+			 x:Class="Drive.Views.RouteCard"
+			 >
+	<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+		<ui:GridEx Flavor="Card-grid">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="80" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<ui:LabelEx Grid.Row="0" Grid.Column="0"
+						Flavor="Card-text-small"
+						HorizontalOptions="Center"
+						VerticalOptions="End"
+						Text="{Binding PlannedTime, Mode=OneWay}"
+						/>
+
+			<ui:LabelEx Grid.Row="0" Grid.Column="1"
+						Flavor="Card-text-primary"
+						Text="{Binding Title, Mode=OneWay}"
+						/>
+
+			<ui:LabelEx Grid.Row="1" Grid.Column="1"
+						Flavor="Card-text-default"
+						Text="{Binding Address, Mode=OneWay}"
+						/>
+		</ui:GridEx>
+	</ui:FrameEx>
+	
+</ContentView>

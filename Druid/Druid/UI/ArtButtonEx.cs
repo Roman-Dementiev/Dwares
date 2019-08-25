@@ -16,7 +16,6 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			UITheme.OnCurrentThemeChanged(Update);
 		}
 
 		//public static readonly BindableProperty IsSelectedProperty =

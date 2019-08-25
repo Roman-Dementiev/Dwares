@@ -1,12 +1,23 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
 				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				  xmlns:views="clr-namespace:Drive.Views"
 				  Title="{Binding Title}"
-				  x:Class="Drive.Views.RootView">
+				  x:Class="Drive.Views.MainPage">
 
-	<ui:GridEx x:Name="rootGrid" Margin="-20" Flavor="RootGrid" >
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<ui:GridEx x:Name="rootGrid" Flavor="RootGrid" >
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -21,7 +32,7 @@
 		<ui:ContentViewEx Grid.Row="{Binding ControlBarRow, Mode=OneWay}" Grid.Column="{Binding ControlBarColumn, Mode=OneWay}"
 						  Content="{Binding Controls, Mode=OneWay}">
 		</ui:ContentViewEx>
-		
+
 		<Frame Grid.Row="1" Grid.Column="1"
 			   Margin="0"
 			   BorderColor="Black"
@@ -80,24 +91,24 @@
 							 IconArt="Schedule"
 							 LabelText="Schedule"
 							 Writ="GoToSchedule"
-							 Orientation="{Binding NavButtonsOrientation, Mode=OneWay}"
+							 SideMode="{Binding IsLandscape, Mode=OneWay}"
 							 />
 
 			<views:NavButton ContentType="Route"
 							 IconArt="Route"
 							 LabelText="Route"
 							 Writ="GoToRoute"
-							 Orientation="{Binding NavButtonsOrientation, Mode=OneWay}"
+							 SideMode="{Binding IsLandscape, Mode=OneWay}"
 							 />
 
 			<views:NavButton ContentType="Contacts"
 							 IconArt="Contacts"
 							 LabelText="Contacts"
 							 Writ="GoToContacts"
-							 Orientation="{Binding NavButtonsOrientation, Mode=OneWay}"
+							 SideMode="{Binding IsLandscape, Mode=OneWay}"
 							 />
 
 		</StackLayout>
 	</ui:GridEx>
-
-</ui:ContentViewEx>
+</ui:ContentPageEx>
+	

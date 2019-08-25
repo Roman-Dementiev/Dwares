@@ -7,7 +7,26 @@ using Dwares.Druid.Satchel;
 
 namespace Drive.Models
 {
-	public class Place : Model, ITitleHolder, IPlace, IContact
+	public class PlaceBase : Model, ITitleHolder, IPlace
+	{
+		string title;
+		public string Title {
+			get => title;
+			set => SetPropertyEx(ref title, value, nameof(Title), nameof(RouteTitle));
+		}
+
+		string address;
+		public string Address {
+			get => address;
+			set => SetProperty(ref address, value);
+		}
+
+		public virtual string RouteTitle {
+			get => Title;
+		}
+	}
+
+	public class Place : PlaceBase, IContact 
 	{
 		//static ClassRef @class = new ClassRef(typeof(Place));
 
@@ -18,32 +37,11 @@ namespace Drive.Models
 
 		public string Id { get; set; }
 
-		//string fullTitle;
-		//public string FullTitle {
-		//	get => fullTitle;
-		//	set => SetProperty(ref fullTitle, value);
-		//}
-
-		string title;
-		public string Title {
-			get => title;
-			set => SetPropertyEx(ref title, value, nameof(Title), nameof(RouteTitle));
-		}
-
-		public virtual string RouteTitle {
-			get => Title;
-		}
 
 		PhoneNumber phoneNumber;
 		public PhoneNumber PhoneNumber {
 			get => phoneNumber;
 			set => SetProperty(ref phoneNumber, value);
-		}
-
-		string address;
-		public string Address {
-			get => address; 
-			set => SetProperty(ref address, value);
 		}
 	}
 }

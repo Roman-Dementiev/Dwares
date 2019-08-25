@@ -23,6 +23,9 @@
 		<ListView.ItemTemplate>
 			<DataTemplate>
 				<ViewCell>
+					<views:ScheduleCard />
+				</ViewCell>
+				<!--<ViewCell>
 					<ContentView Margin="0">
 						<Frame Style="{Binding ItemFrameStyle, Mode=OneWay}">
 							<Grid>
@@ -104,7 +107,7 @@
 							</Grid>
 						</Frame>
 					</ContentView>
-				</ViewCell>
+				</ViewCell>-->
 			</DataTemplate>
 		</ListView.ItemTemplate>
 	</ui:ListViewEx>

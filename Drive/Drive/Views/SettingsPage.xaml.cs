@@ -2,18 +2,17 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
+using Dwares.Dwarf;
 
 
-namespace Drive
+namespace Drive.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class UIThemes : UIThemeManager
+	public partial class SettingsPage : ContentPageEx
 	{
-		public UIThemes()
+		public SettingsPage()
 		{
 			InitializeComponent();
-
-			SelectTheme(Settings.UITheme);
 		}
 	}
 }

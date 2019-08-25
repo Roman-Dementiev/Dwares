@@ -14,7 +14,12 @@
 		<drx:BitmapAsset x:Key="Client" BitmapSize="72" Color="Black">Drive.Resources.client_48dp.png</drx:BitmapAsset>
 
 		<drx:BitmapAsset x:Key="search" BitmapSize="72" Color="Black">Drive.Resources.ic_search_black_48dp.png</drx:BitmapAsset>
-		<drx:BitmapAsset x:Key="palette" BitmapSize="72" Color="Black">Drive.Resources.ic_palette_black_48dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="palette" BitmapSize="48" Color="Black">Drive.Resources.ic_palette_black_48dp.png</drx:BitmapAsset>
+
+		<drx:BitmapAsset x:Key="search.small" BitmapSize="24" Color="Black">Drive.Resources.ic_search_black_24dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="phone.small" BitmapSize="24" Color="Black">Drive.Resources.ic_phone_black_24dp.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="delete.small" BitmapSize="24" Color="Black">Drive.Resources.ic_trash_black_24dp.png</drx:BitmapAsset>
+
 
 		<FileImageSource x:Key="ic_Accept.black" File="{OnPlatform Android=ic_done_black_48dp.png, UWP=Images/Accept.png}"/>
 		<FileImageSource x:Key="ic_Accept.white" File="{OnPlatform Android=ic_done_white_48dp.png, UWP=Images/Accept.png}"/>

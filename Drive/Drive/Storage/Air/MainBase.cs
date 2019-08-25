@@ -19,6 +19,7 @@ namespace Drive.Storage.Air
 			PhonesTable = new PhonesTable(this);
 			PlacesTable = new PlacesTable(this);
 			ClientsTable = new ClientsTable(this);
+			RidesTable = new RidesTable(this);
 		}
 
 		public BasesTable BasesTable { get; }
@@ -26,6 +27,7 @@ namespace Drive.Storage.Air
 		public PhonesTable PhonesTable { get; }
 		public PlacesTable PlacesTable { get; }
 		public ClientsTable ClientsTable { get; }
+		public RidesTable RidesTable { get; }
 
 
 		public override async Task Initialize()

@@ -17,11 +17,13 @@
     <None Remove="Resources\ic_account_circle_black_48dp.png" />
     <None Remove="Resources\ic_date_range_black_48dp.png" />
     <None Remove="Resources\ic_palette_black_48dp.png" />
+    <None Remove="Resources\ic_phone_black_24dp.png" />
     <None Remove="Resources\ic_phone_black_48dp.png" />
     <None Remove="Resources\ic_place_black_48dp.png" />
     <None Remove="Resources\ic_schedule_black_48dp.png" />
-    <None Remove="Resources\ic_search_black_48dp.png" />
+    <None Remove="Resources\ic_search_black_24dp.png" />
     <None Remove="Resources\ic_supervisor_account_black_48dp.png" />
+    <None Remove="Resources\ic_trash_black_24dp.png" />
     <None Remove="Resources\phone.png" />
     <None Remove="Resources\phone_48dp.png" />
     <None Remove="Resources\place.png" />
@@ -36,7 +38,9 @@
     <EmbeddedResource Include="Resources\client_48dp.png" />
     <EmbeddedResource Include="Resources\contacts_48dp.png" />
     <EmbeddedResource Include="Resources\ic_palette_black_48dp.png" />
-    <EmbeddedResource Include="Resources\ic_search_black_48dp.png" />
+    <EmbeddedResource Include="Resources\ic_phone_black_24dp.png" />
+    <EmbeddedResource Include="Resources\ic_search_black_24dp.png" />
+    <EmbeddedResource Include="Resources\ic_trash_black_24dp.png" />
     <EmbeddedResource Include="Resources\phone_48dp.png" />
     <EmbeddedResource Include="Resources\place_48dp.png" />
     <EmbeddedResource Include="Resources\route_48dp.png" />
@@ -63,9 +67,6 @@
     <Compile Update="Views\ContactsTopControls.xaml.cs">
       <DependentUpon>ContactsTopControls.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\RootView.xaml.cs">
-      <DependentUpon>RootView.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -84,6 +85,9 @@
     <EmbeddedResource Update="Themes\Oceanic.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\ContactCard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ContactsSideControls.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -96,19 +100,22 @@
     <EmbeddedResource Update="Views\AppoitmentForm.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\RootView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\HomePage.xaml">
+    <EmbeddedResource Update="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\RouteCard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\RouteView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ScheduleCard.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ScheduleView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SettingsForm.xaml">
+    <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

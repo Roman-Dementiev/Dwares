@@ -6,6 +6,7 @@
 					>
 
 	<x:String x:Key="ThemeName">@Base</x:String>
+	<x:Boolean x:Key="Internal">True</x:Boolean>
 
 	<x:String x:Key="ic_Accept">ic_Accept.white</x:String>
 	<x:String x:Key="ic_Cancel">ic_Cancel.white</x:String>
@@ -18,7 +19,7 @@
 	</Style>-->
 
 	<Style x:Key="RootGrid" TargetType="Grid">
-		<Setter Property="Margin" Value="-20" />
+		<Setter Property="Margin" Value="-2,0" />
 	</Style>
 	
 	<Style x:Key="RootView" TargetType="View" >
@@ -51,6 +52,10 @@
 		<Setter Property="CornerRadius" Value="0" />
 	</Style>
 
+	<Style x:Key="Card-grid" TargetType="Grid">
+		<Setter Property="Margin" Value="-16" />
+	</Style>
+	
 	<Style x:Key="Card-text-default" TargetType="Label">
 		<Setter Property="FontSize" Value="16" />
 	</Style>
@@ -65,7 +70,19 @@
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
-
+	<Style x:Key="Card-separator" TargetType="BoxView">
+		<Setter Property="HeightRequest" Value="1" />
+	</Style>
+	<Style x:Key="Card-action" TargetType="ui:ArtButton">
+		<Setter Property="Margin" Value="-8" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	
 	<Style x:Key="NavButton-default" TargetType="ui:ArtButtonEx">
 		<Setter Property="HorizontalOptions" Value="Center" />
 		<Setter Property="VerticalOptions" Value="Center" />
@@ -89,17 +106,17 @@
 		<Setter Property="BackgroundColor" Value="Transparent" />
 		<Setter Property="Orientation" Value="Horizontal" />
 		<Setter Property="CornerRadius" Value="6" />
-		<Setter Property="IconWidth" Value="32" />
-		<Setter Property="IconHeight" Value="32" />
-		<Setter Property="FontSize" Value="16" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="FontSize" Value="14" />
 	</Style>
 	<Style x:Key="TabButton-active" TargetType="ui:ArtButton" >
 		<Setter Property="BackgroundColor" Value="Transparent" />
 		<Setter Property="Orientation" Value="Horizontal" />
 		<Setter Property="CornerRadius" Value="6" />
-		<Setter Property="IconWidth" Value="32" />
-		<Setter Property="IconHeight" Value="32" />
-		<Setter Property="FontSize" Value="16" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="FontSize" Value="14" />
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
 

@@ -125,9 +125,16 @@ namespace Drive.Storage.Air
 					Id = clientRecord.Id,
 					FullName = clientRecord.Name,
 					PhoneNumber = PhoneNumber(clientRecord.Phone, clientRecord.PhoneType),
-					Home = Home.ForAddress(clientRecord.Address),
+					//Home = Home.ForAddress(clientRecord.Address),
 					Escort = false // TODO
 				};
+				if (!string.IsNullOrEmpty(clientRecord.Phone)) {
+					client.PhoneNumber = PhoneNumber(clientRecord.Phone, clientRecord.PhoneType);
+				}
+				if (!string.IsNullOrEmpty(clientRecord.Address)) {
+					client.Home = new Home(client, clientRecord.Address);
+				}
+
 				contacts.Add(client);
 
 				var regularPlaceId = clientRecord.RegularId;
@@ -149,7 +156,7 @@ namespace Drive.Storage.Air
 
 		}
 
-		static Client GetClient(Contacts contacts, RideRecord record)
+		static Client GetRideClient(Contacts contacts, RideRecord record)
 		{
 			var clientId = record.ClientId;
 			if (string.IsNullOrEmpty(clientId))
@@ -171,81 +178,86 @@ namespace Drive.Storage.Air
 			return client;
 		}
 
-		static Place GetPlace(Contacts contacts, RideRecord record, string placeId)
+		static IPlace GetPlace(Contacts contacts, RideRecord record, string placeId, string address)
 		{
-			if (string.IsNullOrEmpty(placeId))
+			if (!string.IsNullOrEmpty(placeId))
 			{
-				string message = $"Place link is missing for recordId={record.Id}";
-				//throw new AppStorageError("message");
-				Debug.Print("AirStorage.LoadSchedule(): {0}", message);
-				return null;
+				var place = contacts.GetById<Place>(placeId);
+				if (place == null) {
+					Debug.Print($"AirStorage.LoadSchedule(): Unknown placeId={placeId}");
+				} else {
+					return place;
+				}
 			}
 
-			var place = contacts.GetById<Place>(placeId);
-			if (place == null)
-			{
-				string message = $"Unknown clientId={placeId}";
-				//throw new AppStorageError("message");
-				Debug.Print("AirStorage.LoadSchedule(): {0}", message);
+			if (!string.IsNullOrEmpty(address)) {
+				return new PlaceBase { Address = address };
 			}
 
-			return place;
+			Debug.Print($"AirStorage.LoadSchedule(): Missing place link/address in ride recordId={record.Id}");
+			return null;
 		}
 
-		public /*async*/ Task LoadSchedule()
+		static IPlace GetPickupPlace(Contacts contacts, RideRecord record)
+			=> GetPlace(contacts, record, record.PickupPlaceId, record.PickupAddress);
+
+		static IPlace GetDropoffPlace(Contacts contacts, RideRecord record)
+			=> GetPlace(contacts, record, record.DropoffPlaceId, record.DropoffAddress);
+
+		public async Task LoadSchedule()
 		{
 			var appScope = AppScope.Instance;
 			var contacts = appScope.Contacts;
 			var schedule = appScope.Schedule;
 
-		#if true
+		#if false
 			//TODO
 			return Task.CompletedTask;
 		#else
 			var ridesRecords = await MainBase.RidesTable.ListRecords();
 			foreach (var record in ridesRecords)
 			{
-				var client = GetClient(contacts, record);
+				var client = GetRideClient(contacts, record);
 				if (client == null)
 					continue;
 
 				Ride ride;
 				var rideType = record.RideType;
-				if (rideType == "From Home")
+				if (rideType == RideType.RideFromHome)
 				{
-					var dropoffPlace = GetPlace(contacts, record, record.DropoffPlaceId);
+					var dropoffPlace = GetDropoffPlace(contacts, record);
 					if (dropoffPlace == null)
 						continue;
 
 					ride = CompleteRide.FromHome(client, record.PickupTime, dropoffPlace, record.DropoffTime);
 				}
-				else if (rideType == "To Home")
+				else if (rideType == RideType.RideToHome)
 				{
-					var pickupPlace = GetPlace(contacts, record, record.PickupPlaceId);
+					var pickupPlace = GetPickupPlace(contacts, record);
 					if (pickupPlace == null)
 						continue;
 
 					ride = CompleteRide.ToHome(client, pickupPlace, record.PickupTime, record.DropoffTime);
 				}
-				else if (rideType == "Pickup at home")
+				else if (rideType == RideType.PickupAtHome)
 				{
 					ride = PickupRide.AtHome(client, record.PickupTime);
 				}
-				else if (rideType == "Dropoff at home")
+				else if (rideType == RideType.DropoffAtHome)
 				{
 					ride = DropoffRide.ToHome(client, record.DropoffTime);
 				}
-				else if (rideType == "Pickup")
+				else if (rideType == RideType.Pickup)
 				{
-					var pickupPlace = GetPlace(contacts, record, record.PickupPlaceId);
+					var pickupPlace = GetPickupPlace(contacts, record);
 					if (pickupPlace == null)
 						continue;
 
 					ride = new PickupRide(client, pickupPlace, record.PickupTime);
 				}
-				else if (rideType == "Dropoff")
+				else if (rideType == RideType.Dropoff)
 				{
-					var dropoffPlace = GetPlace(contacts, record, record.DropoffPlaceId);
+					var dropoffPlace = GetDropoffPlace(contacts, record);
 					if (dropoffPlace == null)
 						continue;
 
@@ -253,10 +265,10 @@ namespace Drive.Storage.Air
 				}
 				else
 				{
-					var pickupPlace = GetPlace(contacts, record, record.PickupPlaceId);
+					var pickupPlace = GetPickupPlace(contacts, record);
 					if (pickupPlace == null)
 						continue;
-					var dropoffPlace = GetPlace(contacts, record, record.DropoffPlaceId);
+					var dropoffPlace = GetDropoffPlace(contacts, record);
 					if (dropoffPlace == null)
 						continue;
 

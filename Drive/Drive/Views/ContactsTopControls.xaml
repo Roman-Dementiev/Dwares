@@ -5,7 +5,7 @@
 				  xmlns:views="clr-namespace:Drive.Views"
 				  x:Class="Drive.Views.ContactsTopControls"
 				  >
-	<Grid>
+	<Grid Margin="0,4,0,0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />

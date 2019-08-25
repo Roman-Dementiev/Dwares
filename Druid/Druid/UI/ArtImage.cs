@@ -13,6 +13,8 @@ namespace Dwares.Druid.UI
 		public ArtImage()
 		{
 			//Debug.EnableTracing(@class);
+
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
 		}
 
 		public static readonly BindableProperty FlavorProperty =

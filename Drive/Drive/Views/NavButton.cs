@@ -17,6 +17,7 @@ namespace Drive.Views
 			//Debug.EnableTracing(@class);
 
 			HorizontalOptions = VerticalOptions = LayoutOptions.FillAndExpand;
+			Margin = new Thickness(2,2,6,2);
 
 			DefaultFlavor = "NavButton-default";
 			SelectedFlavor = "NavButton-active";
@@ -27,5 +28,24 @@ namespace Drive.Views
 		}
 
 		public RootContentType ContentType {  get; set; }
+
+		public static readonly BindableProperty SideModeProperty =
+			BindableProperty.Create(
+				nameof(SideMode),
+				typeof(bool),
+				typeof(NavButton),
+				defaultValue: true,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is NavButton button && newValue is bool value) {
+						button.Orientation = value ? StackOrientation.Horizontal : StackOrientation.Vertical;
+						button.LabelIsVisible = !value;
+					}
+				});
+
+		public bool SideMode {
+			set { SetValue(SideModeProperty, value); }
+			get { return (bool)GetValue(SideModeProperty); }
+		}
+
 	}
 }

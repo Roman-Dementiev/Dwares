@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Dwares.Druid.Xaml;
 using Dwares.Dwarf;
@@ -62,6 +63,18 @@ namespace Dwares.Druid.UI
 			}
 		}
 
+		public bool SelectTheme(string themeName)
+		{
+			var theme = GetTheme(themeName);
+			if (theme != null) {
+				CurrentTheme = theme;
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+
 		public UITheme GetTheme(string themeName)
 		{
 			if (string.IsNullOrEmpty(themeName))
@@ -81,6 +94,43 @@ namespace Dwares.Druid.UI
 			}
 
 			return null;
+		}
+
+		public bool TryGetTheme(string themeName, out UITheme theme)
+		{
+			if (!string.IsNullOrEmpty(themeName) && Themes.TryGetValue(themeName, out var value)) {
+				if (value is IAsset asset)
+					value = asset.AssetValue;
+
+				if (value is UITheme _theme) {
+					theme = _theme;
+					return true;
+				}
+			}
+
+			theme = null;
+			return false;
+		}
+
+		public List<string> GetThemeNames(out int indexOfCurrent, bool includeInternal = false)
+		{
+			var list = new List<string>();
+			indexOfCurrent = -1;
+
+			foreach (var key in Themes.Keys) {
+				UITheme theme;
+				if (TryGetTheme(key, out theme)) {
+					if (theme.Internal && !includeInternal)
+						continue;
+
+					if (theme == CurrentTheme) {
+						indexOfCurrent = list.Count;
+					}
+					list.Add(key);
+				}
+			}
+
+			return list;
 		}
 	}
 }

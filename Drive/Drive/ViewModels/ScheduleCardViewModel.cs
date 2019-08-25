@@ -29,21 +29,28 @@ namespace Drive.ViewModels
 			set => SetProperty(ref clientName, value);
 		}
 
+		bool hasClientPhone;
+		public bool HasClientPhone {
+			get => hasClientPhone;
+			set => SetProperty(ref hasClientPhone, value);
+		}
+
 		string clientPhone;
 		public string ClientPhone {
 			get => clientPhone;
 			set {
 				if (SetProperty(ref clientPhone, value)) {
-					ShowClientPhone = ShowDetails && !string.IsNullOrEmpty(ClientPhone);
+					HasClientPhone = !string.IsNullOrEmpty(ClientPhone);
+					//ShowClientPhone = ShowDetails && HasClientPhone;
 				}
 			}
 		}
 
-		bool showClientPhone;
-		public bool ShowClientPhone {
-			get => showClientPhone;
-			set => SetProperty(ref showClientPhone, value);
-		}
+		//bool showClientPhone;
+		//public bool ShowClientPhone {
+		//	get => showClientPhone;
+		//	set => SetProperty(ref showClientPhone, value);
+		//}
 
 		bool hasPickupStop;
 		public bool HasPickupStop {
@@ -109,7 +116,6 @@ namespace Drive.ViewModels
 		{
 			ClientName = Ride.Client.FullName;
 			ClientPhone = Ride.Client.PhoneNumber;
-			ShowClientPhone = ShowDetails && !string.IsNullOrEmpty(ClientPhone);
 
 			if (Ride.PickupStop != null) {
 				HasPickupStop = true;
@@ -138,6 +144,7 @@ namespace Drive.ViewModels
 		{
 			ShowPickupAddress = ShowDetails && HasPickupStop;
 			ShowDropoffAddress = ShowDetails && HasDropoffStop;
+			//ShowClientPhone = ShowDetails && HasClientPhone;
 		}
 
 

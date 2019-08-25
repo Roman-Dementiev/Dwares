@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 xmlns:views="clr-namespace:Drive.Views"
+			 mc:Ignorable="d"
+			 x:Class="Drive.Views.ContactCard"
+			 Margin="0"
+			 >
+
+	<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+		<ui:GridEx Flavor="Card-grid">
+			<Grid.RowDefinitions>
+				<!-- 0: Name -->
+				<RowDefinition Height="Auto" />
+				<!-- 1: PhoneNumber -->
+				<RowDefinition Height="Auto" />
+				<!-- 2: Address -->
+				<RowDefinition Height="Auto" />
+				<!-- 3: "Regular destination:" -->
+				<RowDefinition Height="Auto" />
+				<!-- 4: RegularPlace -->
+				<RowDefinition Height="Auto" />
+				<!-- 5: RegularAddress -->
+				<RowDefinition Height="Auto" />
+				<!-- 6:  -->
+				<RowDefinition Height="Auto" />
+				<!-- 7: Call etc -->
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<ui:LabelEx Grid.Row="0" Grid.Column="0"
+						Flavor="Card-text-primary"
+						Text="{Binding Name}"
+						/>
+			
+			<ui:LabelEx Grid.Row="1" Grid.Column="0"
+						Flavor="Card-text-default"
+						IsVisible="{Binding ShowPhoneNumber}"
+						Text="{Binding PhoneNumber}"
+						/>
+			<!--<ui:ArtButton Grid.Row="1" Grid.Column="0"
+						  Flavor="Card-action"
+						  IconArt="phone.small" 
+						  IsVisible="{Binding ShowPhoneNumber}"
+						  LabelText="{Binding PhoneNumber}"
+						  />-->
+			
+			<ui:LabelEx Grid.Row="2" Grid.Column="0"
+						Flavor="Card-text-default"
+						IsVisible="{Binding ShowAddress, Mode=OneWay}"
+						Text="{Binding Address}"
+												/>
+
+			<ui:LabelEx Grid.Row="3" Grid.Column="0"
+						Margin="0,24,0,0"
+						Flavor="Card-text-bold"
+						FontAttributes="Bold"
+						IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+						Text="Regular destination:"
+						/>
+			<ui:LabelEx Grid.Row="4" Grid.Column="0"
+						Flavor="Card-text-default"
+						IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+						Text="{Binding RegularPlace}"
+						/>
+			<ui:LabelEx Grid.Row="5" Grid.Column="0"
+						Flavor="Card-text-default"
+						IsVisible="{Binding ShowRegularPlace, Mode=OneWay}"
+						Text="{Binding RegularAddress}"
+						/>
+
+			<ui:BoxViewEx Grid.Row="5" Grid.Column="0"
+						  Flavor="Card-separator"
+						  IsVisible="{Binding ShowDetails}"
+						  />
+
+			<StackLayout Grid.Row="6" Grid.Column="0"
+						 IsVisible="{Binding ShowDetails, Mode=OneWay}"
+						 Orientation="Horizontal"
+						 >
+				<ui:ArtButton Flavor="Card-action"
+							  IconArt="phone.small" 
+							  IsVisible="{Binding HasPhone, Mode=OneWay}"
+							  LabelText="Call"
+							  />
+				<Label HorizontalOptions="StartAndExpand" Text=" " />
+				<ui:ArtButton Flavor="Card-action"
+							  IconArt="delete.small" 
+							  HorizontalOptions="End"
+							  />
+			</StackLayout>
+		</ui:GridEx>
+	</ui:FrameEx>
+</ContentView>

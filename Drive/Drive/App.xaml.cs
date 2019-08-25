@@ -5,9 +5,11 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 using Dwares.Druid.Satchel;
 using Dwares.Druid.Painting;
-using Dwares.Druid.UI;
+using Dwares.Druid.Services;
 using Dwares.Druid.Resources;
+using Dwares.Druid.UI;
 using Drive.ViewModels;
+using Drive.Views;
 
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -22,17 +24,12 @@ namespace Drive
 
 			InitializeComponent();
 
+			Preferences.DefaultShare = "ZenRide";
+
 			BindingContext = AppScope.Instance;
 			this.AddDefaultViewLocators();
 
-			//var themes = new Themes.ThemeResources();
-			//UIThemeManager.Instance = new UIThemeManager(themes);
-
 			UIThemeManager.Instance = new UIThemes();
-
-			//UITheme.Current = UITheme.ByName("Dark");
-			//UITheme.Current = UITheme.ByName("Light");
-			//UITheme.Current = UITheme.ByName("Oceanic");
 		}
 
 		protected override async void OnStart()
@@ -40,7 +37,12 @@ namespace Drive
 			//AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
 
-			var rootPage = AppScope.CreatePage(typeof(RootViewModel));
+			//var rootPage = AppScope.CreatePage(typeof(RootViewModel));
+			
+			//var rootPage = new MainPage();
+			//rootPage.BindingContext = new MainViewModel();
+			
+			var rootPage = Forge.CreatePage(typeof(MainPageViewModel));
 			rootPage.StartSendingPageSizeMessage();
 
 			//this.InitMainPageWithNavigation(rootPage);

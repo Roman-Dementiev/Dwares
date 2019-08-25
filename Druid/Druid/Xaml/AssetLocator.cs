@@ -18,10 +18,10 @@ namespace Dwares.Druid.Xaml
 			get => LazyInitializer.EnsureInitialized(ref _defaultAssembly, () => Application.Current.GetType().Assembly);
 		}
 
-		public static bool ResolveName(ref string name, out Assembly assembly, out string @namespace)
+		public static bool ResolveName(ref string name, out Assembly assembly)
 		{
 			assembly = null;
-			@namespace = null;
+			//@namespace = null;
 			if (string.IsNullOrEmpty(name))
 				return false;
 
@@ -35,9 +35,8 @@ namespace Dwares.Druid.Xaml
 					return false;
 				}
 
-				name = name.Substring(sep + 1);
+				name = package.Namespace + '.' + name.Substring(sep + 1);
 				assembly = package.Assembly;
-				@namespace = package.Namespace;
 				return true;
 			} else {
 				assembly = DefaultAssembly;
@@ -48,8 +47,7 @@ namespace Dwares.Druid.Xaml
 		public static ResourceId GetResourceId(string name)
 		{
 			Assembly assembly;
-			string @namespace;
-			if (!ResolveName(ref name, out assembly, out @namespace)) {
+			if (!ResolveName(ref name, out assembly)) {
 				return new ResourceId(assembly, name);
 			} else if (DefaultAssembly != null) {
 				return new ResourceId(DefaultAssembly, name);
@@ -61,12 +59,11 @@ namespace Dwares.Druid.Xaml
 		public static Type GetTypeByName(string name)
 		{
 			Assembly assembly;
-			string @namespace;
-			if (ResolveName(ref name, out assembly, out @namespace)) {
+			if (ResolveName(ref name, out assembly)) {
 				var type = assembly.GetTypeByName(name);
-				if (type == null && @namespace != null) {
-					type = assembly.GetTypeByName(@namespace + '.' + name);
-				}
+				//if (type == null) {
+				//	type = assembly.GetTypeByName(name);
+				//}
 				return type;
 			} else {
 				return DefaultAssembly?.GetTypeByName(name);

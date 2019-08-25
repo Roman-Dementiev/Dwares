@@ -5,7 +5,7 @@
 				  xmlns:views="clr-namespace:Drive.Views"
 				  x:Class="Drive.Views.ContactsSideControls"
 				  >
-	<Grid>
+	<Grid Margin="4,0,0,0">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />

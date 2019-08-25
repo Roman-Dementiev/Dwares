@@ -4,14 +4,15 @@ using Dwares.Dwarf;
 
 namespace Drive.Models
 {
-	public class Home : Place
+	public class Home : PlaceBase, IPlace
 	{
 		//static ClassRef @class = new ClassRef(typeof(Home));
 
-		public Home(string address)
+		public Home(Person person, string address)
 		{
 			//Debug.EnableTracing(@class);
 			Title = "Home";
+			Person = person;
 			Address = address;
 		}
 
@@ -29,14 +30,6 @@ namespace Drive.Models
 					return Title;
 				}
 			}
-		}
-
-		public static Home ForAddress(string address)
-		{
-			if (string.IsNullOrEmpty(address))
-				return null;
-
-			return new Home(address);
 		}
 	}
 }

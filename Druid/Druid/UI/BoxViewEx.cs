@@ -1,36 +1,28 @@
 ﻿using System;
 using Xamarin.Forms;
 using Dwares.Dwarf;
-using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid.UI
 {
-	public class FrameEx : Frame, IContentHolder, ITargeting
+	public class BoxViewEx : BoxView
 	{
-		//static ClassRef @class = new ClassRef(typeof(FrameEx));
+		//static ClassRef @class = new ClassRef(typeof(BoxViewEx));
 
-		public FrameEx()
+		public BoxViewEx()
 		{
 			//Debug.EnableTracing(@class);
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
 		}
 
-		public View ContentView {
-			get => Content;
-			set => Content = value;
-		}
-
-		public Element GetTargetElement() => ContentView;
-
 		public static readonly BindableProperty FlavorProperty =
 			BindableProperty.Create(
 				nameof(Flavor),
 				typeof(string),
-				typeof(FrameEx),
+				typeof(BoxViewEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is FrameEx frame) {
-						frame.ApplyFlavor(frame.Flavor);
+					if (bindable is BoxViewEx boxView) {
+						boxView.ApplyFlavor(boxView.Flavor);
 					}
 				});
 

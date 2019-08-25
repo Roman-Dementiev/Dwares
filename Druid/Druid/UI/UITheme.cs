@@ -26,11 +26,15 @@ namespace Dwares.Druid.UI
 
 		public ResourceDictionary Resources { get; }
 
+		public bool Internal { 
+			get => Resources.GetBoolean(nameof(Internal));
+		}
+
 		public string ThemeName {
-			get => GetString(nameof(ThemeName));
+			get => Resources.GetString(nameof(ThemeName));
 		}
 		public string BasedOn {
-			get => GetString(nameof(BasedOn));
+			get => Resources.GetString(nameof(BasedOn));
 		}
 
 		UITheme baseTheme;
@@ -46,16 +50,27 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		public string GetString(string key, bool convert = false)
-		{
-			if (Resources.TryGetValue(key, out object value) && value != null) {
-				if (value is string str)
-					return str;
-				if (convert)
-					return value.ToString();
-			}
-			return null;
-		}
+		//public bool GetBoolean(string key, bool convert = false)
+		//{
+		//	if (Resources.TryGetValue(key, out object value) && value != null) {
+		//		if (value is Boolean b)
+		//			return b;
+		//		if (convert && value is IConvertible convertible)
+		//			return Convert.ToBoolean(convertible);
+		//	}
+		//	return false;
+		//}
+
+		//public string GetString(string key, bool convert = false)
+		//{
+		//	if (Resources.TryGetValue(key, out object value) && value != null) {
+		//		if (value is string str)
+		//			return str;
+		//		if (convert)
+		//			return value.ToString();
+		//	}
+		//	return null;
+		//}
 
 		public ImageSource GetImageSource(string key, bool useBase = true)
 		{
@@ -154,10 +169,12 @@ namespace Dwares.Druid.UI
 			set => UIThemeManager.Instance.CurrentTheme = value;
 		}
 
+		public static void Select(string themeName)
+			=> UIThemeManager.Instance.SelectTheme(themeName);
+
 		public static void OnCurrentThemeChanged(Action action)
 		{
 			UIThemeManager.Instance.CurrentThemeChanged += (sender, args) => action?.Invoke();
-
 		}
 	}
 }

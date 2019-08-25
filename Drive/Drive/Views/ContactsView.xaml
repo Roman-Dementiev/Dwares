@@ -7,7 +7,6 @@
 				  >
 
 	<!--<ui:ContentViewEx.Resources>
-		<views:ContactCard x:Key="ContactCard" />
 	</ui:ContentViewEx.Resources>-->
 	
 	<ui:ContentViewEx.ToolbarItems>
@@ -54,7 +53,7 @@
 
 		<ui:EntryPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
 					   Flavor="EntryPanel"
-					   IconArt="search"
+					   IconArt="search.small"
 					   />
 
 		<ui:ListViewEx Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
@@ -65,8 +64,10 @@
 
 			<ListView.ItemTemplate>
 				<DataTemplate>
-					<!--<ViewCell View="{StaticResource ContactCard}" />-->
 					<ViewCell>
+						<views:ContactCard />
+					</ViewCell>
+					<!--<ViewCell>
 						<ContentView Margin="0">
 							<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
 								<Grid Margin="-16">
@@ -118,7 +119,7 @@
 								</Grid>
 							</ui:FrameEx>
 						</ContentView>
-					</ViewCell>
+					</ViewCell>-->
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ui:ListViewEx>

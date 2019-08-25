@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define USE_FRAMED_PAGE
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ using Drive.Models;
 using Xamarin.Forms;
 using Dwares.Druid.UI;
 using Drive.ViewModels;
+using Drive.Views;
 
 
 namespace Drive
@@ -47,28 +50,35 @@ namespace Drive
 			await storage.LoadSchedule();
 		}
 
-		public static Page CreatePage(object contentViewModel)
-		{
-			View contentView;
-			var page = Forge.CreateContentPage<FramedPage>(contentViewModel, out contentView);
+//		public static Page CreatePage(object contentViewModel)
+//		{
+//#if USE_FRAMED_PAGE
+//			View contentView;
+//			var page = Forge.CreateContentPage<FramedPage>(contentViewModel, out contentView);
 
-			if (Device.Idiom == TargetIdiom.Desktop) {
-				contentView.WidthRequest = 360;
-				contentView.HeightRequest = 640;
-				page.DecorationLayout = DecorationLayout.Center;
-			} else {
-				page.DecorationLayout = DecorationLayout.FullScreen;
-				page.BorderIsVisible = false;
-			}
-
-			return page;
-		}
+//			if (Device.Idiom == TargetIdiom.Desktop) {
+//				contentView.WidthRequest = 360;
+//				contentView.HeightRequest = 640;
+//				page.DecorationLayout = DecorationLayout.Center;
+//			} else {
+//				page.DecorationLayout = DecorationLayout.FullScreen;
+//				page.BorderIsVisible = false;
+//			}
+//#else
+//			View contentView;
+//			var page = Forge.CreateContentPage<ContentPageEx>(contentViewModel, out contentView);
+//#endif
+//			return page;
+//		}
 
 		public async void OnSettings()
 		{
 			Debug.Print("AppScope.OnSettings()");
 
-			var page = CreatePage(typeof(SettingsViewModel));
+			//var page = CreatePage(typeof(SettingsViewModel));
+			
+			var page = Forge.CreatePage(typeof(SettingsViewModel));
+
 			await Navigator.PushPage(page);
 		}
 

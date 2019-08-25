@@ -1,17 +1,20 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ui:ContentViewEx xmlns="http://xamarin.com/schemas/2014/forms" 
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
 				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-				  xmlns:forms="clr-namespace:Dwares.Druid.Forms;assembly=Druid"
 				  Title="{Binding Title}"
-				  x:Class="Drive.Views.SettingsForm">
+				  x:Class="Drive.Views.SettingsPage">
 
-	<ui:ContentViewEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Primary" Text="Accept" Writ="Accept" IconArt="ic_Accept" />
-		<!--<ui:ToolbarItemEx Order="Primary" Text="Cancel" Writ="Cancel" IconArt="ic_Cancel" />-->
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<ui:ContentPageEx.ToolbarItems>
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
-	</ui:ContentViewEx.ToolbarItems>
+	</ui:ContentPageEx.ToolbarItems>
 
 	<ui:GridEx Flavor="RootGrid" >
 		<Grid.RowDefinitions>
@@ -33,12 +36,15 @@
 					/>
 		<ui:PickerEx Grid.Row="1" Grid.Column="1"
 					 Flavor="Settings-picker"
+					 ItemsSource="{Binding Themes}"
+					 SelectedIndex="{Binding CurrentIndex, Mode=TwoWay}"
 					 >
-			<ui:PickerEx.Items>
+			<!--<ui:PickerEx.Items>
 				<x:String>Light</x:String>
 				<x:String>Dark</x:String>
 				<x:String>Oceanic</x:String>
-			</ui:PickerEx.Items>
+			</ui:PickerEx.Items>-->
 		</ui:PickerEx>
 	</ui:GridEx>
-</ui:ContentViewEx>
+</ui:ContentPageEx>
+	

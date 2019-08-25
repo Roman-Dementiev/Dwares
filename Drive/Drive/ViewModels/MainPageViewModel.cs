@@ -28,12 +28,12 @@ namespace Drive.ViewModels
 
 
 
-	public class RootViewModel : ViewModel
+	public class MainPageViewModel : ViewModel
 	{
 		//Style tabButton_Default;
 		//Style tabButton_Active;
 
-		public RootViewModel()
+		public MainPageViewModel()
 		{
 			Title = "ZenRide";
 			
@@ -67,7 +67,7 @@ namespace Drive.ViewModels
 				if (SetProperty(ref isLandscape, value)) {
 					PropertiesChanged(nameof(ControlBarRow), nameof(ControlBarColumn),
 						nameof(NavigationBarRow), nameof(NavigationBarColumn),
-						nameof(NavigationBarOrientation), nameof(NavButtonsOrientation));
+						nameof(NavigationBarOrientation));
 					if (ContentViewModel != null) {
 						Controls = Forge.CreateView(ContentViewModel.ControlsViewType(IsLandscape), ContentViewModel);
 					}
@@ -94,11 +94,6 @@ namespace Drive.ViewModels
 		public StackOrientation NavigationBarOrientation {
 			get => IsLandscape ? StackOrientation.Vertical : StackOrientation.Horizontal;
 		}
-
-		public StackOrientation NavButtonsOrientation {
-			get => IsLandscape ? StackOrientation.Horizontal : StackOrientation.Vertical;
-		}
-
 
 		RootContentType? activeContent;
 		public RootContentType? ActiveContent {

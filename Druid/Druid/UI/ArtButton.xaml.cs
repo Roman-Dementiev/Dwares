@@ -20,6 +20,8 @@ namespace Dwares.Druid.UI
 		{
 			wmix = new WritMixin(this);
 			InitializeComponent();
+
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
 		}
 
 		public static readonly BindableProperty OrientationProperty =
@@ -108,6 +110,23 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(LabelTextProperty); }
 		}
 
+		public static readonly BindableProperty LabelIsVisibleProperty =
+			BindableProperty.Create(
+				nameof(LabelIsVisible),
+				typeof(bool),
+				typeof(ArtButton),
+				defaultValue: true,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButton button && newValue is bool value) {
+						button.label.IsVisible = value;
+					}
+				});
+
+		public bool LabelIsVisible {
+			set { SetValue(LabelIsVisibleProperty, value); }
+			get { return (bool)GetValue(LabelIsVisibleProperty); }
+		}
+
 		public static readonly BindableProperty LabelColorProperty =
 			BindableProperty.Create(
 				nameof(LabelColor),
@@ -161,6 +180,23 @@ namespace Dwares.Druid.UI
 		}
 
 
+
+		public static readonly BindableProperty IconIsVisibleProperty =
+			BindableProperty.Create(
+				nameof(IconIsVisible),
+				typeof(bool),
+				typeof(ArtButton),
+				defaultValue: true,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButton button && newValue is bool value) {
+						button.image.IsVisible = value;
+					}
+				});
+
+		public bool IconIsVisible {
+			set { SetValue(IconIsVisibleProperty, value); }
+			get { return (bool)GetValue(IconIsVisibleProperty); }
+		}
 
 		public static readonly BindableProperty IconWidthProperty =
 			BindableProperty.Create(
