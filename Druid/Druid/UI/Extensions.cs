@@ -6,6 +6,11 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
+	public interface IThemeAware
+	{
+		string Flavor { get; set; }
+	}
+
 	public static partial class Extensions
 	{
 		static bool GetTheme(ref UITheme theme)
@@ -18,7 +23,7 @@ namespace Dwares.Druid.UI
 			return true;
 		}
 
-		public static bool ApplyFlavor(this VisualElement element, string flavor, UITheme theme = null)
+		public static bool ApplyFlavor_(this VisualElement element, string flavor, UITheme theme = null)
 		{
 			if (element == null || string.IsNullOrEmpty(flavor))
 				return false;
@@ -34,6 +39,11 @@ namespace Dwares.Druid.UI
 				Debug.Print($"Style '{flavor}' not found in UITheme");
 				return false;
 			}
+		}
+
+		public static bool ApplyFlavor<T>(this T element) where T : VisualElement, IThemeAware
+		{
+			return ApplyFlavor_(element, element?.Flavor);
 		}
 
 		public static bool ContainsSetter(this Style style, string propertyName)

@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.UI
 {
-	public class EditorEx : Editor 
+	public class EditorEx : Editor, IThemeAware 
 	{
 		//static ClassRef @class = new ClassRef(typeof(EditorEx));
 
@@ -13,8 +13,7 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			this.ApplyFlavor(Flavor);
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 
@@ -25,7 +24,7 @@ namespace Dwares.Druid.UI
 				typeof(EditorEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is EditorEx editor) {
-						editor.ApplyFlavor(editor.Flavor);
+						editor.ApplyFlavor();
 					}
 				});
 

@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.UI
 {
-	public class StackPanel : ContentView
+	public class StackPanel : ContentView, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(StackPanel));
 
@@ -39,6 +39,8 @@ namespace Dwares.Druid.UI
 			};
 
 			Stack.Children.Add(icon);
+
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public Frame Frame { get; }
@@ -51,7 +53,7 @@ namespace Dwares.Druid.UI
 				typeof(StackPanel),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is StackPanel panel) {
-						panel.ApplyFlavor(panel.Flavor);
+						panel.ApplyFlavor();
 					}
 				});
 

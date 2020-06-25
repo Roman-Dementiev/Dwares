@@ -5,14 +5,14 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
-	public class BoxViewEx : BoxView
+	public class BoxViewEx : BoxView, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(BoxViewEx));
 
 		public BoxViewEx()
 		{
 			//Debug.EnableTracing(@class);
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -22,7 +22,7 @@ namespace Dwares.Druid.UI
 				typeof(BoxViewEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is BoxViewEx boxView) {
-						boxView.ApplyFlavor(boxView.Flavor);
+						boxView.ApplyFlavor();
 					}
 				});
 

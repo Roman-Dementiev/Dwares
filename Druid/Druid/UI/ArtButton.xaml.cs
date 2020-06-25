@@ -11,7 +11,7 @@ using Dwares.Dwarf;
 namespace Dwares.Druid.UI
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ArtButton : ContentView, ICommandHolder
+	public partial class ArtButton : ContentView, ICommandHolder, IThemeAware
 	{
 		WritMixin wmix;
 		//public event EventHandler Tapped;
@@ -21,7 +21,7 @@ namespace Dwares.Druid.UI
 			wmix = new WritMixin(this);
 			InitializeComponent();
 
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public static readonly BindableProperty OrientationProperty =
@@ -297,7 +297,7 @@ namespace Dwares.Druid.UI
 				typeof(ArtButton),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ArtButton button) {
-						button.ApplyFlavor(button.Flavor);
+						button.ApplyFlavor();
 					}
 				});
 

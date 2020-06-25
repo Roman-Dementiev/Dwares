@@ -71,6 +71,11 @@ namespace Dwares.Drudge.Airtable
 					//if (typeof(T) == typeof(Currency)) {
 					//	value = Currency.ToCurrency(obj);
 					//}
+
+					////FIXME
+					//if (obj.GetType() == typeof(DateTime))
+					//	obj = ((DateTime)obj).ToLocalTime();
+
 					if (typeof(T) == typeof(DateOnly)) {
 						obj = DateOnly.ToDateOnly(obj);
 					}

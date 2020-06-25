@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.UI
 {
-	public class EntryEx : Entry
+	public class EntryEx : Entry, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(LabelEx));
 
@@ -13,8 +13,7 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			this.ApplyFlavor(Flavor);
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -24,7 +23,7 @@ namespace Dwares.Druid.UI
 				typeof(EntryEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is EntryEx entry) {
-						entry.ApplyFlavor(entry.Flavor);
+						entry.ApplyFlavor();
 					}
 				});
 

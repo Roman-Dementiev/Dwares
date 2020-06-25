@@ -10,7 +10,7 @@
 	</ui:ContentViewEx.Resources>
 
 	<ui:ContentViewEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Primary" Text="Appoitment" Writ="NewAppoitment" IconArt="Appoitment" />
+		<ui:ToolbarItemEx Order="Primary" Text="Add" Writ="AddRide" IconArt="ic_AddRide" />
 		<ui:ToolbarItemEx Order="Secondary" Text="Settings" Writ="Settings" IconArt="ic_Settings" />
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentViewEx.ToolbarItems>

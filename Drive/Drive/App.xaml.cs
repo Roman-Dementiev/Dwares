@@ -36,11 +36,6 @@ namespace Drive
 		{
 			//AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
-
-			//var rootPage = AppScope.CreatePage(typeof(RootViewModel));
-			
-			//var rootPage = new MainPage();
-			//rootPage.BindingContext = new MainViewModel();
 			
 			var rootPage = Forge.CreatePage(typeof(MainPageViewModel));
 			rootPage.StartSendingPageSizeMessage();

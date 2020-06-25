@@ -28,7 +28,8 @@
 		<FileImageSource x:Key="ic_Settings.black" File="{OnPlatform Android=ic_settings_black_48dp.png, UWP=Images/Settings.png}"/>
 		<FileImageSource x:Key="ic_Settings.white" File="{OnPlatform Android=ic_settings_white_48dp.png, UWP=Images/Settings.png}"/>
 
-		<FileImageSource x:Key="Appoitment" File="{OnPlatform Android=ic_appoitment.png, UWP=Images/Appoitment.png}"/>
+		<FileImageSource x:Key="ic_AddRide.black" File="{OnPlatform Android=ic_add_ride_black_32dp.png UWP=Images/AddRide.png}"/>
+		<FileImageSource x:Key="ic_AddRide.white" File="{OnPlatform Android=ic_add_ride_white_32dp.png UWP=Images/AddRide.png}"/>
 
 		<!--<ResourceDictionary x:Key="Themes">
 			<drx:UITheme x:Key="@Base" Class="Drive.Themes.BaseTheme"></drx:UITheme>

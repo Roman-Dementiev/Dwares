@@ -12,17 +12,24 @@ namespace Dwares.Druid
 	{
 		public static void AddDefaultViewLocators()
 		{
-			ClassLocator.AddLocator(new DefaultClassLocator<View> {
-				ReferenceClassNameSuffix = "ViewModel",
-				ReferenceNamespaceSuffix = "ViewModels",
-				TargetClassNameSuffix = "View",
-				TargetNamespaceSuffix = "Views"
-			});
-
 			ClassLocator.AddLocator(new DefaultClassLocator<Page> {
 				ReferenceClassNameSuffix = "PageViewModel",
 				ReferenceNamespaceSuffix = "ViewModels",
 				TargetClassNameSuffix = "Page",
+				TargetNamespaceSuffix = "Views"
+			});
+
+			ClassLocator.AddLocator(new DefaultClassLocator<Page> {
+				ReferenceClassNameSuffix = "FormViewModel",
+				ReferenceNamespaceSuffix = "ViewModels",
+				TargetClassNameSuffix = "Form",
+				TargetNamespaceSuffix = "Views"
+			});
+
+			ClassLocator.AddLocator(new DefaultClassLocator<View> {
+				ReferenceClassNameSuffix = "ViewModel",
+				ReferenceNamespaceSuffix = "ViewModels",
+				TargetClassNameSuffix = "View",
 				TargetNamespaceSuffix = "Views"
 			});
 

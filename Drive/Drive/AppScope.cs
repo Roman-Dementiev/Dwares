@@ -50,41 +50,46 @@ namespace Drive
 			await storage.LoadSchedule();
 		}
 
-//		public static Page CreatePage(object contentViewModel)
-//		{
-//#if USE_FRAMED_PAGE
-//			View contentView;
-//			var page = Forge.CreateContentPage<FramedPage>(contentViewModel, out contentView);
+		//		public static Page CreatePage(object contentViewModel)
+		//		{
+		//#if USE_FRAMED_PAGE
+		//			View contentView;
+		//			var page = Forge.CreateContentPage<FramedPage>(contentViewModel, out contentView);
 
-//			if (Device.Idiom == TargetIdiom.Desktop) {
-//				contentView.WidthRequest = 360;
-//				contentView.HeightRequest = 640;
-//				page.DecorationLayout = DecorationLayout.Center;
-//			} else {
-//				page.DecorationLayout = DecorationLayout.FullScreen;
-//				page.BorderIsVisible = false;
-//			}
-//#else
-//			View contentView;
-//			var page = Forge.CreateContentPage<ContentPageEx>(contentViewModel, out contentView);
-//#endif
-//			return page;
-//		}
+		//			if (Device.Idiom == TargetIdiom.Desktop) {
+		//				contentView.WidthRequest = 360;
+		//				contentView.HeightRequest = 640;
+		//				page.DecorationLayout = DecorationLayout.Center;
+		//			} else {
+		//				page.DecorationLayout = DecorationLayout.FullScreen;
+		//				page.BorderIsVisible = false;
+		//			}
+		//#else
+		//			View contentView;
+		//			var page = Forge.CreateContentPage<ContentPageEx>(contentViewModel, out contentView);
+		//#endif
+		//			return page;
+		//		}
+
+		public async void OnAddRide()
+		{
+			//Debug.Print("AppScope.OnAddRide()");
+
+			var page = Forge.CreatePage(typeof(RideFormViewModel));
+			await Navigator.PushPage(page);
+		}
 
 		public async void OnSettings()
 		{
-			Debug.Print("AppScope.OnSettings()");
+			//Debug.Print("AppScope.OnSettings()");
 
-			//var page = CreatePage(typeof(SettingsViewModel));
-			
 			var page = Forge.CreatePage(typeof(SettingsViewModel));
-
 			await Navigator.PushPage(page);
 		}
 
 		public void OnAbout()
 		{
-			Debug.Print("AppScope.OnAbout()");
+			//Debug.Print("AppScope.OnAbout()");
 		}
 	}
 }

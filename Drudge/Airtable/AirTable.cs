@@ -26,6 +26,8 @@ namespace Dwares.Drudge.Airtable
 		public string Name { get; }
 		public object TableId => Name;
 
+		public bool UsesUTC { get; set; } = false;
+
 
 		public virtual Task Initialize()
 		{
@@ -129,7 +131,11 @@ namespace Dwares.Drudge.Airtable
 			var uri = AirClient.RecordUri(Base.BaseId, Name, recordId);
 
 			var response = await AirClient.GetAsync(Base.ApiKey, uri);
-			var record = JsonConvert.DeserializeObject<TRecord>(response.Body);
+
+			var settings = new JsonSerializerSettings();
+			settings.DateTimeZoneHandling = UsesUTC ? DateTimeZoneHandling.Utc : DateTimeZoneHandling.Local;
+
+			var record = JsonConvert.DeserializeObject<TRecord>(response.Body, settings);
 
 			return record;
 		}
@@ -282,7 +288,7 @@ namespace Dwares.Drudge.Airtable
 			return recordList;
 		}
 
-		public async Task<AirRecordList<TRecord>> List(int maxRecords)
+		public async Task<AirRecordList<TRecord>> List(int maxRecords, string sortField = null, bool sortDescending = false)
 		{
 
 			var queryBuilder = new QyeryBuilder();
@@ -290,12 +296,20 @@ namespace Dwares.Drudge.Airtable
 				Guard.ArgumentIsInRange(maxRecords, 1, AirClient.MAX_NUMBER_OF_RECORDS_IN_LIST, nameof(maxRecords));
 				queryBuilder.MaxRecords = maxRecords;
 			}
+			if (!string.IsNullOrEmpty(sortField)) {
+				queryBuilder.Sort = new List<Sort> {
+					new Sort {
+						Field = sortField, 
+						Direction = sortDescending ? SortDirection.Desc : SortDirection.Asc
+					}
+				};
+			}
 			return await List(queryBuilder);
 		}
 
-		public async Task<TRecord[]> ListRecords(int maxRecords = 0)
+		public async Task<TRecord[]> ListRecords(int maxRecords = 0, string sortField = null, bool sortDescending = false)
 		{
-			var list = await List(maxRecords);
+			var list = await List(maxRecords, sortField, sortDescending);
 			return list?.Records;
 		}
 

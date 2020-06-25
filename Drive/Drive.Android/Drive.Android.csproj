@@ -109,7 +109,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ic_appoitment.png" />
+    <AndroidResource Include="Resources\drawable\ic_add_ride_white_32dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_done_black_48dp.png" />

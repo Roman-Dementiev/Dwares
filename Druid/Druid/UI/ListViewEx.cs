@@ -5,15 +5,14 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.UI
 {
-	public class ListViewEx : ListView
+	public class ListViewEx : ListView, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(ListViewEx));
 		public ListViewEx()
 		{
 			//Debug.EnableTracing(@class);
 
-			this.ApplyFlavor(Flavor);
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -23,7 +22,7 @@ namespace Dwares.Druid.UI
 				typeof(ListViewEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ListViewEx listView) {
-						listView.ApplyFlavor(listView.Flavor);
+						listView.ApplyFlavor();
 					}
 				});
 

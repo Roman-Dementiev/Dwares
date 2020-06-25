@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Dwares.Druid.UI
 {
-	public class ArtImage : Image
+	public class ArtImage : Image, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(ArtImage));
 
@@ -14,7 +14,7 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -24,7 +24,7 @@ namespace Dwares.Druid.UI
 				typeof(ArtImage),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is ArtImage image) {
-						image.ApplyFlavor(image.Flavor);
+						image.ApplyFlavor();
 					}
 				});
 

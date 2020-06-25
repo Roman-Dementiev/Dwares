@@ -6,14 +6,14 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.UI
 {
-	public class FrameEx : Frame, IContentHolder, ITargeting
+	public class FrameEx : Frame, IContentHolder, ITargeting, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(FrameEx));
 
 		public FrameEx()
 		{
 			//Debug.EnableTracing(@class);
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public View ContentView {
@@ -30,7 +30,7 @@ namespace Dwares.Druid.UI
 				typeof(FrameEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is FrameEx frame) {
-						frame.ApplyFlavor(frame.Flavor);
+						frame.ApplyFlavor();
 					}
 				});
 

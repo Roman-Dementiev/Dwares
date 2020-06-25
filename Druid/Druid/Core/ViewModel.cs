@@ -38,6 +38,7 @@ namespace Dwares.Druid
 			if (message != null) {
 				BusyMessage = message;
 			}
+			PropertiesChanged(nameof(IsBusy), nameof(NotBusy), nameof(BusyMessage));
 		}
 
 		public void ClearBusy(bool reset = false)
@@ -62,6 +63,7 @@ namespace Dwares.Druid
 					}
 				}
 			}
+			PropertiesChanged(nameof(IsBusy), nameof(NotBusy), nameof(BusyMessage));
 		}
 
 		internal struct BusyState

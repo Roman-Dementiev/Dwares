@@ -5,7 +5,7 @@ using Dwares.Dwarf;
 
 namespace Dwares.Druid.UI
 {
-	public class PickerEx : Picker
+	public class PickerEx : Picker, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(PickerEx));
 
@@ -13,8 +13,7 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			this.ApplyFlavor(Flavor);
-			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor(Flavor));
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
 		public static bool HasNativeLabel {
@@ -62,7 +61,7 @@ namespace Dwares.Druid.UI
 				typeof(PickerEx),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is PickerEx picker) {
-						picker.ApplyFlavor(picker.Flavor);
+						picker.ApplyFlavor();
 					}
 				});
 

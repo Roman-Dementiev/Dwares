@@ -11,6 +11,7 @@
 	<x:String x:Key="ic_Accept">ic_Accept.white</x:String>
 	<x:String x:Key="ic_Cancel">ic_Cancel.white</x:String>
 	<x:String x:Key="ic_Settings">ic_Settings.white</x:String>
+	<x:String x:Key="ic_AddRide">ic_AddRide.white</x:String>
 
 	<!--<Style x:Key="NavigationPage" TargetType="NavigationPage">
 		<Setter Property="BackgroundColor" Value="{Binding Background}" />
@@ -126,24 +127,50 @@
 		<Setter Property="WidthRequest" Value="48" />
 		<Setter Property="HeightRequest" Value="48" />
 	</Style>
-	
 	<Style x:Key="Settings-caption" TargetType="Label">
 		<Setter Property="HorizontalOptions" Value="Start" />
 		<Setter Property="VerticalOptions" Value="Start" />
 		<Setter Property="FontAttributes" Value="Bold" />
 	</Style>
-	
 	<Style x:Key="Settings-picker" TargetType="Picker">
 		<Setter Property="FontSize" Value="16" />
 	</Style>
 
 
+	<Style x:Key="Form-caption" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	<Style x:Key="Form-head-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Form-lead-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="HorizontalOptions" Value="End" />
+	</Style>
+	<Style x:Key="Form-entry" TargetType="Entry">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="Margin" Value="0,-12,0,0" />
+	</Style>
+	<Style x:Key="Form-picker" TargetType="Picker">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="Margin" Value="0,-12,0,0" />
+	</Style>
+	<Style x:Key="Form-switch" TargetType="Switch">
+	</Style>
+	<Style x:Key="Form-timepicker" TargetType="TimePicker">
+		<Setter Property="FontSize" Value="12" />
+	</Style>
+
+
+
 	<Style x:Key="EntryPanel" TargetType="Entry">
 	</Style>
-	
+
 	<Style x:Key="StaticText" TargetType="Label">
 	</Style>
 
+	<!--
 	<Style x:Key="FieldLabel" TargetType="Label">
 		<Setter Property="HorizontalOptions" Value="End" />
 		<Setter Property="VerticalOptions" Value="Center" />
@@ -161,5 +188,6 @@
 	<Style x:Key="AddressEditor" TargetType="Editor">
 		<Setter Property="HeightRequest" Value="86" />
 	</Style>
+	-->
 	
 </ResourceDictionary>
