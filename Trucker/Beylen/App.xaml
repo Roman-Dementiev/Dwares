@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d"
+			 x:Class="Beylen.App"
+			 >
+	
+	<Application.Resources>
+		<ResourceDictionary>
+			<Color x:Key="NavigationPrimary">#2196F3</Color>
+
+			<Style x:Key="BaseShellStyle" TargetType="Element">
+				<Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+				<Setter Property="Shell.ForegroundColor" Value="White" />
+				<Setter Property="Shell.TitleColor" Value="White" />
+				<Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+				<Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+				<Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+				<Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+				<Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+				<Setter Property="Shell.TabBarTitleColor" Value="White"/>
+			</Style>
+
+			<!--<Style TargetType="TabBar" BasedOn="{StaticResource BaseShellStyle}" />-->
+
+			<Style x:Key="OrdersShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<!--<Setter Property="Shell.BackgroundColor"
+					Value="#689F39" />-->
+			</Style>
+			<Style x:Key="ShoppingShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<!--<Setter Property="Shell.BackgroundColor"
+					Value="#ED3B3B" />-->
+			</Style>
+			<Style x:Key="StorageShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<!--<Setter Property="Shell.BackgroundColor"
+					Value="#546DFE" />-->
+			</Style>
+			<Style x:Key="RouteShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<!--<Setter Property="Shell.BackgroundColor"
+					Value="#546DFE" />-->
+			</Style>
+			<Style x:Key="SettingsShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<!--<Setter Property="Shell.BackgroundColor"
+					Value="#96d1ff" />-->
+			</Style>
+			<Style x:Key="AboutShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<!--<Setter Property="Shell.BackgroundColor"
+					Value="#96d1ff" />-->
+			</Style>
+			<Style x:Key="ContactsShell"
+			   TargetType="Element"
+			   BasedOn="{StaticResource BaseShellStyle}">
+				<Setter Property="Shell.BackgroundColor"
+					Value="#039BE6" />
+			</Style>
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>

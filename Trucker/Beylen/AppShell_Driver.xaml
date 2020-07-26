@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+	   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	   xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	   xmlns:views="clr-namespace:Beylen.Views"
+	   mc:Ignorable="d"
+	   FlyoutHeaderBehavior="CollapseOnScroll"
+	   Navigating="OnNavigating"
+	   Navigated="OnNavigated"
+	   Title="Beylen"
+	   x:Class="Beylen.AppShell_Driver"
+	   >
+
+	<!--<Shell.FlyoutBackgroundImage>photo.jpg</Shell.FlyoutBackgroundImage>
+	<Shell.FlyoutBackgroundImageAspect>AspectFill</Shell.FlyoutBackgroundImageAspect>-->
+
+	<Shell.FlyoutHeader>
+		<views:FlyoutHeader_Driver />
+	</Shell.FlyoutHeader>
+
+	<!--<Shell.Resources>
+	</Shell.Resources>-->
+
+	<FlyoutItem Route="market"
+				Title="Market"
+				FlyoutDisplayOptions="AsMultipleItems"
+				>
+		<ShellContent Route="orders"
+					  Style="{StaticResource OrdersShell}"
+					  Title="Orders"
+					  Icon="tab_orders.png"
+					  ContentTemplate="{DataTemplate views:ItemsPage}" />
+		<ShellContent Route="route"
+					  Style="{StaticResource RouteShell}"
+					  Title="Route"
+					  Icon="tab_route.png"
+					  ContentTemplate="{DataTemplate views:AboutPage}"
+					  IsEnabled="False"
+					  />
+	</FlyoutItem>
+
+	<ShellContent Route="settings"
+				  Style="{StaticResource SettingsShell}"
+				  Title="Settings"
+				  Icon="settings.png"
+				  ContentTemplate="{DataTemplate views:SettingsPage}"
+				  />
+	<ShellContent Route="about"
+				  Style="{StaticResource AboutShell}"
+				  Title="About"
+				  Icon="info.png"
+				  ContentTemplate="{DataTemplate views:AboutPage}"
+				  />
+</Shell>

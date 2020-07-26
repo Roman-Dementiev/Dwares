@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  Title="{Binding Title}"
+				  x:Class="Beylen.Views.ContactsPage">
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<ui:ListViewEx x:Name="listView"
+				   HasUnevenRows="True"
+				   ItemsSource="{Binding Items}"
+				   >
+		<ListView.ItemTemplate>
+			<DataTemplate>
+				<ViewCell>
+					<Grid Margin="8">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+					
+						<Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+							   Source="contact.png"
+							   VerticalOptions="Center"
+							   />
+						<Label Grid.Row="0" Grid.Column="1"
+								   FontSize="16"
+								   Text="{Binding Name}"
+								   />
+						<Label Grid.Row="1" Grid.Column="1"
+								   Text="{Binding Phone}"
+								   />
+					</Grid>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+
+
+	</ui:ListViewEx>
+</ui:ContentPageEx>
+	

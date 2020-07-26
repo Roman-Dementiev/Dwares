@@ -1,6 +1,4 @@
-﻿using System;
-//using System.Threading.Tasks;
-
+﻿//using System.Threading.Tasks;
 
 namespace Dwares.Druid.Services
 {
@@ -54,7 +52,11 @@ namespace Dwares.Druid.Services
 
 		public static void Set<T>(string key, T value, string share = null)
 		{
-			Instance.Set<T>(key, value, share ?? DefaultShare);
+			//if (value == null) {
+			//	Instance.RemoveKey(key, share ?? DefaultShare);
+			//} else {
+				Instance.Set<T>(key, value, share ?? DefaultShare);
+			//}
 		}
 	}	
 }
