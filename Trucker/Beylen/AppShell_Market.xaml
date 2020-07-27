@@ -31,13 +31,13 @@
 					  Style="{StaticResource OrdersShell}"
 					  Title="Orders"
 					  Icon="tab_orders.png"
-					  ContentTemplate="{DataTemplate views:ItemsPage}"
+					  ContentTemplate="{DataTemplate views:AboutPage}"
 					  />
 		<ShellContent Route="shopping"
 					  Style="{StaticResource ShoppingShell}"
 					  Title="Shopping"
 					  Icon="tab_shopping.png"
-					  ContentTemplate="{DataTemplate views:ItemsPage}"
+					  ContentTemplate="{DataTemplate views:AboutPage}"
 					  />
 		<ShellContent Route="storage"
 					  Style="{StaticResource StorageShell}"
@@ -55,7 +55,7 @@
 			<ShellContent Route="customers"
 						  Style="{StaticResource ContactsShell}"
 						  Title="Customers"
-						  ContentTemplate="{DataTemplate views:AboutPage}" />
+						  ContentTemplate="{DataTemplate views:CustomersPage}" />
 		</Tab>
 	</FlyoutItem>
 

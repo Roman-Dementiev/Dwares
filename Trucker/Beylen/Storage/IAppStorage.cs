@@ -9,5 +9,6 @@ namespace Beylen.Storage
 		Task Initialize();
 
 		Task LoadContacts();
+		Task LoadCustomers();
 	}
 }

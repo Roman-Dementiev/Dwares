@@ -5,11 +5,11 @@ using Dwares.Dwarf.Collections;
 
 namespace Beylen.Models
 {
-	public class Contacts<T> : OrderedCollection<T> where T : IContact
+	public class ContactCollection<T> : OrderedCollection<T> where T : IContact
 	{
 		//static ClassRef @class = new ClassRef(typeof(Contacts));
 
-		public Contacts() : base(CompareByName)
+		public ContactCollection() : base(CompareByName)
 		{
 			//Debug.EnableTracing(@class);
 		}

@@ -9,11 +9,11 @@ using Beylen.ViewModels;
 namespace Beylen.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ContactsPage : ContentPageEx
+	public partial class CustomersPage : ContentPageEx
 	{
-		public ContactsPage()
+		public CustomersPage()
 		{
-			BindingContext = new ContactsViewModel();
+			BindingContext = new CustomersViewModel();
 
 			InitializeComponent();
 		}

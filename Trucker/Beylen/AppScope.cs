@@ -39,8 +39,9 @@ namespace Beylen
 
 		public Shell AppShell { get; set; }
 
-		public Contacts<Contact> Contacts { get; } = new Contacts<Contact>();
-		public Contacts<Customer> Customers { get; } = new Contacts<Customer>();
+
+		public ContactCollection<Contact> Contacts { get; } = new ContactCollection<Contact>();
+		public ContactCollection<Customer> Customers { get; } = new ContactCollection<Customer>();
 
 		public void Configure()
 		{
@@ -74,18 +75,18 @@ namespace Beylen
 
 			await storage.Initialize();
 			await storage.LoadContacts();
+			await storage.LoadCustomers();
 		}
 
 		/* Xamarin.Forms Routing
 		 */
-
 		public Dictionary<string, Type> Routes { get; } = new Dictionary<string, Type>() {
-			{ "orders", typeof(ItemsPage) },
-			{ "shopping", typeof(ItemsPage) },
+			{ "orders", typeof(AboutPage) },
+			{ "shopping", typeof(AboutPage) },
 			{ "storage", typeof(AboutPage) },
 			{ "route", typeof(AboutPage) },
 			{ "phones", typeof(ContactsPage) },
-			{ "customers", typeof(AboutPage) },
+			{ "customers", typeof(CustomersPage) },
 			{ "settings", typeof(SettingsPage) },
 			{ "about", typeof(AboutPage) }
 		};

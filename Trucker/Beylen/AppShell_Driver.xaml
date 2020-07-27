@@ -22,15 +22,15 @@
 	<!--<Shell.Resources>
 	</Shell.Resources>-->
 
-	<FlyoutItem Route="market"
-				Title="Market"
+	<FlyoutItem Route="driver"
+				Title="Driver"
 				FlyoutDisplayOptions="AsMultipleItems"
 				>
 		<ShellContent Route="orders"
 					  Style="{StaticResource OrdersShell}"
 					  Title="Orders"
 					  Icon="tab_orders.png"
-					  ContentTemplate="{DataTemplate views:ItemsPage}" />
+					  ContentTemplate="{DataTemplate views:AboutPage}" />
 		<ShellContent Route="route"
 					  Style="{StaticResource RouteShell}"
 					  Title="Route"
@@ -38,6 +38,18 @@
 					  ContentTemplate="{DataTemplate views:AboutPage}"
 					  IsEnabled="False"
 					  />
+		<Tab Title="Contacts"
+			 Route="contacts"
+			 Icon="tab_contacts.png">
+			<ShellContent Route="phones"
+						  Style="{StaticResource ContactsShell}"
+						  Title="Phones"
+						  ContentTemplate="{DataTemplate views:ContactsPage}" />
+			<ShellContent Route="customers"
+						  Style="{StaticResource ContactsShell}"
+						  Title="Customers"
+						  ContentTemplate="{DataTemplate views:CustomersPage}" />
+		</Tab>
 	</FlyoutItem>
 
 	<ShellContent Route="settings"
