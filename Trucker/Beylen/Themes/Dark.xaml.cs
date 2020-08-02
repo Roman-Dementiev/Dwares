@@ -1,15 +1,13 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Dwares.Druid.UI;
 
-
-namespace Beylen
+namespace Beylen.Themes
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AppShell_Market : ShellEx
+	public partial class Dark : ResourceDictionary
 	{
-		public AppShell_Market()
+		public Dark()
 		{
 			InitializeComponent();
 		}

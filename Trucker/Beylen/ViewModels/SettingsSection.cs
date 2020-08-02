@@ -16,7 +16,8 @@ namespace Beylen.ViewModels
 			//Debug.EnableTracing(@class);
 		}
 
-		public string IconSource { get; set; }
+		public string Icon { get; set; }
+		//public string IconSource { get; set; }
 		public string Title { get; set; }
 		//public string Value { get; set; }
 

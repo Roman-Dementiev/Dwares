@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid;
+using Dwares.Druid.UI;
 using Dwares.Druid.Services;
 using Beylen.Models;
 using Beylen.Services;
@@ -27,6 +28,8 @@ namespace Beylen
 
 			BindingContext = AppScope.Instance;
 			//this.AddDefaultViewLocators();
+
+			UIThemeManager.Instance = new UIThemes();
 		}
 
 		protected override async void OnStart()

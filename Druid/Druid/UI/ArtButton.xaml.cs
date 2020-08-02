@@ -332,8 +332,11 @@ namespace Dwares.Druid.UI
 		void OnTapped(object sender, EventArgs args)
 		{
 			if (IsEnabled && Command != null && Command.CanExecute(null)) {
+				//Debug.Print("ArtButton.OnTapped(): Wtit={0}", Writ);
 				Command.Execute(null);
 			}
 		}
+
+		protected Image Image => image;
 	}
 }

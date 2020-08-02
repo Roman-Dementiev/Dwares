@@ -2,16 +2,18 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
-
+using Beylen.Models;
 
 namespace Beylen
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AppShell_Market : ShellEx
+	public partial class UIThemes : UIThemeManager
 	{
-		public AppShell_Market()
+		public UIThemes()
 		{
 			InitializeComponent();
+
+			SelectTheme(Settings.UITheme);
 		}
 	}
 }

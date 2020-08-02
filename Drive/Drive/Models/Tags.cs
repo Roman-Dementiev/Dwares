@@ -38,7 +38,7 @@ namespace Drive.Models
 				var tag = knownTags?.GetTag(name);
 				if (tag == null) {
 					if (knownOnly) {
-						Debug.Print($"AirStorage.GetTags(): Unknown tag '{name}'");
+						Debug.Print($"Tags.GetTags(): Unknown tag '{name}'");
 						continue;
 					}
 

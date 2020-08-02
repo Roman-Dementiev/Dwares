@@ -3,70 +3,28 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
 			 mc:Ignorable="d"
 			 x:Class="Beylen.App"
 			 >
-	
+
 	<Application.Resources>
-		<ResourceDictionary>
-			<Color x:Key="NavigationPrimary">#2196F3</Color>
+		<drx:BitmapAsset x:Key="ic_contact" BitmapSize="36" Color="Black">Beylen.Resources.ic_contact.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_cafe" BitmapSize="36" Color="Black">Beylen.Resources.ic_cafe.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_call" BitmapSize="36" Color="Black">Beylen.Resources.ic_call.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_child_care" BitmapSize="36" Color="Black">Beylen.Resources.ic_child_care.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_face" BitmapSize="36" Color="Black">Beylen.Resources.ic_face.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_home" BitmapSize="36" Color="Black">Beylen.Resources.ic_home.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_kitchen" BitmapSize="36" Color="Black">Beylen.Resources.ic_kitchen.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_pizza" BitmapSize="36" Color="Black">Beylen.Resources.ic_pizza.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_restaurant" BitmapSize="36" Color="Black">Beylen.Resources.ic_restaurant.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_store" BitmapSize="36" Color="Black">Beylen.Resources.ic_store.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_edit.small" BitmapSize="24" Color="Black">Beylen.Resources.ic_edit.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_delete.small" BitmapSize="24" Color="Black">Beylen.Resources.ic_delete.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_settings_app_mode" BitmapSize="36" Color="Black">Beylen.Resources.ic_settings_app_mode.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_settings_ui_theme" BitmapSize="36" Color="Black">Beylen.Resources.ic_settings_ui_theme.png</drx:BitmapAsset>
 
-			<Style x:Key="BaseShellStyle" TargetType="Element">
-				<Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
-				<Setter Property="Shell.ForegroundColor" Value="White" />
-				<Setter Property="Shell.TitleColor" Value="White" />
-				<Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
-				<Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
-				<Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
-				<Setter Property="Shell.TabBarForegroundColor" Value="White"/>
-				<Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
-				<Setter Property="Shell.TabBarTitleColor" Value="White"/>
-			</Style>
-
-			<!--<Style TargetType="TabBar" BasedOn="{StaticResource BaseShellStyle}" />-->
-
-			<Style x:Key="OrdersShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<!--<Setter Property="Shell.BackgroundColor"
-					Value="#689F39" />-->
-			</Style>
-			<Style x:Key="ShoppingShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<!--<Setter Property="Shell.BackgroundColor"
-					Value="#ED3B3B" />-->
-			</Style>
-			<Style x:Key="StorageShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<!--<Setter Property="Shell.BackgroundColor"
-					Value="#546DFE" />-->
-			</Style>
-			<Style x:Key="RouteShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<!--<Setter Property="Shell.BackgroundColor"
-					Value="#546DFE" />-->
-			</Style>
-			<Style x:Key="SettingsShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<!--<Setter Property="Shell.BackgroundColor"
-					Value="#96d1ff" />-->
-			</Style>
-			<Style x:Key="AboutShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<!--<Setter Property="Shell.BackgroundColor"
-					Value="#96d1ff" />-->
-			</Style>
-			<Style x:Key="ContactsShell"
-			   TargetType="Element"
-			   BasedOn="{StaticResource BaseShellStyle}">
-				<Setter Property="Shell.BackgroundColor"
-					Value="#039BE6" />
-			</Style>
-		</ResourceDictionary>
+		<!--<FileImageSource x:Key="ic_contact.black" File="{OnPlatform Android=contact_black.png}"/>
+		<FileImageSource x:Key="ic_contact.white" File="{OnPlatform Android=contact_white.png}"/>-->
 	</Application.Resources>
 </Application>

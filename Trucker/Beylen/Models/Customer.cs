@@ -1,5 +1,6 @@
 ﻿using System;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Beylen.Models
@@ -19,10 +20,16 @@ namespace Beylen.Models
 		}
 		string address;
 
-		public string ContactPerson {
+		public string ContactName {
 			get => contactPerson;
 			set => SetProperty(ref contactPerson, value);
 		}
 		string contactPerson;
+
+		public PhoneNumber ContactPhone {
+			get => contactPhone;
+			set => SetProperty(ref contactPhone, value);
+		}
+		PhoneNumber contactPhone;
 	}
 }

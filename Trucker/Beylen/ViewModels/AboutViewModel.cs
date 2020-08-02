@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Dwares.Druid;
+using System;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Beylen.ViewModels
 {
-	public class AboutViewModel : BaseViewModel
+	public class AboutViewModel : ViewModel
 	{
 		public AboutViewModel()
 		{

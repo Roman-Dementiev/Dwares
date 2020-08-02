@@ -6,12 +6,12 @@ using Beylen.Models;
 
 namespace Beylen.ViewModels
 {
-	public class CustomersViewModel : CollectionViewModel<Customer>
+	public class CustomersViewModel : CollectionViewModel<CustomerCardModel>
 	{
 		//static ClassRef @class = new ClassRef(typeof(CustomersViewModel));
 
 		public CustomersViewModel() :
-			base(ApplicationScope, AppScope.Instance.Customers)
+			base(ApplicationScope, CustomerCardModel.CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 

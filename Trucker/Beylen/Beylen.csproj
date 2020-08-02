@@ -1,9 +1,46 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\delete_small.png" />
+    <None Remove="Resources\ic_cafe.png" />
+    <None Remove="Resources\ic_call.png" />
+    <None Remove="Resources\ic_child_care.png" />
+    <None Remove="Resources\ic_contact.png" />
+    <None Remove="Resources\ic_delete.png" />
+    <None Remove="Resources\ic_delete_forever.png" />
+    <None Remove="Resources\ic_edit.png" />
+    <None Remove="Resources\ic_face.png" />
+    <None Remove="Resources\ic_home.png" />
+    <None Remove="Resources\ic_kitchen.png" />
+    <None Remove="Resources\ic_pizza.png" />
+    <None Remove="Resources\ic_restaurant.png" />
+    <None Remove="Resources\ic_settings_app_mode.png" />
+    <None Remove="Resources\ic_settings_ui_theme.png" />
+    <None Remove="Resources\ic_store.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ic_cafe.png" />
+    <EmbeddedResource Include="Resources\ic_call.png" />
+    <EmbeddedResource Include="Resources\ic_child_care.png" />
+    <EmbeddedResource Include="Resources\ic_contact.png" />
+    <EmbeddedResource Include="Resources\ic_delete.png" />
+    <EmbeddedResource Include="Resources\ic_delete_forever.png" />
+    <EmbeddedResource Include="Resources\ic_edit.png" />
+    <EmbeddedResource Include="Resources\ic_face.png" />
+    <EmbeddedResource Include="Resources\ic_home.png" />
+    <EmbeddedResource Include="Resources\ic_kitchen.png" />
+    <EmbeddedResource Include="Resources\ic_pizza.png" />
+    <EmbeddedResource Include="Resources\ic_restaurant.png" />
+    <EmbeddedResource Include="Resources\ic_settings_app_mode.png" />
+    <EmbeddedResource Include="Resources\ic_settings_ui_theme.png" />
+    <EmbeddedResource Include="Resources\ic_store.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.495" />  
@@ -16,10 +53,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Themes\@Base.xaml.cs">
+      <DependentUpon>%40Base.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="AppShell_Driver.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="AppShell_Market.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\@Base.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Dark.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Light.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="UIThemes.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ContactsPage.xaml">

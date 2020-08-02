@@ -12,13 +12,32 @@ namespace Dwares.Druid.UI
 		Custom
 	};
 
-	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder, ITargeting
+	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder, ITargeting, IThemeAware
 	{
-		public ContentPageEx() {}
+		public ContentPageEx()
+		{
+			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
+		}
 
-		public ContentPageEx(BindingScope scope)
+		public ContentPageEx(BindingScope scope) : this()
 		{
 			Scope = scope;
+		}
+
+		public static readonly BindableProperty FlavorProperty =
+			BindableProperty.Create(
+				nameof(Flavor),
+				typeof(string),
+				typeof(ContentPageEx),
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ContentPageEx page) {
+						page.ApplyFlavor();
+					}
+				});
+
+		public string Flavor {
+			set { SetValue(FlavorProperty, value); }
+			get { return (string)GetValue(FlavorProperty); }
 		}
 
 		public virtual View ContentView

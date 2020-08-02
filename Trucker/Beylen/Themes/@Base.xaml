@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Beylen.Themes.Base">
+
+
+	<x:String x:Key="ThemeName">@Base</x:String>
+	<x:Boolean x:Key="Internal">True</x:Boolean>
+
+	<Style x:Key="Shell" TargetType="Shell">
+	</Style>
+	
+	<!--<Style x:Key="ShellContent" TargetType="ShellContent">
+	</Style>-->
+	
+	<Style x:Key="ShellPage" TargetType="Page">
+	</Style>
+
+	<Style x:Key="Card-frame-default" TargetType="Frame">
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Padding" Value="16" />
+		<Setter Property="BorderColor" Value="Transparent" />
+		<Setter Property="BackgroundColor" Value="Transparent" />
+		<Setter Property="CornerRadius" Value="8" />
+	</Style>
+	<Style x:Key="Card-frame-selected" TargetType="Frame">
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Padding" Value="16" />
+		<Setter Property="CornerRadius" Value="0" />
+	</Style>
+	<Style x:Key="Card-grid" TargetType="Grid">
+		<Setter Property="Margin" Value="-12" />
+	</Style>
+	<Style x:Key="Card-icon" TargetType="ui:ArtImage">
+		<Setter Property="WidthRequest" Value="36" />
+		<Setter Property="HeightRequest" Value="36" />
+		<!--<Setter Property="VerticalOptions" Value="Center" />-->
+		<Setter Property="VerticalOptions" Value="Start" />
+		<Setter Property="Margin" Value="2,8,4,0" />
+	</Style>
+	<Style x:Key="Card-button" TargetType="ui:ArtButton">
+		<Setter Property="Orientation" Value="Horizontal" />
+		<!--<Setter Property="WidthRequest" Value="24" />
+		<Setter Property="HeightRequest" Value="24" />-->
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<!--<Setter Property="Margin" Value="8" />-->
+		<Setter Property="VerticalOptions" Value="Start" />
+	</Style>
+	<Style x:Key="Card-text-default" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Card-text-bold" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	<Style x:Key="Card-text-primary" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	<Style x:Key="Card-separator" TargetType="BoxView">
+		<Setter Property="HeightRequest" Value="1" />
+	</Style>
+	<Style x:Key="Card-action" TargetType="ui:ArtButton">
+		<Setter Property="Margin" Value="-1,-8" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+
+	<Style x:Key="Settings-icon" TargetType="ui:ArtImage">
+		<Setter Property="WidthRequest" Value="36" />
+		<Setter Property="HeightRequest" Value="36" />
+		<Setter Property="VerticalOptions" Value="Center" />
+	</Style>
+	<Style x:Key="Settings-section-title" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Settings-section-value" TargetType="Label">
+		<Setter Property="FontSize" Value="12" />
+	</Style>
+</ResourceDictionary>

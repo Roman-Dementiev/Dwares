@@ -35,10 +35,12 @@ namespace Beylen.Storage
 		public Task LoadCustomers()
 		{
 			var customers = AppScope.Instance.Customers;
-			customers.Add(new Customer { Name = "pepper house", Address = "3111 NJ-38 #21\nMt Laurel Township, NJ 08054", Phone = "(856) 234-2929" });
-			customers.Add(new Customer { Name = "judah", Address = "9311 Krewstown Rd\nPhiladelphia, PA 19115", Phone = "(215) 613-6110" });
-			customers.Add(new Customer { Name = "palace royl", Address = "9859 Bustleton Ave\nPhiladelphia, PA 19115", Phone = "215) 677-3323" });
-			customers.Add(new Customer { Name = "passage" });
+			customers.Add(new Customer { Name = "pepper house", Address = "3111 NJ-38 #21\nMt Laurel Township, NJ 08054", Phone = "(856) 234-2929", ContactPhone="111-111-1111", ContactName="Name 1"  });
+			customers.Add(new Customer { Name = "pizza rs", Tags = "pizza", Address = "7266 Rising Sun Ave\nPhiladelphia, PA 19111", Phone = "(215) 722-5600" });
+			customers.Add(new Customer { Name = "pizza cot", Tags = "pizza", Address = "3542 Cottman Ave\nPhiladelphia, PA 19149", Phone = "(215) 722-5600" });
+			customers.Add(new Customer { Name = "judah", Tags="restaurant", Address = "9311 Krewstown Rd\nPhiladelphia, PA 19115", Phone = "(215) 331-7699" });
+			customers.Add(new Customer { Name = "palace royl", Tags = "restaurant", Address = "9859 Bustleton Ave\nPhiladelphia, PA 19115", Phone = "(215) 677-3323", ContactPhone = "333-333-3333" });
+			customers.Add(new Customer { Name = "passage", ContactPhone="444-444-4444" });
 
 			return Task.CompletedTask;
 		}

@@ -62,7 +62,8 @@ namespace Dwares.Druid.Painting
 			if (picture != null) {
 				var bitmap = picture.ToBitmap();
 				if (bitmap != null) {
-					return new SKBitmapImageSource { Bitmap = bitmap };
+					var source = new SKBitmapImageSource { Bitmap = bitmap };
+					return source;
 				}
 			}
 

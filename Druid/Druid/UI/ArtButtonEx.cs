@@ -173,7 +173,7 @@ namespace Dwares.Druid.UI
 		protected override void SelectImageSource(string name, Color? color)
 		{
 			base.SelectImageSource(name, color);
-			//ImageSource = UITheme.Current.GetImage(name);
+			//Image.Source = UITheme.Current.GetImageSource(name);
 		}
 	}
 }

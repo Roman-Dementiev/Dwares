@@ -21,16 +21,18 @@ namespace Beylen.ViewModels
 
 			if (AppScope.Instance.ConfigMode == null) {
 				Items.Add(new SettingsSection {
-					IconSource = "set_app_mode.png",
+					//IconSource = "set_app_mode.png",
+					Icon = "ic_settings_app_mode",
 					Title = "Application mode",
 					Value = AppModeString(),
 					Action = ChooseAppMode
 					});;
 			}
-			Items.Add(new SettingsSection { 
-				IconSource = "set_ui_theme.png",
-				Title = "UI Thene",
-				Value = "Default",
+			Items.Add(new SettingsSection {
+				//IconSource = "set_ui_theme.png",
+				Icon = "ic_settings_ui_theme",
+				Title = "UI Theme",
+				Value = Settings.UITheme,
 				Action = ChooseUIThene
 			});
 		}
@@ -76,6 +78,12 @@ namespace Beylen.ViewModels
 		{
 			var result = await page.DisplayActionSheet("UI Theme", "Cancel", null,
 				"Dark", "Light");
+			if (result == "Cancel")
+				return;
+
+			Settings.UITheme = result;
+			section.Value = result;
+			UIThemes.Instance.SelectTheme(result);
 		}
 	}
 }

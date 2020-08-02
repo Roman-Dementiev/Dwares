@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Dwares.Dwarf.Toolkit;
+
 
 namespace Beylen.Models
 {
 	interface ICustomer : IContact
 	{
 		string Address { get; }
-		string ContactPerson { get; }
+		string ContactName { get; }
+
+		PhoneNumber ContactPhone { get; }
 	}
 }

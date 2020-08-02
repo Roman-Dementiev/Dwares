@@ -70,6 +70,8 @@ namespace Dwares.Druid.UI
 
 		protected virtual void SelectImageSource(string name, Color color)
 		{
+			//Source = UITheme.Current.GetImageSource(name);
+
 			if (color == default) {
 				Source = ArtBroker.Instance.GetImageSource(name);
 			} else {

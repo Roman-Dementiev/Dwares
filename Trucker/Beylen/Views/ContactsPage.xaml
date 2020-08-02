@@ -4,7 +4,9 @@
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				  Title="{Binding Title}"
-				  x:Class="Beylen.Views.ContactsPage">
+				  Flavor="Shell-page"
+				  x:Class="Beylen.Views.ContactsPage"
+				  >
 
 	<!--<ui:ContentPageEx.Resources>
 		<ResourceDictionary>
@@ -16,36 +18,66 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentPageEx.ToolbarItems>-->
 
-	<ui:ListViewEx x:Name="listView"
-				   HasUnevenRows="True"
+	<ui:ListViewEx HasUnevenRows="True"
 				   ItemsSource="{Binding Items}"
+				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 				   >
 		<ListView.ItemTemplate>
 			<DataTemplate>
 				<ViewCell>
-					<Grid Margin="8">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+					<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+						<ui:GridEx Flavor="Card-grid">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
-						<Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-							   Source="contact.png"
-							   VerticalOptions="Center"
-							   />
-						<Label Grid.Row="0" Grid.Column="1"
-								   FontSize="16"
-								   Text="{Binding Name}"
-								   />
-						<Label Grid.Row="1" Grid.Column="1"
-								   Text="{Binding Phone}"
-								   />
-					</Grid>
+							<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+										 Flavor="Card-icon"
+										 Art="ic_contact"
+										 />
+							<ui:LabelEx Grid.Row="0" Grid.Column="1"
+										Flavor="Card-text-bold"
+										Text="{Binding Name, Mode=OneWay}"
+										/>
+							<ui:LabelEx Grid.Row="1" Grid.Column="1"
+										Flavor="Card-text-default"
+										Text="{Binding Phone, Mode=OneWay}"
+										/>
+							<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+										  Flavor="Card-button"
+										  IconArt="ic_call"
+										  Command="{Binding CallCommand}"
+										  IsVisible="{Binding HasCallNumber}"
+										 />
+							
+							<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+										  Flavor="Card-separator"
+										  IsVisible="{Binding IsSelected, Mode=OneWay}"
+										  />
+							<StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+										 Orientation="Horizontal"
+										 IsVisible="{Binding IsSelected, Mode=OneWay}"
+										 >
+								<Label HorizontalOptions="StartAndExpand" Text="" />
+								<ui:ArtButton Flavor="Card-action"
+											  IconArt="ic_edit.small"
+											  LabelText="Edit"
+											  />
+								<ui:ArtButton Flavor="Card-action"
+											  IconArt="ic_delete.small"
+											  LabelText="Delete"
+											  />
+							</StackLayout>
+						</ui:GridEx>
+					</ui:FrameEx>
 				</ViewCell>
 			</DataTemplate>
 		</ListView.ItemTemplate>

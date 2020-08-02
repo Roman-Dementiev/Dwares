@@ -23,7 +23,8 @@ namespace Dwares.Druid.UI
 			return true;
 		}
 
-		public static bool ApplyFlavor_(this VisualElement element, string flavor, UITheme theme = null)
+
+		static bool ApplyFlavor_(NavigableElement element, string flavor, UITheme theme = null)
 		{
 			if (element == null || string.IsNullOrEmpty(flavor))
 				return false;
@@ -41,7 +42,7 @@ namespace Dwares.Druid.UI
 			}
 		}
 
-		public static bool ApplyFlavor<T>(this T element) where T : VisualElement, IThemeAware
+		public static bool ApplyFlavor<T>(this T element) where T : NavigableElement, IThemeAware
 		{
 			return ApplyFlavor_(element, element?.Flavor);
 		}

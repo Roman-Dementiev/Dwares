@@ -24,6 +24,9 @@ namespace Dwares.Dwarf.Toolkit
 			PhoneType = type;
 		}
 
+		// TODO
+		public bool IsValid => !string.IsNullOrEmpty(Number);
+
 		public string Number { get; set; }
 		public PhoneType PhoneType { get; set; }
 

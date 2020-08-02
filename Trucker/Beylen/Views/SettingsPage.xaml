@@ -4,6 +4,7 @@
 				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				  Title="{Binding Title}"
+				  Flavor="Shell-page"
 				  x:Class="Beylen.Views.SettingsPage">
 
 	<!--<ui:ContentPageEx.Resources>
@@ -25,29 +26,32 @@
 		<ListView.ItemTemplate>
 			<DataTemplate>
 				<ViewCell>
-					<Grid Margin="8">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+					<ui:FrameEx Flavor="Card-frame-default">
+						<Grid Margin="8">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 						
-						<Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-							   Source="{Binding IconSource}"
-							   VerticalOptions="Center"
-							   />
-						<Label Grid.Row="0" Grid.Column="1"
-							   FontSize="16"
-							   Text="{Binding Title}"
-							   />
-						<Label Grid.Row="1" Grid.Column="1"
-							   Text="{Binding Value, Mode=TwoWay}"
-							   />
-					</Grid>
+							<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+										 Flavor="Settings-icon"
+										 Art="{Binding Icon}"
+										 />
+							<ui:LabelEx Grid.Row="0" Grid.Column="1"
+										Flavor="Settings-section-title"
+										Text="{Binding Title}"
+										/>
+							<ui:LabelEx Grid.Row="1" Grid.Column="1"
+										Flavor="Settings-section-value"
+										Text="{Binding Value, Mode=OneWay}"
+										/>
+						</Grid>
+					</ui:FrameEx>
 				</ViewCell>
 			</DataTemplate>
 		</ListView.ItemTemplate>

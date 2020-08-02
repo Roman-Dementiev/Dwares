@@ -1,16 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms"
-	   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	   xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-	   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	   xmlns:views="clr-namespace:Beylen.Views"
-	   mc:Ignorable="d"
-	   FlyoutHeaderBehavior="CollapseOnScroll"
-	   Navigating="OnNavigating"
-	   Navigated="OnNavigated"
-	   Title="Beylen"
-	   x:Class="Beylen.AppShell_Market"
-	   >
+<ui:ShellEx xmlns="http://xamarin.com/schemas/2014/forms"
+			xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			xmlns:views="clr-namespace:Beylen.Views"
+			mc:Ignorable="d"
+			Flavor="Shell"
+			Title="Beylen"
+			x:Class="Beylen.AppShell_Market"
+			>
 
 	<!--<Shell.FlyoutBackgroundImage>photo.jpg</Shell.FlyoutBackgroundImage>
 	<Shell.FlyoutBackgroundImageAspect>AspectFill</Shell.FlyoutBackgroundImageAspect>-->
@@ -27,48 +26,49 @@
 				Title="Market"
 				FlyoutDisplayOptions="AsMultipleItems"
 				>
-		<ShellContent Route="orders"
-					  Style="{StaticResource OrdersShell}"
-					  Title="Orders"
-					  Icon="tab_orders.png"
-					  ContentTemplate="{DataTemplate views:AboutPage}"
-					  />
-		<ShellContent Route="shopping"
-					  Style="{StaticResource ShoppingShell}"
-					  Title="Shopping"
-					  Icon="tab_shopping.png"
-					  ContentTemplate="{DataTemplate views:AboutPage}"
-					  />
-		<ShellContent Route="storage"
-					  Style="{StaticResource StorageShell}"
-					  Title="Storage"
-					  Icon="tab_storage.png"
-					  ContentTemplate="{DataTemplate views:AboutPage}"
-					  />
+		<ui:ShellContentEx Flavor="ShellContent"
+						   Route="orders"
+						   Title="Orders"
+						   Icon="tab_orders.png"
+						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   />
+		<ui:ShellContentEx Flavor="ShellContent"
+						   Route="shopping"
+						   Title="Shopping"
+						   Icon="tab_shopping.png"
+						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   />
+		<ui:ShellContentEx Flavor="ShellContent" 
+						   Route="storage"
+						   Title="Storage"
+						   Icon="tab_storage.png"
+						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   />
 		<Tab Title="Contacts"
 			 Route="contacts"
 			 Icon="tab_contacts.png">
-			<ShellContent Route="phones"
-						  Style="{StaticResource ContactsShell}"
-						  Title="Phones"
-						  ContentTemplate="{DataTemplate views:ContactsPage}" />
-			<ShellContent Route="customers"
-						  Style="{StaticResource ContactsShell}"
-						  Title="Customers"
-						  ContentTemplate="{DataTemplate views:CustomersPage}" />
+			<ui:ShellContentEx Flavor="ShellContent"
+							   Route="phones"
+							   Title="Phones"
+							   ContentTemplate="{DataTemplate views:ContactsPage}"
+							   />
+			<ui:ShellContentEx Flavor="ShellContent"
+							   Route="customers"
+							   Title="Customers"
+							   ContentTemplate="{DataTemplate views:CustomersPage}" />
 		</Tab>
 	</FlyoutItem>
 
-	<ShellContent Route="settings"
-				  Style="{StaticResource SettingsShell}"
-				  Title="Settings"
-				  Icon="settings.png"
-				  ContentTemplate="{DataTemplate views:SettingsPage}"
-				  />
-	<ShellContent Route="about"
-				  Style="{StaticResource AboutShell}"
-				  Title="About"
-				  Icon="info.png"
-				  ContentTemplate="{DataTemplate views:AboutPage}"
-				  />
-</Shell>
+	<ui:ShellContentEx Flavor="ShellContent"
+					   Route="settings"
+					   Title="Settings"
+					   Icon="settings.png"
+					   ContentTemplate="{DataTemplate views:SettingsPage}"
+					   />
+	<ui:ShellContentEx Flavor="ShellContent"
+					   Route="about"
+					   Title="About"
+					   Icon="info.png"
+					   ContentTemplate="{DataTemplate views:AboutPage}"
+					   />
+</ui:ShellEx>

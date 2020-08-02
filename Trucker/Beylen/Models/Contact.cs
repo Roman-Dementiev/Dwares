@@ -1,11 +1,12 @@
 ﻿using System;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
+using Dwares.Druid;
 
 
 namespace Beylen.Models
 {
-	public class Contact : CardModel, IContact
+	public class Contact : Model, IContact
 	{
 		//static ClassRef @class = new ClassRef(typeof(Person));
 
