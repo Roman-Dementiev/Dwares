@@ -14,6 +14,12 @@ namespace Beylen.Models
 			//Debug.EnableTracing(@class);
 		}
 
+		public string FullName {
+			get => fullName;
+			set => SetProperty(ref fullName, value);
+		}
+		string fullName;
+
 		public string Address {
 			get => address;
 			set => SetProperty(ref address, value);

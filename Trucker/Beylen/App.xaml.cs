@@ -34,7 +34,8 @@ namespace Beylen
 
 		protected override async void OnStart()
 		{
-			AppStorage.Instance = new Storage.MockStorage();
+			//AppStorage.Instance = new Storage.MockStorage();
+			AppStorage.Instance = new Storage.Air.AirStorage();
 
 			var appScope = AppScope.Instance;
 			appScope.Configure();

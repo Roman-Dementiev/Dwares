@@ -15,6 +15,8 @@ namespace Beylen.Models
 			//Debug.EnableTracing(@class);
 		}
 
+		public string RecordId { get; set; }
+
 		public List<string> TagsList { get; private set; }
 
 		public string Tags {

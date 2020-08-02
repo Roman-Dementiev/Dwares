@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Drudge\Drudge.csproj" />
     <ProjectReference Include="..\..\Druid\Druid\Druid.csproj" />
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj" />
   </ItemGroup>
