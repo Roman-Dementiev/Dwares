@@ -15,6 +15,6 @@
 	<drx:UITheme x:Key="@Base" Class="Beylen.Themes.Base"></drx:UITheme>
 	<drx:UITheme x:Key="Light" Class="Beylen.Themes.Light"></drx:UITheme>
 	<drx:UITheme x:Key="Dark" Class="Beylen.Themes.Dark"></drx:UITheme>
-	<!--<drx:UITheme x:Key="Oceanic" Class="Beylen.Themes.Oceanic"></drx:UITheme>-->
+	<drx:UITheme x:Key="Oceanic" Class="Beylen.Themes.Oceanic"></drx:UITheme>
 
 </ui:UIThemeManager>

@@ -1,14 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="Beylen.Views.AboutPage"
-             xmlns:vm="clr-namespace:Beylen.ViewModels"
-             Title="{Binding Title}">
-    
-    <ContentPage.BindingContext>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:vm="clr-namespace:Beylen.ViewModels"
+				mc:Ignorable="d"
+				Title="{Binding Title}"
+				BackButtonIsEnabled="True"
+				BackButtonIconOverride="back.png"
+				BackButtonTextOverride="Go Back"
+				x:Class="Beylen.Views.AboutPage"
+				>
+
+	<!--<ui:ShellPageEx.BackButtonBehavior>
+		<BackButtonBehavior Command="{Binding GoBackCommand}"
+							IsEnabled="True"
+							IconOverride="back.png"
+			>
+			<BackButtonBehavior.TextOverride>
+				<OnPlatform x:TypeArguments="x:String">
+					<OnPlatform.Platforms>
+						<On Platform="iOS" Value="Go Back" />
+					</OnPlatform.Platforms>
+				</OnPlatform>
+			</BackButtonBehavior.TextOverride>
+		</BackButtonBehavior>
+	</ui:ShellPageEx.BackButtonBehavior>-->
+	
+
+	<ContentPage.BindingContext>
         <vm:AboutViewModel />
     </ContentPage.BindingContext>
     
@@ -78,4 +99,4 @@
         </ScrollView>
     </Grid>
     
-</ContentPage>
+</ui:ShellPageEx>

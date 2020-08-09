@@ -21,7 +21,6 @@ namespace Beylen.ViewModels
 
 			if (AppScope.Instance.ConfigMode == null) {
 				Items.Add(new SettingsSection {
-					//IconSource = "set_app_mode.png",
 					Icon = "ic_settings_app_mode",
 					Title = "Application mode",
 					Value = AppModeString(),
@@ -77,7 +76,7 @@ namespace Beylen.ViewModels
 		async Task ChooseUIThene(Page page, SettingsSection section)
 		{
 			var result = await page.DisplayActionSheet("UI Theme", "Cancel", null,
-				"Dark", "Light");
+				"Dark", "Light", "Oceanic");
 			if (result == "Cancel")
 				return;
 

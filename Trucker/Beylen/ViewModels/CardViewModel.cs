@@ -44,11 +44,17 @@ namespace Beylen.ViewModels
 
 		public bool IsExpanded => IsSelected;
 
+		//public bool IsEditing {
+		//	get => isEditing;
+		//	set => SetProperty(ref isEditing, value);
+		//}
+		//bool isEditing;
+
 		//protected virtual void OnSourceChanged(IEnumerable<string> changedProperties)
 		//{
 		//	UpdateFromSource();
 		//}
-			
+
 		protected virtual void UpdateFromSource() { }
 	}
 }

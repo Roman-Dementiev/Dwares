@@ -3,18 +3,15 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
 using Dwares.Dwarf;
-using Beylen.ViewModels;
 
 
 namespace Beylen.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CustomersPage : ShellPageEx
+	public partial class StoragePage : ShellPageEx
 	{
-		public CustomersPage()
+		public StoragePage()
 		{
-			BindingContext = new CustomersViewModel();
-
 			InitializeComponent();
 		}
 	}

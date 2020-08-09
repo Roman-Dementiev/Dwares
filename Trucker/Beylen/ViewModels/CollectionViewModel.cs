@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid;
-
+using System.Threading.Tasks;
 
 namespace Beylen.ViewModels
 {
+	public enum CollectionViewReloadMode
+	{
+		Fast,
+		Full
+	}
+
 	public class CollectionViewModel<Item> : ViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(CollectionViewModel));
@@ -18,9 +25,13 @@ namespace Beylen.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 			Items = items ?? new ObservableCollection<Item>();
+			FastLoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(CollectionViewReloadMode.Fast));
+			FullLoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(CollectionViewReloadMode.Full));
 		}
 
 		public ObservableCollection<Item> Items { get; }
+		public Command FastLoadItemsCommand { get; set; }
+		public Command FullLoadItemsCommand { get; set; }
 
 		public bool HasSelected() => SelectedItem != null;
 
@@ -70,6 +81,33 @@ namespace Beylen.ViewModels
 				SelectedItemChangedEvent(args);
 			}
 			UpdateCommands();
+		}
+
+		async Task ExecuteLoadItemsCommand(CollectionViewReloadMode mode)
+		{
+			if (reloading)
+				return;
+
+			reloading = true;
+			StartBusy();
+
+			try {
+				await ReloadItems(mode);
+			}
+			catch (Exception ex) {
+				Debug.ExceptionCaught(ex);
+			}
+			finally {
+				reloading = false;
+				ClearBusy();
+			}
+		}
+		bool reloading = false;
+
+		protected virtual async Task ReloadItems(CollectionViewReloadMode mode)
+		{
+			await Task.Delay(5000);
+			await AppScope.Instance.ReloadData();
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Dwares.Dwarf;
 using Dwares.Druid;
 using Beylen.Models;
@@ -16,6 +17,16 @@ namespace Beylen.ViewModels
 			//Debug.EnableTracing(@class);
 
 			Title = "Customers";
+		}
+
+		protected override async Task ReloadItems(CollectionViewReloadMode mode)
+		{
+			if (mode == CollectionViewReloadMode.Fast) {
+				AppScope.Instance.Customers.Clear();
+				await AppStorage.Instance.LoadCustomers();
+			} else {
+				await base.ReloadItems(mode);
+			}
 		}
 	}
 }

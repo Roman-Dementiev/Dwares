@@ -29,13 +29,13 @@
 						   Route="orders"
 						   Title="Orders"
 						   Icon="tab_orders.png"
-						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   ContentTemplate="{DataTemplate views:OrdersPage}"
 						   />
 		<ui:ShellContentEx Flavor="ShellContent"
 						   Route="route"
 						   Title="Route"
 						   Icon="tab_route.png"
-						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   ContentTemplate="{DataTemplate views:RoutePage}"
 						   />
 		<Tab Title="Contacts"
 			 Route="contacts"
@@ -53,6 +53,19 @@
 							   />
 		</Tab>
 	</FlyoutItem>
+
+	<!--<FlyoutItem Route="extra"
+				Title="Extra"
+				FlyoutDisplayOptions="AsMultipleItems"
+				>
+	</FlyoutItem>-->
+
+	<ui:ShellContentEx Flavor="ShellContent" 
+					   Route="produce"
+					   Title="Produce"
+					   Icon="produce.png"
+					   ContentTemplate="{DataTemplate views:ProducePage}"
+					   />
 
 	<ui:ShellContentEx Flavor="ShellContent"
 					   Route="settings"

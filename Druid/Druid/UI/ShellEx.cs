@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Dwares.Dwarf;
 using Xamarin.Forms;
 
@@ -15,10 +17,17 @@ namespace Dwares.Druid.UI
 
 			//FlyoutHeaderBehavior = FlyoutHeaderBehavior.CollapseOnScroll;
 
-			Navigating += OnNavigating;
-			Navigated += OnNavigated;
+			//Navigating += OnNavigating;
+			//Navigated += OnNavigated;
 
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
+			ChildAdded += ShellEx_ChildAdded;
+		}
+
+		private void ShellEx_ChildAdded(object sender, ElementEventArgs e)
+		{
+			if (string.IsNullOrEmpty(MainRoute) && e.Element is ShellItem item)
+				MainRoute = item.Route;
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -37,16 +46,39 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(FlavorProperty); }
 		}
 
-		protected virtual void OnNavigating(object sender, ShellNavigatingEventArgs e)
+		//protected virtual void OnNavigating(object sender, ShellNavigatingEventArgs e)
+		//{
+		//	//Cancel any back navigation
+		//	//if (e.Source == ShellNavigationSource.Pop) {
+		//	//	e.Cancel();
+		//	//}
+		//}
+
+		//protected virtual void OnNavigated(object sender, ShellNavigatedEventArgs e)
+		//{
+		//}
+
+		public string MainRoute {
+			get => mainRoute ?? string.Empty;
+			set {
+				OnPropertyChanging();
+				mainRoute = value;
+				OnPropertyChanged();
+			}
+		}
+		string mainRoute;
+
+
+		public static async Task GoToMainAsync()
 		{
-			//Cancel any back navigation
-			//if (e.Source == ShellNavigationSource.Pop) {
-			//	e.Cancel();
-			//}
+			if (Current is ShellEx shell && !string.IsNullOrEmpty(shell.MainRoute)) {
+				await Shell.Current.GoToAsync($"///{shell.MainRoute}", true);
+			}
 		}
 
-		protected virtual void OnNavigated(object sender, ShellNavigatedEventArgs e)
-		{
-		}
+		public static Command GoToMainCommand {
+			get => LazyInitializer.EnsureInitialized(ref goToMainCommand, () => new Command(async () => await GoToMainAsync()));
+		}		
+		static Command goToMainCommand;
 	}
 }

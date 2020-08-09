@@ -8,12 +8,10 @@ using Beylen.ViewModels;
 namespace Beylen.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SettingsPage : ContentPageEx
+	public partial class SettingsPage : ShellPageEx
 	{
 		public SettingsPage()
 		{
-			BindingContext = new SettingsViewModel();
-
 			InitializeComponent();
 		}
 

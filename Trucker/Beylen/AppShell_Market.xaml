@@ -11,16 +11,14 @@
 			x:Class="Beylen.AppShell_Market"
 			>
 
-	<!--<Shell.FlyoutBackgroundImage>photo.jpg</Shell.FlyoutBackgroundImage>
-	<Shell.FlyoutBackgroundImageAspect>AspectFill</Shell.FlyoutBackgroundImageAspect>-->
-
-	<Shell.FlyoutHeader>
-		<views:FlyoutHeader_Market />
-	</Shell.FlyoutHeader>
-
 	<!--<Shell.Resources>
 	</Shell.Resources>-->
 
+	<!--<Shell.FlyoutBackgroundImage>photo.jpg</Shell.FlyoutBackgroundImage>
+	<Shell.FlyoutBackgroundImageAspect>AspectFill</Shell.FlyoutBackgroundImageAspect>-->
+	<Shell.FlyoutHeader>
+		<views:FlyoutHeader_Market />
+	</Shell.FlyoutHeader>
 
 	<FlyoutItem Route="market"
 				Title="Market"
@@ -30,19 +28,19 @@
 						   Route="orders"
 						   Title="Orders"
 						   Icon="tab_orders.png"
-						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   ContentTemplate="{DataTemplate views:OrdersPage}"
 						   />
 		<ui:ShellContentEx Flavor="ShellContent"
 						   Route="shopping"
 						   Title="Shopping"
 						   Icon="tab_shopping.png"
-						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   ContentTemplate="{DataTemplate views:ShoppingPage}"
 						   />
 		<ui:ShellContentEx Flavor="ShellContent" 
 						   Route="storage"
 						   Title="Storage"
 						   Icon="tab_storage.png"
-						   ContentTemplate="{DataTemplate views:AboutPage}"
+						   ContentTemplate="{DataTemplate views:StoragePage}"
 						   />
 		<Tab Title="Contacts"
 			 Route="contacts"
@@ -59,12 +57,21 @@
 		</Tab>
 	</FlyoutItem>
 
+
+	<ui:ShellContentEx Flavor="ShellContent" 
+					   Route="produce"
+					   Title="Produce"
+					   Icon="produce.png"
+					   ContentTemplate="{DataTemplate views:ProducePage}"
+					   />
+	
 	<ui:ShellContentEx Flavor="ShellContent"
 					   Route="settings"
 					   Title="Settings"
 					   Icon="settings.png"
 					   ContentTemplate="{DataTemplate views:SettingsPage}"
 					   />
+	
 	<ui:ShellContentEx Flavor="ShellContent"
 					   Route="about"
 					   Title="About"

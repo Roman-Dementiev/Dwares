@@ -1,12 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
-				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
-				  Title="{Binding Title}"
-				  Flavor="Shell-page"
-				  x:Class="Beylen.Views.SettingsPage">
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:vm="clr-namespace:Beylen.ViewModels"
+				Title="{Binding Title}"
+				Flavor="Shell-page"
+				BackButtonIsEnabled="True"
+				BackButtonIconOverride="back.png"
+				BackButtonTextOverride="Go Back"
+				x:Class="Beylen.Views.SettingsPage"
+				>
 
+	<ContentPage.BindingContext>
+		<vm:SettingsViewModel />
+	</ContentPage.BindingContext>
+	
 	<!--<ui:ContentPageEx.Resources>
 		<ResourceDictionary>
 			<druid:WritCommand x:Key="About">about</druid:WritCommand>
@@ -57,5 +66,5 @@
 		</ListView.ItemTemplate>
 	</ui:ListViewEx>
 	
-</ui:ContentPageEx>
+</ui:ShellPageEx>
 	

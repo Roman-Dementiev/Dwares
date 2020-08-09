@@ -72,21 +72,32 @@ namespace Beylen
 		public async Task Initialize()
 		{
 			var storage = AppStorage.Instance;
-
 			await storage.Initialize();
 			await storage.LoadContacts();
 			await storage.LoadCustomers();
 		}
 
+		public async Task ReloadData()
+		{
+			Contacts.Clear();
+			Customers.Clear();
+
+			var storage = AppStorage.Instance;
+			await storage.LoadContacts();
+			await storage.LoadCustomers();
+		}
+
+
 		/* Xamarin.Forms Routing
 		 */
 		public Dictionary<string, Type> Routes { get; } = new Dictionary<string, Type>() {
-			{ "orders", typeof(AboutPage) },
-			{ "shopping", typeof(AboutPage) },
-			{ "storage", typeof(AboutPage) },
-			{ "route", typeof(AboutPage) },
+			{ "orders", typeof(OrdersPage) },
+			{ "shopping", typeof(ShoppingPage) },
+			{ "storage", typeof(StoragePage) },
+			{ "route", typeof(RoutePage) },
 			{ "phones", typeof(ContactsPage) },
 			{ "customers", typeof(CustomersPage) },
+			{ "produce", typeof(ProducePage) },
 			{ "settings", typeof(SettingsPage) },
 			{ "about", typeof(AboutPage) }
 		};

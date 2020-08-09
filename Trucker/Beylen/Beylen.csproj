@@ -18,6 +18,7 @@
     <None Remove="Resources\ic_home.png" />
     <None Remove="Resources\ic_kitchen.png" />
     <None Remove="Resources\ic_pizza.png" />
+    <None Remove="Resources\ic_produce.png" />
     <None Remove="Resources\ic_restaurant.png" />
     <None Remove="Resources\ic_settings_app_mode.png" />
     <None Remove="Resources\ic_settings_ui_theme.png" />
@@ -36,6 +37,7 @@
     <EmbeddedResource Include="Resources\ic_home.png" />
     <EmbeddedResource Include="Resources\ic_kitchen.png" />
     <EmbeddedResource Include="Resources\ic_pizza.png" />
+    <EmbeddedResource Include="Resources\ic_produce.png" />
     <EmbeddedResource Include="Resources\ic_restaurant.png" />
     <EmbeddedResource Include="Resources\ic_settings_app_mode.png" />
     <EmbeddedResource Include="Resources\ic_settings_ui_theme.png" />
@@ -75,6 +77,9 @@
     <EmbeddedResource Update="Themes\Light.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Themes\Oceanic.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="UIThemes.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -90,7 +95,22 @@
     <EmbeddedResource Update="Views\FlyoutHeader_Market.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\OrdersPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ProducePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\RoutePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ShoppingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\StoragePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				Title="{Binding Title}"
+				x:Class="Beylen.Views.RoutePage"
+				>
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+
+	</Grid>
+</ui:ShellPageEx>
+	
