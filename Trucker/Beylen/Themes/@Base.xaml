@@ -2,6 +2,7 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
 					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					xmlns:controls="clr-namespace:Beylen.Controls"
 					x:Class="Beylen.Themes.Base">
 
 
@@ -84,4 +85,35 @@
 	<Style x:Key="Settings-section-value" TargetType="Label">
 		<Setter Property="FontSize" Value="12" />
 	</Style>
+
+	<!--<Style x:Key="Form-caption" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>-->
+	<Style x:Key="Form-static-text" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Form-head-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	<Style x:Key="Form-lead-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="Margin" Value="2" />
+		<Setter Property="HorizontalOptions" Value="End" />
+		<Setter Property="VerticalOptions" Value="Center" />
+	</Style>
+	<Style x:Key="Form-entry" TargetType="Entry">
+		<!--<Setter Property="Margin" Value="0,-12,0,0" />-->
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Form-asentry" TargetType="controls:AutoSuggestEntryEx">
+		<!--<Setter Property="FontSize" Value="16" />-->
+	</Style>
+	<Style x:Key="Form-editor" TargetType="Editor">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="HeightRequest" Value="70" />
+	</Style>
+
 </ResourceDictionary>

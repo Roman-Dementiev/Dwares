@@ -23,6 +23,23 @@ namespace Dwares.Druid
 		PermissionStatus Status { get; }
 	}
 
+	public class FeatureNotSupportedException : InvalidOperationException
+	{
+		public const string DefaultMessageFormat = "{0} is not supported";
+
+		public FeatureNotSupportedException() { }
+		public FeatureNotSupportedException(string message) : base(message) { }
+		public FeatureNotSupportedException(string message, Exception innerException) : base(message, innerException) { }
+
+		public FeatureNotSupportedException(string feature, string message) :
+			base(String.IsNullOrEmpty(message) ? String.Format(DefaultMessageFormat, feature) : message)
+		{
+			Feature = feature;
+		}
+
+		public string Feature { get; }
+	}
+
 	public class FeatureNotEnabledException : InvalidOperationException
 	{
 		public const string DefaultMessageFormat = "{0} is not enabled";

@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 
 namespace Beylen.ViewModels
 {
-	public class CardViewModel<TSource> : PropertyNotifier, ISelectable where TSource : class, IModel
+	public class CardViewModel<TSource> : PropertyNotifier, ISelectable where TSource : IModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(CardViewModel));
 
@@ -20,7 +20,7 @@ namespace Beylen.ViewModels
 			//Debug.EnableTracing(@class);
 
 			Source = source ?? throw new ArgumentNullException(nameof(source));
-			Source.ModelChanged += (sender, e) => UpdateFromSource(); //OnSourceChanged(e.ChangedProperties);
+			Source.ModelChanged += (sender, e) => OnSourceChanged(e.ChangedProperties);
 			CardFrameFlavor = "Card-frame-default";
 		}
 
@@ -50,10 +50,10 @@ namespace Beylen.ViewModels
 		//}
 		//bool isEditing;
 
-		//protected virtual void OnSourceChanged(IEnumerable<string> changedProperties)
-		//{
-		//	UpdateFromSource();
-		//}
+		protected virtual void OnSourceChanged(IEnumerable<string> changedProperties)
+		{
+			UpdateFromSource();
+		}
 
 		protected virtual void UpdateFromSource() { }
 	}

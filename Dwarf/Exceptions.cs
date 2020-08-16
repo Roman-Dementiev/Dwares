@@ -50,6 +50,13 @@ namespace Dwares.Dwarf
 		}
 	}
 
+	public class UnknownException : DwarfException
+	{
+		public UnknownException() : base(UnknownError) { }
+		public UnknownException(string message) : base(message) { }
+		public UnknownException(string format, params string[] args) : base(string.Format(format, args)) { }
+	}
+
 	public class UserError : Exception
 	{
 		public UserError(string message) : base(message) { }

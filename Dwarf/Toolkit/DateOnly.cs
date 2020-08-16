@@ -49,6 +49,13 @@ namespace Dwares.Dwarf.Toolkit
 		public static implicit operator DateOnly(DateTime datetime) => new DateOnly(datetime);
 		public static implicit operator DateTime(DateOnly dateonly) => dateonly.DateTime;
 
+		public static bool operator ==(DateOnly d1, DateOnly d2) => d1.Equals(d2);
+		public static bool operator !=(DateOnly d1, DateOnly d2) => !d1.Equals(d2);
+		public static bool operator <(DateOnly d1, DateOnly d2) => d1.CompareTo(d2) < 0;
+		public static bool operator >(DateOnly d1, DateOnly d2) => d1.CompareTo(d2) > 0;
+		public static bool operator <=(DateOnly d1, DateOnly d2) => d1.CompareTo(d2) <= 0;
+		public static bool operator >=(DateOnly d1, DateOnly d2) => d1.CompareTo(d2) >= 0;
+
 		public static DateOnly ToDateOnly(object source)
 		{
 			if (source is DateOnly dateonly) {

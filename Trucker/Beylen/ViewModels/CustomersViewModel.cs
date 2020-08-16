@@ -16,7 +16,7 @@ namespace Beylen.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 
-			Title = "Customers";
+			Title = "Contacts";
 		}
 
 		protected override async Task ReloadItems(CollectionViewReloadMode mode)

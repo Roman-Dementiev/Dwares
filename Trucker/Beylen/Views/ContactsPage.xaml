@@ -14,11 +14,11 @@
 		</ResourceDictionary>
 	</ui:ContentPageEx.Resources>-->
 
-	<ui:ContentPageEx.ToolbarItems>
+	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
 		<ToolbarItem Text="Add" />
 		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
-	</ui:ContentPageEx.ToolbarItems>
+	</ui:ShellPageEx.ToolbarItems>
 
 	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding FastLoadItemsCommand}">
 		<ui:ListViewEx HasUnevenRows="True"
@@ -58,6 +58,7 @@
 										  Flavor="Card-button"
 										  IconArt="ic_call"
 										  Command="{Binding CallCommand}"
+										  CommandParameter="{Binding CallNamber}"
 										  IsVisible="{Binding HasCallNumber}"
 										 />
 							

@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Dwares.Druid.UI;
 using Dwares.Dwarf;
+using Beylen.ViewModels;
 
 
 namespace Beylen.Views
@@ -12,6 +13,8 @@ namespace Beylen.Views
 	{
 		public RoutePage()
 		{
+			//BindingContext = new RouteViewModel();
+
 			InitializeComponent();
 		}
 	}

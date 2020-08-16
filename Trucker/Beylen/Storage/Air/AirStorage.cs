@@ -5,9 +5,10 @@ using Dwares.Dwarf.Toolkit;
 using Dwares.Drudge.Airtable;
 using Beylen.Models;
 
+
 namespace Beylen.Storage.Air
 {
-	public class AirStorage : AirClient, IAppStorage
+	public partial class AirStorage : AirClient, IAppStorage
 	{
 		//static ClassRef @class = new ClassRef(typeof(AirStorage));
 		const string ApiKey = "keyn9n03pU21UkxTg";
@@ -20,6 +21,12 @@ namespace Beylen.Storage.Air
 		}
 
 		public MainBase MainBase { get; private set; }
+		public BasesTable BasesTable => MainBase.BasesTable;
+		public ContactsTable ContactsTable => MainBase.ContactsTable;
+		public CustomersTable CustomersTable => MainBase.CustomersTable;
+		public PlacesTable PlacesTable => MainBase.PlacesTable;
+		public RouteTable RouteTable => MainBase.RouteTable;
+
 
 		public async Task Initialize()
 		{
@@ -31,7 +38,7 @@ namespace Beylen.Storage.Air
 		{
 			var contacts = AppScope.Instance.Contacts;
 
-			var records = await MainBase.ContactsTable.ListRecords();
+			var records = await ContactsTable.ListRecords();
 			foreach (var rec in records)
 			{
 				if (string.IsNullOrWhiteSpace(rec.Name)) {
@@ -40,8 +47,8 @@ namespace Beylen.Storage.Air
 				}
 				var contact = new Contact {
 					RecordId = rec.Id,
-					Name = rec.Name,
-					Phone = rec.Phone
+					Name = rec.Name?.Trim(),
+					Phone = rec.Phone?.Trim()
 				};
 				contacts.Add(contact);
 			}
@@ -51,24 +58,50 @@ namespace Beylen.Storage.Air
 		{
 			var customers = AppScope.Instance.Customers;
 
-			var records = await MainBase.CustomersTable.ListRecords();
+			var records = await CustomersTable.ListRecords();
 			foreach (var rec in records)
 			{
-				if (string.IsNullOrWhiteSpace(rec.ShortName)) {
+				if (string.IsNullOrWhiteSpace(rec.CodeName)) {
 					//TODO: delete empty record
 					continue;
 				}
 				var customer = new Customer {
 					RecordId = rec.Id,
-					Name = rec.ShortName,
-					Tags = rec.Tags,
-					FullName = rec.FullName,
-					Address = rec.Address,
-					Phone = rec.Phone,
-					ContactName = rec.ContactName,
-					ContactPhone = rec.ContactPhone
+					CodeName = rec.CodeName?.Trim(),
+					FullName = rec.FullName?.Trim(),
+					Tags = rec.Tags?.Trim(),
+					Address = rec.Address?.Trim(),
+					Phone = rec.Phone?.Trim(),
+					ContactName = rec.ContactName?.Trim(),
+					ContactPhone = rec.ContactPhone?.Trim()
 				};
 				customers.Add(customer);
+			}
+		}
+
+		public async Task LoadPlaces()
+		{
+			var places = AppScope.Instance.Places;
+
+			var records = await PlacesTable.ListRecords();
+			foreach (var rec in records) {
+				if (string.IsNullOrWhiteSpace(rec.CodeName)) {
+					//TODO: delete empty record
+					continue;
+				}
+				var place = new Place {
+					RecordId = rec.Id,
+					CodeName = rec.CodeName?.Trim(),
+					FullName = rec.FullName?.Trim(),
+					Tags = rec.Tags?.Trim(),
+					Address = rec.Address?.Trim(),
+				};
+				places.Add(place);
+
+				if (place.Tags == "startpoint")
+					AppScope.Instance.StartPoint = place;
+				if (place.Tags == "endpoint")
+					AppScope.Instance.EndPoint = place;
 			}
 		}
 	}

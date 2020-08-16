@@ -22,7 +22,7 @@ namespace Dwares.Drudge.Airtable
 		}
 
 		[JsonProperty("id")]
-		public string Id { get; internal set; }
+		public string Id { get; set; }
 
 		[JsonProperty("createdTime")]
 		public DateTime CreatedTime { get; internal set; }

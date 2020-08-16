@@ -28,7 +28,7 @@ namespace Dwares.Druid.Android
 			if (args.NewElement != null) {
 				//var element = e.NewElement as EditorEx;
 
-				this.Control.Background = Resources.GetDrawable(Resource.Drawable.EdidorExBorder);
+				//this.Control.Background = Resources.GetDrawable(Resource.Drawable.EditorExBorder);
 			}
 		}
 	}

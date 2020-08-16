@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +19,10 @@
     <None Remove="Resources\ic_home.png" />
     <None Remove="Resources\ic_kitchen.png" />
     <None Remove="Resources\ic_pizza.png" />
+    <None Remove="Resources\ic_place.png" />
     <None Remove="Resources\ic_produce.png" />
     <None Remove="Resources\ic_restaurant.png" />
+    <None Remove="Resources\ic_route_status.png" />
     <None Remove="Resources\ic_settings_app_mode.png" />
     <None Remove="Resources\ic_settings_ui_theme.png" />
     <None Remove="Resources\ic_store.png" />
@@ -37,8 +40,10 @@
     <EmbeddedResource Include="Resources\ic_home.png" />
     <EmbeddedResource Include="Resources\ic_kitchen.png" />
     <EmbeddedResource Include="Resources\ic_pizza.png" />
+    <EmbeddedResource Include="Resources\ic_place.png" />
     <EmbeddedResource Include="Resources\ic_produce.png" />
     <EmbeddedResource Include="Resources\ic_restaurant.png" />
+    <EmbeddedResource Include="Resources\ic_route_status.png" />
     <EmbeddedResource Include="Resources\ic_settings_app_mode.png" />
     <EmbeddedResource Include="Resources\ic_settings_ui_theme.png" />
     <EmbeddedResource Include="Resources\ic_store.png" />
@@ -53,6 +58,7 @@
     <ProjectReference Include="..\..\Drudge\Drudge.csproj" />
     <ProjectReference Include="..\..\Druid\Druid\Druid.csproj" />
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj" />
+    <ProjectReference Include="..\AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -102,6 +108,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RoutePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\RouteStopForm.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">

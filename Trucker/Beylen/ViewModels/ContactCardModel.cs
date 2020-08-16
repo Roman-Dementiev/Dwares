@@ -1,15 +1,16 @@
 ﻿using System;
-using Dwares.Dwarf;
-using Dwares.Druid;
-using Dwares.Dwarf.Toolkit;
-using Beylen.Models;
 using System.Collections.ObjectModel;
+using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf.Collections;
+using Dwares.Druid.Services;
 using Xamarin.Forms;
+using Beylen.Models;
+
 
 namespace Beylen.ViewModels
 {
-	public class ContactCardModel<TContact> : CardViewModel<TContact> where TContact : Contact
+	public class ContactCardModel<TContact> : CardViewModel<TContact> where TContact : IContact
 	{
 		//static ClassRef @class = new ClassRef(typeof(ContactCardModel));
 
@@ -17,8 +18,6 @@ namespace Beylen.ViewModels
 			base(source)
 		{
 			//Debug.EnableTracing(@class);
-
-			CallCommand = new Command(Call, CanCall);
 
 			UpdateFromSource();
 		}
@@ -45,13 +44,24 @@ namespace Beylen.ViewModels
 			Phone = Source.Phone;
 		}
 
-		public Command CallCommand { get; set; }
-		public void Call()
-		{
-			Debug.Print($"ContactCardModel.Call(): Phone={CallNamber}");
+		static Command callCommand;
+		public Command CallCommand { 
+			get => callCommand ??= new Command(Call, CanCall);
 		}
 
-		public bool CanCall() => HasCallNumber;
+		public static void Call(object number)
+		{
+			var phoneNumber = PhoneNumber.Parse(number);
+			Debug.Print($"ContactCardModel.Call(): Phone={phoneNumber}");
+
+			PhoneDialer.TryDial(phoneNumber);
+		}
+
+		public static bool CanCall(object number)
+		{
+			var phoneNumber = PhoneNumber.Parse(number);
+			return phoneNumber.IsValid;
+		}
 
 	}
 

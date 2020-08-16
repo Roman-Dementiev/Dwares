@@ -18,7 +18,7 @@ namespace Beylen.Storage.Air
 
 	public class CustomerRecord : AirRecord
 	{
-		public const string SHORT_NAME = "Short name";
+		public const string CODE_NAME = "Code name";
 		public const string FULL_NAME = "Full name";
 		public const string TAGS = "Tags";
 		public const string ADDRESS = "Address";
@@ -26,9 +26,9 @@ namespace Beylen.Storage.Air
 		public const string CONTACT_PHONE = "Contact phone";
 		public const string CONTACT_NAME = "Contact name";
 
-		public string ShortName {
-			get => GetField<string>(SHORT_NAME);
-			set => SetField(SHORT_NAME, value);
+		public string CodeName {
+			get => GetField<string>(CODE_NAME);
+			set => SetField(CODE_NAME, value);
 		}
 
 		public string FullName {

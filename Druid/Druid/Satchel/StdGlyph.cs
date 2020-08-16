@@ -14,6 +14,11 @@ namespace Dwares.Druid.Satchel
 		public const string FilledUpwardsArrow = "\x1E";
 		public const string FilledDownwardsArrow = "\x1F";
 
+		public const string CheckMark = "\u2713";
+		public const string HeavyCheckMark = "\u2714";
+		public const string LightCheckMark = "\U0001F5F8";
+		public const string NotCheckMark = "\u237B";
+
 		public const string UncheckedBallot = "\u2610";
 		public const string CheckedBallot = "\u2611";
 		public const string BoldCheckedBallot = "\U0001F5F9";
@@ -29,6 +34,12 @@ namespace Dwares.Druid.Satchel
 		public const string WhitePointBallot = "\u29BE";
 		public const string BlackPointBallot = "\u29BF";
 		//public const string TestBallot = "\u29B4";
+
+		public const string ChequeredFlag = "\U0001F3C1";
+		public const string TriangularFlag = "\U0001F6A9";
+		public const string CrossedFlags = "\U0001F38C";
+		public const string BlackFlag = "\U0001F3F4";
+		public const string WhiteFlag = "\U0001F3F3";
 
 		public const string WhiteHourglass = "\u29D6";
 		public const string BlackHourglass = "\u29D7";
@@ -66,5 +77,7 @@ namespace Dwares.Druid.Satchel
 		public const string ClockFace_10_30 = "\U0001F565";
 		public const string ClockFace_11_30 = "\U0001F566";
 		public const string ClockFace_12_30 = "\U0001F567";
+
+
 	}
 }

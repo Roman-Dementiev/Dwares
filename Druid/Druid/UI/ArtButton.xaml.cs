@@ -290,6 +290,23 @@ namespace Dwares.Druid.UI
 			get { return (ICommand)GetValue(CommandProperty); }
 		}
 
+		public static readonly BindableProperty CommandParameterProperty =
+			BindableProperty.Create(
+				nameof(CommandParameter),
+				typeof(object),
+				typeof(ArtButton)
+				//propertyChanged: (bindable, oldValue, newValue) => {
+				//	if (bindable is ArtButtonEx button && newValue is string value) {
+				//		Debug.Print($"CommandParameterProperty changed");
+				//	}
+				//}
+				);
+
+		public object CommandParameter {
+			set { SetValue(CommandParameterProperty, value); }
+			get { return GetValue(CommandParameterProperty); }
+		}
+
 		public static readonly BindableProperty FlavorProperty =
 			BindableProperty.Create(
 				nameof(Flavor),
@@ -331,9 +348,9 @@ namespace Dwares.Druid.UI
 		// TapGestureRecognizer handler.
 		void OnTapped(object sender, EventArgs args)
 		{
-			if (IsEnabled && Command != null && Command.CanExecute(null)) {
+			if (IsEnabled && Command != null && Command.CanExecute(CommandParameter)) {
 				//Debug.Print("ArtButton.OnTapped(): Wtit={0}", Writ);
-				Command.Execute(null);
+				Command.Execute(CommandParameter);
 			}
 		}
 

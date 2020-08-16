@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Beylen.Models;
+using Beylen.Views;
+using Dwares.Druid;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
-using Dwares.Dwarf;
-using Dwares.Druid;
-using Beylen.Models;
-using Beylen.Views;
 using Xamarin.Forms;
 
 namespace Beylen
@@ -42,6 +42,11 @@ namespace Beylen
 
 		public ContactCollection<Contact> Contacts { get; } = new ContactCollection<Contact>();
 		public ContactCollection<Customer> Customers { get; } = new ContactCollection<Customer>();
+		public Places Places { get; } = new Places();
+		public Route Route { get; } = new Route();
+
+		public Place StartPoint { get; set; }
+		public Place EndPoint { get; set; }
 
 		public void Configure()
 		{
@@ -75,6 +80,8 @@ namespace Beylen
 			await storage.Initialize();
 			await storage.LoadContacts();
 			await storage.LoadCustomers();
+			await storage.LoadPlaces();
+			await storage.LoadRoute();
 		}
 
 		public async Task ReloadData()
@@ -97,6 +104,7 @@ namespace Beylen
 			{ "route", typeof(RoutePage) },
 			{ "phones", typeof(ContactsPage) },
 			{ "customers", typeof(CustomersPage) },
+			{ "routestop", typeof(RouteStopForm) },
 			{ "produce", typeof(ProducePage) },
 			{ "settings", typeof(SettingsPage) },
 			{ "about", typeof(AboutPage) }
@@ -109,6 +117,17 @@ namespace Beylen
 			}
 		}
 
+		static TContact GetContact<TContact>(string name, Collection<TContact> collection) where TContact : class, IContact
+		{
+			foreach (var contact in collection) {
+				if (contact.Name == name)
+					return contact;
+			}
+			return null;
+		}
+
+		public static Contact GetContact(string name) => GetContact(name, Instance.Contacts);
+		public static Customer GetCustomer(string name) => GetContact(name, Instance.Customers);
 
 	}
 }

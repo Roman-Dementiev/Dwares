@@ -327,9 +327,12 @@ namespace Dwares.Drudge.Airtable
 				queryBuilder.FilterByFormula = formula;
 			}
 
-			var result = await List<TRecord>(queryBuilder);
-			queryBuilder.FilterByFormula = savedFormula;
-			return result;
+			try {
+				var result = await List<TRecord>(queryBuilder);
+				return result;
+			} finally {
+				queryBuilder.FilterByFormula = savedFormula;
+			}
 		}
 
 

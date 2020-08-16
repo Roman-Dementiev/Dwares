@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  xmlns:controls="clr-namespace:Beylen.Controls"
+				  xmlns:vm="clr-namespace:Beylen.ViewModels"
+				  xmlns:dm="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
+				  Title="{Binding Title}"
+				  x:Class="Beylen.Views.RouteStopForm">
+
+	<ui:ContentPageEx.BindingContext>
+		<vm:RouteStopFormModel/>
+	</ui:ContentPageEx.BindingContext>
+
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="20" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<ui:LabelEx Grid.Row="0" Grid.Column="0"
+					Flavor="Form-lead-label"
+					Text="Name:"
+					/>
+		<!--<ui:EntryEx Grid.Row="0" Grid.Column="1"
+					 Flavor="Form-entry"
+					Text="{Binding Name, Mode=OneWay}"
+					/>-->
+		<controls:AutoSuggestEntryEx Grid.Row="0" Grid.Column="1" 
+									 Flavor="Form-asentry"
+									 PlaceholderText="Enter name"
+									 MinSuggestionLength="2"
+									 SuggestionsSource="{Binding Suggestions}"
+									 ChoosenSuggestion="{Binding ChoosenSuggestion, Mode=OneWayToSource}"
+									 Text="{Binding CodeName, Mode=TwoWay}"
+									 />
+
+		<ui:LabelEx Grid.Row="1" Grid.Column="1"
+					Flavor="Form-static-text"
+					Text="{Binding FullName, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="2" Grid.Column="0"
+					Flavor="Form-lead-label"
+					Text="Address:"
+					/>
+		<ui:EditorEx Grid.Row="2" Grid.Column="1"
+					 Flavor="Form-editor"
+					 Text="{Binding Address, Mode=TwoWay}"
+					 IsReadOnly="True"
+					 />
+		<StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+					 Orientation="Horizontal"
+					 HorizontalOptions="End"
+					 >
+			<ui:ButtonEx WidthRequest="100"
+						 Text="More" 
+						 Command="{Binding MoreCommand}"
+						 />
+			<ui:ButtonEx WidthRequest="100"
+						 Text="Done"
+						 Command="{Binding DoneCommand}"
+						 />
+			<ui:ButtonEx WidthRequest="100"
+						 Text="Cancel"
+						 Command="{Binding CancelCommand}"
+						 />
+		</StackLayout>
+	</Grid>
+</ui:ContentPageEx>
+	

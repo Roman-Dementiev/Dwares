@@ -14,19 +14,19 @@ namespace Beylen.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public IContact GetByName(string name)
+		public T GetByName(string name)
 			=> Lookup((contact) => contact.Name == name);
 
-		public IContact GetByPhone(string phone)
+		public T GetByPhone(string phone)
 			=> Lookup((contact) => contact.Phone == phone);
 
-		public IContact Lookup(Func<IContact, bool> test)
+		public T Lookup(Func<IContact, bool> test)
 		{
 			foreach (var contact in this) {
 				if (test(contact))
 					return contact;
 			}
-			return null;
+			return default;
 		}
 
 		public static int CompareByName(T c1, T c2)

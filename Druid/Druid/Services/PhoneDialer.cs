@@ -15,10 +15,10 @@ namespace Dwares.Druid.Services
 		static DependencyService<IPhoneDialer> instance;
 		public static IPhoneDialer Instance => DependencyService<IPhoneDialer>.GetInstance(ref instance);
 
-		public static Exception TryDial(string phoneNumber, string displayName)
+		public static Exception TryDial(string phoneNumber, string displayName = null)
 		{
 			try {
-				return Instance.TryDial(phoneNumber, displayName ?? "");
+				return Instance.TryDial(phoneNumber, displayName ?? string.Empty);
 			}
 			catch (Exception ex) {
 				return ex;
@@ -26,7 +26,7 @@ namespace Dwares.Druid.Services
 
 		}
 
-		public static async Task DialAsync(string phoneNumber, string displayName)
+		public static async Task DialAsync(string phoneNumber, string displayName = null)
 		{
 			var ex = TryDial(phoneNumber, displayName);
 			if (ex != null) {

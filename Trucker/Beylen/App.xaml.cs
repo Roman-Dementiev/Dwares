@@ -5,8 +5,8 @@ using Dwares.Druid;
 using Dwares.Druid.UI;
 using Dwares.Druid.Services;
 using Beylen.Models;
-using Beylen.Services;
 using Beylen.Views;
+
 
 namespace Beylen
 {
@@ -24,7 +24,7 @@ namespace Beylen
 			Preferences.DefaultShare = "Beylen";
 			//Preferences.Clear();
 
-			DependencyService.Register<MockDataStore>();
+			//DependencyService.Register<MockDataStore>();
 
 			BindingContext = AppScope.Instance;
 			//this.AddDefaultViewLocators();
@@ -34,7 +34,6 @@ namespace Beylen
 
 		protected override async void OnStart()
 		{
-			//AppStorage.Instance = new Storage.MockStorage();
 			AppStorage.Instance = new Storage.Air.AirStorage();
 
 			var appScope = AppScope.Instance;
