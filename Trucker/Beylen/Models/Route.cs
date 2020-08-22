@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
-
+using Dwares.Drums;
+using System.Linq;
 
 namespace Beylen.Models
 {
 	public class Route : ObservableCollection<RouteStop>
 	{
 		//static ClassRef @class = new ClassRef(typeof(Route));
+		const bool DirectionsForCurrentOnly = false;
 
 		public static bool DeleteStopOnDepart { get; set; } = false;
 
@@ -78,6 +81,92 @@ namespace Beylen.Models
 			} catch (Exception exc) {
 				return exc;
 			}
+		}
+
+
+		bool CanShowDirections(RouteStop stop, out RouteStop prev, bool currentOnly)
+		{
+			int index = IndexOf(stop);
+			if (index <= 0) {
+				prev = null;
+				return false;
+			}
+
+			prev = this[index-1];
+
+			if (string.IsNullOrWhiteSpace(stop.Address) || stop.Status >= RouteStatus.Arrived)
+				return false;
+
+			if (prev.Status == RouteStatus.Departed) {
+				return true;
+			} else {
+				if (currentOnly && prev.Status < RouteStatus.Arrived)
+					return false;
+
+				return !string.IsNullOrWhiteSpace(prev.Address);
+			}
+		}
+
+		public bool CanShowDirections(RouteStop stop)
+		{
+			RouteStop prev;
+			return CanShowDirections(stop, out prev, DirectionsForCurrentOnly);
+		}
+
+		public async Task<Exception> ShowDirections(RouteStop stop)
+		{
+			RouteStop prev;
+			if (!CanShowDirections(stop, out prev, DirectionsForCurrentOnly))
+				return null;
+
+			Location start = null;
+			if (prev.Status == RouteStatus.Departed) {
+				//start = await Location.GetCurrentLocation();
+			} else {
+				start = new Location { Address = prev.Address };
+			}
+
+			try {
+				await Maps.MapApplication.OpenDirections(start, 
+					new Location { Address = stop.Address },
+					Maps.DefaultOptions);
+			} catch (Exception exc) {
+				return exc;
+			}
+			return null;
+		}
+
+		public async Task<Exception> ShowRouteMap()
+		{
+			try {
+				var locations = new List<ILocation>();
+
+				RouteStop lastStop = null;
+				foreach (var stop in this) {
+					if (stop.Status == RouteStatus.Departed)
+						continue;
+
+					if (stop.Status == RouteStatus.Enroute)
+						locations.Add(await Location.GetCurrentLocation());
+
+					locations.Add(new Location { Address = stop.Address });
+					lastStop = stop;
+				}
+
+				if (locations.Count == 0)
+					return null;
+
+				if (lastStop.Kind != RouteStopKind.EndPoint) {
+					lastStop = new RouteEndStop();
+					locations.Add(new Location { Address = lastStop.Address });
+				}
+
+				await Maps.MapApplication.OpenDirections(locations, Maps.DefaultOptions);
+			}
+			catch (Exception exc) {
+				return exc;
+			}
+			return null;
 		}
 
 		public bool HasCustomerStop(Customer customer)

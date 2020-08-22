@@ -50,6 +50,8 @@
     <Compile Include="AndroidKeyStore.cs" />
     <Compile Include="Cryptography.cs" />
     <Compile Include="EditorExRendered.cs" />
+    <Compile Include="GeoLocator.cs" />
+    <Compile Include="Launcher.cs" />
     <Compile Include="PhoneDialer.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="SystemInfo.cs" />

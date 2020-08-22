@@ -21,6 +21,8 @@
 	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
 		<ToolbarItem Text="Add" Command="{Binding AddCommand}" />
+		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
+		<ToolbarItem Icon="route_map.png" Text="Directions" Command="{Binding RouteMapCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
 	<ui:CollectionViewEx ItemsSource="{Binding Items}"
@@ -59,6 +61,12 @@
 									Flavor="Card-text-default"
 									Text="{Binding Address, Mode=OneWay}"
 									/>
+						<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+									  Flavor="Card-action"
+									  IconArt="ic_directions"
+									  IsVisible="{Binding HasDirections, Mode=OneWay}"
+									  Command="{Binding DirectionsCommand}"
+									 />
 
 						<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
 									  Flavor="Card-separator"
@@ -80,14 +88,12 @@
 										  LabelText="Edit"
 										  IsVisible="{Binding CanEdit}"
 										  Command="{Binding EditCommand}"
-										  CommandParameter="{Binding Order, Mode=OneWay}"
 										  />
 							<ui:ArtButton Flavor="Card-action"
 										  IconArt="ic_delete.small"
 										  LabelText="Delete"
 										  IsVisible="{Binding CanDelete}"
 										  Command="{Binding DeleteCommand}"
-										  CommandParameter="{Binding Order, Mode=OneWay}"
 										  />
 						</StackLayout>
 					</ui:GridEx>

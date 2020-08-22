@@ -19,6 +19,7 @@ namespace Beylen.ViewModels
 
 			Title = "Route";
 			AddCommand = new Command(AddStop);
+			RouteMapCommand = new Command(RouteMap);
 		}
 
 		public static ObservableCollection<RouteStopCardModel> CreateCollection()
@@ -30,11 +31,21 @@ namespace Beylen.ViewModels
 		}
 
 		public Command AddCommand { get; }
+		public Command RouteMapCommand { get; }
 
 		public async void AddStop()
 		{
 			Debug.Print("RouteViewModel.Add()");
 			await Shell.Current.GoToAsync($"routestop");
+		}
+
+		public async void RouteMap()
+		{
+			var exc = await AppScope.Instance.Route.ShowRouteMap();
+			if (exc != null) {
+				await Alerts.ErrorAlert(exc.Message);
+			}
+
 		}
 	}
 }

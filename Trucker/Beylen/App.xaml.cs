@@ -4,6 +4,9 @@ using Xamarin.Forms.Xaml;
 using Dwares.Druid;
 using Dwares.Druid.UI;
 using Dwares.Druid.Services;
+using Dwares.Drums;
+using Dwares.Drums.Google;
+using Dwares.Drums.Bing;
 using Beylen.Models;
 using Beylen.Views;
 
@@ -30,6 +33,10 @@ namespace Beylen
 			//this.AddDefaultViewLocators();
 
 			UIThemeManager.Instance = new UIThemes();
+
+			Maps.MapApplication = new GoogleMaps();
+			Maps.MapService = new BingMapsREST();
+			Preferences.Set("BingMaps.Key", "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa");
 		}
 
 		protected override async void OnStart()

@@ -9,11 +9,11 @@ namespace Dwares.Drums.Bing
 	{
 		public BingWaypoint(IWaypoint wp)
 		{
-			if (wp.Coordinate != null) {
-				Coordinate = BingCoordinate.ToBing(wp.Coordinate);
+			if (wp.HasCoordinate) {
+				Coordinate = BingCoordinate.ToBing(wp.GetCoordinate());
 			}
-			if (wp.Address != null) {
-				Address = wp.Address;
+			if (wp.HasAddress) {
+				Address = wp.GetAddress();
 			}
 
 			WaypointType = wp.WaypointType;
@@ -22,7 +22,12 @@ namespace Dwares.Drums.Bing
 
 		public WaypointType WaypointType { get; set; }
 		public string Landmark { get; set; }
-		ICoordinate ILocation.Coordinate => Coordinate as BingCoordinate;
+
+		bool ILocation.HasAddress => !string.IsNullOrEmpty(Address);
+		string ILocation.GetAddress() => Address;
+
+		bool ILocation.HasCoordinate => Coordinate != null;
+		ICoordinate ILocation.GetCoordinate() => Coordinate as BingCoordinate;
 
 
 		public static BingWaypoint ToBing(IWaypoint wp)

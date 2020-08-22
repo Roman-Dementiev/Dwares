@@ -20,6 +20,7 @@
 		<drx:BitmapAsset x:Key="ic_restaurant" BitmapSize="36" Color="Black">Beylen.Resources.ic_restaurant.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_store" BitmapSize="36" Color="Black">Beylen.Resources.ic_store.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_place" BitmapSize="36" Color="Black">Beylen.Resources.ic_place.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_directions" BitmapSize="36" Color="Black">Beylen.Resources.ic_directions.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_route_status.small" BitmapSize="24" Color="Black">Beylen.Resources.ic_route_status.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_edit.small" BitmapSize="24" Color="Black">Beylen.Resources.ic_edit.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_delete.small" BitmapSize="24" Color="Black">Beylen.Resources.ic_delete.png</drx:BitmapAsset>

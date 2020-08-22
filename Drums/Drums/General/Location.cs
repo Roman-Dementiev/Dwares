@@ -13,17 +13,25 @@ namespace Dwares.Drums
 				return;
 
 			//Landmark = location.Landmark;
-			Address = location.Address;
+			if (location.HasAddress) {
+				Address = location.GetAddress();
+			}
 
-			if (location.Coordinate != null) {
-				Coordinate = new Coordinate(location.Coordinate.Latitude, location.Coordinate.Longitude);
+			if (location.HasCoordinate) {
+				var coord = location.GetCoordinate();
+				Coordinate = new Coordinate(coord.Latitude, coord.Longitude);
 			}
 		}
 
 		//public string Landmark { get; set; }
 		public string Address { get; set; }
 		public Coordinate Coordinate { get; set; }
-		ICoordinate ILocation.Coordinate => Coordinate;
+
+
+		bool ILocation.HasAddress => !string.IsNullOrEmpty(Address);
+		string ILocation.GetAddress() => Address;
+		bool ILocation.HasCoordinate => Coordinate != null;
+		ICoordinate ILocation.GetCoordinate() => Coordinate;
 
 		public static async Task<Location> GetCurrentLocation()
 		{

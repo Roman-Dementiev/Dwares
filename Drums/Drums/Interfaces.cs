@@ -11,6 +11,7 @@ namespace Dwares.Drums
 		Driving,
 		Walking,
 		Transit,
+		Bicycle,
 		Truck
 	}
 
@@ -47,8 +48,12 @@ namespace Dwares.Drums
 	{
 		//TODO
 		//string Landmark { get; }
-		string Address { get; }
-		ICoordinate Coordinate { get; }
+
+		bool HasAddress { get; }
+		string GetAddress ();
+
+		bool HasCoordinate { get; }
+		ICoordinate GetCoordinate();
 	}
 
 	public interface IWaypoint : ILocation
@@ -85,17 +90,19 @@ namespace Dwares.Drums
 		IEnumerable<IRouteLeg> Legs { get; }
 	}
 
-	public interface IMapService : INameHolder
+	public interface IMapService
 	{
 		Task<IRouteInfo> GetRouteInfo(IEnumerable<IWaypoint> waypoints, IRouteOptions options);
 	}
 
-	public interface IMapApplication : INameHolder
+	public interface IMapApplication
 	{
 		Task OpenAddress(string address);
 		Task OpenDirections(string from, string dest);
 	
 		Task OpenDirections(ILocation from, ILocation dest, IRouteOptions options);
+
+		Task OpenDirections(IList<ILocation> stops, IRouteOptions options);
 	}
 
 

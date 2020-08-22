@@ -103,6 +103,10 @@
       <Project>{a06154de-d0eb-49c7-bd5e-c52e71459940}</Project>
       <Name>Druid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Drums\Drums\Drums.csproj">
+      <Project>{8b3641c7-03a1-4177-9080-e0523c4c6142}</Project>
+      <Name>Drums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj">
       <Project>{c5c24d8f-7601-479f-9b29-ab8eb00d613c}</Project>
       <Name>Dwarf</Name>
@@ -169,6 +173,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\_route_directions.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\route_map.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

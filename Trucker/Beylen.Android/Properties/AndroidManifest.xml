@@ -3,4 +3,6 @@
 	<uses-sdk android:minSdkVersion="20" android:targetSdkVersion="28" />
 	<application android:label="Beylen"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 </manifest>

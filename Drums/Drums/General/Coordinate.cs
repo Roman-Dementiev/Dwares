@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using System.Globalization;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Satchel;
-using Dwares.Druid.Services;
+//using Dwares.Druid.Services;
+using Xamarin.Essentials;
 
 
 namespace Dwares.Drums
@@ -131,8 +132,9 @@ namespace Dwares.Drums
 
 		public static async Task<Coordinate> GetCurrentCoordinate()
 		{
-			var geoPosition = await GeoLocator.GetPosition();
-			return new Coordinate(geoPosition.Latitude, geoPosition.Longitude);
+			var location = await Geolocation.GetLocationAsync();
+			//var geoPosition = await GeoLocator.GetPosition();
+			return new Coordinate(location.Latitude, location.Longitude);
 		}
 	}
 

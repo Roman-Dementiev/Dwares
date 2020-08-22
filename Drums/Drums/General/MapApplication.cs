@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Druid.Services;
 using Dwares.Dwarf.Toolkit;
@@ -6,9 +7,14 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Drums
 {
-	public abstract class MapApplication : NameHolder, IMapApplication
+	public abstract class MapApplication : IMapApplication
 	{
-		public MapApplication(string name) : base(name) { }
+		public MapApplication(string name)
+		{
+			Name = name;
+		}
+
+		public string Name { get; set; }
 
 		public static string Escape(string str)
 		{
@@ -21,6 +27,7 @@ namespace Dwares.Drums
 		public abstract Uri GetDirectionsUri(string from, string dest);
 
 		public abstract Uri GetDirectionsUri(ILocation from, ILocation dest, IRouteOptions options);
+		public abstract Uri GetDirectionsUri(IList<ILocation> stops, IRouteOptions options);
 
 		public virtual Task OpenMapUri(Uri uri)
 		{
@@ -40,10 +47,17 @@ namespace Dwares.Drums
 			return OpenMapUri(uri);
 		}
 
+		public Task OpenDirections(IList<ILocation> stops, IRouteOptions options)
+		{
+			var uri = GetDirectionsUri(stops, options);
+			return OpenMapUri(uri);
+		}
+
 		public Task OpenDirections(ILocation from, ILocation dest, IRouteOptions options)
 		{
 			var uri = GetDirectionsUri(from, dest, options);
 			return OpenMapUri(uri);
 		}
+
 	}
 }

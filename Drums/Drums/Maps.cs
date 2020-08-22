@@ -169,6 +169,7 @@ namespace Dwares.Drums
 		public Task OpenAddress(string address) => throw new NotImplementedException(nameof(OpenAddress));
 		public Task OpenDirections(string from, string dest) => throw new NotImplementedException(nameof(OpenDirections));
 		public Task OpenDirections(ILocation from, ILocation dest, IRouteOptions options) => throw new NotImplementedException(nameof(OpenDirections));
+		public Task OpenDirections(IList<ILocation> stops, IRouteOptions options) => throw new NotImplementedException(nameof(OpenDirections));
 	}
 
 	public sealed class MapServiceNotImplemented : IMapService

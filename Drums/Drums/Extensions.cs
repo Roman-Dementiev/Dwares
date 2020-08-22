@@ -14,7 +14,13 @@ namespace Dwares.Drums
 
 		public static bool IsValidLocation(this ILocation l)
 		{
-			return l != null && (!String.IsNullOrEmpty(l.Address) || IsValidCoordinate(l.Coordinate));
+			if (l == null)
+				return false;
+
+			if (l.HasAddress && !string.IsNullOrEmpty(l.GetAddress()))
+				return true;
+
+			return l.HasCoordinate && IsValidCoordinate(l.GetCoordinate());
 		}
 	}
 }

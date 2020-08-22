@@ -20,14 +20,22 @@ namespace Beylen.ViewModels
 			EditCommand = new Command(OnEdit, () => CanEdit);
 			DeleteCommand = new Command(OnDelete, () => CanDelete);
 			StatusCommand = new Command(OnStatus, () => HasStatusCommand);
+			DirectionsCommand = new Command(OnDirections, () => HasDirections);
 
 			UpdateFromSource();
 			UpdateSeqString();
 			UpdateStatusCommand();
 			UpdateDeleteCommand();
+			UpdateDirectionCommand();
 
 			source.PropertyChanged += (s, e) => UpdateFromSource();
 		}
+
+		public Command EditCommand { get; }
+		public Command DeleteCommand { get; }
+		public Command StatusCommand { get; }
+		public Command DirectionsCommand { get; }
+
 
 		public int Seq {
 			get => seq;
@@ -60,12 +68,12 @@ namespace Beylen.ViewModels
 
 		public string Address {
 			get => address;
-			set => SetProperty(ref address, value); // only used in UpdateFromSource
-			//set {
-			//	if (SetProperty(ref address, value)) {
-			//		Source.FullName = value;
-			//	}
-			//}
+			set {
+				if (SetProperty(ref address, value)) {
+					//Source.FullName = value; // only used in UpdateFromSource
+					UpdateDirectionCommand();
+				}
+			}
 		}
 		string address;
 
@@ -77,6 +85,7 @@ namespace Beylen.ViewModels
 					UpdateSeqString();
 					UpdateStatusCommand();
 					UpdateDeleteCommand();
+					UpdateDirectionCommand();
 				}
 			}
 		}
@@ -96,21 +105,12 @@ namespace Beylen.ViewModels
 		bool canDelete;
 
 
-		//public Command EditCommand {
-		//	get => editCommand ??= new Command(OnEdit, () => CanEdit);
-		//}
-		//static Command editCommand;
+		public bool HasDirections {
+			get => hasDirections;
+			private set => SetProperty(ref hasDirections, value);
+		}
+		bool hasDirections;
 
-		//public static async void OnEdit(object param)
-		//{
-		//	if (param is int order) {
-		//		var uri = $"routestop?order={order}";
-		//		await Shell.Current.GoToAsync(uri);
-		//	}
-		//}
-
-		public Command EditCommand { get; }
-		public Command DeleteCommand { get; }
 
 		public async void OnEdit()
 		{
@@ -132,9 +132,17 @@ namespace Beylen.ViewModels
 			}
 		}
 
+		public async void OnDirections()
+		{
+			if (HasDirections) {
+				var exc = await AppScope.Instance.Route.ShowDirections(Source);
+				if (exc != null) {
+					await Alerts.ErrorAlert(exc.Message);
+				}
+			}
+		}
 
 
-		public Command StatusCommand { get; }
 		public string StatusCommandName {
 			get => statusCommandName;
 			set => SetProperty(ref statusCommandName, value);
@@ -233,7 +241,15 @@ namespace Beylen.ViewModels
 				CanDelete = Source.Kind == RouteStopKind.Customer;
 				break;
 			}
+		}
 
+		void UpdateDirectionCommand()
+		{
+			if (Status < RouteStatus.Arrived) {
+				HasDirections = AppScope.Instance.Route.CanShowDirections(Source);
+			} else {
+				HasDirections = false;
+			}
 		}
 	}
 }

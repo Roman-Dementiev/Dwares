@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drudge", "..\Drudge\Drudge.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotMorten.Xamarin.Forms.AutoSuggestBox", "AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj", "{A6A765F9-7D8C-47F0-BBD4-2D4DCCE0F75A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drums", "..\Drums\Drums\Drums.csproj", "{8B3641C7-03A1-4177-9080-E0523C4C6142}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -191,6 +193,22 @@ Global
 		{A6A765F9-7D8C-47F0-BBD4-2D4DCCE0F75A}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A6A765F9-7D8C-47F0-BBD4-2D4DCCE0F75A}.Release|x64.ActiveCfg = Release|Any CPU
 		{A6A765F9-7D8C-47F0-BBD4-2D4DCCE0F75A}.Release|x64.Build.0 = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|iPhone.Build.0 = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B3641C7-03A1-4177-9080-E0523C4C6142}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
