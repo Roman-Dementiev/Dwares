@@ -7,6 +7,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
+
 namespace Beylen.Controls
 {
 	public class AutoSuggestEntryEx : AutoSuggestBox, IThemeAware

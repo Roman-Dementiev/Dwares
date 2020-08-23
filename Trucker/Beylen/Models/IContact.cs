@@ -9,5 +9,6 @@ namespace Beylen.Models
 	{
 		string Name { get; }
 		PhoneNumber Phone { get; }
+		string Info { get; }
 	}
 }

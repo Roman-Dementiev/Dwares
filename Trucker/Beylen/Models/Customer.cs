@@ -5,7 +5,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Beylen.Models
 {
-	public class Customer : Place, ICustomer, IContact
+	public class Customer : Place, IContact
 	{
 		//static ClassRef @class = new ClassRef(typeof(Person));
 
@@ -14,25 +14,8 @@ namespace Beylen.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public string Name => CodeName;
-
-		//public string CodeName {
-		//	get => codeName;
-		//	set => SetProperty(ref codeName, value);
-		//}
-		//string codeName;
-
-		//public string FullName {
-		//	get => fullName;
-		//	set => SetProperty(ref fullName, value);
-		//}
-		//string fullName;
-
-		//public string Address {
-		//	get => address;
-		//	set => SetProperty(ref address, value);
-		//}
-		//string address;
+		string IContact.Name => CodeName;
+		string IContact.Info => string.Empty;
 
 		public PhoneNumber Phone {
 			get => phone;
@@ -40,16 +23,22 @@ namespace Beylen.Models
 		}
 		PhoneNumber phone;
 
-		public string ContactName {
-			get => contactPerson;
-			set => SetProperty(ref contactPerson, value);
-		}
-		string contactPerson;
+		//public string ContactName {
+		//	get => contactPerson;
+		//	set => SetProperty(ref contactPerson, value);
+		//}
+		//string contactPerson;
 
-		public PhoneNumber ContactPhone {
-			get => contactPhone;
-			set => SetProperty(ref contactPhone, value);
+		//public PhoneNumber ContactPhone {
+		//	get => contactPhone;
+		//	set => SetProperty(ref contactPhone, value);
+		//}
+		//PhoneNumber contactPhone;
+
+		public Contact Contact { 
+			get => contact;
+			set => SetProperty(ref contact, value);
 		}
-		PhoneNumber contactPhone;
+		Contact contact;
 	}
 }

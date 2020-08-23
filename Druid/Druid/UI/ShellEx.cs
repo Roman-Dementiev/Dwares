@@ -69,16 +69,16 @@ namespace Dwares.Druid.UI
 		string mainRoute;
 
 
-		public static async Task GoToMainAsync()
-		{
-			if (Current is ShellEx shell && !string.IsNullOrEmpty(shell.MainRoute)) {
-				await Shell.Current.GoToAsync($"///{shell.MainRoute}", true);
-			}
-		}
+		//public static async Task GoToMainAsync()
+		//{
+		//	if (Current is ShellEx shell && !string.IsNullOrEmpty(shell.MainRoute)) {
+		//		await Shell.Current.GoToAsync($"///{shell.MainRoute}", true);
+		//	}
+		//}
 
-		public static Command GoToMainCommand {
-			get => LazyInitializer.EnsureInitialized(ref goToMainCommand, () => new Command(async () => await GoToMainAsync()));
-		}		
-		static Command goToMainCommand;
+		//public static Command GoToMainCommand {
+		//	get => LazyInitializer.EnsureInitialized(ref goToMainCommand, () => new Command(async () => await GoToMainAsync()));
+		//}		
+		//static Command goToMainCommand;
 	}
 }

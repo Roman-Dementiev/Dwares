@@ -20,7 +20,7 @@ namespace Beylen.Storage.Air
 	{
 		public const string _ = "#";
 		public const string DATE = "Date";
-		public const string SEQ = "Seq";
+		public const string ORD = "Ord";
 		public const string TAGS = "Tags";
 		public const string STATUS = "Status";
 		public const string CODE_NAME = "Code name";
@@ -36,9 +36,9 @@ namespace Beylen.Storage.Air
 			set => SetField(DATE, value);
 		}
 
-		public int Seq {
-			get => GetField<int>(SEQ);
-			set => SetField(SEQ, value);
+		public int Ord {
+			get => GetField<int>(ORD);
+			set => SetField(ORD, value);
 		}
 
 		public string Tags {

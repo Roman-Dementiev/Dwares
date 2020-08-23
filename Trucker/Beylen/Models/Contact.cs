@@ -26,6 +26,11 @@ namespace Beylen.Models
 			set => SetProperty(ref phone, value);
 		}
 		PhoneNumber phone;
-	}
 
+		public string Info {
+			get => info;
+			set => SetProperty(ref info, value);
+		}
+		string info;
+	}
 }

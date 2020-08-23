@@ -1,11 +1,29 @@
 ﻿using System;
 using Dwares.Druid.Forms;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Collections;
 
 
 namespace Beylen.Models
 {
-	public class RouteStop : Place, IRouteStop
+	public enum RouteStopKind
+	{
+		Customer,
+		StartPoint,
+		EndPoint,
+		MidPoint
+	}
+
+	public enum RouteStatus
+	{
+		Pending,
+		Enroute,
+		Arrived,
+		Departed
+	}
+
+
+	public class RouteStop : Place //, IRouteStop
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteStop));
 
@@ -42,9 +60,9 @@ namespace Beylen.Models
 		}
 		RouteStopKind kind;
 
-		//public bool IsStartPoint => Kind == RouteStopKind.StartPoint;
-		//public bool IsEndPoint => Kind == RouteStopKind.EndPoint;
-		//public bool IsCustomer => Kind == RouteStopKind.Customer;
+		public bool IsStartPoint => Kind == RouteStopKind.StartPoint;
+		public bool IsEndPoint => Kind == RouteStopKind.EndPoint;
+		public bool IsCustomer => Kind == RouteStopKind.Customer;
 
 		public RouteStatus Status {
 			get => status;
@@ -52,20 +70,20 @@ namespace Beylen.Models
 		}
 		RouteStatus status;
 
-		public int Seq {
-			get => seq;
-			set => SetProperty(ref seq, value);
+		public int Ordinal {
+			get => ordinal;
+			set => SetProperty(ref ordinal, value);
 		}
-		int seq;
+		int ordinal;
 
 		protected void FromSource(Place source)
 		{
 			if (source != null) {
 				CodeName = source.CodeName;
-				FullName = source.FullName;
+				RealName = source.RealName;
 				Address = source.Address;
 			} else {
-				CodeName = FullName = Address = string.Empty;
+				CodeName = RealName = Address = string.Empty;
 			}
 		}
 
@@ -82,7 +100,7 @@ namespace Beylen.Models
 
 		public CustomerStop(string codeName)
 		{
-			var customer = AppScope.Instance.Customers.GetByName(codeName);
+			var customer = AppScope.Instance.Customers.GetByCodeName(codeName);
 			if (customer == null)
 				throw new ProgramError($"Unknown Customer CodeName=\"{codeName ?? string.Empty}\"");
 

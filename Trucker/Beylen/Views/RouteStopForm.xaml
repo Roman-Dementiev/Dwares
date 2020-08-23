@@ -48,7 +48,7 @@
 									 Flavor="Form-asentry"
 									 PlaceholderText="Enter name"
 									 MinSuggestionLength="2"
-									 SuggestionsSource="{Binding Suggestions}"
+									 SuggestionsSource="{Binding CustomerSuggestions}"
 									 ChoosenSuggestion="{Binding ChoosenSuggestion, Mode=OneWayToSource}"
 									 Text="{Binding CodeName, Mode=TwoWay}"
 									 />

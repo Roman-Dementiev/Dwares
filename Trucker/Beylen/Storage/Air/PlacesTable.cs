@@ -19,7 +19,7 @@ namespace Beylen.Storage.Air
 	public class PlaceRecord : AirRecord
 	{
 		public const string CODE_NAME = "Code name";
-		public const string FULL_NAME = "Full name";
+		public const string REAL_NAME = "Real name";
 		public const string TAGS = "Tags";
 		public const string ADDRESS = "Address";
 
@@ -28,9 +28,9 @@ namespace Beylen.Storage.Air
 			set => SetField(CODE_NAME, value);
 		}
 
-		public string FullName {
-			get => GetField<string>(FULL_NAME);
-			set => SetField(FULL_NAME, value);
+		public string RealName {
+			get => GetField<string>(REAL_NAME);
+			set => SetField(REAL_NAME, value);
 		}
 
 		public string Tags {

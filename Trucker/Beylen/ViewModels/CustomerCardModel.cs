@@ -37,11 +37,11 @@ namespace Beylen.ViewModels
 
 		public bool HasAddress => !string.IsNullOrEmpty(Address);
 
-		public string ContactName {
-			get => contactName;
-			set => SetPropertyEx(ref contactName, value, nameof(ContactName), nameof(ContactString));
+		public string ContactInfo {
+			get => contactInfo;
+			set => SetPropertyEx(ref contactInfo, value, nameof(ContactInfo), nameof(ContactString));
 		}
-		string contactName;
+		string contactInfo;
 
 		public PhoneNumber ContactPhone {
 			get => contactPhone;
@@ -54,10 +54,10 @@ namespace Beylen.ViewModels
 		public override string ContactString {
 			get {
 				if (ContactPhone.IsValid) {
-					if (string.IsNullOrEmpty(ContactName)) {
+					if (string.IsNullOrEmpty(ContactInfo)) {
 						return ContactPhone.ToString();
 					} else {
-						return $"{ContactPhone} ({ContactName})";
+						return $"{ContactPhone} ({ContactInfo})";
 					}
 				} else {
 					return string.Empty;
@@ -68,11 +68,16 @@ namespace Beylen.ViewModels
 		protected override void UpdateFromSource()
 		{
 			Icon = PickIcon();
-			Name = Source.Name;
+			Name = Source.DisplayName;
 			Phone = Source.Phone;
 			Address = Source.Address;
-			ContactName = Source.ContactName;
-			ContactPhone = Source.ContactPhone;
+
+			if (Source.Contact != null) {
+				ContactPhone = Source.Contact.Phone;
+				ContactInfo = Source.Contact.Info;
+			} else {
+				ContactInfo = ContactPhone = string.Empty;
+			}
 		}
 
 		string PickIcon()

@@ -1,6 +1,7 @@
 ﻿using Beylen.Models;
 using Beylen.Views;
 using Dwares.Druid;
+using Dwares.Dwarf.Toolkit;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,23 +31,39 @@ namespace Beylen
 		{
 			//Debug.EnableTracing(@class);
 
-			RegisterRoutes();
-		}
+			Contacts = new ObservableCollection<Contact>();
+			Customers = new ObservableCollection<Customer>();
+			Produce = new ObservableCollection<Produce>();
+			Invoices = new ObservableCollection<Invoice>();
+			Places = new ObservableCollection<Place>();
+			Route = new Route();
 
-		public AppMode? ConfigMode { get; set; }// = AppMode.Driver;
-		public AppMode CurrentMode { get; set; }//= AppMode.Driver;
-		public string Car { get; set; }
+			foreach (var item in Routing) {
+				Xamarin.Forms.Routing.RegisterRoute(item.Key, item.Value);
+			}
+		}
 
 		public Shell AppShell { get; set; }
 
+		public AppMode? ConfigMode { get; private set; }// = AppMode.Driver;
+		public AppMode CurrentMode { get; private set; }//= AppMode.Driver;
+		public string Car { get; private set; }
 
-		public ContactCollection<Contact> Contacts { get; } = new ContactCollection<Contact>();
-		public ContactCollection<Customer> Customers { get; } = new ContactCollection<Customer>();
-		public Places Places { get; } = new Places();
+
+
+		public ObservableCollection<Contact> Contacts { get; }
+		public ObservableCollection<Customer> Customers { get; }
+		public ObservableCollection<Produce> Produce { get; }
+		public ObservableCollection<Invoice> Invoices { get; }
+		public ObservableCollection<Place> Places { get; }
 		public Route Route { get; } = new Route();
 
 		public Place StartPoint { get; set; }
 		public Place EndPoint { get; set; }
+		//public DateOnly ClosedDate { get; set; }
+		public DateOnly OrderingDate { get; set; }
+		public int OrderingLast { get; set; }
+
 
 		public void Configure()
 		{
@@ -67,7 +84,7 @@ namespace Beylen
 				Settings.Car = null;
 			} else {
 				AppShell = new AppShell_Driver();
-				Car = car ?? "Car 1";
+				Car = car ?? "Car A";
 				Settings.Car = Car;
 			}
 
@@ -78,27 +95,68 @@ namespace Beylen
 		{
 			var storage = AppStorage.Instance;
 			await storage.Initialize();
-			await storage.LoadContacts();
-			await storage.LoadCustomers();
-			await storage.LoadPlaces();
-			await storage.LoadRoute();
+			await storage.LoadData();
+
+			await InitOrdering();
 		}
 
 		public async Task ReloadData()
 		{
+			Produce.Clear();
 			Contacts.Clear();
 			Customers.Clear();
+			Places.Clear();
+			Invoices.Clear();
+			Route.Clear();
 
-			var storage = AppStorage.Instance;
-			await storage.LoadContacts();
-			await storage.LoadCustomers();
+			await AppStorage.Instance.LoadData();
 		}
+
+		public async Task InitOrdering()
+		{
+			var closedDate = AppStorage.GetClosedDate();
+			var orderingDate = AppStorage.GetOrderingDate();
+			var orderingLast = AppStorage.GetOrderingLast();
+
+			if (orderingDate == null)
+			{
+				if (closedDate == null) {
+					OrderingDate = DateOnly.Today;
+				} else {
+					OrderingDate = ((DateOnly)closedDate).NextDay();
+				}
+				OrderingLast = 0;
+			}
+			else {
+				OrderingDate = (DateTime)orderingDate;
+				if (closedDate != null && OrderingDate <= (DateOnly)closedDate) {
+					OrderingDate = ((DateOnly)closedDate).NextDay();
+					OrderingLast = 0;
+				}
+			}
+
+			if (OrderingDate.DayOfWeek == DayOfWeek.Sunday) {
+				OrderingDate = OrderingDate.NextDay();
+				OrderingLast = 0;
+			}
+
+			await AppStorage.SetOrderingDate(OrderingDate);
+			await AppStorage.SetOrderingLast(OrderingLast);
+		}
+
+		
+		public static Customer GetCustomer(string name) => Instance.Customers.GetByCodeName(name); // for MockStorage only
 
 
 		/* Xamarin.Forms Routing
 		 */
-		public Dictionary<string, Type> Routes { get; } = new Dictionary<string, Type>() {
+		public Dictionary<string, Type> Routing { get; } = new Dictionary<string, Type>() {
+			//{ "//driver/orders", typeof(OrdersPage) },
+			//{ "//driver/route", typeof(RoutePage) },
+			//{ "//driver/contacts/phones", typeof(ContactsPage) },
+			//{ "//driver/contacts/customers", typeof(CustomersPage) },
 			{ "orders", typeof(OrdersPage) },
+			{ "invoice", typeof(InvoiceForm) },
 			{ "shopping", typeof(ShoppingPage) },
 			{ "storage", typeof(StoragePage) },
 			{ "route", typeof(RoutePage) },
@@ -110,24 +168,6 @@ namespace Beylen
 			{ "about", typeof(AboutPage) }
 		};
 
-		public void RegisterRoutes()
-		{
-			foreach (var item in Routes) {
-				Xamarin.Forms.Routing.RegisterRoute(item.Key, item.Value);
-			}
-		}
-
-		static TContact GetContact<TContact>(string name, Collection<TContact> collection) where TContact : class, IContact
-		{
-			foreach (var contact in collection) {
-				if (contact.Name == name)
-					return contact;
-			}
-			return null;
-		}
-
-		public static Contact GetContact(string name) => GetContact(name, Instance.Contacts);
-		public static Customer GetCustomer(string name) => GetContact(name, Instance.Customers);
 
 	}
 }

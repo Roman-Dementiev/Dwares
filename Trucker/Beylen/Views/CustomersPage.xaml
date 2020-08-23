@@ -68,7 +68,7 @@
 										  IsVisible="{Binding HasCallNumber, Mode=OneWay}"
 										 />
 
-								<ui:BoxViewEx Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+								<!--<ui:BoxViewEx Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
 										  Flavor="Card-separator"
 										  IsVisible="{Binding IsSelected, Mode=OneWay}"
 										  />
@@ -85,7 +85,7 @@
 											  IconArt="ic_delete.small"
 											  LabelText="Delete"
 											  />
-								</StackLayout>
+								</StackLayout>-->
 							</ui:GridEx>
 						</ui:FrameEx>
 					</ViewCell>

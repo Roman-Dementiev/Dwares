@@ -52,21 +52,21 @@ namespace Beylen.ViewModels
 			}
 		}
 		static readonly string _Market = AppModeString(AppMode.Market);
-		static readonly string _Driver1 = AppModeString(AppMode.Driver, "Car 1");
-		static readonly string _Driver2 = AppModeString(AppMode.Driver, "Car 2");
+		static readonly string _DriverA = AppModeString(AppMode.Driver, "Car A");
+		static readonly string _DriverB = AppModeString(AppMode.Driver, "Car B");
 
 		async Task ChooseAppMode(Page page, SettingsSection section)
 		{
 			var result = await page.DisplayActionSheet("Application Mode", "Cancel", null,
-				_Market, _Driver1, _Driver2
+				_Market, _DriverA, _DriverB
 				);
 
 			if (result == _Market) {
 				AppScope.Instance.Configure("Market", null);
-			} else if (result == _Driver1) {
-				AppScope.Instance.Configure("Driver", "Car 1");
-			} else if (result == _Driver2) {
-				AppScope.Instance.Configure("Driver", "Car 2");
+			} else if (result == _DriverA) {
+				AppScope.Instance.Configure("Driver", "Car A");
+			} else if (result == _DriverB) {
+				AppScope.Instance.Configure("Driver", "Car B");
 			} else {
 				return;
 			}

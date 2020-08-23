@@ -34,6 +34,14 @@ namespace Beylen.ViewModels
 		}
 		PhoneNumber phone;
 
+		public string Info {
+			get => info;
+			set => SetPropertyEx(ref info, value, nameof(Info), nameof(HasInfo));
+		}
+		string info;
+
+		public bool HasInfo => !string.IsNullOrEmpty(info);
+
 		public virtual PhoneNumber CallNamber => Phone;
 		public bool HasCallNumber => CallNamber.IsValid;
 		public virtual string ContactString => Phone.ToString();
@@ -42,6 +50,7 @@ namespace Beylen.ViewModels
 		{
 			Name = Source.Name;
 			Phone = Source.Phone;
+			Info = Source.Info;
 		}
 
 		static Command callCommand;

@@ -11,12 +11,12 @@
 	<ui:ContentPageEx.BindingContext>
 		<vm:RouteViewModel/>
 	</ui:ContentPageEx.BindingContext>
-	
-	<!--<ui:ContentPageEx.Resources>
+
+	<!--<ui:ShellPageEx.Resources>
 		<ResourceDictionary>
 			<druid:WritCommand x:Key="About">about</druid:WritCommand>
 		</ResourceDictionary>
-	</ui:ContentPageEx.Resources>-->
+	</ui:ShellPageEx.Resources>-->
 
 	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
@@ -51,7 +51,7 @@
 									 />-->
 						<ui:LabelEx Grid.Row="0" Grid.Column="0"
 									Flavor="Card-text-bold"
-									Text="{Binding SeqString, Mode=OneWay}"
+									Text="{Binding OrdString, Mode=OneWay}"
 									/>
 						<ui:LabelEx Grid.Row="0" Grid.Column="1"
 									Flavor="Card-text-bold"

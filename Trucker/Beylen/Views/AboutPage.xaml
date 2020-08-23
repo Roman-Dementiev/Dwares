@@ -7,13 +7,14 @@
 				xmlns:vm="clr-namespace:Beylen.ViewModels"
 				mc:Ignorable="d"
 				Title="{Binding Title}"
-				BackButtonIsEnabled="True"
-				BackButtonIconOverride="back.png"
-				BackButtonTextOverride="Go Back"
 				x:Class="Beylen.Views.AboutPage"
 				>
 
-	<!--<ui:ShellPageEx.BackButtonBehavior>
+	<ui:ShellPageEx.BindingContext>
+		<vm:AboutViewModel />
+	</ui:ShellPageEx.BindingContext>
+
+	<ui:ShellPageEx.BackButtonBehavior>
 		<BackButtonBehavior Command="{Binding GoBackCommand}"
 							IsEnabled="True"
 							IconOverride="back.png"
@@ -26,20 +27,16 @@
 				</OnPlatform>
 			</BackButtonBehavior.TextOverride>
 		</BackButtonBehavior>
-	</ui:ShellPageEx.BackButtonBehavior>-->
-	
+	</ui:ShellPageEx.BackButtonBehavior>
 
-	<ContentPage.BindingContext>
-        <vm:AboutViewModel />
-    </ContentPage.BindingContext>
-    
-    <ContentPage.Resources>
+
+	<ui:ShellPageEx.Resources>
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>
             <Color x:Key="Accent">#96d1ff</Color>
             <Color x:Key="LightTextColor">#999999</Color>
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ui:ShellPageEx.Resources>
 
     <Grid>
         <Grid.RowDefinitions>

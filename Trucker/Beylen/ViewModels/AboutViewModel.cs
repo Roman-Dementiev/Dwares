@@ -14,9 +14,14 @@ namespace Beylen.ViewModels
 		{
 			Title = "About";
 			OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://xamarin.com"));
+
+			//GoBackCommand = new Command(async () => {
+			//	//await Shell.Current.Navigation.PopAsync();
+			//	await Shell.Current.GoToAsync("..");
+			//});
 		}
 
 		public ICommand OpenWebCommand { get; }
-		public Command GoBackCommand => ShellEx.GoToMainCommand;
+		//public ICommand GoBackCommand { get; }
 	}
 }

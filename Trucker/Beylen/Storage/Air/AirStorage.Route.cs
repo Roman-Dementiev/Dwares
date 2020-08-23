@@ -66,7 +66,7 @@ namespace Beylen.Storage.Air
 		{
 			var rec = new RouteRecord {
 				Date = AppScope.Instance.Route.Date,
-				Seq = stop.Seq,
+				Ord = stop.Ordinal,
 				CodeName = stop.CodeName
 			};
 
@@ -109,10 +109,10 @@ namespace Beylen.Storage.Air
 		{
 			var rec = new RouteRecord {
 				Id = stop.RecordId,
-				Seq = stop.Seq
+				Ord = stop.Ordinal
 			};
 
-			await RouteTable.UpdateRecord(rec, RouteRecord.SEQ);
+			await RouteTable.UpdateRecord(rec, RouteRecord.ORD);
 		}
 
 		public async Task ChangeRouteStopStatus(RouteStop stop)
@@ -136,5 +136,6 @@ namespace Beylen.Storage.Air
 
 			await RouteTable.UpdateRecord(rec, RouteRecord.STATUS);
 		}
+
 	}
 }

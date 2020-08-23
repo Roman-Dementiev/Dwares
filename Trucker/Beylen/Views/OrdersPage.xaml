@@ -3,29 +3,96 @@
 				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:vm="clr-namespace:Beylen.ViewModels"
 				Title="{Binding Title}"
 				x:Class="Beylen.Views.OrdersPage"
 				>
 
-	<!--<ui:ContentPageEx.Resources>
+	<ui:ContentPageEx.BindingContext>
+		<vm:OrdersViewModel/>
+	</ui:ContentPageEx.BindingContext>
+	
+	<!--<ui:ShellPageEx.Resources>
 		<ResourceDictionary>
 			<druid:WritCommand x:Key="About">about</druid:WritCommand>
 		</ResourceDictionary>
-	</ui:ContentPageEx.Resources>-->
+	</ui:ShellPageEx.Resources>-->
 
-	<!--<ui:ContentPageEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
-	</ui:ContentPageEx.ToolbarItems>-->
+	<ui:ShellPageEx.ToolbarItems>
+		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
+		<ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
+		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
+	</ui:ShellPageEx.ToolbarItems>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
+	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding FastLoadItemsCommand}">
+		<ui:CollectionViewEx ItemsSource="{Binding Items}"
+							 SelectionMode="Single"
+							 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+							 SelectionChanged="OnSelectionChanged"
+							 IsGrouped="True"
+							 >
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+						<ui:GridEx Flavor="Card-grid">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
+							<ui:LabelEx Grid.Row="0" Grid.Column="0"
+										Flavor="Card-text-bold"
+										Text="{Binding OrdString, Mode=OneWay}"
+										/>
+							<ui:LabelEx Grid.Row="0" Grid.Column="1"
+										Flavor="Card-text-bold"
+										Text="{Binding CustomerName, Mode=OneWay}"
+										/>
+							<ui:LabelEx Grid.Row="1" Grid.Column="1"
+										Flavor="Card-text-default"
+										Text="{Binding Number, Mode=OneWay}"
+										/>
+							<!--<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+									  Flavor="Card-action"
+									  IconArt="ic_directions"
+									  IsVisible="{Binding HasDirections, Mode=OneWay}"
+									  Command="{Binding DirectionsCommand}"
+									 />-->
 
-	</Grid>
+							<!--<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+									  Flavor="Card-separator"
+									  IsVisible="{Binding IsSelected, Mode=OneWay}"
+									  />
+							<StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+									 Orientation="Horizontal"
+									 IsVisible="{Binding IsSelected, Mode=OneWay}"
+									 >
+								<Label HorizontalOptions="StartAndExpand" Text="" />
+								<ui:ArtButton Flavor="Card-action"
+										  IconArt="ic_edit.small"
+										  LabelText="Edit"
+										  IsVisible="{Binding CanEdit}"
+										  Command="{Binding EditCommand}"
+										  />
+								<ui:ArtButton Flavor="Card-action"
+										  IconArt="ic_delete.small"
+										  LabelText="Delete"
+										  IsVisible="{Binding CanDelete}"
+										  Command="{Binding DeleteCommand}"
+										  />
+							</StackLayout>-->
+						</ui:GridEx>
+					</ui:FrameEx>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</ui:CollectionViewEx>
+	</RefreshView>
 </ui:ShellPageEx>
 	

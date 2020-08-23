@@ -10,6 +10,8 @@ namespace Dwares.Dwarf.Toolkit
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		public bool IsModified { get; set; }
+
 		protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			if (PropertyChanged != null) {
@@ -47,6 +49,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage = value;
+			IsModified = true;
 			FirePropertyChanged(propertyName);
 			return true;
 		}
@@ -59,6 +62,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage.Value = value;
+			IsModified = true;
 			FirePropertyChanged(propertyName);
 			return true;
 		}
@@ -69,6 +73,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage.Text = text;
+			IsModified = true;
 			FirePropertyChanged(propertyName);
 			return true;
 		}
@@ -81,6 +86,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage = value;
+			IsModified = true;
 			PropertiesChanged(changedProperties);
 			return true;
 		}
@@ -98,6 +104,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage.Value = value;
+			IsModified = true;
 			PropertiesChanged(changedProperties);
 			return true;
 		}
@@ -108,6 +115,7 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage.Text = text;
+			IsModified = true;
 			PropertiesChanged(changedProperties);
 			return true;
 		}

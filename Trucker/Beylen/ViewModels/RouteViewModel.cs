@@ -12,6 +12,14 @@ namespace Beylen.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteModel));
 
+		public static ObservableCollection<RouteStopCardModel> CreateCollection()
+		{
+			return new ShadowCollection<RouteStopCardModel, RouteStop>(
+				AppScope.Instance.Route,
+				(stop) => new RouteStopCardModel(stop)
+				);
+		}
+
 		public RouteViewModel() :
 			base(ApplicationScope, CreateCollection())
 		{
@@ -22,20 +30,11 @@ namespace Beylen.ViewModels
 			RouteMapCommand = new Command(RouteMap);
 		}
 
-		public static ObservableCollection<RouteStopCardModel> CreateCollection()
-		{
-			return new ShadowCollection<RouteStopCardModel, RouteStop>(
-				AppScope.Instance.Route,
-				(stop) => new RouteStopCardModel(stop)
-				);
-		}
-
 		public Command AddCommand { get; }
 		public Command RouteMapCommand { get; }
 
 		public async void AddStop()
 		{
-			Debug.Print("RouteViewModel.Add()");
 			await Shell.Current.GoToAsync($"routestop");
 		}
 

@@ -6,9 +6,6 @@
 				xmlns:vm="clr-namespace:Beylen.ViewModels"
 				Title="{Binding Title}"
 				Flavor="Shell-page"
-				BackButtonIsEnabled="True"
-				BackButtonIconOverride="back.png"
-				BackButtonTextOverride="Go Back"
 				x:Class="Beylen.Views.SettingsPage"
 				>
 

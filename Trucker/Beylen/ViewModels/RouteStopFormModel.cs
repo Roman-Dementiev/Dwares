@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Beylen.ViewModels
 {
-	[QueryProperty("StopOrder", "order")]
+	[QueryProperty("QueryStopOrder", "order")]
 	public class RouteStopFormModel : ViewModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteStopFormModel));
@@ -20,7 +20,7 @@ namespace Beylen.ViewModels
 
 			Title = "Route Stop";
 
-			Suggestions = new List<object>();
+			CustomerSuggestions = new List<object>();
 			BuildSuggestion();
 
 			DoneCommand = new Command(Done);
@@ -30,28 +30,22 @@ namespace Beylen.ViewModels
 
 		void BuildSuggestion()
 		{
-			Suggestions.Clear();
-			var customers = AppScope.Instance.Customers;
-			var route = AppScope.Instance.Route;
-			foreach (var customer in customers) {
-				if (!route.HasCustomerStop(customer)) {
-					Suggestions.Add(new CustomerSuggestion(customer));
-				}
-			}
+			CustomerSuggestions.Clear();
+			Suggestions.CollectCustomers(CustomerSuggestions, (customer) => !AppScope.Instance.Route.HasCustomerStop(customer));
 		}
 
-		public string StopOrder {
+		public string QueryStopOrder {
 			set {
 				try {
 					int order = int.Parse(value);
 					var stop = AppScope.Instance.Route[order];
 					CodeName = stop.CodeName;
-					FullName = stop.FullName;
+					RealName = stop.RealName;
 					Address = stop.Address;
 					return;
 				}
 				catch {
-					CodeName = FullName = Address = string.Empty;
+					CodeName = RealName = Address = string.Empty;
 				}
 			}
 		}
@@ -62,11 +56,11 @@ namespace Beylen.ViewModels
 		}
 		string codeName;
 
-		public string FullName {
-			get => fullName;
-			set => SetProperty(ref fullName, value);
+		public string RealName {
+			get => realName;
+			set => SetProperty(ref realName, value);
 		}
-		string fullName;
+		string realName;
 
 		public string Address {
 			get => address;
@@ -74,18 +68,18 @@ namespace Beylen.ViewModels
 		}
 		string address;
 
-		public List<object> Suggestions { get; }
+		public List<object> CustomerSuggestions { get; }
 
 		public object ChoosenSuggestion {
 			get => choosenSuggestion;
 			set {
-				Debug.Print($"RouteStopFormModel: ChoosenSuggestion <= {value}");
+				//Debug.Print($"RouteStopFormModel: ChoosenSuggestion <= {value}");
 				choosenSuggestion = value;
 				if (value is CustomerSuggestion suggestion) {
-					FullName = suggestion.Customer.FullName;
+					RealName = suggestion.Customer.RealName;
 					Address = suggestion.Customer.Address;
 				} else {
-					FullName = Address = String.Empty;
+					RealName = Address = String.Empty;
 				}
 			}
 		}
@@ -100,7 +94,7 @@ namespace Beylen.ViewModels
 			if (string.IsNullOrWhiteSpace(CodeName) || await AddStop()) {
 				await Shell.Current.Navigation.PopAsync();
 			} else {
-				CodeName = FullName = Address = string.Empty;
+				CodeName = RealName = Address = string.Empty;
 			}
 		}
 
@@ -109,7 +103,7 @@ namespace Beylen.ViewModels
 			if (!string.IsNullOrWhiteSpace(CodeName) && await AddStop()) {
 				BuildSuggestion();
 			}
-			CodeName = FullName = Address = string.Empty;
+			CodeName = RealName = Address = string.Empty;
 		}
 
 		async Task<bool> AddStop()
@@ -119,7 +113,7 @@ namespace Beylen.ViewModels
 				stop = new CustomerStop(cs.Customer);
 			} else {
 				var codeName = CodeName;
-				var customer = AppScope.Instance.Customers.GetByName(codeName);
+				var customer = AppScope.Instance.Customers.GetByCodeName(codeName);
 				if (customer == null) {
 					await Alerts.ErrorAlert($"Unknown stop: \"{codeName}\"");
 					return false;
@@ -132,7 +126,7 @@ namespace Beylen.ViewModels
 				stop = new CustomerStop(customer);
 			}
 
-			var exc = await AppScope.Instance.Route.Add(stop);
+			var exc = await AppScope.Instance.Route.AddNew(stop);
 			if (exc != null) {
 				await Alerts.ErrorAlert(exc.Message);
 				return false;
@@ -142,14 +136,4 @@ namespace Beylen.ViewModels
 		}
 	}
 
-	internal struct CustomerSuggestion
-	{
-		public CustomerSuggestion(Customer customer)
-		{
-			Customer = customer;
-		}
-
-		public Customer Customer { get; }
-		public override string ToString() => Customer.Name;
-	}
 }

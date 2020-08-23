@@ -5,9 +5,6 @@
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				xmlns:vm="clr-namespace:Beylen.ViewModels"
 				Title="{Binding Title}"
-				BackButtonIsEnabled="True"
-				BackButtonIconOverride="back.png"
-				BackButtonTextOverride="Go Back"
 				x:Class="Beylen.Views.ProducePage"
 				>
 

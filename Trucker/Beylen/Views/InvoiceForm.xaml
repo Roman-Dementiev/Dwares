@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:controls="clr-namespace:Beylen.Controls"
+				xmlns:vm="clr-namespace:Beylen.ViewModels"
+				Title="{Binding Title}"
+				x:Class="Beylen.Views.InvoiceForm"
+				>
+
+	<ui:ContentPageEx.BindingContext>
+		<vm:InvoiceFormModel/>
+	</ui:ContentPageEx.BindingContext>
+	
+	<!--<ui:ShellPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ShellPageEx.Resources>-->
+
+	<!--<Shell.BackButtonBehavior>
+		<BackButtonBehavior Command="{Binding GoBackCommand}">
+		</BackButtonBehavior>
+	</Shell.BackButtonBehavior>-->
+
+	<ui:ShellPageEx.ToolbarItems>
+		<ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+	</ui:ShellPageEx.ToolbarItems>
+
+	<ui:GridEx>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="8" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<ui:LabelEx Grid.Row="0" Grid.Column="0"
+					Flavor="Invoice-label"
+					Text="Invoice:"
+					/>
+		<ui:EntryEx Grid.Row="0" Grid.Column="1"
+					Flavor="Invoice-entry"
+					WidthRequest="80"
+					Placeholder="Number"
+					Text="{Binding Number, Mode=TwoWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="0" Grid.Column="3"
+					Flavor="Invoice-label"
+					Text="Date:"
+					/>
+		<ui:DatePickerEx Grid.Row="0" Grid.Column="4"
+						 Flavor="Invoice-datepicker"
+						 Date="{Binding Date, Mode=TwoWay}"
+						 />
+
+		<ui:LabelEx Grid.Row="1" Grid.Column="0"
+					Flavor="Invoice-label"
+					Text="Customer:"
+					HorizontalOptions="End"
+					/>
+		<controls:AutoSuggestEntryEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
+									 Flavor="Form-asentry"
+									 PlaceholderText="Customer"
+									 MinSuggestionLength="2"
+									 SuggestionsSource="{Binding CustomerSuggestions}"
+									 ChoosenSuggestion="{Binding ChoosenCustomerSuggestion, Mode=OneWayToSource}"
+									 Text="{Binding CustomerName, Mode=TwoWay}"
+									 />
+
+		<ui:FrameEx Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
+					BorderColor="Red"
+					Margin="8"
+					/>
+	</ui:GridEx>
+</ui:ShellPageEx>
+	

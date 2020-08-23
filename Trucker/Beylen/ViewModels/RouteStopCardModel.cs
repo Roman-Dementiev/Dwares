@@ -23,7 +23,7 @@ namespace Beylen.ViewModels
 			DirectionsCommand = new Command(OnDirections, () => HasDirections);
 
 			UpdateFromSource();
-			UpdateSeqString();
+			UpdateOrdString();
 			UpdateStatusCommand();
 			UpdateDeleteCommand();
 			UpdateDirectionCommand();
@@ -37,22 +37,22 @@ namespace Beylen.ViewModels
 		public Command DirectionsCommand { get; }
 
 
-		public int Seq {
-			get => seq;
+		public int Ordinal {
+			get => ordinal;
 			set {
-				if (SetProperty(ref seq, value)) {
-					Source.Seq = value;
-					UpdateSeqString();
+				if (SetProperty(ref ordinal, value)) {
+					Source.Ordinal = value;
+					UpdateOrdString();
 				}
 			}
 		}
-		int seq;
+		int ordinal;
 
-		public string SeqString {
-			get => seqString;
-			set => SetProperty(ref seqString, value);
+		public string OrdString {
+			get => ordString;
+			set => SetProperty(ref ordString, value);
 		}
-		string seqString;
+		string ordString;
 
 
 		public string CodeName {
@@ -82,7 +82,7 @@ namespace Beylen.ViewModels
 			set {
 				if (SetProperty(ref status, value)) {
 					Source.Status = value;
-					UpdateSeqString();
+					UpdateOrdString();
 					UpdateStatusCommand();
 					UpdateDeleteCommand();
 					UpdateDirectionCommand();
@@ -114,14 +114,14 @@ namespace Beylen.ViewModels
 
 		public async void OnEdit()
 		{
-			var uri = $"routestop?order={Seq}";
+			var uri = $"routestop?order={Ordinal}";
 			await Shell.Current.GoToAsync(uri);
 		}
 
 		public async void OnDelete()
 		{
 			if (!IsCompleted) {
-				bool proceed = await Alerts.ConfirmAlert($"Delete stop #{Seq} ?");
+				bool proceed = await Alerts.ConfirmAlert($"Delete stop #{Ordinal} ?");
 				if (!proceed)
 					return;
 			}
@@ -177,27 +177,27 @@ namespace Beylen.ViewModels
 
 		protected override void UpdateFromSource()
 		{
-			Seq = Source.Seq;
+			Ordinal = Source.Ordinal;
 			CodeName = Source.CodeName;
 			Address = Source.Address;
 			Status = Source.Status;
 		}
 
-		void UpdateSeqString()
+		void UpdateOrdString()
 		{
 			switch (Status)
 			{
 			case RouteStatus.Enroute:
-				SeqString = StdGlyph.ChequeredFlag;
+				OrdString = StdGlyph.ChequeredFlag;
 				break;
 			case RouteStatus.Arrived:
-				SeqString = StdGlyph.HeavyCheckMark;
+				OrdString = StdGlyph.HeavyCheckMark;
 				break;
 			case RouteStatus.Departed:
-				SeqString = StdGlyph.NotCheckMark;
+				OrdString = StdGlyph.NotCheckMark;
 				break;
 			default:
-				SeqString = $"{Seq}.";
+				OrdString = $"{Ordinal}.";
 				break;
 			}
 		}

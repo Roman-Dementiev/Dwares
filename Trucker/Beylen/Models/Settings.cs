@@ -24,5 +24,9 @@ namespace Beylen.Models
 			set => Preferences.Set(nameof(Car), value);
 		}
 
+		public static bool UseRealNames {
+			get => Preferences.Get<bool>(nameof(UseRealNames));
+			set => Preferences.Set(nameof(UseRealNames), value);
+		}
 	}
 }

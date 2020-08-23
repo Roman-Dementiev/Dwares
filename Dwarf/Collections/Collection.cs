@@ -152,5 +152,45 @@ namespace Dwares.Dwarf.Collections
 		public static void Sort<T>(this ICollection<T> collection, IComparer<T> comparer)
 			=> Sort(collection, collection, comparer);
 
+
+		public static bool Lookup<T>(ICollection<T> collection, Func<T, bool> test, out T result, T defaultValue = default)
+		{
+			foreach (var item in collection) {
+				if (test(item)) {
+					result = item;
+					return true;
+				}
+			}
+
+			result = defaultValue;
+			return false;
+		}
+
+		public static T Lookup<T>(this ICollection<T> collection, Func<T, bool> test, T defaultValue = default)
+		{
+			T result;
+			Lookup(collection, test, out result, defaultValue);
+			return result;
+		}
+
+		public static bool LookupLast<T>(this IList<T> list, Func<T, bool> test, out T result, T defaultValue = default)
+		{
+			for (int i = list.Count-1; i >= 0; i--) {
+				var item = list[i];
+				if (test(item)) {
+					result = item;
+					return true;
+				}
+			}
+			result = defaultValue;
+			return false;
+		}
+
+		public static T LookupLast<T>(this IList<T> list, Func<T, bool> test, T defaultValue = default)
+		{
+			T result;
+			LookupLast(list, test, out result, defaultValue);
+			return result;
+		}
 	}
 }

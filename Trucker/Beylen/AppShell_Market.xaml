@@ -5,17 +5,23 @@
 			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 			xmlns:views="clr-namespace:Beylen.Views"
+			xmlns:vm="clr-namespace:Beylen.ViewModels"
 			mc:Ignorable="d"
 			Flavor="Shell"
 			Title="Beylen"
 			x:Class="Beylen.AppShell_Market"
 			>
 
+	<ui:ShellEx.BindingContext>
+		<vm:ShellViewModel />
+	</ui:ShellEx.BindingContext>
+	
 	<!--<Shell.Resources>
 	</Shell.Resources>-->
 
 	<!--<Shell.FlyoutBackgroundImage>photo.jpg</Shell.FlyoutBackgroundImage>
 	<Shell.FlyoutBackgroundImageAspect>AspectFill</Shell.FlyoutBackgroundImageAspect>-->
+	
 	<Shell.FlyoutHeader>
 		<views:FlyoutHeader_Market />
 	</Shell.FlyoutHeader>
@@ -58,7 +64,7 @@
 	</FlyoutItem>
 
 
-	<ui:ShellContentEx Flavor="ShellContent" 
+	<!--<ui:ShellContentEx Flavor="ShellContent" 
 					   Route="produce"
 					   Title="Produce"
 					   Icon="produce.png"
@@ -77,5 +83,18 @@
 					   Title="About"
 					   Icon="info.png"
 					   ContentTemplate="{DataTemplate views:AboutPage}"
-					   />
+					   />-->
+
+	<ui:FlyoutGoToPageMenuItem Route="produce"
+							   Text="Produce"
+							   IconImageSource="produce.png"
+							   />
+	<ui:FlyoutGoToPageMenuItem Route="settings"
+							   Text="Settings"
+							   IconImageSource="settings.png"
+							   />
+	<ui:FlyoutGoToPageMenuItem Route="about"
+							   Text="About"
+							   IconImageSource="info.png"
+							   />
 </ui:ShellEx>

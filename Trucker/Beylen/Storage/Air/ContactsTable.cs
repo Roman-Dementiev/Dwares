@@ -18,8 +18,10 @@ namespace Beylen.Storage.Air
 
 	public class ContactRecord : AirRecord
 	{
+		public const string SEQ = "#";
 		public const string NAME = "Name";
 		public const string PHONE = "Phone";
+		public const string INFO = "Info";
 
 		public string Name {
 			get => GetField<string>(NAME);
@@ -30,5 +32,16 @@ namespace Beylen.Storage.Air
 			get => GetField<string>(PHONE);
 			set => SetField(PHONE, value);
 		}
+
+		public string Info {
+			get => GetField<string>(INFO);
+			set => SetField(INFO, value);
+		}
+
+		public int Seq {
+			get => GetField<int>(SEQ);
+			//set => SetField(SEQ, value);
+		}
+
 	}
 }

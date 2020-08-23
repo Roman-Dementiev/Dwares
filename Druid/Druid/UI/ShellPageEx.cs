@@ -3,7 +3,7 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 using Xamarin.Forms;
 using System.Windows.Input;
-
+using System.Threading.Tasks;
 
 namespace Dwares.Druid.UI
 {
@@ -15,7 +15,7 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			//var bbb = Shell.GetBackButtonBehavior(this);
+			var bbb = Shell.GetBackButtonBehavior(this);
 		}
 
 		// TODO: Bindable properties
@@ -34,11 +34,8 @@ namespace Dwares.Druid.UI
 				var bbb = Shell.GetBackButtonBehavior(this);
 				if (bbb != null) {
 					bbb.IsEnabled = value;
-					if (value && bbb.Command == null) {
-						bbb.Command = ShellEx.GoToMainCommand;
-					}
 				} else {
-					bbb = new BackButtonBehavior { IsEnabled = value, Command = ShellEx.GoToMainCommand };
+					bbb = new BackButtonBehavior { IsEnabled = value };
 					Shell.SetBackButtonBehavior(this, bbb);
 				}
 			}
@@ -92,5 +89,112 @@ namespace Dwares.Druid.UI
 			}
 		}
 
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+
+			Shell.Current.Navigating += Current_Navigating;
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			Shell.Current.Navigating -= Current_Navigating;
+		}
+
+		private async void Current_Navigating(object sender, ShellNavigatingEventArgs e)
+		{
+			if (CustomGoBack && Device.RuntimePlatform == Device.Android)
+			{
+				if (e.CanCancel) {
+					e.Cancel();
+
+					await ExecuteGoBack();
+				}
+			}
+		}
+
+		async Task ExecuteGoBack()
+		{
+			if (CustomGoBack)
+			{
+				Shell.Current.Navigating -= Current_Navigating;
+
+				bool done = await GoBack();
+				if (!done) {
+					Shell.Current.Navigating += Current_Navigating;
+				}
+			}
+		}
+
+		public async Task<bool> GoBack()
+		{
+			if (CanGoBack != null) {
+				bool proceed = await CanGoBack();
+				if (!proceed)
+					return false;
+			}
+
+
+			try {
+				if (GoBackAction != null) {
+					await GoBackAction();
+				} else {
+#if ISSUE_FIXED__GOTO_ASYNC_BACK
+					wait Shell.Current.GoToAsync("..");
+#else
+					await Shell.Current.Navigation.PopAsync();
+				}
+#endif
+				return true;
+			}
+			catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+				return false;
+			}
+		}
+
+		public Func<Task<bool>> CanGoBack {
+			get => canGoBack;
+			set {
+				if (value != canGoBack) {
+					canGoBack = value;
+					if (value == null && GoBackAction == null) {
+						CustomGoBack = false;
+						BackButtonCommand = null;
+					} else {
+						CustomGoBack = true;
+						BackButtonCommand = CustomBackButtonCommand;
+					}
+				}
+			}
+		}
+		Func<Task<bool>> canGoBack;
+
+		public Func<Task> GoBackAction {
+			get => goBackAction;
+			set {
+				if (value != goBackAction) {
+					goBackAction = value;
+					if (value == null && CanGoBack == null) {
+						CustomGoBack = false;
+						BackButtonCommand = null;
+					} else {
+						CustomGoBack = true;
+						BackButtonCommand = CustomBackButtonCommand;
+					}
+				}
+			}
+		}
+		Func<Task> goBackAction;
+
+
+		public bool CustomGoBack { get; private set; }
+		
+		public Command CustomBackButtonCommand {
+			get => customBackButtonCommand ??= new Command(async () => await ExecuteGoBack());
+		}
+		Command customBackButtonCommand;
 	}
 }

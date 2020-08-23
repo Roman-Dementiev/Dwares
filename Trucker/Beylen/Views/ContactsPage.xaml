@@ -8,11 +8,11 @@
 				x:Class="Beylen.Views.ContactsPage"
 				>
 
-	<!--<ui:ContentPageEx.Resources>
+	<!--<ui:ShellPageEx.Resources>
 		<ResourceDictionary>
 			<druid:WritCommand x:Key="About">about</druid:WritCommand>
 		</ResourceDictionary>
-	</ui:ContentPageEx.Resources>-->
+	</ui:ShellPageEx.Resources>-->
 
 	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
@@ -35,7 +35,8 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
@@ -54,6 +55,11 @@
 										Flavor="Card-text-default"
 										Text="{Binding Phone, Mode=OneWay}"
 										/>
+							<ui:LabelEx Grid.Row="2" Grid.Column="1"
+										Flavor="Card-text-default"
+										Text="{Binding Info, Mode=OneWay}"
+										IsVisible="{Binding HasInfo, Mode=OneWay}"
+										/>
 							<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
 										  Flavor="Card-button"
 										  IconArt="ic_call"
@@ -62,11 +68,11 @@
 										  IsVisible="{Binding HasCallNumber}"
 										 />
 							
-							<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+							<!--<ui:BoxViewEx Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
 										  Flavor="Card-separator"
 										  IsVisible="{Binding IsSelected, Mode=OneWay}"
 										  />
-							<StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+							<StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"
 										 Orientation="Horizontal"
 										 IsVisible="{Binding IsSelected, Mode=OneWay}"
 										 >
@@ -79,7 +85,7 @@
 											  IconArt="ic_delete.small"
 											  LabelText="Delete"
 											  />
-							</StackLayout>
+							</StackLayout>-->
 						</ui:GridEx>
 					</ui:FrameEx>
 				</ViewCell>

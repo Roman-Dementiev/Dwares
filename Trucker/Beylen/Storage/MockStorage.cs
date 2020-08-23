@@ -20,6 +20,14 @@ namespace Beylen.Storage
 			return Task.CompletedTask;
 		}
 
+		public async Task LoadData()
+		{
+			await LoadContacts();
+			await LoadCustomers();
+			await LoadPlaces();
+			await LoadRoute();
+		}
+
 		public Task LoadContacts()
 		{
 			var contacts = AppScope.Instance.Contacts;
@@ -35,12 +43,12 @@ namespace Beylen.Storage
 		public Task LoadCustomers()
 		{
 			var customers = AppScope.Instance.Customers;
-			customers.Add(new Customer { CodeName = "pepper house", Address = "3111 NJ-38 #21\nMt Laurel Township, NJ 08054", Phone = "(856) 234-2929", ContactPhone="111-111-1111", ContactName="Name 1"  });
+			customers.Add(new Customer { CodeName = "pepper house", Address = "3111 NJ-38 #21\nMt Laurel Township, NJ 08054", Phone = "(856) 234-2929" });
 			customers.Add(new Customer { CodeName = "pizza rs", Tags = "pizza", Address = "7266 Rising Sun Ave\nPhiladelphia, PA 19111", Phone = "(215) 722-5600" });
 			customers.Add(new Customer { CodeName = "pizza cot", Tags = "pizza", Address = "3542 Cottman Ave\nPhiladelphia, PA 19149", Phone = "(215) 722-5600" });
 			customers.Add(new Customer { CodeName = "judah", Tags="restaurant", Address = "9311 Krewstown Rd\nPhiladelphia, PA 19115", Phone = "(215) 331-7699" });
-			customers.Add(new Customer { CodeName = "palace royl", Tags = "restaurant", Address = "9859 Bustleton Ave\nPhiladelphia, PA 19115", Phone = "(215) 677-3323", ContactPhone = "333-333-3333" });
-			customers.Add(new Customer { CodeName = "passage", ContactPhone="444-444-4444" });
+			customers.Add(new Customer { CodeName = "palace royl", Tags = "restaurant", Address = "9859 Bustleton Ave\nPhiladelphia, PA 19115", Phone = "(215) 677-3323" });
+			customers.Add(new Customer { CodeName = "passage" });
 
 			return Task.CompletedTask;
 		}
@@ -48,8 +56,8 @@ namespace Beylen.Storage
 		public Task LoadPlaces()
 		{
 			var appScope = AppScope.Instance;
-			appScope.StartPoint = new Place { CodeName = "market", FullName = "Produce Market", Tags = "startpoint", Address = "6700 Essington Ave\nPhiladelphia, PA 19153" };
-			appScope.EndPoint = new Place { CodeName = "parking", FullName = "Parking lot", Tags = "endpoint", Address = "12012 Bustleton Ave, Philadelphia, PA 19116" };
+			appScope.StartPoint = new Place { CodeName = "market", RealName = "Produce Market", Tags = "startpoint", Address = "6700 Essington Ave\nPhiladelphia, PA 19153" };
+			appScope.EndPoint = new Place { CodeName = "parking", RealName = "Parking lot", Tags = "endpoint", Address = "12012 Bustleton Ave, Philadelphia, PA 19116" };
 			
 			var places = appScope.Places;
 			places.Add(appScope.StartPoint);
@@ -75,5 +83,9 @@ namespace Beylen.Storage
 		public Task DeleteRouteStop(RouteStop stop) => Task.CompletedTask;
 		public Task ChangeRouteStopSeq(RouteStop stop) => Task.CompletedTask;
 		public Task ChangeRouteStopStatus(RouteStop stop) => Task.CompletedTask;
+		public Task LoadProduce() => throw new NotImplementedException();
+		public Task LoadInvoices() => throw new NotImplementedException();
+		public string GetProperty(string key) => throw new NotImplementedException();
+		public Task SetProperty(string name, string value) => throw new NotImplementedException();
 	}
 }

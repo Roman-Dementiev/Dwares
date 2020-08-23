@@ -27,31 +27,33 @@ namespace Beylen.Models
 
 		public DateOnly Date { get; }
 
-		public new Task<Exception> Add(RouteStop stop) => Add(stop, true);
+		private new void Add(RouteStop stop) => base.Add(stop);
+		public Task<Exception> AddNew(RouteStop stop) => Add(stop, true);
+
 		public async Task<Exception> Add(RouteStop stop, bool addToStorage)
 		{
 			if (Count > 0) {
 				var last = this[Count-1];
-				stop.Seq = last.Seq + 1;
+				stop.Ordinal = last.Ordinal + 1;
 			} else if (stop.Kind != RouteStopKind.StartPoint) { 
 				var exc = await AddStop(new RouteStartStop(), addToStorage);
 				if (exc != null)
 					return exc;
-				stop.Seq = 1;
+				stop.Ordinal = 1;
 			} else {
-				stop.Seq = 0;
+				stop.Ordinal = 0;
 			}
 			
 			return await AddStop(stop, addToStorage);
 		}
 
-		async Task<Exception> AddStop(RouteStop stop, bool addToStorage = true)
+		async Task<Exception> AddStop(RouteStop stop, bool addToStorage)
 		{
 			try {
 				if (addToStorage)
 					await AppStorage.Instance.AddRouteStop(stop);
 
-				base.Add(stop);
+				Add(stop);
 				return null;
 			} catch (Exception ex) {
 				return ex;
@@ -60,20 +62,20 @@ namespace Beylen.Models
 
 		public async Task<Exception> DeleteStop(RouteStop stop)
 		{
-			int seq = stop.Seq;
+			int ord = stop.Ordinal;
 			int index = IndexOf(stop);
 			if (index < 0) {
-				Debug.Print($"### Route.DeleteStop(): Stop #{seq} not found in the Route");
+				Debug.Print($"### Route.DeleteStop(): Stop #{ord} not found in the Route");
 			}
 
 			try {
 				await AppStorage.Instance.DeleteRouteStop(stop);
 				this.Remove(stop);
 
-				if (seq > 0 && stop.Status == RouteStatus.Pending) {
+				if (ord > 0 && stop.Status == RouteStatus.Pending) {
 					while (index < Count) {
 						stop = this[index++];
-						stop.Seq = seq++;
+						stop.Ordinal = ord++;
 						await AppStorage.Instance.ChangeRouteStopSeq(stop);
 					}
 				}
@@ -184,11 +186,11 @@ namespace Beylen.Models
 		{
 			int index = IndexOf(stop);
 			if (index < 0) {
-				Debug.Print($"### Route.Arrive(): unknown stop #{stop.Seq}");
+				Debug.Print($"### Route.Arrive(): unknown stop #{stop.Ordinal}");
 				return null;
 			}
 			if (stop.Status != RouteStatus.Enroute) {
-				Debug.Print($"### Route.Arrive(): stop #{stop.Seq} not in Enroute state ({stop.Status})");
+				Debug.Print($"### Route.Arrive(): stop #{stop.Ordinal} not in Enroute state ({stop.Status})");
 				return null;
 			}
 
@@ -201,15 +203,15 @@ namespace Beylen.Models
 
 			int index = IndexOf(stop);
 			if (index < 0) {
-				Debug.Print($"### Route.Depart(): unknown stop #{stop.Seq}");
+				Debug.Print($"### Route.Depart(): unknown stop #{stop.Ordinal}");
 				return null;
 			}
 			if (stop.Status != RouteStatus.Arrived) {
-				Debug.Print($"### Route.Depart(): stop #{stop.Seq} not in Arrived state ({stop.Status})");
+				Debug.Print($"### Route.Depart(): stop #{stop.Ordinal} not in Arrived state ({stop.Status})");
 				return null;
 			}
 			if (stop.Kind == RouteStopKind.EndPoint) {
-				Debug.Print($"### Route.Depart(): stop #{stop.Seq} is end point");
+				Debug.Print($"### Route.Depart(): stop #{stop.Ordinal} is end point");
 				return null;
 			}
 
@@ -218,7 +220,7 @@ namespace Beylen.Models
 			if (stop.Kind == RouteStopKind.StartPoint) {
 				var last = this[Count-1];
 				if (last.Kind != RouteStopKind.EndPoint) {
-					exc = await AddStop(new RouteEndStop { Seq = last.Seq + 1});
+					exc = await AddStop(new RouteEndStop { Ordinal = last.Ordinal + 1}, true);
 					if (exc != null)
 						return exc;
 				}
