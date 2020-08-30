@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Beylen.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Dwares.Dwarf;
-using Dwares.Druid;
-using Beylen;
-using Beylen.Models;
+
 
 namespace Beylen.ViewModels
 {
@@ -43,34 +41,46 @@ namespace Beylen.ViewModels
 			return AppModeString(appScope.CurrentMode, appScope.Car);
 		}
 
-		static string AppModeString(AppMode mode, string car = null)
+		static string AppModeString(AppMode mode, Car car = null)
 		{
 			if (mode == AppMode.Driver) {
-				return $"Driver, {car}";
+				return $"Driver, {car.Name}";
 			} else {
 				return "Market";
 			}
 		}
 		static readonly string _Market = AppModeString(AppMode.Market);
-		static readonly string _DriverA = AppModeString(AppMode.Driver, "Car A");
-		static readonly string _DriverB = AppModeString(AppMode.Driver, "Car B");
+		//static readonly string _DriverA = AppModeString(AppMode.Driver, "Car A");
+		//static readonly string _DriverB = AppModeString(AppMode.Driver, "Car B");
 
 		async Task ChooseAppMode(Page page, SettingsSection section)
 		{
-			var result = await page.DisplayActionSheet("Application Mode", "Cancel", null,
-				_Market, _DriverA, _DriverB
-				);
+			var modes = new List<string>() {
+				_Market
+			};
+			foreach (var _car in Car.List) {
+				modes.Add(AppModeString(AppMode.Driver, _car));
+			}
+
+			var result = await page.DisplayActionSheet("Application Mode", "Cancel", null, modes.ToArray());
+
+			AppMode mode;
+			Car car = null;
 
 			if (result == _Market) {
-				AppScope.Instance.Configure("Market", null);
-			} else if (result == _DriverA) {
-				AppScope.Instance.Configure("Driver", "Car A");
-			} else if (result == _DriverB) {
-				AppScope.Instance.Configure("Driver", "Car B");
+				mode = AppMode.Market;
+			} else if (result.StartsWith("Driver, ")) {
+				mode = AppMode.Driver;
+				car = Car.ByName(result.Substring(8));
 			} else {
 				return;
 			}
-			section.Value = AppModeString();
+			section.Value = AppModeString(mode, car);
+
+			AppScope appScope = AppScope.Instance;
+			appScope.ClearData();
+			appScope.Configure(mode, car);
+			await appScope.ReloadData();
 		}
 
 		async Task ChooseUIThene(Page page, SettingsSection section)

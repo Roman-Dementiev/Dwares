@@ -6,6 +6,27 @@ namespace Dwares.Druid.Satchel
 {
 	public static class StdGlyph
 	{
+		public const string FractionOneHalf = "\u00BD";
+		public const string FractionOneThird = "\u2153";
+		public const string FractionTwoThirds = "\u2154";
+		public const string FractionOneQuarter = "\u00BC";
+		public const string FractionThreeQuarters = "\u00BE";
+		public const string FractionOneFifth = "\u2155";
+		public const string FractionTwoFifths = "\u2156";
+		public const string FractionThreeFifths = "\u2157";
+		public const string FractionForFifths = "\u2158";
+		public const string FractionOneSixth = "\u2159";
+		public const string FractionFiveSixths = "\u215A";
+		public const string FractionOneSeventh = "\u2150";
+		public const string FractionOneEighth = "\u215B";
+		public const string FractionThreeEighths = "\u215C";
+		public const string FractionFiveEighths = "\u215D";
+		public const string FractionSevenEighths = "\u215E";
+		public const string FractionOneNinth = "\u2151";
+		public const string FractionOneTenth = "\u2152";
+
+		public const string FractionNumeratorOne = "\u215F";
+
 		public const string CircleBullet = "\x07";
 		public const string EmptyBullet = "\x09";
 

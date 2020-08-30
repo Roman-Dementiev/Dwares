@@ -26,6 +26,7 @@
 		<drx:BitmapAsset x:Key="ic_delete.small" BitmapSize="24" Color="Black">Beylen.Resources.ic_delete.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_settings_app_mode" BitmapSize="36" Color="Black">Beylen.Resources.ic_settings_app_mode.png</drx:BitmapAsset>
 		<drx:BitmapAsset x:Key="ic_settings_ui_theme" BitmapSize="36" Color="Black">Beylen.Resources.ic_settings_ui_theme.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="ic_add_item" BitmapSize="36" Color="Black">Beylen.Resources.ic_add_item.png</drx:BitmapAsset>
 
 		<!--<FileImageSource x:Key="ic_contact.black" File="{OnPlatform Android=contact_black.png}"/>
 		<FileImageSource x:Key="ic_contact.white" File="{OnPlatform Android=contact_white.png}"/>-->

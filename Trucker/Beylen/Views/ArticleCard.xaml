@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:controls="clr-namespace:Beylen.Controls"
+			 x:Class="Beylen.Views.ArticleCard"
+			 >
+
+	<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+		<ui:GridEx Flavor="Card-grid">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="80" />
+			</Grid.ColumnDefinitions>
+
+			<ui:ArtButton Grid.Row="0" Grid.Column="0"
+						  Flavor="Card-button"
+						  IconArt="ic_add_item"
+						  VerticalOptions="Start"
+						  Command="{Binding AddArticleCommand}"
+						  IsVisible="{Binding IsPlaceholder, Mode=OneWay}"
+						  />
+
+			
+			<ui:CheckBoxEx Grid.Row="0" Grid.Column="0"
+						   Flavor="Invoice-checkbox"
+						   IsVisible="{Binding IsCollapsed, Mode=OneWay}"
+						   IsChecked="{Binding IsChecked, Mode=TwoWay}"
+						   />
+			<ui:LabelEx Grid.Row="0" Grid.Column="1"
+						Flavor="Card-text-default"
+						IsVisible="{Binding IsCollapsed, Mode=OneWay}"
+						Text="{Binding ProduceName, Mode=OneWay}"
+						/>
+			<ui:LabelEx Grid.Row="0" Grid.Column="2"
+						Flavor="Card-text-default"
+						IsVisible="{Binding IsCollapsed, Mode=OneWay}"
+						FormattedText="{Binding FormattedQty, Mode=OneWay}"
+						/>
+
+			
+			<ui:GridEx Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+					   IsVisible="{Binding IsExpanded, Mode=OneWay}"
+					   >
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<ui:LabelEx Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+							Flavor="Invoice-static"
+							Text="Produce:"
+							/>
+				<controls:AutoSuggestEntryEx Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="7"
+											 Flavor="Invoice-asentry"
+											 PlaceholderText="Produce"
+											 MinSuggestionLength="1"
+											 SuggestionsSource="{Binding ProduceSuggestions}"
+											 ChoosenSuggestion="{Binding ChoosenProduceSuggestion, Mode=OneWayToSource}"
+											 Text="{Binding ProduceName, Mode=TwoWay}"
+											 QuerySubmitted="Produce_QuerySubmitted"
+											 />
+
+				<ui:LabelEx Grid.Row="1" Grid.Column="0"
+							Flavor="Invoice-static"
+							Text="Qty:"
+							/>
+				<ui:EntryEx x:Name="quantity" Grid.Row="1" Grid.Column="1"
+							Flavor="Invoice-entry"
+							WidthRequest="40"
+							Keyboard="Numeric"
+							Text="{Binding QuantityString, Mode=TwoWay}"
+							/>
+
+				<ui:RadioButtonEx Grid.Row="1" Grid.Column="3"
+								  Flavor="Invoice-radiobutton"
+								  GroupName="unit"
+								  IsChecked="{Binding IsPackage, Mode=OneWay}"
+								  CheckedChanged="radioPacking_CheckedChanged"
+								  />
+				<ui:LabelEx Grid.Row="1" Grid.Column="4"
+							Flavor="Invoice-static"
+							Text="pckg:"
+							/>
+				<ui:EntryEx Grid.Row="1" Grid.Column="5"
+							Flavor="Invoice-entry"
+							WidthRequest="70"
+							Text="{Binding PackingName, Mode=TwoWay}"
+							/>
+				<ui:RadioButtonEx Grid.Row="1" Grid.Column="6"
+								  Flavor="Invoice-radiobutton"
+								  GroupName="unit"
+								  IsChecked="{Binding IsCounts, Mode=OneWay}"
+								  CheckedChanged="radioCounts_CheckedChanged"
+								  />
+				<ui:LabelEx Grid.Row="1" Grid.Column="7"
+							Flavor="Invoice-static"
+							Text="ct"
+							/>
+			</ui:GridEx>
+
+
+			<ui:BoxViewEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+						  Flavor="Card-separator"
+						  IsVisible="{Binding IsExpanded, Mode=OneWay}"
+						  />
+			<StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+						 Orientation="Horizontal"
+						 IsVisible="{Binding IsExpanded, Mode=OneWay}"
+						 >
+				<Label HorizontalOptions="StartAndExpand" Text="" />
+				<ui:ArtButton Flavor="Card-action"
+							  IconArt="ic_delete.small"
+							  LabelText="Delete"
+							  IsVisible="{Binding CanDelete}"
+							  Command="{Binding DeleteCommand}"
+							  />
+			</StackLayout>
+		</ui:GridEx>
+	</ui:FrameEx>
+
+</ContentView>

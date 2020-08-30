@@ -25,81 +25,85 @@
 		<ToolbarItem Icon="route_map.png" Text="Directions" Command="{Binding RouteMapCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
-	<ui:CollectionViewEx ItemsSource="{Binding Items}"
-						 SelectionMode="Single"
-						 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-						 >
-		<CollectionView.ItemTemplate>
-			<DataTemplate>
-				<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
-					<ui:GridEx Flavor="Card-grid">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
+	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+				 Command="{Binding FastLoadItemsCommand}"
+				 >
+		<ui:CollectionViewEx ItemsSource="{Binding Items}"
+							 SelectionMode="Single"
+							 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+							 >
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+						<ui:GridEx Flavor="Card-grid">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
 
-						<!--<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+							<!--<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
 									 Flavor="Card-icon"
 									 Art="ic_place"
 									 />-->
-						<ui:LabelEx Grid.Row="0" Grid.Column="0"
+							<ui:LabelEx Grid.Row="0" Grid.Column="0"
 									Flavor="Card-text-bold"
 									Text="{Binding OrdString, Mode=OneWay}"
 									/>
-						<ui:LabelEx Grid.Row="0" Grid.Column="1"
+							<ui:LabelEx Grid.Row="0" Grid.Column="1"
 									Flavor="Card-text-bold"
 									Text="{Binding CodeName, Mode=OneWay}"
 									/>
-						<ui:LabelEx Grid.Row="1" Grid.Column="1"
+							<ui:LabelEx Grid.Row="1" Grid.Column="1"
 									Flavor="Card-text-default"
 									Text="{Binding Address, Mode=OneWay}"
 									/>
-						<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+							<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
 									  Flavor="Card-action"
 									  IconArt="ic_directions"
 									  IsVisible="{Binding HasDirections, Mode=OneWay}"
 									  Command="{Binding DirectionsCommand}"
 									 />
 
-						<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+							<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
 									  Flavor="Card-separator"
 									  IsVisible="{Binding IsSelected, Mode=OneWay}"
 									  />
-						<StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+							<StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
 									 Orientation="Horizontal"
 									 IsVisible="{Binding IsSelected, Mode=OneWay}"
 									 >
-							<ui:ArtButton Flavor="Card-action"
+								<ui:ArtButton Flavor="Card-action"
 										  IconArt="ic_route_status.small"
 										  IsVisible="{Binding HasStatusCommand, Mode=OneWay}"
 										  LabelText="{Binding StatusCommandName, Mode=OneWay}"
 										  Command="{Binding StatusCommand}"
-										  />
-							<Label HorizontalOptions="StartAndExpand" Text="" />
-							<ui:ArtButton Flavor="Card-action"
+										  />								<Label HorizontalOptions="StartAndExpand" Text="" />
+
+								<ui:ArtButton Flavor="Card-action"
 										  IconArt="ic_edit.small"
 										  LabelText="Edit"
 										  IsVisible="{Binding CanEdit}"
 										  Command="{Binding EditCommand}"
 										  />
-							<ui:ArtButton Flavor="Card-action"
+								<ui:ArtButton Flavor="Card-action"
 										  IconArt="ic_delete.small"
 										  LabelText="Delete"
 										  IsVisible="{Binding CanDelete}"
 										  Command="{Binding DeleteCommand}"
 										  />
-						</StackLayout>
-					</ui:GridEx>
-				</ui:FrameEx>
-			</DataTemplate>
-		</CollectionView.ItemTemplate>
-	</ui:CollectionViewEx>
+							</StackLayout>
+						</ui:GridEx>
+					</ui:FrameEx>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</ui:CollectionViewEx>
+	</RefreshView>
 </ui:ShellPageEx>
 	

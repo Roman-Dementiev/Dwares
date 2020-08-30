@@ -21,10 +21,10 @@ namespace Beylen.Storage.Air
 	{
 		public const string SEQ = "#";
 		public const string DATE = "Date";
-		public const string NUMBER = "Invoice #";
+		public const string NUMBER = "Number";
 		public const string CAR = "Car";
 		public const string CUSTOMER = "Customer";
-		public const string NOTES = "NOTES";
+		public const string NOTES = "Notes";
 
 		public InvoiceRecord() { }
 

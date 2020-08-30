@@ -11,7 +11,7 @@ namespace Dwares.Dwarf.Collections
 	public class ShadowCollection<ShadowItem, SourceItem> : ObservableCollection<ShadowItem>
 		where ShadowItem: class
 	{
-		protected ShadowCollection() { }
+		public ShadowCollection() { }
 
 		public ShadowCollection(ObservableCollection<SourceItem> source, Func<SourceItem, ShadowItem> itemFactory)
 		{
@@ -30,7 +30,7 @@ namespace Dwares.Dwarf.Collections
 
 		public Func<SourceItem, ShadowItem> ItemFactory { get; protected set; }
 
-		protected virtual void SetSource(
+		public virtual void SetSource(
 			ObservableCollection<SourceItem> newSource, 
 			Func<SourceItem, ShadowItem> itemFactory,
 			bool fire = true)

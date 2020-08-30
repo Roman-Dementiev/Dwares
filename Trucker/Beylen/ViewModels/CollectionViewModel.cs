@@ -106,8 +106,13 @@ namespace Beylen.ViewModels
 
 		protected virtual async Task ReloadItems(CollectionViewReloadMode mode)
 		{
-			await Task.Delay(5000);
-			await AppScope.Instance.ReloadData();
+			try {
+				//await Task.Delay(5000);
+				await AppScope.Instance.ReloadData();
+			} catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+				await Alerts.ErrorAlert(exc.Message);
+			}
 		}
 	}
 }

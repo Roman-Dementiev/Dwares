@@ -20,5 +20,27 @@ namespace Beylen.Views
 			}
 		}
 
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (sender != articles || e.CurrentSelection.Count == 0)
+				return;
+
+			var selected = e.CurrentSelection[0] as ArticleCardModel;
+			if (selected != null && selected.Source == null) {
+				articles.SelectedItem = null;
+			}
+		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			InvoiceFormModel.Current = BindingContext as InvoiceFormModel;
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			InvoiceFormModel.Current = null;
+		}
 	}
 }

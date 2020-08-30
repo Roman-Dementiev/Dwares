@@ -45,7 +45,7 @@ namespace Beylen.Models
 		{
 			Kind = kind;
 			
-			var place = AppScope.Instance.Places.GetByCodeName(codeName) ?? defaultPlace;
+			var place = AppScope.GetPlace(codeName) ?? defaultPlace;
 			if (place == null)
 				throw new ProgramError($"Unknown Place CodeName=\"{codeName ?? string.Empty}\"");
 
@@ -69,6 +69,9 @@ namespace Beylen.Models
 			set => SetProperty(ref status, value);
 		}
 		RouteStatus status;
+
+		public void SetStatus(RouteStatus value, bool forceNotification) =>
+			SetProperty(ref status, value, forceNotification, nameof(Status));
 
 		public int Ordinal {
 			get => ordinal;
@@ -100,7 +103,7 @@ namespace Beylen.Models
 
 		public CustomerStop(string codeName)
 		{
-			var customer = AppScope.Instance.Customers.GetByCodeName(codeName);
+			var customer = AppScope.GetCustomer(codeName);
 			if (customer == null)
 				throw new ProgramError($"Unknown Customer CodeName=\"{codeName ?? string.Empty}\"");
 

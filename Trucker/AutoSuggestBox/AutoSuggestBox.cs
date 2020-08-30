@@ -43,11 +43,21 @@ namespace dotMorten.Xamarin.Forms
             MessagingCenter.Subscribe(this, "AutoSuggestBox_" + nameof(QuerySubmitted), (AutoSuggestBox box, (string queryText, object chosenSuggestion) args) => { if (box == this) RaiseQuerySubmitted(args.queryText, args.chosenSuggestion); });
         }
 
-        /// <summary>
-        /// Gets or sets the Text property
-        /// </summary>
-        /// <seealso cref="TextColor"/>
-        public string Text
+		public float TextSize {
+			get { return (float)GetValue(TextSizeProperty); }
+			set { SetValue(TextSizeProperty, value); }
+		}
+
+		public static readonly BindableProperty TextSizeProperty =
+			BindableProperty.Create(nameof(TextSize), typeof(float), typeof(AutoSuggestBox), 16f, BindingMode.OneWay, null, null);
+
+
+
+		/// <summary>
+		/// Gets or sets the Text property
+		/// </summary>
+		/// <seealso cref="TextColor"/>
+		public string Text
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }

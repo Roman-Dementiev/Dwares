@@ -5,6 +5,7 @@ using Dwares.Dwarf.Toolkit;
 using Dwares.Drudge.Airtable;
 using Beylen.Models;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace Beylen.Storage.Air
 {
@@ -27,6 +28,7 @@ namespace Beylen.Storage.Air
 		public CustomersTable CustomersTable => MainBase.CustomersTable;
 		public PlacesTable PlacesTable => MainBase.PlacesTable;
 		public InvoicesTable InvoicesTable => MainBase.InvoicesTable;
+		public ArticlesTable ArticlesTable => MainBase.ArticlesTable;
 		public RouteTable RouteTable => MainBase.RouteTable;
 		public PropertiesTable PropertiesTable => MainBase.PropertiesTable;
 
@@ -36,15 +38,29 @@ namespace Beylen.Storage.Air
 			await MainBase.Initialize();
 		}
 
-		public async Task LoadData()
+		public async Task LoadData(string carId, bool initializing, bool resetProperties)
 		{
-			await LoadProperties();
+			Properties.Clear();
+			if (resetProperties) {
+				await ClearProperties();
+			} else {
+				await LoadProperties();
+			}
+
 			await LoadProduce();
 			await LoadContacts();
 			await LoadCustomers();
 			await LoadPlaces();
-			await LoadInvoices();
+			await LoadInvoices(carId);
 			await LoadRoute();
+		}
+
+		public async Task ClearProperties()
+		{
+			var records = await PropertiesTable.ListRecords();
+			foreach (var rec in records) {
+				await PropertiesTable.DeleteRecord(rec.Id);
+			}
 		}
 
 		public async Task LoadProperties()
@@ -52,7 +68,7 @@ namespace Beylen.Storage.Air
 			var records = await PropertiesTable.ListRecords();
 			foreach (var rec in records)
 			{
-				if (string.IsNullOrEmpty(rec.Name) || string.IsNullOrEmpty(rec.Value)) {
+				if (string.IsNullOrEmpty(rec.Name) || string.IsNullOrEmpty(rec.Value) || Properties.ContainsKey(rec.Name)) {
 					await PropertiesTable.DeleteRecord(rec.Id);
 					continue;
 				}
@@ -177,58 +193,84 @@ namespace Beylen.Storage.Air
 			}
 		}
 
-		public async Task LoadInvoices()
-		{
-			var invoices = AppScope.Instance.Invoices;
-			var customers = AppScope.Instance.Customers;
-
-			int ord = 0;
-			var records = await InvoicesTable.ListRecords(sortField: InvoiceRecord.SEQ);
-			foreach (var rec in records)
-			{
-				var customer = customers.GetByCodeName(rec.Customer);
-				if (customer == null) {
-					Debug.Print($"## AirStorage.LoadInvoices(): Unknown customer '{rec.Customer}'");
-					continue;
-				}
-
-				var invoice = new Invoice {
-					RecordId = rec.Id,
-					Seq = rec.Seq,
-					Ordinal = ++ord,
-					Date = rec.Date,
-					Number = rec.Number,
-					Customer = customer,
-					Notes = rec.Notes
-				};
-				invoices.Add(invoice);
-			}
-		}
-
 		public Dictionary<string, PropertyRecord> Properties { get; } = new Dictionary<string, PropertyRecord>();
 
-		public string GetProperty(string name)
+		static string PropertyKey(string name, Car car)
 		{
-			string value = null;
-			if (Properties.ContainsKey(name)) {
-				value = Properties[name].Value;
-			}
-			return value;
+			return car == null ? name : $"{name}:{car.Id}";
 		}
 
-		public async Task SetProperty(string name, string value)
+
+		async Task<PropertyRecord> GetPropertyRecord(string key)
 		{
-			if (Properties.ContainsKey(name)) {
-				var rec = Properties[name];
-				rec.Value = value;
-				await PropertiesTable.UpdateRecord(rec, PropertyRecord.VALUE);
+			PropertyRecord rec = null;
+
+			if (Properties.ContainsKey(key)) {
+				rec = Properties[key];
+				try {
+					rec = await PropertiesTable.GetRecord(rec.Id);
+				}
+				catch (Exception exc) {
+					Debug.ExceptionCaught(exc);
+					rec = null;
+				}
+				if (rec == null) {
+					Properties.Remove(key);
+				}
 			} else {
-				var rec = new PropertyRecord {
-					Name = name,
-					Value = value
-				};
-				rec = await PropertiesTable.CreateRecord(rec);
-				Properties[name] = rec;
+				try {
+					var result = await PropertiesTable.FilterRecords($"Name = \"{key}\"");
+					if (result?.Records != null && result.Records.Length > 0) {
+						rec = result.Records[0];
+
+						if (rec != null) {
+							Properties[key] = rec;
+						}
+					}
+				}
+				catch (Exception exc) {
+					Debug.ExceptionCaught(exc);
+					rec = null;
+				}
+			}
+
+			return rec;
+		}
+
+		public async Task<string> GetProperty(string name, Car car)
+		{
+			PropertyRecord rec = null;
+
+			if (car != null) {
+				var key = PropertyKey(name, car);
+				rec = await GetPropertyRecord(key);
+				if (rec != null)
+					return rec.Value;
+			}
+
+			rec = await GetPropertyRecord(name);
+			return rec?.Value;
+		}
+
+		public async Task SetProperty(string name, Car car, string value)
+		{
+			var key = PropertyKey(name, car);
+			var rec = await GetPropertyRecord(key);
+
+			try {
+				if (rec != null) {
+					rec.Value = value;
+					await PropertiesTable.UpdateRecord(rec, PropertyRecord.VALUE);
+				} else {
+					rec = new PropertyRecord {
+						Name = key,
+						Value = value
+					};
+					rec = await PropertiesTable.CreateRecord(rec);
+					Properties[name] = rec;
+				}
+			} catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
 			}
 		}
 	}

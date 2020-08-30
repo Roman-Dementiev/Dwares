@@ -6,6 +6,7 @@ using System.Linq;
 using Xamarin.Forms;
 using dotMorten.Xamarin.Forms;
 #if __ANDROID__
+using Android.Util;
 using Xamarin.Forms.Platform.Android;
 using XAutoSuggestBoxSuggestionChosenEventArgs = dotMorten.Xamarin.Forms.AutoSuggestBoxSuggestionChosenEventArgs;
 using XAutoSuggestBoxTextChangedEventArgs = dotMorten.Xamarin.Forms.AutoSuggestBoxTextChangedEventArgs;
@@ -107,6 +108,7 @@ namespace dotMorten.Xamarin.Forms.Platform.UWP {
                 }
                 Control.Text = e.NewElement.Text ?? string.Empty;
                 UpdateTextColor();
+                UpdateTextSize();
                 UpdatePlaceholderText();
                 UpdatePlaceholderTextColor();
                 UpdateTextMemberPath();
@@ -194,6 +196,10 @@ namespace dotMorten.Xamarin.Forms.Platform.UWP {
             {
                 UpdateTextColor();
             }
+            else if (e.PropertyName == nameof(AutoSuggestBox.TextSize))
+            {
+                UpdateTextSize();
+            }
             else if (e.PropertyName == nameof(AutoSuggestBox.PlaceholderText))
             {
                 UpdatePlaceholderText();
@@ -254,6 +260,15 @@ namespace dotMorten.Xamarin.Forms.Platform.UWP {
             //     () => Control.PlaceholderForegroundFocusBrush, brush => Control.PlaceholderForegroundFocusBrush = brush);
 #elif __ANDROID__ || __IOS__
             Control.SetPlaceholderTextColor(placeholderColor);
+#endif
+        }
+
+        private void UpdateTextSize()
+        {
+            var textSize = Element.TextSize;
+#if __ANDROID__
+            //Control.SetTextSize(ComplexUnitType.Sp, textSize);
+            Control.TextSize = textSize;
 #endif
         }
 

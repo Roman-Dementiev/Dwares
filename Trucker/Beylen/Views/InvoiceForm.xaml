@@ -5,6 +5,7 @@
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				xmlns:controls="clr-namespace:Beylen.Controls"
 				xmlns:vm="clr-namespace:Beylen.ViewModels"
+				xmlns:views="clr-namespace:Beylen.Views"
 				Title="{Binding Title}"
 				x:Class="Beylen.Views.InvoiceForm"
 				>
@@ -26,24 +27,21 @@
 
 	<ui:ShellPageEx.ToolbarItems>
 		<ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
-	<ui:GridEx>
+	<ui:GridEx Flavor="Invoice-form">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="8" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="8" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
-		<ui:LabelEx Grid.Row="0" Grid.Column="0"
+		<!--<ui:LabelEx Grid.Row="0" Grid.Column="0"
 					Flavor="Invoice-label"
 					Text="Invoice:"
 					/>
@@ -52,35 +50,60 @@
 					WidthRequest="80"
 					Placeholder="Number"
 					Text="{Binding Number, Mode=TwoWay}"
-					/>
+					/>-->
 
-		<ui:LabelEx Grid.Row="0" Grid.Column="3"
+		<!--<ui:LabelEx Grid.Row="0" Grid.Column="0"
 					Flavor="Invoice-label"
 					Text="Date:"
 					/>
-		<ui:DatePickerEx Grid.Row="0" Grid.Column="4"
+		<ui:DatePickerEx Grid.Row="0" Grid.Column="1"
 						 Flavor="Invoice-datepicker"
 						 Date="{Binding Date, Mode=TwoWay}"
-						 />
+						 />-->
 
-		<ui:LabelEx Grid.Row="1" Grid.Column="0"
+		<!--<ui:LabelEx Grid.Row="0" Grid.Column="0"
 					Flavor="Invoice-label"
 					Text="Customer:"
 					HorizontalOptions="End"
-					/>
-		<controls:AutoSuggestEntryEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"
-									 Flavor="Form-asentry"
+					/>-->
+		<controls:AutoSuggestEntryEx Grid.Row="0" Grid.Column="0"
+									 Flavor="Invoice-asentry"
 									 PlaceholderText="Customer"
-									 MinSuggestionLength="2"
+									 MinSuggestionLength="1"
 									 SuggestionsSource="{Binding CustomerSuggestions}"
 									 ChoosenSuggestion="{Binding ChoosenCustomerSuggestion, Mode=OneWayToSource}"
 									 Text="{Binding CustomerName, Mode=TwoWay}"
 									 />
 
-		<ui:FrameEx Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
+		<ui:DatePickerEx Grid.Row="0" Grid.Column="2"
+						 Flavor="Invoice-datepicker"
+						 Date="{Binding Date, Mode=TwoWay}"
+						 />
+		
+		<!--<ui:FrameEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
 					BorderColor="Red"
-					Margin="8"
-					/>
+					Margin="2"
+					/>-->
+		<ui:FrameEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+					Flavor="Invoice-articles-frame"
+					>
+			<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" 
+						 Command="{Binding FastLoadItemsCommand}"
+						 >
+				<ui:CollectionViewEx x:Name="articles"
+									 ItemsSource="{Binding Items}"
+									 SelectionMode="Single"
+									 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+									 SelectionChanged="OnSelectionChanged"
+									 >
+					<CollectionView.ItemTemplate>
+						<DataTemplate>
+							<views:ArticleCard />
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</ui:CollectionViewEx>
+			</RefreshView>
+		</ui:FrameEx>
 	</ui:GridEx>
 </ui:ShellPageEx>
 	

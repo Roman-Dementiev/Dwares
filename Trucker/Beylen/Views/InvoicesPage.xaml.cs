@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Dwares.Druid.UI;
 using Dwares.Dwarf;
-using System.Linq;
+using Dwares.Druid.UI;
 using Beylen.ViewModels;
+
 
 namespace Beylen.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class OrdersPage : ShellPageEx
+	public partial class InvoicesPage : ShellPageEx
 	{
-		public OrdersPage()
+		public InvoicesPage()
 		{
 			InitializeComponent();
 		}

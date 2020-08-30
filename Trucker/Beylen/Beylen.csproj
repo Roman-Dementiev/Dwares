@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Resources\delete_small.png" />
+    <None Remove="Resources\ic_add_item.png" />
     <None Remove="Resources\ic_cafe.png" />
     <None Remove="Resources\ic_call.png" />
     <None Remove="Resources\ic_child_care.png" />
@@ -30,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\ic_add_item.png" />
     <EmbeddedResource Include="Resources\ic_cafe.png" />
     <EmbeddedResource Include="Resources\ic_call.png" />
     <EmbeddedResource Include="Resources\ic_child_care.png" />
@@ -52,8 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dotMorten.Xamarin.Forms.AutoSuggestBox" Version="1.1.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.5.0.495" />  
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
 
@@ -62,14 +63,12 @@
     <ProjectReference Include="..\..\Druid\Druid\Druid.csproj" />
     <ProjectReference Include="..\..\Drums\Drums\Drums.csproj" />
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj" />
+    <ProjectReference Include="..\AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Themes\@Base.xaml.cs">
-      <DependentUpon>%40Base.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\OrdersPage.xaml.cs">
-      <DependentUpon>OrdersPage.xaml</DependentUpon>
+    <Compile Update="Themes\Base.xaml.cs">
+      <DependentUpon>Base.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -80,7 +79,7 @@
     <EmbeddedResource Update="AppShell_Market.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Themes\@Base.xaml">
+    <EmbeddedResource Update="Themes\Base.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Themes\Dark.xaml">
@@ -93,6 +92,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="UIThemes.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ArticleCard.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ContactsPage.xaml">
@@ -110,7 +112,7 @@
     <EmbeddedResource Update="Views\InvoiceForm.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\OrdersPage.xaml">
+    <EmbeddedResource Update="Views\InvoicesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ProducePage.xaml">
@@ -129,6 +131,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\StoragePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\TotalsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>

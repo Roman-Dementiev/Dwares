@@ -5,6 +5,7 @@ using Beylen.Models;
 using System.Collections.ObjectModel;
 using Dwares.Dwarf.Collections;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace Beylen.ViewModels
 {
@@ -45,6 +46,11 @@ namespace Beylen.ViewModels
 				await Alerts.ErrorAlert(exc.Message);
 			}
 
+		}
+
+		protected override Task ReloadItems(CollectionViewReloadMode mode)
+		{
+			return Task.CompletedTask;
 		}
 	}
 }

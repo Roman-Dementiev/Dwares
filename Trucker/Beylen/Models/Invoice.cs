@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 
@@ -12,6 +13,8 @@ namespace Beylen.Models
 		public Invoice()
 		{
 			//Debug.EnableTracing(@class);
+
+			Articles = new ObservableCollection<Article>();
 		}
 
 		public int Ordinal {
@@ -32,6 +35,12 @@ namespace Beylen.Models
 		}
 		DateOnly date;
 
+		public string CarId {
+			get => carId;
+			set => SetProperty(ref carId, value);
+		}
+		string carId;
+
 		public string Number {
 			get => number;
 			set => SetProperty(ref number, value);
@@ -49,5 +58,8 @@ namespace Beylen.Models
 			set => SetProperty(ref notes, value);
 		}
 		string notes;
+
+		public ObservableCollection<Article> Articles { get; }
+
 	}
 }

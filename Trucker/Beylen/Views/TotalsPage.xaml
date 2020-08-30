@@ -5,13 +5,13 @@
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				xmlns:vm="clr-namespace:Beylen.ViewModels"
 				Title="{Binding Title}"
-				x:Class="Beylen.Views.OrdersPage"
+				x:Class="Beylen.Views.TotalsPage"
 				>
 
 	<ui:ContentPageEx.BindingContext>
-		<vm:OrdersViewModel/>
+		<vm:TotalsViewModel/>
 	</ui:ContentPageEx.BindingContext>
-	
+
 	<!--<ui:ShellPageEx.Resources>
 		<ResourceDictionary>
 			<druid:WritCommand x:Key="About">about</druid:WritCommand>
@@ -19,8 +19,6 @@
 	</ui:ShellPageEx.Resources>-->
 
 	<ui:ShellPageEx.ToolbarItems>
-		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
-		<ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
 		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
@@ -28,8 +26,6 @@
 		<ui:CollectionViewEx ItemsSource="{Binding Items}"
 							 SelectionMode="Single"
 							 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-							 SelectionChanged="OnSelectionChanged"
-							 IsGrouped="True"
 							 >
 			<CollectionView.ItemTemplate>
 				<DataTemplate>

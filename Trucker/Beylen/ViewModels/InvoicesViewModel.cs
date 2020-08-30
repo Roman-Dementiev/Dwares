@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Beylen.ViewModels
 {
-	public class OrdersViewModel : CollectionViewModel<InvoiceCardModel>
+	public class InvoicesViewModel : CollectionViewModel<InvoiceCardModel>
 	{
 		//static ClassRef @class = new ClassRef(typeof(InvoicesViewModel));
 
@@ -19,12 +19,13 @@ namespace Beylen.ViewModels
 				(invoice) => new InvoiceCardModel(invoice)
 				);
 		}
-
-		public OrdersViewModel() :
+			
+		public InvoicesViewModel() :
 			base(ApplicationScope, CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 
+			Title = "Invoices";
 			AddCommand = new Command(async () => await Shell.Current.GoToAsync($"invoice?number=new"));
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
+using Dwares.Dwarf;
 using Newtonsoft.Json;
 
 
@@ -18,6 +19,17 @@ namespace Dwares.Drudge.Airtable
 		public IEnumerable<Sort> Sort { get; set; }
 		public string View { get; set; }
 
+		public void SetSortByField(string fieldName, bool descending = false)
+		{
+			Debug.Assert(!string.IsNullOrEmpty(fieldName));
+
+			Sort = new List<Sort> {
+					new Sort {
+						Field = fieldName,
+						Direction = descending ? SortDirection.Desc : SortDirection.Asc
+					}
+				};
+		}
 
 		public Uri GetUri(string baseId, string tableName)
 		{

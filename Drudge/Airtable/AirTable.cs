@@ -297,12 +297,7 @@ namespace Dwares.Drudge.Airtable
 				queryBuilder.MaxRecords = maxRecords;
 			}
 			if (!string.IsNullOrEmpty(sortField)) {
-				queryBuilder.Sort = new List<Sort> {
-					new Sort {
-						Field = sortField, 
-						Direction = sortDescending ? SortDirection.Desc : SortDirection.Asc
-					}
-				};
+				queryBuilder.SetSortByField(sortField, sortDescending);
 			}
 			return await List(queryBuilder);
 		}

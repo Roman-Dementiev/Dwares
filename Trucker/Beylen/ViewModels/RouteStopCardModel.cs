@@ -191,11 +191,12 @@ namespace Beylen.ViewModels
 				OrdString = StdGlyph.ChequeredFlag;
 				break;
 			case RouteStatus.Arrived:
+			case RouteStatus.Departed:
 				OrdString = StdGlyph.HeavyCheckMark;
 				break;
-			case RouteStatus.Departed:
-				OrdString = StdGlyph.NotCheckMark;
-				break;
+			//case RouteStatus.Departed:
+			//	OrdString = StdGlyph.NotCheckMark;
+			//	break;
 			default:
 				OrdString = $"{Ordinal}.";
 				break;

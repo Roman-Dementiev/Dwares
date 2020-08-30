@@ -32,29 +32,40 @@ namespace Dwares.Dwarf.Toolkit
 
 		protected void PropertiesChanged(params string[] names)
 		{
-			//var changed = PropertyChanged;
-			//if (changed != null) {
-			//	foreach (var propertyName in names) {
-			//		changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
-			//	}
-			//}
 			PropertiesChanged((IEnumerable<string>)names);
 		}
 
-		protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-		{
-			//if (EqualityComparer<T>.Default.Equals(oldValue,, value))
-			//	return false;
-			if (Object.Equals(storage, value))
-				return false;
+		//protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+		//{
+		//	//if (EqualityComparer<T>.Default.Equals(oldValue,, value))
+		//	//	return false;
+		//	if (Object.Equals(storage, value))
+		//		return false;
 
-			storage = value;
-			IsModified = true;
-			FirePropertyChanged(propertyName);
+		//	storage = value;
+		//	IsModified = true;
+		//	FirePropertyChanged(propertyName);
+		//	return true;
+		//}
+
+		protected bool SetProperty<T>(ref T storage, T value, bool forceNotification = false, [CallerMemberName] string propertyName = null, bool setModified = true)
+		{
+			bool modified = false;
+			if (!Object.Equals(storage, value)) {
+				storage = value;
+				modified = true;
+
+				if (setModified)
+					IsModified = true;
+			}
+
+			if (modified || forceNotification)
+				FirePropertyChanged(propertyName);
+
 			return true;
 		}
 
-		protected bool SetProperty<T>(IValueHolder<T> storage, T value, [CallerMemberName]string propertyName = "")
+		protected bool SetProperty<T>(IValueHolder<T> storage, T value, [CallerMemberName]string propertyName = "", bool setModified = true)
 		{
 			//if (Object.Equals(storage.Value, value))
 			//	return false;
@@ -62,23 +73,25 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage.Value = value;
-			IsModified = true;
+			if (setModified)
+				IsModified = true;
 			FirePropertyChanged(propertyName);
 			return true;
 		}
 
-		protected bool SetTextProperty(ITextHolder storage, string text, [CallerMemberName]string propertyName = "")
+		protected bool SetTextProperty(ITextHolder storage, string text, [CallerMemberName]string propertyName = "", bool setModified = true)
 		{
 			if (storage.Text == text)
 				return false;
 
 			storage.Text = text;
-			IsModified = true;
+			if (setModified)
+				IsModified = true;
 			FirePropertyChanged(propertyName);
 			return true;
 		}
 
-		protected bool SetPropertyEx<T>(ref T storage, T value, IEnumerable<string> changedProperties)
+		protected bool SetPropertyEx<T>(ref T storage, T value, IEnumerable<string> changedProperties, bool setModified = true)
 		{
 			//if (EqualityComparer<T>.Default.Equals(oldValue,, value))
 			//	return false;
@@ -86,7 +99,8 @@ namespace Dwares.Dwarf.Toolkit
 				return false;
 
 			storage = value;
-			IsModified = true;
+			if (setModified)
+				IsModified = true;
 			PropertiesChanged(changedProperties);
 			return true;
 		}

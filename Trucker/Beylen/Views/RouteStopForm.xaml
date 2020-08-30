@@ -47,7 +47,7 @@
 		<controls:AutoSuggestEntryEx Grid.Row="0" Grid.Column="1" 
 									 Flavor="Form-asentry"
 									 PlaceholderText="Enter name"
-									 MinSuggestionLength="2"
+									 MinSuggestionLength="1"
 									 SuggestionsSource="{Binding CustomerSuggestions}"
 									 ChoosenSuggestion="{Binding ChoosenSuggestion, Mode=OneWayToSource}"
 									 Text="{Binding CodeName, Mode=TwoWay}"

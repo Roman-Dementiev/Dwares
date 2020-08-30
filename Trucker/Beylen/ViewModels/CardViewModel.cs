@@ -19,8 +19,10 @@ namespace Beylen.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 
-			Source = source ?? throw new ArgumentNullException(nameof(source));
-			Source.ModelChanged += (sender, e) => OnSourceChanged(e.ChangedProperties);
+			if (source != null) {
+				Source = source;
+				Source.ModelChanged += (sender, e) => OnSourceChanged(e.ChangedProperties);
+			}
 			CardFrameFlavor = "Card-frame-default";
 		}
 
@@ -28,27 +30,35 @@ namespace Beylen.ViewModels
 
 		public string CardFrameFlavor {
 			get => cardFrameFlavor;
-			set => SetProperty(ref cardFrameFlavor, value);
+			set => SetProperty(ref cardFrameFlavor, value, setModified: false);
 		}
 		string cardFrameFlavor;
 
 		public bool IsSelected {
 			get => isSelected;
 			set {
-				if (SetProperty(ref isSelected, value)) {
-					CardFrameFlavor = isSelected ? "Card-frame-selected" : "Card-frame-default";
+				if (SetProperty(ref isSelected, value, setModified: false)) {
+					OnSelectedChanged();
 				}
 			}
 		}
 		bool isSelected;
 
-		public bool IsExpanded => IsSelected;
+		public bool IsExpanded {
+			get => isExpanded;
+			set => SetProperty(ref isExpanded, value, setModified: false);
+		}
+		bool isExpanded;
 
-		//public bool IsEditing {
-		//	get => isEditing;
-		//	set => SetProperty(ref isEditing, value);
-		//}
-		//bool isEditing;
+		public bool ExpandSelected { get; set; } = true;
+
+		protected virtual void OnSelectedChanged()
+		{
+			if (ExpandSelected)
+				IsExpanded = IsSelected;
+
+			CardFrameFlavor = IsSelected ? "Card-frame-selected" : "Card-frame-default";
+		}
 
 		protected virtual void OnSourceChanged(IEnumerable<string> changedProperties)
 		{

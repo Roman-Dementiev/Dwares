@@ -9,13 +9,13 @@ namespace Beylen.Storage
 	{
 		Task Initialize();
 
-		Task LoadData();
+		Task LoadData(string carId, bool initializing, bool resetProperties);
 
 		Task LoadProduce();
 		Task LoadContacts();
 		Task LoadCustomers();
 		Task LoadPlaces();
-		Task LoadInvoices();
+		Task LoadInvoices(string carId);
 		Task LoadRoute();
 
 		Task AddRouteStop(RouteStop stop);
@@ -24,7 +24,11 @@ namespace Beylen.Storage
 		Task ChangeRouteStopStatus(RouteStop stop);
 
 
-		string GetProperty(string name);
-		Task SetProperty(string name, string value);
+		Task<string> GetProperty(string name, Car car);
+		Task SetProperty(string name, Car car, string value);
+
+
+		Task NewInvoice(Invoice invoice);
+		Task UpdateInvoice(Invoice invoice);
 	}
 }

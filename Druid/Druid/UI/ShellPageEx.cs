@@ -90,9 +90,12 @@ namespace Dwares.Druid.UI
 		}
 
 
+		public static ShellPageEx Current { get; private set; }
+
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+			Current = this;
 
 			Shell.Current.Navigating += Current_Navigating;
 		}
@@ -100,6 +103,8 @@ namespace Dwares.Druid.UI
 		protected override void OnDisappearing()
 		{
 			base.OnDisappearing();
+			Current = null;
+			
 			Shell.Current.Navigating -= Current_Navigating;
 		}
 
@@ -196,5 +201,14 @@ namespace Dwares.Druid.UI
 			get => customBackButtonCommand ??= new Command(async () => await ExecuteGoBack());
 		}
 		Command customBackButtonCommand;
+
+
+		public static async Task TryGoBack()
+		{
+			if (Current != null) {
+				await Current.GoBack();
+			}
+		}
+
 	}
 }

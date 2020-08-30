@@ -20,6 +20,7 @@ namespace Beylen.Storage.Air
 			CustomersTable = new CustomersTable(this);
 			PlacesTable = new PlacesTable(this);
 			InvoicesTable = new InvoicesTable(this);
+			ArticlesTable = new ArticlesTable(this);
 			RouteTable = new RouteTable(this);
 			PropertiesTable = new PropertiesTable(this);
 		}
@@ -30,6 +31,7 @@ namespace Beylen.Storage.Air
 		public CustomersTable CustomersTable { get; }
 		public PlacesTable PlacesTable { get; }
 		public InvoicesTable InvoicesTable { get; }
+		public ArticlesTable ArticlesTable { get; }
 		public RouteTable RouteTable { get; }
 		public PropertiesTable PropertiesTable { get; }
 	}

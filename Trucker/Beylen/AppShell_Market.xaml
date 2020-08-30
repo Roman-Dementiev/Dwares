@@ -31,10 +31,10 @@
 				FlyoutDisplayOptions="AsMultipleItems"
 				>
 		<ui:ShellContentEx Flavor="ShellContent"
-						   Route="orders"
-						   Title="Orders"
+						   Route="invoices"
+						   Title="Invoices"
 						   Icon="tab_orders.png"
-						   ContentTemplate="{DataTemplate views:OrdersPage}"
+						   ContentTemplate="{DataTemplate views:InvoicesPage}"
 						   />
 		<ui:ShellContentEx Flavor="ShellContent"
 						   Route="shopping"

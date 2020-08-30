@@ -9,6 +9,11 @@ namespace Beylen.Models
 	{
 		//static ClassRef @class = new ClassRef(typeof(Settings));
 
+		public static void Reset()
+		{
+			Preferences.Clear();
+		}
+
 		public static string UITheme {
 			get => Preferences.Get(nameof(UITheme), "Light", null);
 			set => Preferences.Set(nameof(UITheme), value);

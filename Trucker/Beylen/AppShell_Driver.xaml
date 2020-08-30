@@ -30,12 +30,27 @@
 				Title="Driver"
 				FlyoutDisplayOptions="AsMultipleItems"
 				>
-		<ui:ShellContentEx Flavor="ShellContent"
+		<!--<ui:ShellContentEx Flavor="ShellContent"
 						   Route="orders"
 						   Title="Orders"
 						   Icon="tab_orders.png"
 						   ContentTemplate="{DataTemplate views:OrdersPage}"
-						   />
+						   />-->
+		<Tab Title="Orders"
+			Route="orders"
+			 Icon="tab_orders.png"
+			 >
+			<ui:ShellContentEx Flavor="ShellContent"
+							   Route="invoices"
+							   Title="Invoices"
+							   ContentTemplate="{DataTemplate views:InvoicesPage}"
+							   />
+			<ui:ShellContentEx Flavor="ShellContent"
+							   Route="totals"
+							   Title="Totals"
+							   ContentTemplate="{DataTemplate views:TotalsPage}"
+							   />
+		</Tab>
 		<ui:ShellContentEx Flavor="ShellContent"
 						   Route="route"
 						   Title="Route"

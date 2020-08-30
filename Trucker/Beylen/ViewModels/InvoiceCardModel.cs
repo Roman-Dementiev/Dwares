@@ -2,7 +2,7 @@
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Beylen.Models;
-
+using System.Collections.Generic;
 
 namespace Beylen.ViewModels
 {
@@ -71,5 +71,7 @@ namespace Beylen.ViewModels
 			Customer = Source.Customer;
 			Notes = Source.Notes;
 		}
+
+
 	}
 }

@@ -32,6 +32,8 @@ namespace Beylen
 			BindingContext = AppScope.Instance;
 			//this.AddDefaultViewLocators();
 
+			Device.SetFlags(new string[] { "RadioButton_Experimental" });
+
 			UIThemeManager.Instance = new UIThemes();
 
 			Maps.MapApplication = new GoogleMaps();

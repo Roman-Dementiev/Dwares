@@ -113,7 +113,7 @@ namespace Beylen.ViewModels
 				stop = new CustomerStop(cs.Customer);
 			} else {
 				var codeName = CodeName;
-				var customer = AppScope.Instance.Customers.GetByCodeName(codeName);
+				var customer = AppScope.GetCustomer(codeName);
 				if (customer == null) {
 					await Alerts.ErrorAlert($"Unknown stop: \"{codeName}\"");
 					return false;

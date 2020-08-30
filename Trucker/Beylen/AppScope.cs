@@ -1,6 +1,9 @@
 ﻿using Beylen.Models;
+using Beylen.ViewModels;
 using Beylen.Views;
 using Dwares.Druid;
+using Dwares.Dwarf;
+using Dwares.Dwarf.Collections;
 using Dwares.Dwarf.Toolkit;
 using System;
 using System.Collections.Generic;
@@ -8,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+
 
 namespace Beylen
 {
@@ -18,6 +22,14 @@ namespace Beylen
 		Driver
 	}
 
+	public enum Stage
+	{
+		Preparing,
+		Delivering,
+		ClosingUp
+	}
+
+
 	public class AppScope : BindingScope
 	{
 		//static ClassRef @class = new ClassRef(typeof(AppScope));
@@ -26,6 +38,15 @@ namespace Beylen
 			get => LazyInitializer.EnsureInitialized(ref instance);
 		}
 		static AppScope instance;
+
+#if DEBUG
+		static bool resetSettings = false;
+		static bool resetDataProperties = false;
+#else
+		const bool resetSettings = false;
+		const bool resetDataProperties = false;
+#endif
+
 
 		public AppScope() : base(null)
 		{
@@ -45,10 +66,13 @@ namespace Beylen
 
 		public Shell AppShell { get; set; }
 
-		public AppMode? ConfigMode { get; private set; }// = AppMode.Driver;
-		public AppMode CurrentMode { get; private set; }//= AppMode.Driver;
-		public string Car { get; private set; }
-
+		public AppMode? ConfigMode { get; set; }//= AppMode.Driver;
+		public AppMode CurrentMode { get; set; }//= AppMode.Driver;
+		public Car Car { get; set; }
+		//public DateOnly CurrentDate { get; set; }
+		public Stage Stage { get; set;}
+		public DateOnly OrderingDate { get; set; }
+		public int OrderingLast { get; set; }
 
 
 		public ObservableCollection<Contact> Contacts { get; }
@@ -60,34 +84,43 @@ namespace Beylen
 
 		public Place StartPoint { get; set; }
 		public Place EndPoint { get; set; }
-		//public DateOnly ClosedDate { get; set; }
-		public DateOnly OrderingDate { get; set; }
-		public int OrderingLast { get; set; }
 
 
 		public void Configure()
 		{
-			Configure(Settings.ApplicationMode ?? "Market", Settings.Car);
+			if (resetSettings) {
+				Settings.Reset();
+				resetSettings = false;
+			}
+
+			if (Settings.ApplicationMode == "Driver") {
+				var car = Car.ById(Settings.Car) ?? Car.List[0];
+				Configure(AppMode.Driver, car);
+			} else {
+				Configure(AppMode.Market, null);
+			}
 		}
 
-		public void Configure(string mode, string car)
+		public void Configure(AppMode mode, Car car)
 		{
 			if (ConfigMode == null) {
-				CurrentMode = mode == "Market" ? AppMode.Market : AppMode.Driver;
-				Settings.ApplicationMode = mode;
+				CurrentMode = mode;
+				Settings.ApplicationMode = mode == AppMode.Market ? "Market" : "Driver";
 			} else {
 				CurrentMode = (AppMode)ConfigMode;
 			}
 
 			if (CurrentMode == AppMode.Market) {
 				AppShell = new AppShell_Market();
+				Car = null;
 				Settings.Car = null;
 			} else {
 				AppShell = new AppShell_Driver();
-				Car = car ?? "Car A";
-				Settings.Car = Car;
+				Car = car ?? Car.List[0];
+				Settings.Car = Car.Id;
 			}
 
+			ClearData();
 			Application.Current.MainPage = AppShell;
 		}
 
@@ -95,12 +128,13 @@ namespace Beylen
 		{
 			var storage = AppStorage.Instance;
 			await storage.Initialize();
-			await storage.LoadData();
+			await storage.LoadData(Car?.Id, true, resetDataProperties);
+			resetDataProperties = false;
 
-			await InitOrdering();
+			await InitScopeData();
 		}
 
-		public async Task ReloadData()
+		public void ClearData()
 		{
 			Produce.Clear();
 			Contacts.Clear();
@@ -108,45 +142,98 @@ namespace Beylen
 			Places.Clear();
 			Invoices.Clear();
 			Route.Clear();
-
-			await AppStorage.Instance.LoadData();
 		}
 
-		public async Task InitOrdering()
+		public async Task ReloadData()
 		{
-			var closedDate = AppStorage.GetClosedDate();
-			var orderingDate = AppStorage.GetOrderingDate();
-			var orderingLast = AppStorage.GetOrderingLast();
+			ClearData();
+			await AppStorage.Instance.LoadData(Car?.Id, false, resetDataProperties);
+			resetDataProperties = false;
 
-			if (orderingDate == null)
+			await InitScopeData();
+		}
+
+		public async Task InitScopeData()
+		{
+			if (CurrentMode == AppMode.Driver) {
+				var stage = await AppStorage.GetStage(Car);
+				var stageDate = await AppStorage.GetStageDate(Car);
+
+				if (stage != null && stageDate == DateOnly.Today) {
+					Stage = (Stage)stage;
+				} else {
+					Stage = Stage.Preparing;
+				}
+				OrderingDate = DateOnly.Today;
+
+				await AppStorage.SetStage(Car, Stage);
+				await AppStorage.SetStageDate(Car, OrderingDate);
+			}
+			else
 			{
-				if (closedDate == null) {
+				var orderingDate = await AppStorage.GetOrderingDate();
+
+				if (orderingDate == null) {
 					OrderingDate = DateOnly.Today;
 				} else {
-					OrderingDate = ((DateOnly)closedDate).NextDay();
+					OrderingDate = (DateTime)orderingDate;
+
+					if (OrderingDate < DateOnly.Today) {
+						OrderingDate = DateOnly.Today;
+					}
 				}
-				OrderingLast = 0;
-			}
-			else {
-				OrderingDate = (DateTime)orderingDate;
-				if (closedDate != null && OrderingDate <= (DateOnly)closedDate) {
-					OrderingDate = ((DateOnly)closedDate).NextDay();
-					OrderingLast = 0;
+
+				while (IsDayOff(OrderingDate)) {
+					OrderingDate = OrderingDate.NextDay();
 				}
+
+				await AppStorage.SetOrderingDate(OrderingDate);
 			}
 
-			if (OrderingDate.DayOfWeek == DayOfWeek.Sunday) {
-				OrderingDate = OrderingDate.NextDay();
-				OrderingLast = 0;
-			}
+			OrderingLast = 0;
+			foreach (var invoice in Invoices) {
+				if (invoice.Date != OrderingDate)
+					continue;
+				if (invoice.Number == null || invoice.Number.Length != 6) {
+					Debug.Print($"Invalid invoice Number={Dw.ToString(invoice.Number)} in Invoce (RecordId={invoice.RecordId})");
+					continue;
+				}
 
-			await AppStorage.SetOrderingDate(OrderingDate);
-			await AppStorage.SetOrderingLast(OrderingLast);
+				int last;
+				if (int.TryParse(invoice.Number.Substring(invoice.Number.Length-2), out last) && last > OrderingLast) {
+					OrderingLast = last;
+				}
+			}
 		}
 
-		
-		public static Customer GetCustomer(string name) => Instance.Customers.GetByCodeName(name); // for MockStorage only
+		static bool IsDayOff(DateOnly date)
+		{
+			//TODO
+			var dayOfWeek = date.DayOfWeek;
+			return dayOfWeek == DayOfWeek.Saturday || dayOfWeek == DayOfWeek.Sunday;
+		}
 
+		public string NextInvoiceNumber()
+		{
+			var str = string.Format("{0,2:D2}{1,2:D2}{2,2:D2}", OrderingDate.Month, OrderingDate.Day, OrderingLast + 1);
+			return str;
+		}
+
+
+		public static Produce GetProduce(string name) => Instance.Produce.Lookup((p) => p.Name == name);
+		public static Customer GetCustomer(string codeName) => Instance.Customers.Lookup((c) => c.CodeName == codeName);
+		public static Place GetPlace(string codeName) => Instance.Places.Lookup((p) => p.CodeName == codeName);
+
+
+		//public async Task NewInvoice(Invoice invoice)
+		//{
+		//	await AppStorage.Instance.NewInvoice(invoice);
+		//}
+
+		//public async Task UpdateInvoice(Invoice invoice)
+		//{
+		//	await AppStorage.Instance.UpdateInvoice(invoice);
+		//}
 
 		/* Xamarin.Forms Routing
 		 */
@@ -155,7 +242,9 @@ namespace Beylen
 			//{ "//driver/route", typeof(RoutePage) },
 			//{ "//driver/contacts/phones", typeof(ContactsPage) },
 			//{ "//driver/contacts/customers", typeof(CustomersPage) },
-			{ "orders", typeof(OrdersPage) },
+			//{ "orders", typeof(OrdersPage) },
+			{ "invoices", typeof(InvoicesPage) },
+			{ "totals", typeof(TotalsPage) },
 			{ "invoice", typeof(InvoiceForm) },
 			{ "shopping", typeof(ShoppingPage) },
 			{ "storage", typeof(StoragePage) },

@@ -12,9 +12,9 @@ namespace Beylen.Models
 	public class Route : ObservableCollection<RouteStop>
 	{
 		//static ClassRef @class = new ClassRef(typeof(Route));
-		const bool DirectionsForCurrentOnly = false;
+		const bool DirectionsForCurrentOnly = true;
 
-		public static bool DeleteStopOnDepart { get; set; } = false;
+		public static bool DeleteStopOnCompleted { get; set; } = true;
 
 		public Route() : this(DateOnly.Today) { }
 
@@ -35,7 +35,7 @@ namespace Beylen.Models
 			if (Count > 0) {
 				var last = this[Count-1];
 				stop.Ordinal = last.Ordinal + 1;
-			} else if (stop.Kind != RouteStopKind.StartPoint) { 
+			} else if (addToStorage && stop.Kind != RouteStopKind.StartPoint) { 
 				var exc = await AddStop(new RouteStartStop(), addToStorage);
 				if (exc != null)
 					return exc;
@@ -89,24 +89,21 @@ namespace Beylen.Models
 		bool CanShowDirections(RouteStop stop, out RouteStop prev, bool currentOnly)
 		{
 			int index = IndexOf(stop);
-			if (index <= 0) {
+			if (index > 0) {
+				prev = this[index - 1];
+			} else {
 				prev = null;
-				return false;
 			}
-
-			prev = this[index-1];
 
 			if (string.IsNullOrWhiteSpace(stop.Address) || stop.Status >= RouteStatus.Arrived)
 				return false;
 
-			if (prev.Status == RouteStatus.Departed) {
+			if (stop.Status == RouteStatus.Enroute)
 				return true;
-			} else {
-				if (currentOnly && prev.Status < RouteStatus.Arrived)
-					return false;
+			if (prev == null || (currentOnly && prev.Status < RouteStatus.Arrived))
+				return false;
 
-				return !string.IsNullOrWhiteSpace(prev.Address);
-			}
+			return !string.IsNullOrWhiteSpace(prev.Address);
 		}
 
 		public bool CanShowDirections(RouteStop stop)
@@ -121,17 +118,29 @@ namespace Beylen.Models
 			if (!CanShowDirections(stop, out prev, DirectionsForCurrentOnly))
 				return null;
 
-			Location start = null;
-			if (prev.Status == RouteStatus.Departed) {
-				//start = await Location.GetCurrentLocation();
-			} else {
-				start = new Location { Address = prev.Address };
-			}
+			//Location start = null;
+			//if (stop.Status == RouteStatus.Enroute) {
+			//	start = await Location.GetCurrentLocation();
+			//} else {
+			//	start = new Location { Address = prev.Address };
+			//}
 
 			try {
-				await Maps.MapApplication.OpenDirections(start, 
-					new Location { Address = stop.Address },
-					Maps.DefaultOptions);
+				//await Maps.MapApplication.OpenDirections(start, 
+				//	new Location { Address = stop.Address },
+				//	Maps.DefaultOptions);
+
+				if (stop.Status == RouteStatus.Enroute) {
+					await Maps.MapApplication.OpenDirections(
+						null,
+						new Location { Address = stop.Address },
+						Maps.DefaultOptions);
+				} else {
+					await Maps.MapApplication.OpenDirections(
+						new Location { Address = prev.Address },
+						new Location { Address = stop.Address },
+						Maps.DefaultOptions);
+				}
 			} catch (Exception exc) {
 				return exc;
 			}
@@ -194,7 +203,18 @@ namespace Beylen.Models
 				return null;
 			}
 
-			return await ChangeStatus(stop, RouteStatus.Arrived);
+			var exc = await ChangeStatus(stop, RouteStatus.Arrived);
+
+			if (index < Count-1) {
+				// Trigger next RouteStopCardModel.UpdateFromSource();
+				var next = this[index+1];
+				next.SetStatus(RouteStatus.Pending, forceNotification: true);
+			}
+			else if (stop.Kind == RouteStopKind.EndPoint && DeleteStopOnCompleted) {
+				exc = await DeleteStop(stop);
+			}
+
+			return exc;
 		}
 
 		public async Task<Exception> Depart(RouteStop stop)
@@ -235,7 +255,7 @@ namespace Beylen.Models
 				exc = await ChangeStatus(next, RouteStatus.Enroute);
 			}
 
-			if (DeleteStopOnDepart) {
+			if (DeleteStopOnCompleted) {
 				exc = await DeleteStop(stop);
 			}
 

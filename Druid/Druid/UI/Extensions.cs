@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Dwares.Dwarf;
+using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using Dwares.Dwarf;
 
 
 namespace Dwares.Druid.UI
@@ -23,16 +23,23 @@ namespace Dwares.Druid.UI
 			return true;
 		}
 
+		static Style? GetFlavorStyle(string flavor, UITheme theme = null)
+		{
+			if (string.IsNullOrEmpty(flavor))
+				return null;
+
+			if (!GetTheme(ref theme))
+				return null;
+
+			return theme.GetStyle(flavor);
+		}
 
 		static bool ApplyFlavor_(NavigableElement element, string flavor, UITheme theme = null)
 		{
 			if (element == null || string.IsNullOrEmpty(flavor))
 				return false;
 
-			if (!GetTheme(ref theme))
-				return false;
-
-			var style = theme.GetStyle(flavor);
+			var style = GetFlavorStyle(flavor, theme);
 			if (style != null) {
 				element.Style = style;
 				return true;
@@ -45,6 +52,21 @@ namespace Dwares.Druid.UI
 		public static bool ApplyFlavor<T>(this T element) where T : NavigableElement, IThemeAware
 		{
 			return ApplyFlavor_(element, element?.Flavor);
+		}
+
+		public static bool ApplyFlavor(this Span span, string flavor)
+		{
+			if (span == null || string.IsNullOrEmpty(flavor))
+				return false;
+
+			var style = GetFlavorStyle(flavor);
+			if (style != null) {
+				span.Style = style;
+				return true;
+			} else {
+				Debug.Print($"Style '{flavor}' not found in UITheme");
+				return false;
+			}
 		}
 
 		public static bool ContainsSetter(this Style style, string propertyName)
