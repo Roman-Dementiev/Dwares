@@ -26,6 +26,8 @@ namespace Beylen.ViewModels
 			DoneCommand = new Command(Done);
 			MoreCommand = new Command(More);
 			CancelCommand = new Command(async () => await Shell.Current.Navigation.PopAsync());
+
+			CanCreateOrder = true;
 		}
 
 		void BuildSuggestion()
@@ -38,21 +40,34 @@ namespace Beylen.ViewModels
 			set {
 				try {
 					int order = int.Parse(value);
-					var stop = AppScope.Instance.Route[order];
+					var stop = AppScope.Instance.Route.Stops[order];
 					CodeName = stop.CodeName;
 					RealName = stop.RealName;
 					Address = stop.Address;
-					return;
 				}
 				catch {
 					CodeName = RealName = Address = string.Empty;
 				}
+
+				CanCreateOrder = false;
 			}
 		}
 
+
+		public Customer Customer {
+			get => customer;
+			set => SetProperty(ref customer, value);
+		}
+		Customer customer;
+
 		public string CodeName {
 			get => codeName;
-			set => SetProperty(ref codeName, value);
+			set {
+				if (SetProperty(ref codeName, value)) {
+					SetCustomer(codeName, null);
+					choosenSuggestion = null;
+				}
+			}
 		}
 		string codeName;
 
@@ -68,18 +83,54 @@ namespace Beylen.ViewModels
 		}
 		string address;
 
+		public bool CreateOrder {
+			get => createOrder;
+			set => SetProperty(ref createOrder, value);
+		}
+		bool createOrder;
+
+		public bool CanCreateOrder {
+			get => canCreateOrder;
+			set => SetProperty(ref canCreateOrder, value);
+		}
+		bool canCreateOrder;
+
+		void SetCustomer(string codeName, Customer customer)
+		{
+			Customer = customer ?? AppScope.GetCustomer(codeName);
+
+			if (Customer != null) {
+				if (codeName == null)
+					CodeName = Customer.CodeName;
+				RealName = Customer.RealName;
+				Address = Customer.Address;
+				CreateOrder = CanCreateOrder = true;
+			} else {
+				Clear(codeName == null);
+			}
+		}
+
+		void Clear(bool clearCodeName)
+		{
+			if (clearCodeName)
+				CodeName = string.Empty;
+			RealName = Address = string.Empty;
+			CreateOrder = CanCreateOrder = false;
+			Customer = null;
+			choosenSuggestion = null;
+		}
+
 		public List<object> CustomerSuggestions { get; }
 
 		public object ChoosenSuggestion {
 			get => choosenSuggestion;
 			set {
 				//Debug.Print($"RouteStopFormModel: ChoosenSuggestion <= {value}");
-				choosenSuggestion = value;
 				if (value is CustomerSuggestion suggestion) {
-					RealName = suggestion.Customer.RealName;
-					Address = suggestion.Customer.Address;
+					SetCustomer(null, suggestion.Customer);
+					choosenSuggestion = value;
 				} else {
-					RealName = Address = String.Empty;
+					Clear(false);
 				}
 			}
 		}
@@ -94,7 +145,7 @@ namespace Beylen.ViewModels
 			if (string.IsNullOrWhiteSpace(CodeName) || await AddStop()) {
 				await Shell.Current.Navigation.PopAsync();
 			} else {
-				CodeName = RealName = Address = string.Empty;
+				Clear(true);
 			}
 		}
 
@@ -103,36 +154,29 @@ namespace Beylen.ViewModels
 			if (!string.IsNullOrWhiteSpace(CodeName) && await AddStop()) {
 				BuildSuggestion();
 			}
-			CodeName = RealName = Address = string.Empty;
+			Clear(true);
 		}
 
 		async Task<bool> AddStop()
 		{
-			RouteStop stop;
-			if (choosenSuggestion is CustomerSuggestion cs) {
-				stop = new CustomerStop(cs.Customer);
-			} else {
-				var codeName = CodeName;
-				var customer = AppScope.GetCustomer(codeName);
-				if (customer == null) {
-					await Alerts.ErrorAlert($"Unknown stop: \"{codeName}\"");
-					return false;
-				}
-				if (AppScope.Instance.Route.HasCustomerStop(customer)) {
-					await Alerts.ErrorAlert($"\"{codeName}\" already in the route");
-					return false;
-				}
-
-				stop = new CustomerStop(customer);
+			if (Customer == null) {
+				await Alerts.ErrorAlert($"Unknown stop: \"{CodeName}\"");
+				return false;
 			}
-
-			var exc = await AppScope.Instance.Route.AddNew(stop);
-			if (exc != null) {
-				await Alerts.ErrorAlert(exc.Message);
+			if (AppScope.Instance.Route.HasCustomerStop(Customer)) {
+				await Alerts.ErrorAlert($"\"{CodeName}\" already in the route");
 				return false;
 			}
 
-			return true;
+			try {
+				var stop = new CustomerStop(customer);
+				await AppScope.Instance.Route.AddNew(stop);
+				return true;
+			} 
+			catch (Exception exc) {
+				await Alerts.ExceptionAlert(exc);
+				return false;
+			}
 		}
 	}
 

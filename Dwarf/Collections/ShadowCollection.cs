@@ -29,6 +29,7 @@ namespace Dwares.Dwarf.Collections
 		}
 
 		public Func<SourceItem, ShadowItem> ItemFactory { get; protected set; }
+		//public bool SameOrder { get; set; } = false;
 
 		public virtual void SetSource(
 			ObservableCollection<SourceItem> newSource, 
@@ -56,18 +57,11 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
-		//protected void AddShadows(IList<SourceItem> items)
-		//{
-		//	foreach (var sourceItem in items) {
-		//		var shadowItem = ItemFactory(sourceItem);
-		//		if (shadowItem != null) {
-		//			Add(shadowItem);
-		//		}
-		//	}
-		//}
-
 		protected void AddShadows(IList items)
 		{
+			if (Source == null)
+				return;
+
 			foreach (var item in items) {
 				var shadowItem = ShadowFromObject(item);
 				if (shadowItem != null) {
@@ -78,40 +72,54 @@ namespace Dwares.Dwarf.Collections
 
 		protected void InsertShadows(int startinIndex, IList items)
 		{
-			int index = startinIndex;
-			foreach (var item in items) {
-				var shadowItem = ShadowFromObject(item);
-				if (shadowItem != null) {
-					Add(shadowItem);
+			if (Source == null)
+				return;
+			if (false/*SameOrder*/) { // TODO
+				int index = startinIndex;
+				foreach (var item in items) {
+					var shadowItem = ShadowFromObject(item);
+					if (shadowItem != null) {
+						Insert(index++, shadowItem);
+					}
 				}
+			} else {
+				ResetShadows();
 			}
 		}
 
 		protected void RemoveShadows(int startingIndex, int count)
 		{
-			for (int i = startingIndex + count - 1; i >= startingIndex; i--) {
-				RemoveItem(i);
+			if (false/*SameOrder*/) { // TODO
+				for (int i = startingIndex + count - 1; i >= startingIndex; i--) {
+					RemoveItem(i);
+				}
+			} else {
+				ResetShadows();
 			}
 		}
 
 		protected void MoveShadows(int oldStartingIndex, int newStartingIndex, int count)
 		{
-			if (newStartingIndex == oldStartingIndex)
-				return;
+			if (false /*SameOrder*/) { // TODO
+				if (newStartingIndex == oldStartingIndex)
+					return;
 
-			if (newStartingIndex < oldStartingIndex) {
-				int oldIndex = oldStartingIndex;
-				int newIndex = newStartingIndex;
-				for (int i = 0; i < count; i++) {
-					MoveItem(oldIndex++, newIndex++);
+				if (newStartingIndex < oldStartingIndex) {
+					int oldIndex = oldStartingIndex;
+					int newIndex = newStartingIndex;
+					for (int i = 0; i < count; i++) {
+						MoveItem(oldIndex++, newIndex++);
+					}
+				} else {
+					int oldIndex = oldStartingIndex + count - 1;
+					int newIndex = newStartingIndex + count - 1;
+					for (int i = 0; i < count; i++) {
+						MoveItem(oldIndex--, newIndex--);
+					}
+
 				}
 			} else {
-				int oldIndex = oldStartingIndex + count - 1;
-				int newIndex = newStartingIndex + count - 1;
-				for (int i = 0; i < count; i++) {
-					MoveItem(oldIndex--, newIndex--);
-				}
-
+				ResetShadows();
 			}
 		}
 

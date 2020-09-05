@@ -23,8 +23,9 @@
 		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
 	</ui:ContentPageEx.ToolbarItems>-->
 
-	<Grid>
+	<Grid Padding="0">
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -55,7 +56,7 @@
 
 		<ui:LabelEx Grid.Row="1" Grid.Column="1"
 					Flavor="Form-static-text"
-					Text="{Binding FullName, Mode=TwoWay}"
+					Text="{Binding RealName, Mode=TwoWay}"
 					/>
 
 		<ui:LabelEx Grid.Row="2" Grid.Column="0"
@@ -67,7 +68,21 @@
 					 Text="{Binding Address, Mode=TwoWay}"
 					 IsReadOnly="True"
 					 />
-		<StackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+		
+		<StackLayout Grid.Row="3" Grid.Column="1"
+					 Orientation="Horizontal"
+					 IsVisible="{Binding CanCreateOrder}"
+					 >
+			<ui:CheckBoxEx Flavor="Form-checkbox"
+						   IsEnabled="{Binding CanCreateOrder}"
+						   IsChecked="{Binding CreateOrder}"
+						   />
+			<ui:LabelEx Flavor="Form-static-text"
+						Text="Create order"
+						/>
+		</StackLayout>
+
+		<StackLayout Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
 					 Orientation="Horizontal"
 					 HorizontalOptions="End"
 					 >

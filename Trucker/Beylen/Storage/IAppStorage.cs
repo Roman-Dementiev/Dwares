@@ -20,7 +20,7 @@ namespace Beylen.Storage
 
 		Task AddRouteStop(RouteStop stop);
 		Task DeleteRouteStop(RouteStop stop);
-		Task ChangeRouteStopSeq(RouteStop stop);
+		Task ChangeRouteStopOrdinal(RouteStop stop);
 		Task ChangeRouteStopStatus(RouteStop stop);
 
 

@@ -46,11 +46,11 @@ namespace Beylen.Storage.Air
 						stop.RecordId = rec.Id;
 
 						if (status == RouteRecord.Enroute) {
-							stop.Status = RouteStatus.Enroute;
+							stop.Status = RoutеStopStatus.Enroute;
 						} else if (status == RouteRecord.Arrived) {
-							stop.Status = RouteStatus.Arrived;
+							stop.Status = RoutеStopStatus.Arrived;
 						} else if (status == RouteRecord.Departed) {
-							stop.Status = RouteStatus.Departed;
+							stop.Status = RoutеStopStatus.Departed;
 						}
 
 						await route.Add(stop, false);
@@ -85,13 +85,13 @@ namespace Beylen.Storage.Air
 
 			switch (stop.Status)
 			{
-			case RouteStatus.Enroute:
+			case RoutеStopStatus.Enroute:
 				rec.Status = RouteRecord.Enroute;
 				break;
-			case RouteStatus.Arrived:
+			case RoutеStopStatus.Arrived:
 				rec.Status = RouteRecord.Arrived;
 				break;
-			case RouteStatus.Departed:
+			case RoutеStopStatus.Departed:
 				rec.Status = RouteRecord.Departed;
 				break;
 			}
@@ -105,7 +105,7 @@ namespace Beylen.Storage.Air
 			await RouteTable.DeleteRecord(stop.RecordId);
 		}
 
-		public async Task ChangeRouteStopSeq(RouteStop stop)
+		public async Task ChangeRouteStopOrdinal(RouteStop stop)
 		{
 			var rec = new RouteRecord {
 				Id = stop.RecordId,
@@ -123,13 +123,13 @@ namespace Beylen.Storage.Air
 
 			switch (stop.Status)
 			{
-			case RouteStatus.Enroute:
+			case RoutеStopStatus.Enroute:
 				rec.Status = RouteRecord.Enroute;
 				break;
-			case RouteStatus.Arrived:
+			case RoutеStopStatus.Arrived:
 				rec.Status = RouteRecord.Arrived;
 				break;
-			case RouteStatus.Departed:
+			case RoutеStopStatus.Departed:
 				rec.Status = RouteRecord.Departed;
 				break;
 			}

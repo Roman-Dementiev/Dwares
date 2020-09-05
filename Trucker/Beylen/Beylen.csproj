@@ -64,6 +64,7 @@
     <ProjectReference Include="..\..\Drums\Drums\Drums.csproj" />
     <ProjectReference Include="..\..\Dwarf\Dwarf.csproj" />
     <ProjectReference Include="..\AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj" />
+    <ProjectReference Include="..\Xamarin.Forms.DragNDrop\Xamarin.Forms.DragNDrop\Xamarin.Forms.DragNDrop.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -105,17 +105,22 @@ namespace Dwares.Druid
 			return await DisplayAlert(ConfirmAlertTitle, message, confirm, reject);
 		}
 
-		public static async Task<bool> ActionAlert(string title, string message, string acrion, string dismiss = null)
+		public static async Task<bool> ActionAlert(string title, string message, string action, string dismiss = null)
 		{
 			//if (string.IsNullOrEmpty(title))
 			//	title = ConfirmString;
-			if (string.IsNullOrEmpty(acrion))
-				acrion = AcceptString;
+			if (string.IsNullOrEmpty(action))
+				action = AcceptString;
 			if (string.IsNullOrEmpty(dismiss))
 				dismiss = CancelString;
 
-			return await DisplayAlert(title, message, acrion, dismiss);
+			return await DisplayAlert(title, message, action, dismiss);
 		}
 
+		public static async Task ExceptionAlert(Exception exc)
+		{
+			//TODO
+			await ErrorAlert(exc.Message);
+		}
 	}
 }

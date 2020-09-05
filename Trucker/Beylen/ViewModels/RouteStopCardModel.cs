@@ -77,7 +77,7 @@ namespace Beylen.ViewModels
 		}
 		string address;
 
-		public RouteStatus Status {
+		public RoutеStopStatus Status {
 			get => status;
 			set {
 				if (SetProperty(ref status, value)) {
@@ -89,10 +89,10 @@ namespace Beylen.ViewModels
 				}
 			}
 		}
-		RouteStatus status;
+		RoutеStopStatus status;
 
 		public bool IsCompleted {
-			get => Status == (Source.Kind == RouteStopKind.EndPoint ? RouteStatus.Arrived : RouteStatus.Departed);
+			get => Status == (Source.Kind == RouteStopKind.EndPoint ? RoutеStopStatus.Arrived : RoutеStopStatus.Departed);
 		}
 
 		public bool CanEdit => false;
@@ -126,19 +126,22 @@ namespace Beylen.ViewModels
 					return;
 			}
 
-			var exc = await AppScope.Instance.Route.DeleteStop(Source);
-			if (exc != null) {
-				await Alerts.ErrorAlert(exc.Message);
+			try {
+				await AppScope.Instance.Route.DeleteStop(Source);
+			}
+			catch (Exception exc) {
+				await Alerts.ExceptionAlert(exc);
 			}
 		}
 
 		public async void OnDirections()
 		{
-			if (HasDirections) {
-				var exc = await AppScope.Instance.Route.ShowDirections(Source);
-				if (exc != null) {
-					await Alerts.ErrorAlert(exc.Message);
+			try {
+				if (HasDirections) {
+					await AppScope.Instance.Route.ShowDirections(Source);
 				}
+			} catch (Exception exc) {
+				await Alerts.ExceptionAlert(exc);
 			}
 		}
 
@@ -157,21 +160,20 @@ namespace Beylen.ViewModels
 
 		public async void OnStatus()
 		{
-			var route = AppScope.Instance.Route;
-			Exception exc = null;
+			try {
+				var route = AppScope.Instance.Route;
 
-			switch (Status)
-			{
-			case RouteStatus.Enroute:
-				exc = await route.Arrive(Source);
-				break;
-			case RouteStatus.Arrived:
-				exc = await route.Depart(Source);
-				break;
-			}
-
-			if (exc != null) {
-				await Alerts.ErrorAlert(exc.Message);
+				switch (Status)
+				{
+				case RoutеStopStatus.Enroute:
+					await route.Arrive(Source);
+					break;
+				case RoutеStopStatus.Arrived:
+					await route.Depart(Source);
+					break;
+				}
+			} catch (Exception exc) {
+				await Alerts.ExceptionAlert(exc);
 			}
 		}
 
@@ -187,11 +189,11 @@ namespace Beylen.ViewModels
 		{
 			switch (Status)
 			{
-			case RouteStatus.Enroute:
+			case RoutеStopStatus.Enroute:
 				OrdString = StdGlyph.ChequeredFlag;
 				break;
-			case RouteStatus.Arrived:
-			case RouteStatus.Departed:
+			case RoutеStopStatus.Arrived:
+			case RoutеStopStatus.Departed:
 				OrdString = StdGlyph.HeavyCheckMark;
 				break;
 			//case RouteStatus.Departed:
@@ -207,12 +209,12 @@ namespace Beylen.ViewModels
 		{
 			switch (Status)
 			{
-			case RouteStatus.Enroute:
+			case RoutеStopStatus.Enroute:
 				StatusCommandName = "Arrive";
 				HasStatusCommand = true;
 				return;
 
-			case RouteStatus.Arrived:
+			case RoutеStopStatus.Arrived:
 				if (Source.Kind != RouteStopKind.EndPoint) {
 					StatusCommandName = "Depart";
 					HasStatusCommand = true;
@@ -229,13 +231,13 @@ namespace Beylen.ViewModels
 		{
 			switch (Status)
 			{
-			case RouteStatus.Enroute:
+			case RoutеStopStatus.Enroute:
 				CanDelete = false;
 				break;
-			case RouteStatus.Arrived:
+			case RoutеStopStatus.Arrived:
 				CanDelete = Source.Kind == RouteStopKind.EndPoint;
 				break;
-			case RouteStatus.Departed:
+			case RoutеStopStatus.Departed:
 				CanDelete = true;
 				break;
 			default:
@@ -246,7 +248,7 @@ namespace Beylen.ViewModels
 
 		void UpdateDirectionCommand()
 		{
-			if (Status < RouteStatus.Arrived) {
+			if (Status < RoutеStopStatus.Arrived) {
 				HasDirections = AppScope.Instance.Route.CanShowDirections(Source);
 			} else {
 				HasDirections = false;

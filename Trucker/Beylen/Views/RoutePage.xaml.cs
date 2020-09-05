@@ -5,7 +5,6 @@ using Dwares.Druid.UI;
 using Dwares.Dwarf;
 using Beylen.ViewModels;
 
-
 namespace Beylen.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -16,6 +15,7 @@ namespace Beylen.Views
 			//BindingContext = new RouteViewModel();
 
 			InitializeComponent();
+
 		}
 	}
 }

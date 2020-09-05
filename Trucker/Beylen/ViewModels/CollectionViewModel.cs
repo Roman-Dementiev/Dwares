@@ -25,13 +25,23 @@ namespace Beylen.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 			Items = items ?? new ObservableCollection<Item>();
-			FastLoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(CollectionViewReloadMode.Fast));
-			FullLoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand(CollectionViewReloadMode.Full));
+			RefreshCommand = new Command(Refresh);
+			ReloadCommand = new Command(Reload);
 		}
 
 		public ObservableCollection<Item> Items { get; }
-		public Command FastLoadItemsCommand { get; set; }
-		public Command FullLoadItemsCommand { get; set; }
+		public Command RefreshCommand { get; set; }
+		public Command ReloadCommand { get; set; }
+
+		public virtual async void Refresh()
+		{
+			await ExecuteLoadItemsCommand(CollectionViewReloadMode.Fast);
+		}
+
+		public virtual async void Reload()
+		{
+			await ExecuteLoadItemsCommand(CollectionViewReloadMode.Full);
+		}
 
 		public bool HasSelected() => SelectedItem != null;
 

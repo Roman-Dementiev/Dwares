@@ -3,6 +3,7 @@
 				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:dnd="clr-namespace:Xamarin.Forms.DragNDrop;assembly=Xamarin.Forms.DragNDrop"
 				xmlns:vm="clr-namespace:Beylen.ViewModels"
 				Title="{Binding Title}"
 				x:Class="Beylen.Views.RoutePage"
@@ -21,13 +22,11 @@
 	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
 		<ToolbarItem Text="Add" Command="{Binding AddCommand}" />
-		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
+		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding ReloadCommand}"/>
 		<ToolbarItem Icon="route_map.png" Text="Directions" Command="{Binding RouteMapCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
-	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
-				 Command="{Binding FastLoadItemsCommand}"
-				 >
+	<!--<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding RefreshCommand}" >
 		<ui:CollectionViewEx ItemsSource="{Binding Items}"
 							 SelectionMode="Single"
 							 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
@@ -48,10 +47,10 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<!--<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+							<ui:ArtImage Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
 									 Flavor="Card-icon"
 									 Art="ic_place"
-									 />-->
+									 />
 							<ui:LabelEx Grid.Row="0" Grid.Column="0"
 									Flavor="Card-text-bold"
 									Text="{Binding OrdString, Mode=OneWay}"
@@ -104,6 +103,88 @@
 				</DataTemplate>
 			</CollectionView.ItemTemplate>
 		</ui:CollectionViewEx>
-	</RefreshView>
+	</RefreshView>-->
+
+	<ui:ListViewEx ItemsSource="{Binding Items}"
+				   SelectionMode="Single"
+				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+				   HasUnevenRows="True"
+				   IsPullToRefreshEnabled="True"
+				   RefreshCommand="{Binding RefreshCommand}"
+				   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+				   dnd:Sorting.IsSortable="True"
+				   >
+
+		<ListView.ItemTemplate>
+			<DataTemplate>
+				<ViewCell>
+					<ui:FrameEx Flavor="{Binding CardFrameFlavor, Mode=OneWay}">
+						<ui:GridEx Flavor="Card-grid">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<ui:LabelEx Grid.Row="0" Grid.Column="0"
+										Flavor="Card-text-bold"
+										Text="{Binding OrdString, Mode=OneWay}"
+										/>
+							<ui:LabelEx Grid.Row="0" Grid.Column="1"
+										Flavor="Card-text-bold"
+										Text="{Binding CodeName, Mode=OneWay}"
+										/>
+							<ui:LabelEx Grid.Row="1" Grid.Column="1"
+										Flavor="Card-text-default"
+										Text="{Binding Address, Mode=OneWay}"
+										/>
+							<ui:ArtButton Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"
+										  Flavor="Card-action"
+										  IconArt="ic_directions"
+										  IsVisible="{Binding HasDirections, Mode=OneWay}"
+										  Command="{Binding DirectionsCommand}"
+										 />
+
+							<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+										  Flavor="Card-separator"
+										  IsVisible="{Binding IsSelected, Mode=OneWay}"
+										  />
+							<StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+										 Orientation="Horizontal"
+										 IsVisible="{Binding IsSelected, Mode=OneWay}"
+										 >
+								<ui:ArtButton Flavor="Card-action"
+											  IconArt="ic_route_status.small"
+											  IsVisible="{Binding HasStatusCommand, Mode=OneWay}"
+											  LabelText="{Binding StatusCommandName, Mode=OneWay}"
+											  Command="{Binding StatusCommand}"
+											  />
+								<Label HorizontalOptions="StartAndExpand" Text="" />
+
+								<ui:ArtButton Flavor="Card-action"
+											  IconArt="ic_edit.small"
+											  LabelText="Edit"
+											  IsVisible="{Binding CanEdit}"
+											  Command="{Binding EditCommand}"
+											  />
+								<ui:ArtButton Flavor="Card-action"
+											  IconArt="ic_delete.small"
+											  LabelText="Delete"
+											  IsVisible="{Binding CanDelete}"
+											  Command="{Binding DeleteCommand}"
+											  />
+							</StackLayout>
+						</ui:GridEx>
+					</ui:FrameEx>
+				</ViewCell>
+			</DataTemplate>
+		</ListView.ItemTemplate>
+	</ui:ListViewEx>
 </ui:ShellPageEx>
 	

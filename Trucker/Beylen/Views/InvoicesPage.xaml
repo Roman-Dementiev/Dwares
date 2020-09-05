@@ -20,10 +20,10 @@
 	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
 		<ToolbarItem Text="Add" Command="{Binding AddCommand}"/>
-		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
+		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding ReloadCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
-	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding FastLoadItemsCommand}">
+	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding RefreshCommand}">
 		<ui:CollectionViewEx ItemsSource="{Binding Items}"
 							 SelectionMode="Single"
 							 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"

@@ -120,6 +120,14 @@
       <Project>{4CEDA1B5-4C95-4E9C-A6D5-C8DBBAC16832}</Project>
       <Name>Beylen</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Xamarin.Forms.DragNDrop\Xamarin.Forms.DragNDrop.Android\Xamarin.Forms.DragNDrop.Android.csproj">
+      <Project>{c3dc52a4-3bf2-4fe9-96f7-2760b1c75ead}</Project>
+      <Name>Xamarin.Forms.DragNDrop.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xamarin.Forms.DragNDrop\Xamarin.Forms.DragNDrop\Xamarin.Forms.DragNDrop.csproj">
+      <Project>{f56fb21b-5e5a-4ebd-855c-6f7a43e0a802}</Project>
+      <Name>Xamarin.Forms.DragNDrop</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\beylen_driver_logo.png" />

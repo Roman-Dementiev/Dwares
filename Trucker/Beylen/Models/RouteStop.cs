@@ -14,7 +14,7 @@ namespace Beylen.Models
 		MidPoint
 	}
 
-	public enum RouteStatus
+	public enum RoutеStopStatus
 	{
 		Pending,
 		Enroute,
@@ -64,13 +64,13 @@ namespace Beylen.Models
 		public bool IsEndPoint => Kind == RouteStopKind.EndPoint;
 		public bool IsCustomer => Kind == RouteStopKind.Customer;
 
-		public RouteStatus Status {
+		public RoutеStopStatus Status {
 			get => status;
 			set => SetProperty(ref status, value);
 		}
-		RouteStatus status;
+		RoutеStopStatus status;
 
-		public void SetStatus(RouteStatus value, bool forceNotification) =>
+		public void SetStatus(RoutеStopStatus value, bool forceNotification) =>
 			SetProperty(ref status, value, forceNotification, nameof(Status));
 
 		public int Ordinal {
@@ -127,13 +127,13 @@ namespace Beylen.Models
 		public RouteStartStop(Place place = null) :
 			base(place ?? AppScope.Instance.StartPoint, RouteStopKind.StartPoint)
 		{
-			Status = RouteStatus.Arrived;
+			Status = RoutеStopStatus.Arrived;
 		}
 
 		public RouteStartStop(string codeName) : 
 			base(RouteStopKind.StartPoint, codeName, AppScope.Instance.StartPoint)
 		{
-			Status = RouteStatus.Arrived;
+			Status = RoutеStopStatus.Arrived;
 		}
 	}
 

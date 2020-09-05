@@ -17,10 +17,10 @@
 	<ui:ShellPageEx.ToolbarItems>
 		<!--<ToolbarItem Icon="add.png" Text="Add" />-->
 		<ToolbarItem Text="Add" />
-		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>
+		<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding ReloadCommand}"/>
 	</ui:ShellPageEx.ToolbarItems>
 
-	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding FastLoadItemsCommand}">
+	<RefreshView IsRefreshing="{Binding IsBusy, Mode=TwoWay}" Command="{Binding RefreshCommand}">
 		<ui:ListViewEx HasUnevenRows="True"
 				   ItemsSource="{Binding Items}"
 				   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
