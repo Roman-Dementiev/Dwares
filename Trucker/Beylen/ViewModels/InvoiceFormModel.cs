@@ -42,11 +42,7 @@ namespace Beylen.ViewModels
 			get => source;
 			set {
 				var appScope = AppScope.Instance;
-				var ivoice = value ?? new Invoice {
-					Date = appScope.OrderingDate,
-					CarId = appScope.Car?.Id ?? string.Empty,
-					Number = appScope.NextInvoiceNumber()
-				};
+				var ivoice = value ?? new Invoice(true);
 
 				if (SetProperty(ref source, ivoice)) {
 					Date = Source.Date;
@@ -164,9 +160,9 @@ namespace Beylen.ViewModels
 				UpdateSource();
 
 				if (IsNewInvoice) {
-					await AppStorage.Instance.NewInvoice(Source);
+					await AppScope.Instance.NewInvoice(Source);
 				} else {
-					await AppStorage.Instance.UpdateInvoice(Source);
+					await AppScope.Instance.UpdateInvoice(Source);
 				}
 
 				await ShellPageEx.TryGoBack();

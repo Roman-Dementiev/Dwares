@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Dwares.Druid.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
@@ -23,34 +24,55 @@ namespace Beylen.Models
 	}
 
 
-	public class RouteStop : Place //, IRouteStop
+	public class RouteStop : Place
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteStop));
 
-		protected RouteStop()
+		protected RouteStop(Route route)
 		{
 			//Debug.EnableTracing(@class);
+			Guard.ArgumentNotNull(route, nameof(route));
+			Route = route;
 		}
 
-		protected RouteStop(Place place, RouteStopKind kind)
+		protected RouteStop(Route route, Place place, RouteStopKind kind) :
+			this(route)
 		{
-			//Debug.EnableTracing(@class);
 			Guard.ArgumentNotNull(place, nameof(place));
 
 			Kind = kind;
-			FromSource(place);
+			Place = place;
 		}
 
-		protected RouteStop(RouteStopKind kind, string codeName, Place defaultPlace = null)
+		protected RouteStop(Route route, RouteStopKind kind, string codeName, Place defaultPlace = null) :
+			this(route)
 		{
 			Kind = kind;
 			
 			var place = AppScope.GetPlace(codeName) ?? defaultPlace;
-			if (place == null)
-				throw new ProgramError($"Unknown Place CodeName=\"{codeName ?? string.Empty}\"");
-
-			FromSource(place);
+			Place = place ?? throw new ProgramError($"Unknown Place CodeName=\"{codeName ?? string.Empty}\"");
 		}
+
+		public Route Route { get; }
+
+		public Place Place {
+			get => source;
+			set {
+				if (value != source) {
+					if (source != null) {
+						source.PropertyChanged -= OnSourcePropertyChanged;
+					}
+
+					SetProperty(ref source, value);
+					FromSource();
+
+					if (source != null) {
+						source.PropertyChanged += OnSourcePropertyChanged;
+					}
+				}
+			}
+		}
+		Place source;
 
 		public RouteStopKind Kind {
 			get => kind;
@@ -66,12 +88,16 @@ namespace Beylen.Models
 
 		public RoutеStopStatus Status {
 			get => status;
-			set => SetProperty(ref status, value);
+			set => SetStatus(value, false);
 		}
 		RoutеStopStatus status;
 
-		public void SetStatus(RoutеStopStatus value, bool forceNotification) =>
-			SetProperty(ref status, value, forceNotification, nameof(Status));
+		public void SetStatus(RoutеStopStatus value, bool forceNotification)
+		{
+			if (SetProperty(ref status, value, forceNotification, nameof(Status))) {
+				UpdateInfo();
+			}
+		}
 
 		public int Ordinal {
 			get => ordinal;
@@ -79,44 +105,162 @@ namespace Beylen.Models
 		}
 		int ordinal;
 
-		protected void FromSource(Place source)
+		public string Info {
+			get => info;
+			set => SetProperty(ref info, value);
+		}
+		string info;
+
+		public RouteLeg Leg {
+			get => leg;
+			set {
+				if (value != leg) {
+					if (leg != null) {
+						leg.PropertyChanged -= OnLegPropertyChanged;
+					}
+
+					SetProperty(ref leg, value);
+					
+					if (leg != null) {
+						leg.PropertyChanged += OnLegPropertyChanged;
+						LegDuration = leg.Duration;
+					} else {
+						LegDuration = null;
+					}
+				}
+			}
+		}
+		RouteLeg leg;
+
+		public TimeSpan? LegDuration {
+			get => legDuration;
+			set {
+				if (SetProperty(ref legDuration, value)) {
+					UpdateInfo();
+				}
+			}
+		}
+		TimeSpan? legDuration = null;
+
+		public TimeSpan StopDuration {
+			// TODO
+			get => TimeSpan.FromMinutes(10);
+		}
+
+		public TimeSpan? ETA {
+			get => eta;
+			set => SetProperty(ref eta, value);
+		}
+		TimeSpan? eta = null;
+
+		public DateTime? ArrivalTime {
+			get => arrivalTime;
+			set => SetProperty(ref arrivalTime, value);
+		}
+		DateTime? arrivalTime;
+
+		public DateTime? DepartureTime {
+			get => departureTime;
+			set => SetProperty(ref departureTime, value);
+		}
+		DateTime? departureTime;
+
+		protected virtual void FromSource()
 		{
-			if (source != null) {
-				CodeName = source.CodeName;
-				RealName = source.RealName;
-				Address = source.Address;
+			if (Place != null) {
+				CodeName = Place.CodeName;
+				RealName = Place.RealName;
+				Address = Place.Address;
 			} else {
-				CodeName = RealName = Address = string.Empty;
+				CodeName = RealName = Address = Info = string.Empty;
 			}
 		}
 
+		static string DurationString(TimeSpan duration)
+		{
+			int mins = (int)Math.Round(duration.TotalMinutes);
+			if (mins < 60) {
+				return $"{mins} min";
+			}
+			int hours = mins / 60;
+			mins -= hours * 60;
+			return $"{hours} h {mins} min";
+		}
+
+		string TimeString(TimeSpan time)
+		{
+			if (Route.IsStarted) {
+				DateTime dt = DateTime.Now.Add(time);
+				return dt.ToShortTimeString();
+			} else {
+				return "in " + DurationString(time);
+			}
+		}
+
+		public void UpdateInfo()
+		{
+			string info = string.Empty;
+			if (Status < RoutеStopStatus.Arrived && LegDuration != null) {
+				info = DurationString((TimeSpan)LegDuration);
+
+				if (ETA != null) {
+					var eta = TimeString((TimeSpan)ETA);
+					info += $"    ETA: {eta}";
+				}
+			}
+			else if (Status == RoutеStopStatus.Arrived) {
+				var arrived = ArrivalTime?.ToShortTimeString();
+				if (arrived != null) {
+					info = $"Arrived: {arrived}";
+				}
+			}
+			else if (Status == RoutеStopStatus.Departed) {
+				var departed = DepartureTime?.ToShortTimeString();
+				if (departed != null) {
+					info = $"Departed: {departed}";
+				}
+			}
+
+			Info = info;
+		}
+
+		void OnSourcePropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (sender == Place) {
+				FromSource();
+			}
+		}
+		void OnLegPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (sender == Leg) {
+				LegDuration = Leg?.Duration;
+			}
+		}
 	}
 
 	public class CustomerStop : RouteStop
 	{
-		public CustomerStop(Customer customer)
+		public CustomerStop(Route route, Customer customer) :
+			base(route)
 		{
 			Guard.ArgumentNotNull(customer, nameof(customer));
 
-			Init(customer);
+			Place = customer;
 		}
 
-		public CustomerStop(string codeName)
+		public CustomerStop(Route route, string codeName) :
+			base(route)
 		{
 			var customer = AppScope.GetCustomer(codeName);
-			if (customer == null)
-				throw new ProgramError($"Unknown Customer CodeName=\"{codeName ?? string.Empty}\"");
-
-			Init(customer);
+			Place = customer ?? throw new ProgramError($"Unknown Customer CodeName=\"{codeName ?? string.Empty}\"");
 		}
 
-		void Init(Customer customer)
+		protected override void FromSource()
 		{
 			Kind = RouteStopKind.Customer;
-			Customer = customer;
-			FromSource(customer);
+			Customer = Place as Customer;
 
-			customer.PropertyChanged += (s, e) => FromSource(Customer);
+			base.FromSource();
 		}
 
 		public Customer Customer { get; private set; }
@@ -124,14 +268,14 @@ namespace Beylen.Models
 
 	public class RouteStartStop : RouteStop
 	{
-		public RouteStartStop(Place place = null) :
-			base(place ?? AppScope.Instance.StartPoint, RouteStopKind.StartPoint)
+		public RouteStartStop(Route route, Place place = null) :
+			base(route, place ?? route?.StartPoint, RouteStopKind.StartPoint)
 		{
 			Status = RoutеStopStatus.Arrived;
 		}
 
-		public RouteStartStop(string codeName) : 
-			base(RouteStopKind.StartPoint, codeName, AppScope.Instance.StartPoint)
+		public RouteStartStop(Route route, string codeName) : 
+			base(route, RouteStopKind.StartPoint, codeName, route?.StartPoint)
 		{
 			Status = RoutеStopStatus.Arrived;
 		}
@@ -139,26 +283,26 @@ namespace Beylen.Models
 
 	public class RouteEndStop : RouteStop
 	{
-		public RouteEndStop(Place place = null) :
-			base(place ?? AppScope.Instance.EndPoint, RouteStopKind.EndPoint)
+		public RouteEndStop(Route route, Place place = null) :
+			base(route, place ?? route?.EndPoint, RouteStopKind.EndPoint)
 		{
 		}
 
-		public RouteEndStop(string codeName) :
-			base(RouteStopKind.EndPoint, codeName, AppScope.Instance.EndPoint)
+		public RouteEndStop(Route route, string codeName) :
+			base(route, RouteStopKind.EndPoint, codeName, route?.EndPoint)
 		{
 		}
 	}
 
 	public class RouteMidStop : RouteStop
 	{
-		public RouteMidStop(Place place) :
-			base(place, RouteStopKind.MidPoint)
+		public RouteMidStop(Route route, Place place) :
+			base(route, place, RouteStopKind.MidPoint)
 		{
 		}
 
-		public RouteMidStop(string codeName) :
-			base(RouteStopKind.MidPoint, codeName)
+		public RouteMidStop(Route route, string codeName) :
+			base(route, RouteStopKind.MidPoint, codeName)
 		{
 		}
 	}

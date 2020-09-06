@@ -20,13 +20,13 @@ namespace Beylen.ViewModels
 			Title = "Contacts";
 		}
 
-		protected override async Task ReloadItems(CollectionViewReloadMode mode)
+		protected override async Task ReloadData(CollectionViewReloadMode mode)
 		{
 			if (mode == CollectionViewReloadMode.Fast) {
-				AppScope.Instance.Contacts.Clear();
+				AppScope.Instance.Customers.Clear();
 				await AppStorage.Instance.LoadContacts();
 			} else {
-				await base.ReloadItems(mode);
+				await base.ReloadData(mode);
 			}
 		}
 	}

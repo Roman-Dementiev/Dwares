@@ -53,9 +53,11 @@ namespace Beylen.ViewModels
 
 		}
 
-		protected override Task ReloadItems(CollectionViewReloadMode mode)
+		protected override async Task ReloadData(CollectionViewReloadMode mode)
 		{
-			return Task.CompletedTask;
+			var route = AppScope.Instance.Route;
+			await route.RequestLegDurations(true);
+			//await Task.Delay(2000);
 		}
 	}
 
@@ -91,7 +93,7 @@ namespace Beylen.ViewModels
 				int startOrdinal  = this[startIndex].Source.Ordinal;
 
 				base.ChangeOrdinal(oldIndex, newIndex);
-				await AppScope.Instance.Route.ChangeOrdinals(startIndex, startOrdinal);
+				await AppScope.Instance.Route.ChangeStopsOrdinals(startIndex, startOrdinal);
 			}
 		}
 	}

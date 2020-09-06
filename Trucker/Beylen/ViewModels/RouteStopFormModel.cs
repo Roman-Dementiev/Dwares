@@ -27,13 +27,14 @@ namespace Beylen.ViewModels
 			MoreCommand = new Command(More);
 			CancelCommand = new Command(async () => await Shell.Current.Navigation.PopAsync());
 
-			CanCreateOrder = true;
+			CanCreateInvoice = true;
 		}
 
 		void BuildSuggestion()
 		{
+			var route = AppScope.Instance.Route;
 			CustomerSuggestions.Clear();
-			Suggestions.CollectCustomers(CustomerSuggestions, (customer) => !AppScope.Instance.Route.HasCustomerStop(customer));
+			Suggestions.CollectCustomers(CustomerSuggestions, (customer) => !route.HasCustomerStop(customer));
 		}
 
 		public string QueryStopOrder {
@@ -49,7 +50,7 @@ namespace Beylen.ViewModels
 					CodeName = RealName = Address = string.Empty;
 				}
 
-				CanCreateOrder = false;
+				CanCreateInvoice = false;
 			}
 		}
 
@@ -83,17 +84,23 @@ namespace Beylen.ViewModels
 		}
 		string address;
 
-		public bool CreateOrder {
+		//public bool ShowCreateInvoice {
+		//	get => CanCreateInvoice;
+		//	set => CanCreateInvoice = value;
+		//}
+		public bool ShowCreateInvoice => false;
+
+		public bool CanCreateInvoice {
+			get => canCreateOrder;
+			set => SetPropertyEx(ref canCreateOrder, value, nameof(CanCreateInvoice), nameof(ShowCreateInvoice));
+		}
+		bool canCreateOrder;
+
+		public bool CreateInvoice {
 			get => createOrder;
 			set => SetProperty(ref createOrder, value);
 		}
 		bool createOrder;
-
-		public bool CanCreateOrder {
-			get => canCreateOrder;
-			set => SetProperty(ref canCreateOrder, value);
-		}
-		bool canCreateOrder;
 
 		void SetCustomer(string codeName, Customer customer)
 		{
@@ -104,7 +111,7 @@ namespace Beylen.ViewModels
 					CodeName = Customer.CodeName;
 				RealName = Customer.RealName;
 				Address = Customer.Address;
-				CreateOrder = CanCreateOrder = true;
+				CreateInvoice = CanCreateInvoice = true;
 			} else {
 				Clear(codeName == null);
 			}
@@ -115,7 +122,7 @@ namespace Beylen.ViewModels
 			if (clearCodeName)
 				CodeName = string.Empty;
 			RealName = Address = string.Empty;
-			CreateOrder = CanCreateOrder = false;
+			CreateInvoice = CanCreateInvoice = false;
 			Customer = null;
 			choosenSuggestion = null;
 		}
@@ -159,18 +166,25 @@ namespace Beylen.ViewModels
 
 		async Task<bool> AddStop()
 		{
+			var route = AppScope.Instance.Route;
+
 			if (Customer == null) {
 				await Alerts.ErrorAlert($"Unknown stop: \"{CodeName}\"");
 				return false;
 			}
-			if (AppScope.Instance.Route.HasCustomerStop(Customer)) {
+			if (route.HasCustomerStop(Customer)) {
 				await Alerts.ErrorAlert($"\"{CodeName}\" already in the route");
 				return false;
 			}
 
 			try {
-				var stop = new CustomerStop(customer);
-				await AppScope.Instance.Route.AddNew(stop);
+				var stop = new CustomerStop(route, customer);
+				await route.AddNew(stop);
+
+				if (CreateInvoice) {
+					var invoice = new Invoice(stop);
+					await AppScope.Instance.NewInvoice(invoice);
+				}
 				return true;
 			} 
 			catch (Exception exc) {

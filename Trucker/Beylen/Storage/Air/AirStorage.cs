@@ -187,9 +187,9 @@ namespace Beylen.Storage.Air
 				places.Add(place);
 
 				if (place.Tags == "startpoint")
-					AppScope.Instance.StartPoint = place;
+					AppScope.Instance.Route.StartPoint = place;
 				if (place.Tags == "endpoint")
-					AppScope.Instance.EndPoint = place;
+					AppScope.Instance.Route.EndPoint = place;
 			}
 		}
 

@@ -77,6 +77,16 @@ namespace Beylen.ViewModels
 		}
 		string address;
 
+		public string Info {
+			get => info;
+			set => SetPropertyEx(ref info, value, nameof(Info), nameof(ShowInfo));
+		}
+		string info;
+
+		public bool ShowInfo {
+			get => /*IsSelected &&*/ !string.IsNullOrEmpty(info);
+		}
+
 		public RoutеStopStatus Status {
 			get => status;
 			set {
@@ -111,6 +121,11 @@ namespace Beylen.ViewModels
 		}
 		bool hasDirections;
 
+		protected override void OnSelectedChanged()
+		{
+			base.OnSelectedChanged();
+			FirePropertyChanged(nameof(ShowInfo));
+		}
 
 		public async void OnEdit()
 		{
@@ -127,7 +142,7 @@ namespace Beylen.ViewModels
 			}
 
 			try {
-				await AppScope.Instance.Route.DeleteStop(Source);
+				await Source.Route.DeleteStop(Source);
 			}
 			catch (Exception exc) {
 				await Alerts.ExceptionAlert(exc);
@@ -138,7 +153,7 @@ namespace Beylen.ViewModels
 		{
 			try {
 				if (HasDirections) {
-					await AppScope.Instance.Route.ShowDirections(Source);
+					await Source.Route.ShowDirections(Source);
 				}
 			} catch (Exception exc) {
 				await Alerts.ExceptionAlert(exc);
@@ -161,7 +176,7 @@ namespace Beylen.ViewModels
 		public async void OnStatus()
 		{
 			try {
-				var route = AppScope.Instance.Route;
+				var route = Source.Route;
 
 				switch (Status)
 				{
@@ -183,6 +198,7 @@ namespace Beylen.ViewModels
 			CodeName = Source.CodeName;
 			Address = Source.Address;
 			Status = Source.Status;
+			Info = Source.Info;
 		}
 
 		void UpdateOrdString()
@@ -193,12 +209,12 @@ namespace Beylen.ViewModels
 				OrdString = StdGlyph.ChequeredFlag;
 				break;
 			case RoutеStopStatus.Arrived:
-			case RoutеStopStatus.Departed:
 				OrdString = StdGlyph.HeavyCheckMark;
 				break;
-			//case RouteStatus.Departed:
-			//	OrdString = StdGlyph.NotCheckMark;
-			//	break;
+			case RoutеStopStatus.Departed:
+				OrdString = StdGlyph.NotCheckMark;
+				//OrdString = StdGlyph.HeavyCheckMark;
+				break;
 			default:
 				OrdString = $"{Ordinal}.";
 				break;
@@ -229,27 +245,28 @@ namespace Beylen.ViewModels
 
 		void UpdateDeleteCommand()
 		{
-			switch (Status)
-			{
-			case RoutеStopStatus.Enroute:
-				CanDelete = false;
-				break;
-			case RoutеStopStatus.Arrived:
-				CanDelete = Source.Kind == RouteStopKind.EndPoint;
-				break;
-			case RoutеStopStatus.Departed:
-				CanDelete = true;
-				break;
-			default:
-				CanDelete = Source.Kind == RouteStopKind.Customer;
-				break;
-			}
+			//switch (Status)
+			//{
+			//case RoutеStopStatus.Enroute:
+			//	CanDelete = false;
+			//	break;
+			//case RoutеStopStatus.Arrived:
+			//	CanDelete = Source.Kind == RouteStopKind.EndPoint;
+			//	break;
+			//case RoutеStopStatus.Departed:
+			//	CanDelete = true;
+			//	break;
+			//default:
+			//	CanDelete = Source.Kind == RouteStopKind.Customer;
+			//	break;
+			//}
+			CanDelete = true;
 		}
 
 		void UpdateDirectionCommand()
 		{
 			if (Status < RoutеStopStatus.Arrived) {
-				HasDirections = AppScope.Instance.Route.CanShowDirections(Source);
+				HasDirections = Source.Route.CanShowDirections(Source);
 			} else {
 				HasDirections = false;
 			}

@@ -34,13 +34,13 @@ namespace Beylen.Storage.Air
 					try {
 						RouteStop stop;
 						if (tag == Tag.startpoint) {
-							stop = new RouteStartStop(codeName);
+							stop = new RouteStartStop(route, codeName);
 						} else if (tag == Tag.endpoint) {
-							stop = new RouteEndStop(codeName);
+							stop = new RouteEndStop(route, codeName);
 						} else if (tag == Tag.midpoint) {
-							stop = new RouteMidStop(codeName);
+							stop = new RouteMidStop(route, codeName);
 						} else {
-							stop = new CustomerStop(codeName);
+							stop = new CustomerStop(route, codeName);
 						}
 
 						stop.RecordId = rec.Id;
@@ -64,8 +64,10 @@ namespace Beylen.Storage.Air
 
 		public async Task AddRouteStop(RouteStop stop)
 		{
+			var route = AppScope.Instance.Route;
+
 			var rec = new RouteRecord {
-				Date = AppScope.Instance.Route.Date,
+				Date = route.Date,
 				Ord = stop.Ordinal,
 				CodeName = stop.CodeName
 			};

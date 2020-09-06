@@ -25,23 +25,13 @@ namespace Beylen.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 			Items = items ?? new ObservableCollection<Item>();
-			RefreshCommand = new Command(Refresh);
-			ReloadCommand = new Command(Reload);
+			RefreshCommand = new Command(async () => await ExecuteLoadItemsCommand(CollectionViewReloadMode.Fast));
+			ReloadCommand = new Command(async () => await ExecuteLoadItemsCommand(CollectionViewReloadMode.Full));
 		}
 
 		public ObservableCollection<Item> Items { get; }
 		public Command RefreshCommand { get; set; }
 		public Command ReloadCommand { get; set; }
-
-		public virtual async void Refresh()
-		{
-			await ExecuteLoadItemsCommand(CollectionViewReloadMode.Fast);
-		}
-
-		public virtual async void Reload()
-		{
-			await ExecuteLoadItemsCommand(CollectionViewReloadMode.Full);
-		}
 
 		public bool HasSelected() => SelectedItem != null;
 
@@ -102,10 +92,11 @@ namespace Beylen.ViewModels
 			StartBusy();
 
 			try {
-				await ReloadItems(mode);
+				await ReloadData(mode);
 			}
-			catch (Exception ex) {
-				Debug.ExceptionCaught(ex);
+			catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+				await Alerts.ErrorAlert(exc.Message);
 			}
 			finally {
 				reloading = false;
@@ -114,15 +105,9 @@ namespace Beylen.ViewModels
 		}
 		bool reloading = false;
 
-		protected virtual async Task ReloadItems(CollectionViewReloadMode mode)
+		protected virtual async Task ReloadData(CollectionViewReloadMode mode)
 		{
-			try {
-				//await Task.Delay(5000);
-				await AppScope.Instance.ReloadData();
-			} catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-				await Alerts.ErrorAlert(exc.Message);
-			}
+			await AppScope.Instance.ReloadData();
 		}
 	}
 }

@@ -71,11 +71,11 @@
 		
 		<StackLayout Grid.Row="3" Grid.Column="1"
 					 Orientation="Horizontal"
-					 IsVisible="{Binding CanCreateOrder}"
+					 IsVisible="{Binding ShowCreateInvoice}"
 					 >
 			<ui:CheckBoxEx Flavor="Form-checkbox"
-						   IsEnabled="{Binding CanCreateOrder}"
-						   IsChecked="{Binding CreateOrder}"
+						   IsEnabled="{Binding CanCreateInvoice}"
+						   IsChecked="{Binding CreateInvoice}"
 						   />
 			<ui:LabelEx Flavor="Form-static-text"
 						Text="Create order"

@@ -80,10 +80,8 @@ namespace Beylen
 		public ObservableCollection<Produce> Produce { get; }
 		public ObservableCollection<Invoice> Invoices { get; }
 		public ObservableCollection<Place> Places { get; }
-		public Route Route { get; } = new Route();
+		public Route Route { get; }
 
-		public Place StartPoint { get; set; }
-		public Place EndPoint { get; set; }
 
 
 		public void Configure()
@@ -128,10 +126,13 @@ namespace Beylen
 		{
 			var storage = AppStorage.Instance;
 			await storage.Initialize();
-			await storage.LoadData(Car?.Id, true, resetDataProperties);
-			resetDataProperties = false;
+			await LoadData();
+		}
 
-			await InitScopeData();
+		public async Task ReloadData()
+		{
+			ClearData();
+			await LoadData();
 		}
 
 		public void ClearData()
@@ -144,13 +145,21 @@ namespace Beylen
 			Route.Clear();
 		}
 
-		public async Task ReloadData()
+		async Task LoadData()
 		{
-			ClearData();
 			await AppStorage.Instance.LoadData(Car?.Id, false, resetDataProperties);
 			resetDataProperties = false;
 
 			await InitScopeData();
+
+			if (Route.Stops.Count > 0) {
+				var firstStop = Route.Stops[0];
+				if (firstStop.Kind != RouteStopKind.StartPoint || firstStop.Status > RoutеStopStatus.Arrived) {
+					await Route.Start();
+				} else {
+					await Route.RequestLegDurations(true);
+				}
+			}
 		}
 
 		public async Task InitScopeData()
@@ -225,15 +234,18 @@ namespace Beylen
 		public static Place GetPlace(string codeName) => Instance.Places.Lookup((p) => p.CodeName == codeName);
 
 
-		//public async Task NewInvoice(Invoice invoice)
-		//{
-		//	await AppStorage.Instance.NewInvoice(invoice);
-		//}
+		public async Task NewInvoice(Invoice invoice)
+		{
+			await invoice.EnsureRouteStop();
 
-		//public async Task UpdateInvoice(Invoice invoice)
-		//{
-		//	await AppStorage.Instance.UpdateInvoice(invoice);
-		//}
+			//Invoices.Add(invoice);
+			await AppStorage.Instance.NewInvoice(invoice);
+		}
+
+		public async Task UpdateInvoice(Invoice invoice)
+		{
+			await AppStorage.Instance.UpdateInvoice(invoice);
+		}
 
 		/* Xamarin.Forms Routing
 		 */
