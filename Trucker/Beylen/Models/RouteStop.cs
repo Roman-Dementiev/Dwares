@@ -191,15 +191,15 @@ namespace Beylen.Models
 		{
 			string info = string.Empty;
 			if (Status < RoutеStopStatus.Arrived) {
-				if (LegDuration != null) {
+				if (Leg?.DurationRequested == true) {
+					info = $"{StdGlyph.BlackHourglass} Requesting ETA...";
+				} else if (LegDuration != null) {
 					info = DurationString((TimeSpan)LegDuration);
 
 					if (ETA != null) {
 						var eta = TimeString((TimeSpan)ETA);
 						info += $"    ETA: {eta}";
 					}
-				} else {
-					info = $"{StdGlyph.BlackHourglass} Requesting ETA...";
 				}
 			}
 			else if (Status == RoutеStopStatus.Arrived) {

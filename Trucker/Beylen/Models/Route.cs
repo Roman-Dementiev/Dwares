@@ -22,8 +22,12 @@ namespace Beylen.Models
 			Date = date;
 			
 			Stops = new ObservableCollection<RouteStop>();
-			Stops.CollectionChanged += (s, e) => ResetLegs();
-
+			Stops.CollectionChanged += async (s, e) => {
+				ResetLegs();
+				UpdateLegs(true);
+				//UpdateETAs();
+				await CalculateDurations();
+			};
 		}
 		public DateOnly Date { get; }
 
@@ -117,10 +121,10 @@ namespace Beylen.Models
 			}
 
 			Debug.AssertIsNull(CurrentLegs);
-			UpdateLegs();
+			UpdateLegs(true);
 
-			Debug.AssertNotNull(stop.Leg);
-			RequestLegDuration(stop.Leg);
+			//Debug.AssertNotNull(stop.Leg);
+			//RequestLegDuration(stop.Leg);
 		}
 
 		public async Task DeleteStop(RouteStop stop)
@@ -362,7 +366,7 @@ namespace Beylen.Models
 			return null;
 		}
 
-		public List<RouteLeg> UpdateLegs()
+		public List<RouteLeg> UpdateLegs(bool requestETAs)
 		{
 			if (CurrentLegs == null)
 			{
@@ -381,6 +385,10 @@ namespace Beylen.Models
 								EndPoint = stop,
 								Status = legStatus
 							};
+
+							if (requestETAs) {
+								RequestLegDuration(stop.Leg);
+							}
 						}
 					}
 					CurrentLegs.Add(stop.Leg);
@@ -459,7 +467,7 @@ namespace Beylen.Models
 
 		public void RequestLegDurations()
 		{
-			var legs = UpdateLegs();
+			var legs = UpdateLegs(false);
 			foreach (var leg in legs) {
 				if (leg.Status != RouteLegStatus.Complete)
 					RequestLegDuration(leg);
@@ -511,6 +519,7 @@ namespace Beylen.Models
 						UpdateETAs();
 					}
 					leg.DurationRequested = false;
+					leg.EndPoint.UpdateInfo();
 				}
 			}
 			finally {
