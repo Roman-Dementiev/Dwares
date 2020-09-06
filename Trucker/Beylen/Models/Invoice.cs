@@ -92,7 +92,7 @@ namespace Beylen.Models
 				var route = AppScope.Instance.Route;
 				RouteStop = new CustomerStop(route, Customer);
 				try {
-					await route.AddNew(RouteStop);
+					await route.AddNew(RouteStop, true);
 				}
 				catch (Exception exc) {
 					Debug.ExceptionCaught(exc);

@@ -157,7 +157,7 @@ namespace Beylen
 				if (firstStop.Kind != RouteStopKind.StartPoint || firstStop.Status > RoutеStopStatus.Arrived) {
 					await Route.Start();
 				} else {
-					await Route.RequestLegDurations(true);
+					await Route.UpdateDurations();
 				}
 			}
 		}

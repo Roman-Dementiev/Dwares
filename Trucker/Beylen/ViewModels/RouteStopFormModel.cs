@@ -151,6 +151,7 @@ namespace Beylen.ViewModels
 		{
 			if (string.IsNullOrWhiteSpace(CodeName) || await AddStop()) {
 				await Shell.Current.Navigation.PopAsync();
+				await AppScope.Instance.Route.CalculateDurations();
 			} else {
 				Clear(true);
 			}
@@ -179,7 +180,7 @@ namespace Beylen.ViewModels
 
 			try {
 				var stop = new CustomerStop(route, customer);
-				await route.AddNew(stop);
+				await route.AddNew(stop, false);
 
 				if (CreateInvoice) {
 					var invoice = new Invoice(stop);

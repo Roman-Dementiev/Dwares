@@ -56,7 +56,7 @@ namespace Beylen.ViewModels
 		protected override async Task ReloadData(CollectionViewReloadMode mode)
 		{
 			var route = AppScope.Instance.Route;
-			await route.RequestLegDurations(true);
+			await route.UpdateDurations();
 			//await Task.Delay(2000);
 		}
 	}

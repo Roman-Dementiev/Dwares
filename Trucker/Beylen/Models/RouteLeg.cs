@@ -11,7 +11,7 @@ namespace Beylen.Models
 		Complete
 	}
 
-	public class RouteLeg : Model
+	public class RouteLeg //: Model
 	{
 		//static ClassRef @class = new ClassRef(typeof(RouteLeg));
 
@@ -20,35 +20,37 @@ namespace Beylen.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public RouteStop StartPoint {
-			get => startPoint;
-			set => SetProperty(ref startPoint, value);
-		}
-		RouteStop startPoint;
+		public RouteStop StartPoint { get; set; }
+		public RouteStop EndPoint { get; set; }
+		public RouteLegStatus Status { get; set; }
+		public TimeSpan? Duration { get; set; }
 
-		public RouteStop EndPoint {
-			get => endPoint;
-			set => SetProperty(ref endPoint, value);
-		}
-		RouteStop endPoint;
+		public bool DurationRequested { get; set; }
 
-		public RouteLegStatus Status {
-			get => status;
-			set => SetProperty(ref status, value);
-		}
-		RouteLegStatus status;
 
-		// Time in minutes
-		public TimeSpan? Duration {
-			get => duration;
-			set {
-				if (SetProperty(ref duration, value)) {
-					if (EndPoint != null) {
-						EndPoint.LegDuration = value;
-					}
-				}
-			}
-		}
-		TimeSpan? duration = null;
+		//public RouteStop StartPoint {
+		//	get => startPoint;
+		//	set => SetProperty(ref startPoint, value);
+		//}
+		//RouteStop startPoint;
+
+		//public RouteStop EndPoint {
+		//	get => endPoint;
+		//	set => SetProperty(ref endPoint, value);
+		//}
+		//RouteStop endPoint;
+
+		//public RouteLegStatus Status {
+		//	get => status;
+		//	set => SetProperty(ref status, value);
+		//}
+		//RouteLegStatus status;
+
+		//public TimeSpan? Duration {
+		//	get => duration;
+		//	set => SetProperty(ref duration, value);
+		//}
+		//TimeSpan? duration = null;
+
 	}
 }

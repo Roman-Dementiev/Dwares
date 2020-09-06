@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Dwares.Druid.Forms;
+using Dwares.Druid.Satchel;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
 
@@ -113,34 +114,23 @@ namespace Beylen.Models
 
 		public RouteLeg Leg {
 			get => leg;
-			set {
-				if (value != leg) {
-					if (leg != null) {
-						leg.PropertyChanged -= OnLegPropertyChanged;
-					}
-
-					SetProperty(ref leg, value);
-					
-					if (leg != null) {
-						leg.PropertyChanged += OnLegPropertyChanged;
-						LegDuration = leg.Duration;
-					} else {
-						LegDuration = null;
-					}
-				}
-			}
+			set => SetProperty(ref leg, value);
 		}
 		RouteLeg leg;
 
+		//public TimeSpan? LegDuration {
+		//	get => legDuration;
+		//	set {
+		//		if (SetProperty(ref legDuration, value)) {
+		//			UpdateInfo();
+		//		}
+		//	}
+		//}
+		//TimeSpan? legDuration = null;
+
 		public TimeSpan? LegDuration {
-			get => legDuration;
-			set {
-				if (SetProperty(ref legDuration, value)) {
-					UpdateInfo();
-				}
-			}
+			get => Leg?.Duration;
 		}
-		TimeSpan? legDuration = null;
 
 		public TimeSpan StopDuration {
 			// TODO
@@ -200,12 +190,16 @@ namespace Beylen.Models
 		public void UpdateInfo()
 		{
 			string info = string.Empty;
-			if (Status < RoutеStopStatus.Arrived && LegDuration != null) {
-				info = DurationString((TimeSpan)LegDuration);
+			if (Status < RoutеStopStatus.Arrived) {
+				if (LegDuration != null) {
+					info = DurationString((TimeSpan)LegDuration);
 
-				if (ETA != null) {
-					var eta = TimeString((TimeSpan)ETA);
-					info += $"    ETA: {eta}";
+					if (ETA != null) {
+						var eta = TimeString((TimeSpan)ETA);
+						info += $"    ETA: {eta}";
+					}
+				} else {
+					info = $"{StdGlyph.BlackHourglass} Requesting ETA...";
 				}
 			}
 			else if (Status == RoutеStopStatus.Arrived) {
@@ -228,12 +222,6 @@ namespace Beylen.Models
 		{
 			if (sender == Place) {
 				FromSource();
-			}
-		}
-		void OnLegPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (sender == Leg) {
-				LegDuration = Leg?.Duration;
 			}
 		}
 	}

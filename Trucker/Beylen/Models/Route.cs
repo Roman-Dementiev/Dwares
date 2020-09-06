@@ -79,10 +79,13 @@ namespace Beylen.Models
 			}
 		}
 
-		public async Task AddNew(RouteStop stop)
+		public async Task AddNew(RouteStop stop, bool calculateDuration)
 		{
 			await Add(stop, true);
-			await CalculateDurations();
+
+			if (calculateDuration) {
+				await CalculateDurations();
+			}
 		}
 
 		public async Task Add(RouteStop stop, bool addToStorage)
@@ -149,7 +152,7 @@ namespace Beylen.Models
 				}
 			}
 
-			UpdateETAs();
+			await UpdateDurations();
 		}
 
 
@@ -235,9 +238,8 @@ namespace Beylen.Models
 			IsStarted = true;
 
 			await AddEndPoint();
-			UpdateETAs();
-			
-			await RequestLegDurations(true);
+
+			await UpdateDurations();
 		}
 
 		public async Task Arrive(RouteStop stop)
@@ -254,7 +256,6 @@ namespace Beylen.Models
 
 			stop.ArrivalTime = DateTime.Now;
 			await ChangeStopStatus(stop, RoutеStopStatus.Arrived);
-			stop.Leg.Status = RouteLegStatus.Complete;
 
 			if (index < Stops.Count-1) {
 				// Trigger next RouteStopCardModel.UpdateFromSource();
@@ -266,8 +267,7 @@ namespace Beylen.Models
 				await DeleteStop(stop);
 			}
 
-			UpdateETAs();
-			await	RequestLegDurations(true);
+			await UpdateDurations();
 		}
 
 		public async Task Depart(RouteStop stop)
@@ -299,20 +299,23 @@ namespace Beylen.Models
 			if (index < Stops.Count-1) {
 				var next = Stops[index+1];
 				await ChangeStopStatus(next, RoutеStopStatus.Enroute);
-				next.Leg.Status = RouteLegStatus.Enroute;
 			}
 
 			if (DeleteStopOnCompleted) {
 				await DeleteStop(stop);
 			}
 
-			UpdateETAs();
-			await RequestLegDurations(true);
+			await UpdateDurations();
 		}
 
 		public async Task ChangeStopStatus(RouteStop stop, RoutеStopStatus status)
 		{
 			stop.Status = status;
+
+			if (stop.Leg != null) {
+				stop.Leg.Status = StopToLegStatus(stop);
+			}
+
 			await AppStorage.Instance.ChangeRouteStopStatus(stop);
 		}
 
@@ -450,19 +453,16 @@ namespace Beylen.Models
 				return;
 
 			RequestedDurations.Enqueue(leg);
+			leg.DurationRequested = true;
 		}
 
 
-		public async Task RequestLegDurations(bool calculate)
+		public void RequestLegDurations()
 		{
 			var legs = UpdateLegs();
 			foreach (var leg in legs) {
 				if (leg.Status != RouteLegStatus.Complete)
 					RequestLegDuration(leg);
-			}
-
-			if (calculate) {
-				await CalculateDurations();
 			}
 		}
 
@@ -478,29 +478,39 @@ namespace Beylen.Models
 
 				while (RequestedDurations.Count > 0) {
 					var leg = RequestedDurations.Dequeue();
-					if (leg.Status == RouteLegStatus.Complete)
+					if (leg.Status == RouteLegStatus.Complete) {
+						leg.DurationRequested = false;
 						continue;
-
-					var waypoints = new Waypoint[2];
-					if (leg.Status == RouteLegStatus.Enroute) {
-						var location = await Location.GetCurrentLocation();
-						waypoints[0] = Waypoint.FromLocation(WaypointType.SatrtPoint, location);
-					} else {
-						waypoints[0] = Waypoint.FromAddress(WaypointType.SatrtPoint, leg.StartPoint.Address);
 					}
-					waypoints[1] = Waypoint.FromAddress(WaypointType.EndPoint, leg.EndPoint.Address);
 
-					var options = new RouteOptions {
-						TravelMode = TravelMode.Driving,
-						HighwaysRestriction = Restriction.None,
-						TollsRestriction = Restriction.Avoid,
-						Optimization = Optimization.Default
-					};
+					try {
+						var waypoints = new Waypoint[2];
+						if (leg.Status == RouteLegStatus.Enroute) {
+							var location = await Location.GetCurrentLocation();
+							waypoints[0] = Waypoint.FromLocation(WaypointType.SatrtPoint, location);
+						} else {
+							waypoints[0] = Waypoint.FromAddress(WaypointType.SatrtPoint, leg.StartPoint.Address);
+						}
+						waypoints[1] = Waypoint.FromAddress(WaypointType.EndPoint, leg.EndPoint.Address);
 
-					var info = await maps.GetRouteInfo(waypoints, options);
+						var options = new RouteOptions {
+							TravelMode = TravelMode.Driving,
+							HighwaysRestriction = Restriction.None,
+							TollsRestriction = Restriction.Avoid,
+							Optimization = Optimization.Default
+						};
 
-					leg.Duration = info.TravelTime;
-					UpdateETAs();
+						var info = await maps.GetRouteInfo(waypoints, options);
+
+						leg.Duration = info.TravelTime;
+						UpdateETAs();
+					}
+					catch (Exception exc) {
+						Debug.ExceptionCaught(exc);
+						leg.Duration = null;
+						UpdateETAs();
+					}
+					leg.DurationRequested = false;
 				}
 			}
 			finally {
@@ -508,9 +518,17 @@ namespace Beylen.Models
 			}
 		}
 
-		public void CancelCalculations()
+		public async Task UpdateDurations()
 		{
-			RequestedDurations.Clear();
+			RequestLegDurations();
+			UpdateETAs();
+			await CalculateDurations();
+
 		}
+
+		//public void CancelCalculations()
+		//{
+		//	RequestedDurations.Clear();
+		//}
 	}
 }
