@@ -39,7 +39,7 @@ namespace Beylen.Models
 		private List<RouteLeg> PreviousLegs { get; set; }
 
 
-		public bool DeleteStopOnCompleted { get; set; } = false;
+		public bool DeleteStopOnCompleted { get; set; } = true;
 		public bool DirectionsForCurrentOnly { get; set; } = true;
 
 		public void Clear()
