@@ -9,7 +9,7 @@ using Xamarin.Essentials;
 
 namespace Dwares.Drums
 {
-	public class Coordinate: GeoCoordinate, ICoordinate
+	public class Coordinate: Xamarin.Essentials.Location, ICoordinate
 	{
 		public const string DefaultFormat = "{0:0.#####},{1:0.#####}";
 		
@@ -118,22 +118,21 @@ namespace Dwares.Drums
 			return ToString(DefaultFormat).GetHashCode();
 		}
 
+		public static bool IsValidLatitude(double latitude)
+		{
+			return !double.IsNaN(latitude) && latitude <= 90 && latitude >= -90;
+		}
+
+		public static bool IsValidLongitude(double longitude)
+		{
+			return !double.IsNaN(longitude) && longitude <= 90 && longitude >= -90;
+		}
 		#endregion
 
-		public static implicit operator Coordinate(GeoPosition pos)
-		{
-			return new Coordinate(pos.Latitude, pos.Longitude);
-		}
-
-		public static implicit operator GeoPosition(Coordinate c)
-		{
-			return new GeoPosition { Latitude = c.Latitude, Longitude = c.Longitude };
-		}
 
 		public static async Task<Coordinate> GetCurrentCoordinate()
 		{
 			var location = await Geolocation.GetLocationAsync();
-			//var geoPosition = await GeoLocator.GetPosition();
 			return new Coordinate(location.Latitude, location.Longitude);
 		}
 	}

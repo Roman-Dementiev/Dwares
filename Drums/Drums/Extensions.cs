@@ -9,7 +9,7 @@ namespace Dwares.Drums
 	{
 		public static bool IsValidCoordinate(this ICoordinate c)
 		{
-			return c != null && GeoCoordinate.IsValidLatitude(c.Latitude) && GeoCoordinate.IsValidLongitude(c.Longitude);
+			return c != null && Coordinate.IsValidLatitude(c.Latitude) && Coordinate.IsValidLongitude(c.Longitude);
 		}
 
 		public static bool IsValidLocation(this ILocation l)
