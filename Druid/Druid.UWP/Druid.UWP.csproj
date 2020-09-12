@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="AutoSuggestEntryRenderer.cs" />
     <Compile Include="CallingInfo.cs" />
+    <Compile Include="CollectionViewDraggableEffect.cs" />
     <Compile Include="DeviceOrientationSvc.cs" />
     <Compile Include="DeviceStorage.cs" />
     <Compile Include="Druid_UWP.cs" />
@@ -132,7 +133,7 @@
       <Version>6.1.7</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.1.0.673156</Version>
+      <Version>4.8.0.1269</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
