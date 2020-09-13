@@ -5,7 +5,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace DraggableListView.Models
 {
-	public class Marine : Model, IOrdinal	
+	public class Marine : Model, IOrdinal, INestedOrdinal
 	{
 		//static ClassRef @class = new ClassRef(typeof(Marine));
 
@@ -29,25 +29,25 @@ namespace DraggableListView.Models
 		}
 		int ordinal;
 
-		public int TeamOrdinal {
-			get => teamOrdinal;
-			set => SetProperty(ref teamOrdinal, value);
+		public int NestedOrdinal {
+			get => nestedOrdinal;
+			set => SetProperty(ref nestedOrdinal, value);
 		}
-		int teamOrdinal;
+		int nestedOrdinal;
 
 		public override string ToString() => FullName;
-		public int GetOrdinal(OrdinalType type)
-		{
-			return type == OrdinalType.Nested ? TeamOrdinal : Ordinal;
-		}
+		//public int GetOrdinal(OrdinalType type)
+		//{
+		//	return type == OrdinalType.Nested ? TeamOrdinal : Ordinal;
+		//}
 
-		public void SetOrdinal(int ordinal, OrdinalType type)
-		{
-			if (type == OrdinalType.Nested) {
-				TeamOrdinal = ordinal;
-			} else {
-				Ordinal = ordinal;
-			}
-		}
+		//public void SetOrdinal(int ordinal, OrdinalType type)
+		//{
+		//	if (type == OrdinalType.Nested) {
+		//		TeamOrdinal = ordinal;
+		//	} else {
+		//		Ordinal = ordinal;
+		//	}
+		//}
 	}
 }

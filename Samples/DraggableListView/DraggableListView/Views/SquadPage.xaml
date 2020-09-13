@@ -115,7 +115,7 @@
 
 							<Label Grid.Row="0" Grid.Column="0"
 									Margin="8,0"
-									Text="{Binding TeamOrdinal}" 
+									Text="{Binding NestedOrdinal}" 
 									FontAttributes="Bold"
 									FontSize="16"
 									VerticalOptions="Center"

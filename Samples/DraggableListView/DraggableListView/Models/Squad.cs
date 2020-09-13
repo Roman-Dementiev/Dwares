@@ -19,10 +19,10 @@ namespace DraggableListView.Models
 
 		public Marine SquadLeader { get; set; }
 
-		public GroupedOrderableCollection<FireTeam> Teams {
-			get => teams ??= new GroupedOrderableCollection<FireTeam>();
+		public GroupedOrderableCollection<FireTeam, Marine> Teams {
+			get => teams ??= new GroupedOrderableCollection<FireTeam, Marine>();
 			set => teams = value;
 		}
-		GroupedOrderableCollection<FireTeam> teams;
+		GroupedOrderableCollection<FireTeam, Marine> teams;
 	}
 }

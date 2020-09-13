@@ -17,6 +17,8 @@ namespace Dwares.Dwarf.Collections
 		public OrderableCollection()
 		{
 			//Debug.EnableTracing(@class);
+
+			this.CollectionChanged += HandleCollectionChanged;
 		}
 
 		public bool AutoOrdinals {
@@ -64,9 +66,9 @@ namespace Dwares.Dwarf.Collections
 			Items.Insert(latterIndex, changedItem);
 			Items.RemoveAt(priorIndex);
 
-			if (AutoOrdinals) {
-				ResetOrdinals();
-			}
+			//if (AutoOrdinals) {
+			//	ResetOrdinals();
+			//}
 
 			OrderChanged?.Invoke(this, EventArgs.Empty);
 
@@ -81,13 +83,32 @@ namespace Dwares.Dwarf.Collections
 		public virtual void ResetOrdinals(OrdinalType type = OrdinalType.Default)
 		{
 			int ordinal = StartingOrdinal;
-			foreach (var item in Items) {
-				if (item is IOrdinal ordinalItem) {
-					ordinalItem.SetOrdinal(ordinal, type);
-				}
-				ordinal++;
-			}
 
+			if (type == OrdinalType.Nested)
+			{
+				foreach (var item in Items) {
+					if (item is INestedOrdinal ordinalItem) {
+						ordinalItem.NestedOrdinal = ordinal;
+					}
+					ordinal++;
+				}
+			}
+			else {
+				foreach (var item in Items) {
+					if (item is IOrdinal ordinalItem) {
+						ordinalItem.Ordinal = ordinal;
+					}
+					ordinal++;
+				}
+
+			}
+		}
+
+		protected virtual void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (AutoOrdinals) {
+				ResetOrdinals();
+			}
 		}
 	}
 }

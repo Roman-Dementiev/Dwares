@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 
@@ -11,6 +14,9 @@ namespace Dwares.Dwarf.Collections
 		Up,
 		Down
 	}
+
+	// NOTE: AutoOrdinals odoes not work for nested items in GroupedOrderableCollection<TGroup>.
+	//       Use GroupedOrderableCollection<TGroup, TItem> instead.
 
 	public class GroupedOrderableCollection<TGroup> : OrderableCollection<TGroup>, IGroupedOrderableCollection
 		where TGroup : class, IOrderableCollection
@@ -52,15 +58,15 @@ namespace Dwares.Dwarf.Collections
 
 
 			newGroup.Insert(latterNestedIndex, changedItem);
-			oldGroup.RemoveAt(priorNestedIndex);
+			((IList)oldGroup).RemoveAt(priorNestedIndex);
 
-			if (AutoOrdinals) {
-				oldGroup.ResetOrdinals(OrdinalType.Nested);
+			//if (AutoOrdinals) {
+			//	oldGroup.ResetOrdinals(OrdinalType.Nested);
 
-				if (newGroup != oldGroup) {
-					newGroup.ResetOrdinals(OrdinalType.Nested);
-				}
-			}
+			//	if (newGroup != oldGroup) {
+			//		newGroup.ResetOrdinals(OrdinalType.Nested);
+			//	}
+			//}
 
 			OrderChanged?.Invoke(
 				this,
@@ -146,6 +152,49 @@ namespace Dwares.Dwarf.Collections
 
 			}
 			return -1;
+		}
+
+	}
+
+	public class GroupedOrderableCollection<TGroup, TItem> : GroupedOrderableCollection<TGroup>
+		where TGroup : class, IList<TItem>, IOrderableCollection
+	{
+		//static ClassRef @class = new ClassRef(typeof(GroupedOrderableCollection));
+
+		public GroupedOrderableCollection()
+		{
+			//Debug.EnableTracing(@class);
+		}
+
+		protected override void HandleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			base.HandleCollectionChanged(sender, e);
+
+			if (e.Action == NotifyCollectionChangedAction.Move)
+				return;
+
+			if (e.OldItems != null) {
+				foreach (var item in e.OldItems) {
+					if (item is ObservableCollection<TItem> group) {
+						group.CollectionChanged -= NestedCollectionChanged;
+					}
+				}
+			}
+
+			if (e.NewItems != null) {
+				foreach (var item in e.NewItems) {
+					if (item is ObservableCollection<TItem> group) {
+						group.CollectionChanged += NestedCollectionChanged;
+					}
+				}
+			}
+		}
+
+		protected void NestedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (AutoOrdinals && sender is TGroup group) {
+				group.ResetOrdinals(OrdinalType.Nested);
+			}
 		}
 	}
 }

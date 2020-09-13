@@ -26,7 +26,7 @@ namespace DraggableListView.Services
 				int teamOrdinal = 0;
 				foreach (var marine in team) {
 					marine.Ordinal = ++ordinal;
-					marine.TeamOrdinal = ++teamOrdinal;
+					marine.NestedOrdinal = ++teamOrdinal;
 				}
 			}
 		}
@@ -86,7 +86,7 @@ namespace DraggableListView.Services
 		Squad Squad = new Squad {
 			Name = "First Squad",
 			SquadLeader = new Marine { FirstName = "Theo", LastName = "Robrecht", Rank = Ranks.Sergeant },
-			Teams = new GroupedOrderableCollection<FireTeam> {
+			Teams = new GroupedOrderableCollection<FireTeam, Marine> {
 				new FireTeam("Alpha", new Marine { FirstName = "Ardito", LastName = "Prabhakar", Rank = Ranks.Corporal}) {
 					new Marine { FirstName = "Gerolamo", LastName = "Brett", Rank = Ranks.LanceCorporal },
 					new Marine { FirstName = "Neo", LastName = "Devaraja", Rank = Ranks.LanceCorporal },

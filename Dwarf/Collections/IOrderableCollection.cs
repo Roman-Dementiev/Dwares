@@ -5,6 +5,12 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Collections
 {
+	public enum OrdinalType
+	{
+		Default,
+		Nested
+	}
+
 	public interface IOrderableCollection : IList
 	{
 		/// <summary>
