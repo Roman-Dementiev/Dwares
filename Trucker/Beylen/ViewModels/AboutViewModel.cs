@@ -1,10 +1,10 @@
 ﻿using Dwares.Druid;
 using Dwares.Druid.UI;
+using Dwares.Druid.ViewModels;
 using System;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+
 
 namespace Beylen.ViewModels
 {
@@ -21,7 +21,7 @@ namespace Beylen.ViewModels
 			//});
 		}
 
-		public ICommand OpenWebCommand { get; }
-		//public ICommand GoBackCommand { get; }
+		public Command OpenWebCommand { get; }
+		//public Command GoBackCommand { get; }
 	}
 }

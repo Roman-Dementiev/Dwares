@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+			 xmlns:controls="clr-namespace:RouteOptimizer.Controls"
+			 x:Class="RouteOptimizer.Views.PlaceCard"
+			 >
+	<ui:FrameEx Flavor="{Binding CardFrameFlavor}">
+		<ui:GridEx Flavor="Card-grid">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<!-- Placeholder -->
+			<ui:ArtButton Grid.Row="0" Grid.Column="0"
+						  Flavor="Card-add-button"
+						  IconArt="ic_add_item"
+						  Command="{Binding AddCommand}"
+						  IsVisible="{Binding IsPlaceholder}"
+						  />
+
+			<!-- Regular view -->
+			<ui:GridEx Grid.Row="0" Grid.Column="0"
+					   IsVisible="{Binding IsRegular, Mode=OneWay}"
+					   >
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				
+				<ui:LabelEx Grid.Row="0" Grid.Column="0"
+							Flavor="Card-text-bold"
+							Text="{Binding Name, Mode=OneWay}"
+							/>
+
+				<ui:LabelEx Grid.Row="1" Grid.Column="0"
+							Flavor="Card-text-default"
+							Text="{Binding Tags, Mode=OneWay}"
+							IsVisible="{Binding HasTags, Mode=OneWay}"
+							/>
+				
+				<ui:LabelEx Grid.Row="2" Grid.Column="0"
+							Flavor="Card-text-default"
+							Text="{Binding Address, Mode=OneWay}"
+							/>
+			</ui:GridEx>
+
+			<!-- Editing view -->
+			<ui:GridEx Grid.Row="0" Grid.Column="0"
+					   IsVisible="{Binding IsEditing, Mode=OneWay}">
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				
+				<ui:LabelEx Grid.Row="0" Grid.Column="0"
+							Flavor="Card-lead-label"
+							Text="Name:"
+							/>
+				<ui:EntryEx Grid.Row="0" Grid.Column="1"
+							Flavor="Card-entry"
+							Text="{Binding EditName, Mode=TwoWay}"
+							/>
+
+				<ui:LabelEx Grid.Row="1" Grid.Column="0"
+							Flavor="Card-lead-label"
+							Text="Tags:"
+							/>
+				<controls:AutoSuggestEntryEx Grid.Row="1" Grid.Column="1"
+											 Flavor="Card-asentry"
+											 Text="{Binding EditTags, Mode=TwoWay}"
+											 SuggestionsSource="{Binding SuggestedTags}"
+											 ChoosenSuggestion="{Binding ChoosenTagSuggestion, Mode=OneWayToSource}"
+											 MinSuggestionLength="1"
+											 />
+				
+				<ui:LabelEx Grid.Row="2" Grid.Column="0"
+							Flavor="Card-lead-label"
+							Text="Address:"
+							/>
+				<ui:EditorEx Grid.Row="2" Grid.Column="1"
+							 Flavor="Card-editor"
+							 Text="{Binding EditAddress, Mode=TwoWay}"
+							 />
+			</ui:GridEx>
+
+			<!-- Separator -->
+			<ui:BoxViewEx Grid.Row="1" Grid.Column="0"
+						  Flavor="Card-separator"
+						  IsVisible="{Binding IsSelected, Mode=OneWay}"
+						  />
+
+			<!-- Action buttons -->
+			<StackLayout Grid.Row="2" Grid.Column="0"
+						 Orientation="Horizontal"
+						 IsVisible="{Binding IsSelected, Mode=OneWay}"
+						 >
+				<Label HorizontalOptions="StartAndExpand" Text="" />
+
+				<ui:ArtButton Flavor="Card-action-button"
+							  IconArt="ic_edit.small"
+							  LabelText="Edit"
+							  IsVisible="{Binding IsRegular}"
+							  Command="{Binding EditCommand}"
+							  CommandParameter="{Binding Self}"
+							  />
+				<ui:ArtButton Flavor="Card-action-button"
+							  IconArt="ic_delete.small"
+							  LabelText="Delete"
+							  IsVisible="{Binding IsRegular}"
+							  Command="{Binding DeleteCommand}"
+							  CommandParameter="{Binding Self}"
+							  />
+
+				<ui:ArtButton Flavor="Card-action-button"
+							  IconArt="ic_save.small"
+							  LabelText="Save"
+							  IsVisible="{Binding IsEditing}"
+							  Command="{Binding SaveCommand}"
+							  />
+				<ui:ArtButton Flavor="Card-action-button"
+							  IconArt="ic_clear.small"
+							  LabelText="Cancel"
+							  IsVisible="{Binding IsEditing}"
+							  Command="{Binding CancelCommand}"
+							  />
+			</StackLayout>
+		</ui:GridEx>
+	</ui:FrameEx>
+</ContentView>

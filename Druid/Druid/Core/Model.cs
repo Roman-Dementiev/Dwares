@@ -56,7 +56,7 @@ namespace Dwares.Druid
 			}
 		}
 
-		protected override void PropertiesChanged(IEnumerable<string> names)
+		protected override void FirePropertiesChanged(IEnumerable<string> names)
 		{
 			if (NotificationsSuspended) {
 				changedProperties.UnionWith(names);
@@ -67,7 +67,7 @@ namespace Dwares.Druid
 
 		protected void DoNotification(IEnumerable<string> changedProperties)
 		{
-			base.PropertiesChanged(changedProperties);
+			base.FirePropertiesChanged(changedProperties);
 
 			if (ModelChanged != null) {
 				var e = new ModelChangedEventArgs(changedProperties);

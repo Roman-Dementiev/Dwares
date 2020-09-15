@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					xmlns:controls="clr-namespace:RouteOptimizer.Controls"
+					x:Class="RouteOptimizer.Themes.Default"
+					>
+
+	<Style x:Key="Card-frame-default" TargetType="Frame">
+		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="16" />
+		<Setter Property="BorderColor" Value="Transparent" />
+		<!--<Setter Property="BackgroundColor" Value="Transparent" />-->
+	</Style>
+	
+	<Style x:Key="Card-frame-selected" TargetType="Frame">
+		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="16" />
+		<Setter Property="BorderColor" Value="Black" />
+		<!--<Setter Property="BackgroundColor" Value="Transparent" />-->
+	</Style>
+
+	<Style x:Key="Card-grid" TargetType="Grid">
+		<Setter Property="Margin" Value="-12" />
+	</Style>
+
+	<Style x:Key="Card-text-default" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Card-text-bold" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+
+	<Style x:Key="Card-separator" TargetType="BoxView">
+		<Setter Property="HeightRequest" Value="1" />
+		<Setter Property="BackgroundColor" Value="Black" />
+	</Style>
+	
+	<Style x:Key="Card-add-button" TargetType="ui:ArtButton">
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="VerticalOptions" Value="Start" />
+	</Style>
+	
+	<Style x:Key="Card-action-button" TargetType="ui:ArtButton">
+		<Setter Property="Margin" Value="-1,-8" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="Card-lead-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="HorizontalOptions" Value="End" />
+		<Setter Property="VerticalOptions" Value="Center" />
+	</Style>
+
+	<Style x:Key="Card-entry" TargetType="Entry">
+		<!--<Setter Property="Margin" Value="0,-12,0,0" />-->
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Card-asentry" TargetType="controls:AutoSuggestEntryEx">
+		<Setter Property="TextSize" Value="16" />
+	</Style>
+	<Style x:Key="Card-editor" TargetType="Editor">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="HeightRequest" Value="70" />
+	</Style>
+
+</ResourceDictionary>

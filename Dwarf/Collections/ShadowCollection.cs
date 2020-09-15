@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dwares.Dwarf.Toolkit;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,14 +23,13 @@ namespace Dwares.Dwarf.Collections
 				);
 		}
 
-		ObservableCollection<SourceItem> source = null;
+		public Func<SourceItem, ShadowItem> ItemFactory { get; protected set; }
+
 		public ObservableCollection<SourceItem> Source {
 			get => source;
 			set => SetSource(value, ItemFactory);
 		}
-
-		public Func<SourceItem, ShadowItem> ItemFactory { get; protected set; }
-		//public bool SameOrder { get; set; } = false;
+		ObservableCollection<SourceItem> source = null;
 
 		public virtual void SetSource(
 			ObservableCollection<SourceItem> newSource, 
@@ -48,7 +48,7 @@ namespace Dwares.Dwarf.Collections
 			ItemFactory = itemFactory ?? ((sourceItem) => sourceItem as ShadowItem);
 
 			if (newSource != null) {
-				AddShadows(newSource);
+				AddShadows();
 				newSource.CollectionChanged += SourceCollectionChanged;
 			}
 
@@ -57,106 +57,124 @@ namespace Dwares.Dwarf.Collections
 			}
 		}
 
-		protected void AddShadows(IList items)
+		public bool HasPlaceholder {
+			get => Placeholder != null;
+		}
+		public ShadowItem Placeholder {
+			get => placeholder;
+			set {
+				if (value == placeholder)
+					return;
+
+				if (placeholder != null) {
+					Remove(placeholder);
+				}
+				if (value != null) {
+					Add(value);
+				}
+				placeholder = value;
+				OnPropertyChanged(new PropertyChangedEventArgs(nameof(Placeholder)));
+				OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasPlaceholder)));
+			}
+		}
+		ShadowItem placeholder;
+
+		//public void UsePlaceholder(ShadowItem placeholder)
+		//{
+		//	if (placeholder == Placeholder)
+		//		return;
+
+		//	if (Placeholder != null) {
+		//		Remove(Placeholder);
+		//	}
+		//	if (placeholder != null) {
+		//		Add(Placeholder);
+		//	}
+
+		//	Placeholder = placeholder;
+		//	OnPropertyChanged(new PropertyChangedEventArgs(nameof(Placeholder)));
+		//}
+
+		//void UsePlaceholder(bool usePlaceholde, ShadowItem placeholder)
+		//{
+		//	Placeholder = placeholder;
+
+		//	if (usePlaceholde != HasPlaceholder)
+		//	{
+		//		HasPlaceholder = usePlaceholde;
+		//		if (usePlaceholde) {
+		//			Guard.ArgumentNotNull(placeholder, nameof(placeholder));
+		//			Add(Placeholder);
+		//		} else {
+		//			Remove(Placeholder);
+		//		}
+		//	}
+		//}
+
+		protected void AddShadows()
 		{
 			if (Source == null)
 				return;
 
-			foreach (var item in items) {
+			foreach (var item in Source) {
 				var shadowItem = ShadowFromObject(item);
 				if (shadowItem != null) {
 					Add(shadowItem);
 				}
 			}
+
+			if (HasPlaceholder) {
+				Add(Placeholder);
+			}
 		}
 
-		protected void InsertShadows(int startinIndex, IList items)
+		protected void RecollectShadows(bool fullRecollect = true)
 		{
-			if (Source == null)
+			if (Source == null) {
+				Clear();
 				return;
-			if (false/*SameOrder*/) { // TODO
-				int index = startinIndex;
-				foreach (var item in items) {
+			}
+
+			if (fullRecollect) {
+				Clear();
+				AddShadows();
+			}
+			else
+			{
+				int i, first;
+				for (first = 0; first < Source.Count; first++) {
+					if (first < this.Count) {
+						var shadow = this[first];
+						if (shadow is ISourced<SourceItem> sourced) {
+							if (Equals(sourced.Source, Source[first]))
+								continue;
+						}
+					}
+					break;
+				}
+
+
+				for (i = this.Count - 1; i >= first; i--) {
+					RemoveAt(i);
+				}
+
+				for (i = first; i < Source.Count; i++) {
+					var item = Source[i];
 					var shadowItem = ShadowFromObject(item);
 					if (shadowItem != null) {
-						Insert(index++, shadowItem);
+						Add(shadowItem);
 					}
 				}
-			} else {
-				ResetShadows();
-			}
-		}
 
-		protected void RemoveShadows(int startingIndex, int count)
-		{
-			if (false/*SameOrder*/) { // TODO
-				for (int i = startingIndex + count - 1; i >= startingIndex; i--) {
-					RemoveItem(i);
+				if (HasPlaceholder) {
+					Add(Placeholder);
 				}
-			} else {
-				ResetShadows();
-			}
-		}
-
-		protected void MoveShadows(int oldStartingIndex, int newStartingIndex, int count)
-		{
-			if (false /*SameOrder*/) { // TODO
-				if (newStartingIndex == oldStartingIndex)
-					return;
-
-				if (newStartingIndex < oldStartingIndex) {
-					int oldIndex = oldStartingIndex;
-					int newIndex = newStartingIndex;
-					for (int i = 0; i < count; i++) {
-						MoveItem(oldIndex++, newIndex++);
-					}
-				} else {
-					int oldIndex = oldStartingIndex + count - 1;
-					int newIndex = newStartingIndex + count - 1;
-					for (int i = 0; i < count; i++) {
-						MoveItem(oldIndex--, newIndex--);
-					}
-
-				}
-			} else {
-				ResetShadows();
-			}
-		}
-
-		protected void ResetShadows()
-		{
-			Clear();
-
-			if (Source != null) {
-				AddShadows(Source);
 			}
 		}
 
 		private void SourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			switch (e.Action)
-			{
-			case NotifyCollectionChangedAction.Add:
-				InsertShadows(e.NewStartingIndex, e.NewItems);
-				break;
-
-			case NotifyCollectionChangedAction.Remove:
-				RemoveShadows(e.OldStartingIndex, e.OldItems.Count);
-				break;
-
-			case NotifyCollectionChangedAction.Replace:
-				RemoveShadows(e.OldStartingIndex, e.OldItems.Count);
-				InsertShadows(e.NewStartingIndex, e.NewItems);
-				break;
-
-			case NotifyCollectionChangedAction.Move:
-				MoveShadows(e.OldStartingIndex, e.NewStartingIndex, e.OldItems.Count);
-				break;
-			
-			default:
-				ResetShadows();
-				break;
-			}
+			RecollectShadows();
 		}
 
 		protected ShadowItem ShadowFromObject(object item)

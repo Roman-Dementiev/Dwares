@@ -112,8 +112,8 @@
       <Project>{c5c24d8f-7601-479f-9b29-ab8eb00d613c}</Project>
       <Name>Dwarf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj">
-      <Project>{ed95288f-bfb0-4f9a-a88b-c5e027ddec6e}</Project>
+    <ProjectReference Include="..\..\Samples\AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj">
+      <Project>{90a3ef82-8ccb-411c-85dc-2d3931e1848b}</Project>
       <Name>dotMorten.Xamarin.Forms.AutoSuggestBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\Beylen\Beylen.csproj">

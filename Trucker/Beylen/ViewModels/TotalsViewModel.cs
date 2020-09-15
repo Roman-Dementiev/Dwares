@@ -1,6 +1,7 @@
 ﻿using System;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Dwares.Druid.ViewModels;
 
 
 namespace Beylen.ViewModels

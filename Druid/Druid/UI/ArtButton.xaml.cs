@@ -6,7 +6,7 @@ using Dwares.Druid.Painting;
 using Dwares.Druid.Satchel;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf;
-
+using Xamarin.Forms.Markup;
 
 namespace Dwares.Druid.UI
 {

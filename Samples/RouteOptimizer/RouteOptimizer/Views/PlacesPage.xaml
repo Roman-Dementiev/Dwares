@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:views="clr-namespace:RouteOptimizer.Views"
+				xmlns:vm="clr-namespace:RouteOptimizer.ViewModels"
+				Title="{Binding Title}"
+				x:Class="RouteOptimizer.Views.PlacesPage"
+				>
+
+	<ContentPage.BindingContext>
+		<vm:PlacesViewModel/>
+	</ContentPage.BindingContext>
+	
+	<!--<ContentPage.Resources>
+		<ResourceDictionary>
+		</ResourceDictionary>
+	</ContentPage.Resources>-->
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Order="Primary" Text="Add" Command="{Binding AddCommand}" />
+		<ToolbarItem Order="Secondary" Text="Email content" Command="{Binding EmailCommand}" />
+		<ToolbarItem Order="Secondary" Text="Share content" Command="{Binding ShareCommand}" />
+	</ContentPage.ToolbarItems>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<ui:ListViewEx Grid.Row="0" Grid.Column="0"
+					   ItemsSource="{Binding Items}"
+					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+					   SelectionMode="Single"
+					   HasUnevenRows="True"
+					   IsPullToRefreshEnabled="True"
+					   RefreshCommand="{Binding RefreshCommand}"
+					   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+					   >
+
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<views:PlaceCard />
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ui:ListViewEx>
+
+	</Grid>
+</ui:ShellPageEx>
+	

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Druid;
+using Dwares.Druid.ViewModels;
 using Beylen.Models;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Beylen.ViewModels
 {

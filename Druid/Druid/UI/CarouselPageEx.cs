@@ -1,6 +1,7 @@
 ﻿using System;
-using Xamarin.Forms;
 using Dwares.Dwarf;
+using Dwares.Druid.ViewModels;
+using Xamarin.Forms;
 
 
 namespace Dwares.Druid.UI

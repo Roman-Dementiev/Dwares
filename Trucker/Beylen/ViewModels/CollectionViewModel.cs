@@ -4,7 +4,9 @@ using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid;
+using Dwares.Druid.ViewModels;
 using System.Threading.Tasks;
+
 
 namespace Beylen.ViewModels
 {
@@ -100,7 +102,7 @@ namespace Beylen.ViewModels
 			}
 			finally {
 				reloading = false;
-				ClearBusy();
+				EndBusy();
 			}
 		}
 		bool reloading = false;

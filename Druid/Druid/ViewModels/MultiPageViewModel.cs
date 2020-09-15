@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 using Dwares.Dwarf;
 
 
-namespace Dwares.Druid
+namespace Dwares.Druid.ViewModels
 {
 	public enum MultiPageTitleMode
 	{

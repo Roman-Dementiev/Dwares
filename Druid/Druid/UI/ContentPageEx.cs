@@ -141,7 +141,21 @@ namespace Dwares.Druid.UI
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
+
+			if (BindingContext is IActivatable activatable) {
+				activatable.Activate();
+			}
+
 			Scope?.UpdateCommands();
+		}
+
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+
+			if (BindingContext is IActivatable activatable) {
+				activatable.Deactivate();
+			}
 		}
 
 		protected virtual View GetContentView() => Content;

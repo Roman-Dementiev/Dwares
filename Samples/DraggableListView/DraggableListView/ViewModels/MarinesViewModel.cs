@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
-using Dwares.Druid;
+using Dwares.Druid.ViewModels;
 using DraggableListView.Models;
 using DraggableListView.Services;
 

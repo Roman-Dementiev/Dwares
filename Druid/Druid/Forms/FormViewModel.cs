@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
+using Dwares.Druid.ViewModels;
 
 
 namespace Dwares.Druid.Forms
@@ -59,7 +60,7 @@ namespace Dwares.Druid.Forms
 				error = exc;
 			}
 			finally {
-				ClearBusy();
+				EndBusy();
 			}
 
 			if (error != null) {

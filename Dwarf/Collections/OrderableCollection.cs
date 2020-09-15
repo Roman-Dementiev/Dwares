@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -66,11 +68,7 @@ namespace Dwares.Dwarf.Collections
 			Items.Insert(latterIndex, changedItem);
 			Items.RemoveAt(priorIndex);
 
-			//if (AutoOrdinals) {
-			//	ResetOrdinals();
-			//}
-
-			OrderChanged?.Invoke(this, EventArgs.Empty);
+			FireOrderChanged();
 
 			OnCollectionChanged(
 				new NotifyCollectionChangedEventArgs(
@@ -80,27 +78,36 @@ namespace Dwares.Dwarf.Collections
 					oldIndex));
 		}
 
-		public virtual void ResetOrdinals(OrdinalType type = OrdinalType.Default)
+		protected void FireOrderChanged()
 		{
-			int ordinal = StartingOrdinal;
+			OrderChanged?.Invoke(this, EventArgs.Empty);
+		}
 
-			if (type == OrdinalType.Nested)
-			{
-				foreach (var item in Items) {
+		public virtual void ResetOrdinals(OrdinalType ordinalType = OrdinalType.Default)
+		{
+			ResetOrdinals(Items, ordinalType, StartingOrdinal);
+		}
+
+
+		// For internal use by other implementations of IOrderableCollection
+		public static void ResetOrdinals(IList<T> items, OrdinalType ordinalType, int startingOrdinal)
+		{
+			int ordinal = startingOrdinal;
+
+			if (ordinalType == OrdinalType.Nested) {
+				foreach (var item in items) {
 					if (item is INestedOrdinal ordinalItem) {
 						ordinalItem.NestedOrdinal = ordinal;
 					}
 					ordinal++;
 				}
-			}
-			else {
-				foreach (var item in Items) {
+			} else {
+				foreach (var item in items) {
 					if (item is IOrdinal ordinalItem) {
 						ordinalItem.Ordinal = ordinal;
 					}
 					ordinal++;
 				}
-
 			}
 		}
 

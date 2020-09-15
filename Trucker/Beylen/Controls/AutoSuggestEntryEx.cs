@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Dwares.Dwarf;
 using Dwares.Druid.UI;
 using Xamarin.Forms;
 using dotMorten.Xamarin.Forms;
-using System.Collections;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 
 namespace Beylen.Controls

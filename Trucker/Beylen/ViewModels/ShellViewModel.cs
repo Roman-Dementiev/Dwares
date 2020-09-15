@@ -3,6 +3,8 @@ using Dwares.Dwarf;
 using Dwares.Druid;
 using Xamarin.Forms;
 using Beylen.Views;
+using Dwares.Druid.ViewModels;
+
 
 namespace Beylen.ViewModels
 {

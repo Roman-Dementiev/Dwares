@@ -29,7 +29,7 @@ namespace Dwares.Dwarf.Collections
 		/// 
 		void ChangeOrder(int oldIndex, int newIndex);
 
-		void ResetOrdinals(OrdinalType type);
+		void ResetOrdinals(OrdinalType ordinalType);
 	}
 
 }

@@ -14,25 +14,26 @@ namespace Dwares.Dwarf.Toolkit
 
 		protected virtual void FirePropertyChanged([CallerMemberName] string propertyName = "")
 		{
-			if (PropertyChanged != null) {
+			if (PropertyChanged != null && propertyName != null) {
 				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 
-		protected virtual void PropertiesChanged(IEnumerable<string> names)
+		protected virtual void FirePropertiesChanged(IEnumerable<string> names)
 		{
-			var changed = PropertyChanged;
-			if (changed != null)
+			if (PropertyChanged != null)
 			{
 				foreach (var propertyName in names) {
-					changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+					if (propertyName != null) {
+						PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+					}
 				}
 			}
 		}
 
-		protected void PropertiesChanged(params string[] names)
+		protected void FirePropertiesChanged(params string[] names)
 		{
-			PropertiesChanged((IEnumerable<string>)names);
+			FirePropertiesChanged((IEnumerable<string>)names);
 		}
 
 		//protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
@@ -101,7 +102,7 @@ namespace Dwares.Dwarf.Toolkit
 			storage = value;
 			if (setModified)
 				IsModified = true;
-			PropertiesChanged(changedProperties);
+			FirePropertiesChanged(changedProperties);
 			return true;
 		}
 
@@ -119,7 +120,7 @@ namespace Dwares.Dwarf.Toolkit
 
 			storage.Value = value;
 			IsModified = true;
-			PropertiesChanged(changedProperties);
+			FirePropertiesChanged(changedProperties);
 			return true;
 		}
 
@@ -130,7 +131,7 @@ namespace Dwares.Dwarf.Toolkit
 
 			storage.Text = text;
 			IsModified = true;
-			PropertiesChanged(changedProperties);
+			FirePropertiesChanged(changedProperties);
 			return true;
 		}
 

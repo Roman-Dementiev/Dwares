@@ -3,7 +3,7 @@ using System.Linq;
 using Dwares.Dwarf;
 using Dwares.Druid.Effects;
 using Xamarin.Forms;
-
+using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.UI
 {
@@ -15,6 +15,7 @@ namespace Dwares.Druid.UI
 			//Debug.EnableTracing(@class);
 
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
+			this.ItemSelected += OnItemSelected;
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -62,6 +63,24 @@ namespace Dwares.Druid.UI
 				//if (effect != null) {
 				//	Effects.Remove(effect);
 				//}
+			}
+		}
+
+		public ISelectionHandler SelectionHandler {
+			get => selectionHandler ?? BindingContext as ISelectionHandler;
+			set => selectionHandler = value;
+		}
+		ISelectionHandler selectionHandler;
+
+		private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+		{
+			var selectionHandler = SelectionHandler;
+			if (selectionHandler != null) {
+				var selectedItem = e.SelectedItem;
+				selectionHandler.OnSelectedChanged(ref selectedItem, e.SelectedItemIndex);
+				if (selectedItem != e.SelectedItem) {
+					this.SelectedItem = selectedItem;
+				}
 			}
 		}
 	}
