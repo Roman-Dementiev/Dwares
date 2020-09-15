@@ -1,0 +1,285 @@
+﻿{
+  "Version": 1,
+  "Places": [
+    {
+      "Name": "St. Christopher's Hospital for Children",
+      "Tags": "hospital",
+      "Address": "160 W Erie Ave\nPhiladelphia, PA 19140"
+    },
+    {
+      "Name": "Shrines Hospital for Children",
+      "Tags": "hospital",
+      "Address": "3551 N Broad St\nPhiladelphia, PA 19140"
+    },
+    {
+      "Name": "Temple University Hospital",
+      "Tags": "hospital",
+      "Address": "3401 N Broad St\nPhiladelphia, PA 19140"
+    },
+    {
+      "Name": "Temple Health - Episcopal Campus",
+      "Tags": "hospital",
+      "Address": "100 E Lehigh Ave\nPhiladelphia, PA 29125"
+    },
+    {
+      "Name": "RMM Medical Corp",
+      "Tags": "hospital",
+      "Address": "2656 N 16 St\nPhiladelphia, PA 19132"
+    },
+    {
+      "Name": "Kensington Hospital",
+      "Tags": "hospital",
+      "Address": "136 Diamond St\nPhiladelphia, PA 19122"
+    },
+    {
+      "Name": "Temple ReadyCare - Port Richmond",
+      "Tags": "hospital",
+      "Address": "2301 E Allegheny Ave\nPhiladelphia, PA 19134"
+    },
+    {
+      "Name": "Vybe Urgent Care - Port Richmond/Fishtown",
+      "Tags": "hospital",
+      "Address": "3356 Aramingo Ave\nPhiladelphia, PA 19134"
+    },
+    {
+      "Name": "Cancer Treatment Center of America (CTCA) Philadelphia",
+      "Tags": "hospital",
+      "Address": "1331 E Wyoming Ave\nPhiladelphia, PA 19124"
+    },
+    {
+      "Name": "Einstein Medical Center - Philadelphia",
+      "Tags": "hospital",
+      "Address": "5501 Old York Rd\nPhiladelphia, PA 19141"
+    },
+    {
+      "Name": "Einstein Medical Center - Germantown",
+      "Tags": "hospital",
+      "Address": "1 Penn Blvd\nPhiladelphia, PA 19144"
+    },
+    {
+      "Name": "Jefferson Frankford Hospital",
+      "Tags": "hospital",
+      "Address": "4900 Frankford Ave\nPhiladelphia, PA 19124"
+    },
+    {
+      "Name": "Hahnemann University Hospital",
+      "Tags": "hospital",
+      "Address": "230 N Broad St\nPhiladelphia, PA 19102"
+    },
+    {
+      "Name": "Philadelphia Northeast",
+      "Tags": "hospital",
+      "Address": "2010 Levick St\nPhiladelphia, PA 19149"
+    },
+    {
+      "Name": "Thomas Jefferson University Hospital",
+      "Tags": "hospital",
+      "Address": "111 S 11 St\nPhiladelphia, PA 19107"
+    },
+    {
+      "Name": "Vybe Urgent Care - Center City",
+      "Tags": "hospital",
+      "Address": "1420 Chestnut St\nPhiladelphia, PA 19102"
+    },
+    {
+      "Name": "Jefferson at Washington Square",
+      "Tags": "hospital",
+      "Address": "700 Walnut St\nPhiladelphia, PA 19106"
+    },
+    {
+      "Name": "Roxborough Memorial Hospital",
+      "Tags": "hospital",
+      "Address": "5800 Ridge Ave\nPhiladelphia, PA 19128"
+    },
+    {
+      "Name": "Jefferson Hospital for Neuroscience - Jefferson Health",
+      "Tags": "hospital",
+      "Address": "900 Walnut St\nPhiladelphia, PA 19107"
+    },
+    {
+      "Name": "Jefferson Urgent Care - Rittenhouse",
+      "Tags": "hospital",
+      "Address": "2021 Chestnut St\nPhiladelphia, PA 19103"
+    },
+    {
+      "Name": "Pennsylvania Hospital",
+      "Tags": "hospital",
+      "Address": "800 Spruce St\nPhiladelphia, PA 19107"
+    },
+    {
+      "Name": "Vybe Urgent Care - Roxborough",
+      "Tags": "hospital",
+      "Address": "6060 Ridge Ave\nPhiladelphia, PA 10128"
+    },
+    {
+      "Name": "Fox Chase Cancer Center",
+      "Tags": "hospital",
+      "Address": "333 Cottman Ave\nPhiladelphia, PA 19111"
+    },
+    {
+      "Name": "Cooper University Hospital",
+      "Tags": "hospital",
+      "Address": "1 Cooper Plz\nCamden, NJ 08103"
+    },
+    {
+      "Name": "Einstein Medical Center - Elkins Park",
+      "Tags": "hospital",
+      "Address": "60 Township Line Rd\nElkins Park, PA 19027"
+    },
+    {
+      "Name": "Jeanes Hospital",
+      "Tags": "hospital",
+      "Address": "7600 Central Ave\nPhiladelphia, PA 19111"
+    },
+    {
+      "Name": "Penn Presbyterian Medical Center",
+      "Tags": "hospital",
+      "Address": "51 N 39 St\nPhiladelphia, PA 19104"
+    },
+    {
+      "Name": "Premier Urgent Care",
+      "Tags": "hospital",
+      "Address": "2231 Bryn Mawr Ave\nPhiladelphia, PA 19131"
+    },
+    {
+      "Name": "The Children's Hospital of Philadelphia",
+      "Tags": "hospital",
+      "Address": "3401 Civic Center Blvd\nPhiladelphia, PA 19104"
+    },
+    {
+      "Name": "Hospital of the University of Pennsylvania",
+      "Tags": "hospital",
+      "Address": "3400 Spruce St\nPhiladelphia, PA 19104"
+    },
+    {
+      "Name": "Vybe Urgent Care - South Philadelphia",
+      "Tags": "hospital",
+      "Address": "1217 S Broad St\nPhiladelphia,, PA 19147"
+    },
+    {
+      "Name": "Virtua.Camden",
+      "Tags": "hospital",
+      "Address": "1000 Atlantic Ave\nCamden, NJ 08104"
+    },
+    {
+      "Name": "AFC Urgent Care - Pennsauken",
+      "Tags": "hospital",
+      "Address": "6630 S Crescent Blvd\nPennsauken, NJ 08109"
+    },
+    {
+      "Name": "Holy Redeemer Hospital",
+      "Tags": "hospital",
+      "Address": "1648 Huntington Pike\nMeadowbrook, PA 19152"
+    },
+    {
+      "Name": "Jefferson of Smylie Times",
+      "Tags": "hospital",
+      "Address": "2607 Rhawn St\nPhiladelphia, PA 19152"
+    },
+    {
+      "Name": "Penn Urgent Care - South Philadelphia",
+      "Tags": "hospital",
+      "Address": "1930 S Broad St\nPhiladelphia, PA 19143"
+    },
+    {
+      "Name": "Nazareth Hospital",
+      "Tags": "hospital",
+      "Address": "2601 Holme Ave\nPhiladelphia, PA 19152"
+    },
+    {
+      "Name": "Virtua Our Lady of Lourdes Hospital",
+      "Tags": "hospital",
+      "Address": "1600 Haddon Ave\nCamden, NJ 08103"
+    },
+    {
+      "Name": "AFC Urgent Care - South Philadelphia",
+      "Tags": "hospital",
+      "Address": "1444 W Passyunk Ave\nPhiladelphia, PA 19145"
+    },
+    {
+      "Name": "Jefferson Methodist Hoy",
+      "Tags": "hospital",
+      "Address": "2301 S Broad St\nPhiladelphia, PA 19148"
+    },
+    {
+      "Name": "Mercy Philadelphia Hospital",
+      "Tags": "hospital",
+      "Address": "501 S 54 St\nPhiladelphia, PA 19143"
+    },
+    {
+      "Name": "Chestnut Hill Hospital",
+      "Tags": "hospital",
+      "Address": "8835 Germantown Ave\nPhiladelphia, PA 19118"
+    },
+    {
+      "Name": "Lankenau Medical Center",
+      "Tags": "hospital",
+      "Address": "100 E Lancaster Ave\nWynnewood, PA 19096"
+    },
+    {
+      "Name": "AFC Urgent Care - Narberth",
+      "Tags": "hospital",
+      "Address": "934 Montgomery Ave\nPenn Valley, PA 19072"
+    },
+    {
+      "Name": "Patient First - Abongton",
+      "Tags": "hospital",
+      "Address": "938 Old York Rd\nAbington, PA 19001"
+    },
+    {
+      "Name": "Patient First - Cherry Hil",
+      "Tags": "hospital",
+      "Address": "800 Haddon field Rd\nCherry Hill, NJ 08002"
+    },
+    {
+      "Name": "Abington Hospital - Jefferson Health",
+      "Tags": "hospital",
+      "Address": "1200 Old York Rd\nAbington, PA 19001"
+    },
+    {
+      "Name": "Main Line Health Urgent Care - Wynnewood",
+      "Tags": "hospital",
+      "Address": "306 E Lancaster Ave\nWynnewood, PA 19096"
+    },
+    {
+      "Name": "Jefferson Torresdale Hospital",
+      "Tags": "hospital",
+      "Address": "10800 Knights Rd\nPhiladelphia, PA 19114"
+    },
+    {
+      "Name": "AFC Urgent Care - Havertown",
+      "Tags": "hospital",
+      "Address": "115 W Eagle Rd\nHavertown, PA 19083"
+    },
+    {
+      "Name": "AFC Urgent Care - Willow Grove",
+      "Tags": "hospital",
+      "Address": "2848 W Moreland Rd\nWillow Grove, PA 19090"
+    },
+    {
+      "Name": "Bryn Mawr Hospital",
+      "Tags": "hospital",
+      "Address": "130 S Bryn Mawr Ave\nBryn Mawr, PA 19010"
+    },
+    {
+      "Name": "Far Northeast Philadelphia",
+      "Tags": "hospital",
+      "Address": "2804 Southampton Rd\nPhiladelphia, PA 19154"
+    },
+    {
+      "Name": "Einstein Medical Center - Montgomery",
+      "Tags": "hospital",
+      "Address": "559 W Germantown Pike\nEast Norriton, PA 19403"
+    },
+    {
+      "Name": "Patient First - Feasterville",
+      "Tags": "hospital",
+      "Address": "75 E Street Rd\nFeasterville Trevose, PA 19053"
+    },
+    {
+      "Name": "Jefferson Urgent Care - Feasterville",
+      "Tags": "hospital",
+      "Address": "1045 Bustleton Pike\nFeasterville Trevose, PA 19053"
+    }
+  ]
+}

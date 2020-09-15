@@ -88,6 +88,9 @@
     <EmbeddedResource Update="Views\PlaceCard.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\PlaceEditPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\PlacesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

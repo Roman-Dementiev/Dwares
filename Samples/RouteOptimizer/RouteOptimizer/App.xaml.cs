@@ -6,7 +6,7 @@ using Dwares.Druid.UI;
 using RouteOptimizer.Models;
 using RouteOptimizer.Storage;
 using RouteOptimizer.Views;
-
+using RouteOptimizer.ViewModels;
 
 namespace RouteOptimizer
 {
@@ -23,8 +23,10 @@ namespace RouteOptimizer
 			InitializeComponent();
 
 			Routing.RegisterRoute(nameof(AboutPage), typeof(AboutPage));
+			Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 			Routing.RegisterRoute(nameof(RoutePage), typeof(RoutePage));
 			Routing.RegisterRoute(nameof(PlacesPage), typeof(PlacesPage));
+			Routing.RegisterRoute(nameof(PlaceEditPage), typeof(PlaceEditPage));
 
 			//DependencyService.Register<MockStorage>();
 			//AppStorage = new MockStorage();
@@ -42,6 +44,17 @@ namespace RouteOptimizer
 
 		public Places Places { get; }
 		public Route Route { get; }
+
+		public bool UseInPlaceEditor {
+			get => useInPlaceEditor;
+			set {
+				if (value != useInPlaceEditor) {
+					useInPlaceEditor = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		bool useInPlaceEditor;
 
 		protected override async void OnStart()
 		{

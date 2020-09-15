@@ -11,7 +11,7 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using RouteOptimizer.Models;
 using RouteOptimizer.Storage;
-
+using System.ComponentModel;
 
 namespace RouteOptimizer.ViewModels
 {
@@ -20,72 +20,123 @@ namespace RouteOptimizer.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(PlacesViewModel));
 
-		const bool UsePlaceholde = false;
-
 		public PlacesViewModel() :
 			base(App.Current.Places.List)
 		{
-				//Debug.EnableTracing(@class);
-
+			//Debug.EnableTracing(@class);
 			Title = "Places";
-			HasPlaceholder = UsePlaceholde;
+			
+			HasPlaceholder = UseInPlaceEditor = App.Current.UseInPlaceEditor;
+			App.Current.PropertyChanged += (s, e) => {
+				if (e.PropertyName == nameof(App.UseInPlaceEditor)) {
+					HasPlaceholder = UseInPlaceEditor = App.Current.UseInPlaceEditor;
+				}
+			};
 
-			RefreshCommand = new Command(Reload);
-			ClearCommand = new Command(async () => await BusyTask(Clear));
-			EmailCommand = new Command(async () => await BusyTask(Email));
-			ShareCommand = new Command(async () => await BusyTask(Share));
-			LoadSampleCommand = new Command(async () => await BusyTask(LoadSample));
+			AddCommand = new Command(async () => await AddCard(), CanPerformAction);
+			DeleteCommand = new Command(async (param) => await DeleteCard(param as PlaceCardModel), CanPerformAction);
+			EditCommand = new Command(async (param) => await EditCard(param as PlaceCardModel), CanPerformAction);
+			SaveCommand = new Command(async () => await EndEditing(true), CanPerformAction);
+			CancelCommand = new Command(async () => await EndEditing(false), CanPerformAction);
+
+			RefreshCommand = new Command(async () => await BusyTask(Reload), CanPerformAction);
+			ClearCommand = new Command(async () => await BusyTask(Clear), CanPerformAction);
+			EmailCommand = new Command(async () => await BusyTask(Email), CanPerformAction);
+			ShareCommand = new Command(async () => await BusyTask(Share), CanPerformAction);
+			LoadSampleCommand = new Command(async () => await BusyTask(LoadSample), CanPerformAction);
 		}
 
 		public ObservableCollection<PlaceCardModel> Places => Items;
 
 		public PlaceCardModel EditingCard { get; private set; }
 
-		public Command AddCommand => _AddCommand;
+		//public bool CanPerformAction() => IsNotBusy;
+		//public bool CanPerformAction(object param) => IsNotBusy;
+
+		public Command AddCommand { get; }
+		public Command DeleteCommand { get; }
+		public Command EditCommand { get; }
+		public Command SaveCommand { get; }
+		public Command CancelCommand { get; }
+
 		public Command RefreshCommand { get; }
 		public Command ClearCommand { get; }
 		public Command EmailCommand { get; }
 		public Command ShareCommand { get; }
 		public Command LoadSampleCommand { get; }
 
-		async void Reload()
-		{
-			await BusyTask(async () => await App.Current.ReloadPlaces());
+		public bool UseInPlaceEditor {
+			get => useInPlaceEditor;
+			set {
+				if (SetPropertyEx(ref useInPlaceEditor, value, nameof(UseInPlaceEditor), nameof(NotInPlaceEditor))) {
+					HasPlaceholder = value;
+				}
+			}
+		}
+		bool useInPlaceEditor;
+
+		public bool NotInPlaceEditor {
+			get => !UseInPlaceEditor;
+			set => UseInPlaceEditor = !value;
 		}
 
-		void AddCard()
+
+		async Task Reload()
 		{
-			if (EditingCard != null)
-				return;
-
-			SelectedItem = null;
-			HasPlaceholder = false;
-
-			var card = new PlaceCardModel(NewCard._);
-			card.StartEditing();
-			Items.Add(card);
-
-			SelectedItem = EditingCard = card;
+			await App.Current.ReloadPlaces();
 		}
 
-		async void DeleteCard(PlaceCardModel card)
+		public async Task AddCard()
+		{
+			if (UseInPlaceEditor)
+			{
+				if (EditingCard != null)
+					return;
+
+				SelectedItem = null;
+				HasPlaceholder = false;
+
+				var card = new PlaceCardModel(NewCard._);
+				card.StartEditing();
+				Items.Add(card);
+
+				SelectedItem = EditingCard = card;
+			}
+			else {
+				await Shell.Current.GoToAsync($"PlaceEditPage");
+			}
+		}
+
+		public async Task DeleteCard(PlaceCardModel card)
 		{
 			await App.Current.DeletePlace(card.Source);
 			
 		}
 
-		void EditCard(PlaceCardModel card)
+		public async Task EditCard(PlaceCardModel card)
 		{
-			if (EditingCard != null)
-				return;
+			if (UseInPlaceEditor)
+			{
+				if (EditingCard != null)
+					return;
 
-			HasPlaceholder = false;
+				HasPlaceholder = false;
 
-			card.StartEditing();
-			SelectedItem = EditingCard = card;
+				card.StartEditing();
+				SelectedItem = EditingCard = card;
+			}
+			else {
+				int index = App.Current.Places.IndexOf(card.Source);
+				if (index < 0) {
+					Debug.Fail($"## PlaceViewModel source of place '{card.Name}' not found");
+					return;
+				}
+
+				await Shell.Current.GoToAsync($"PlaceEditPage?place={index}");
+			}
 		}
 
-		async void EndEditing(bool save)
+		public async Task EndEditing(bool save)
 		{
 			if (EditingCard == null)
 				return;
@@ -113,7 +164,7 @@ namespace RouteOptimizer.ViewModels
 				finally {
 					IsBusy = false;
 					EditingCard = null;
-					HasPlaceholder = UsePlaceholde;
+					HasPlaceholder = UseInPlaceEditor;
 				}
 			}
 		}
@@ -215,32 +266,5 @@ namespace RouteOptimizer.ViewModels
 
 			await App.Current.SavePlaces();
 		}
-
-
-		public static Command _AddCommand {
-			get => addCommand ??= new Command(() => ActiveModel?.AddCard());
-		}
-		static Command addCommand;
-
-		public static Command _DeleteCommand {
-			get => deleteCommand ??= new Command((param) => ActiveModel?.DeleteCard(param as PlaceCardModel));
-		}
-		static Command deleteCommand;
-
-		public static Command _EditCommand {
-			get => editCommand ??= new Command((param) => ActiveModel?.EditCard(param as PlaceCardModel));
-		}
-		static Command editCommand;
-
-		public static Command _SaveCommand {
-			get => saveCommand ??= new Command(() => ActiveModel?.EndEditing(true));
-		}
-		static Command saveCommand;
-
-		public static Command _CancelCommand {
-			get => cancelCommand ??= new Command(() => ActiveModel?.EndEditing(false));
-		}
-		static Command cancelCommand;
-
 	}
 }

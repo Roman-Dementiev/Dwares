@@ -30,6 +30,9 @@ namespace RouteOptimizer.ViewModels
 		public bool IsPlaceholder {
 			get => Source == null;
 		}
+		public bool IsNotPlaceholder {
+			get => Source != null;
+		}
 
 		public bool IsRegular {
 			get => !IsPlaceholder && !IsEditing;

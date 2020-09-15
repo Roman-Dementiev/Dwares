@@ -46,6 +46,17 @@ namespace RouteOptimizer.Models
 			Index.Clear();
 		}
 
+		public int IndexOf(Place place) => List.IndexOf(place);
+
+		public Place At(int index)
+		{
+			if (index >= 0 && index < List.Count) {
+				return List[index];
+			} else {
+				return null;
+			}
+		}
+
 		//public Place GetById(string id)
 		//{
 		//	return List.FirstOrDefault((place) => place.Id == id);

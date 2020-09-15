@@ -37,7 +37,6 @@ namespace RouteOptimizer.Models
 			new KnownTag("gas", "ic_gas_station", typeof(Place)),
 			new KnownTag("grocery", "ic_grocery", typeof(Place)),
 			new KnownTag("hospital", "ic_hospital", typeof(Place)),
-			new KnownTag("hospital", "ic_hospital", typeof(Place)),
 			new KnownTag("hotel", "ic_hotel", typeof(Place)),
 			new KnownTag("library", "ic_library", typeof(Place)),
 			new KnownTag("mall", "ic_mall", typeof(Place)),

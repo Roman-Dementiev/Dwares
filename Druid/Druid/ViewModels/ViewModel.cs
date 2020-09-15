@@ -100,6 +100,10 @@ namespace Dwares.Druid.ViewModels
 		public async Task BusyAction(Action action)
 		{
 			Debug.AssertNotNull(action);
+			if (IsBusy) {
+				Debug.Fail("Can not perfotm another busy task while in busy state");
+				return;
+			}
 
 			try {
 				IsBusy = true;
@@ -117,6 +121,10 @@ namespace Dwares.Druid.ViewModels
 		public async Task BusyTask(Func<Task> task)
 		{
 			Debug.AssertNotNull(task);
+			if (IsBusy) {
+				Debug.Fail("Can not perfotm another busy task while in busy state");
+				return;
+			}
 
 			try {
 				IsBusy = true;
@@ -134,6 +142,10 @@ namespace Dwares.Druid.ViewModels
 		public async Task<T> BusyTask<T>(Func<Task<T>> task)
 		{
 			Debug.AssertNotNull(task);
+			if (IsBusy) {
+				Debug.Fail("Can not perfotm another busy task while in busy state");
+				return default;
+			}
 
 			try {
 				IsBusy = true;
@@ -148,5 +160,8 @@ namespace Dwares.Druid.ViewModels
 				IsBusy = false;
 			}
 		}
+
+		public bool CanPerformAction() => IsNotBusy;
+		public bool CanPerformAction(object param) => IsNotBusy;
 	}
 }

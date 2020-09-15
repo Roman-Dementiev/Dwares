@@ -155,6 +155,7 @@ namespace Beylen.ViewModels
 				string message = Validate();
 				if (!string.IsNullOrEmpty(message)) {
 					await Alerts.DisplayAlert(null, message);
+					return;
 				}
 
 				UpdateSource();

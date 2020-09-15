@@ -112,7 +112,7 @@
 						  />-->
 			<ui:BoxViewEx Grid.Row="1" Grid.Column="0"
 						  Flavor="Card-separator"
-						  IsVisible="True"
+						  IsVisible="{Binding IsNotPlaceholder, Mode=OneWay}"
 						  />
 
 			<!-- Action buttons -->

@@ -73,12 +73,41 @@
 		<!--<Setter Property="Margin" Value="0,-12,0,0" />-->
 		<Setter Property="FontSize" Value="14" />
 	</Style>
+	
 	<Style x:Key="Card-asentry" TargetType="controls:AutoSuggestEntryEx">
 		<Setter Property="TextSize" Value="14" />
+		<Setter Property="TextColor" Value="Black" />
 	</Style>
+	
 	<Style x:Key="Card-editor" TargetType="Editor">
 		<Setter Property="FontSize" Value="14" />
 		<Setter Property="HeightRequest" Value="70" />
 	</Style>
 
+
+	<Style x:Key="Form-head-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+	<Style x:Key="Form-lead-label" TargetType="Label">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="HorizontalOptions" Value="End" />
+		<Setter Property="VerticalOptions" Value="Center" />
+	</Style>
+
+	<Style x:Key="Form-entry" TargetType="Entry">
+		<!--<Setter Property="Margin" Value="0,-12,0,0" />-->
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+
+	<Style x:Key="Form-asentry" TargetType="controls:AutoSuggestEntryEx">
+		<Setter Property="TextSize" Value="16" />
+		<Setter Property="TextColor" Value="Black" />
+	</Style>
+
+	<Style x:Key="Form-editor" TargetType="Editor">
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="HeightRequest" Value="70" />
+	</Style>
 </ResourceDictionary>

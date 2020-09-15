@@ -16,26 +16,33 @@ namespace RouteOptimizer.ViewModels
 		public PlaceCardModel()
 		{
 			//Debug.EnableTracing(@class);
+			
+			AddCommand = new Command(async () => await PlacesViewModel.ActiveModel?.AddCard(), CanPerformAction);
+			DeleteCommand = new Command(async (param) => await PlacesViewModel.ActiveModel?.DeleteCard(param as PlaceCardModel), CanPerformAction);
+			EditCommand = new Command(async (param) => await PlacesViewModel.ActiveModel?.EditCard(param as PlaceCardModel), CanPerformAction);
+			SaveCommand = new Command(async () => await PlacesViewModel.ActiveModel?.EndEditing(true), CanPerformAction);
+			CancelCommand = new Command(async () => await PlacesViewModel.ActiveModel?.EndEditing(false), CanPerformAction);
 		}
 
-		public PlaceCardModel(Place source) : 
-			base(source)
-		{
-			//Debug.EnableTracing(@class);
-		}
-
-		public PlaceCardModel(NewCard newCard)
+		public PlaceCardModel(NewCard newCard) :
+			this()
 		{
 			//Debug.EnableTracing(@class);
 			Source = new Place();
 			IsNewCard = true;
+
 		}
 
-		public Command AddCommand => PlacesViewModel._AddCommand;
-		public Command DeleteCommand => PlacesViewModel._DeleteCommand;
-		public Command EditCommand => PlacesViewModel._EditCommand;
-		public Command SaveCommand => PlacesViewModel._SaveCommand;
-		public Command CancelCommand => PlacesViewModel._CancelCommand;
+		public Command AddCommand { get; }
+		public Command DeleteCommand { get; }
+		public Command EditCommand { get; }
+		public Command SaveCommand { get; }
+		public Command CancelCommand { get; }
+
+		public bool CanPerformAction() {
+			return PlacesViewModel.ActiveModel?.CanPerformAction() == true;
+		}
+		public bool CanPerformAction(object param) => CanPerformAction();
 
 		public object Self => this;
 
@@ -115,16 +122,9 @@ namespace RouteOptimizer.ViewModels
 		public async Task<bool> StopEditing(bool save)
 		{
 			if (save) {
-				if (string.IsNullOrWhiteSpace(EditName)) {
-					await Alerts.DisplayAlert(null, "Please enter place name");
-					return false;
-				}
-				if (string.IsNullOrWhiteSpace(EditAddress)) {
-					await Alerts.DisplayAlert(null, "Please enter place address");
-					return false;
-				}
-				if (App.Current.Places.GetByName(EditName) != null) {
-					await Alerts.DisplayAlert(null, $"Place with name '{EditName}' already exists");
+				var message = PlaceEditViewModel.Validate(EditName, EditAddress);
+				if (message != null) {
+					await Alerts.DisplayAlert(null, message);
 					return false;
 				}
 
