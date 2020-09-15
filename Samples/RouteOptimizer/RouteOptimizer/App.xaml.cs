@@ -45,8 +45,8 @@ namespace RouteOptimizer
 
 		protected override async void OnStart()
 		{
-			await AppStorage.LoadPlaces(Places);
-			await AppStorage.LoadRoute(Route);
+			await AppStorage.LoadPlacesAsync(Places);
+			await AppStorage.LoadRouteAsync(Route);
 		}
 
 		protected override void OnSleep()
@@ -60,24 +60,35 @@ namespace RouteOptimizer
 		public async Task ReloadPlaces()
 		{
 			Places.Clear();
-			await AppStorage.LoadPlaces(Places);
+			await AppStorage.LoadPlacesAsync(Places);
+		}
+
+		public async Task ClearPlaces()
+		{
+			Places.Clear();
+			await AppStorage.SavePlacesAsync(Places);
+		}
+
+		public async Task SavePlaces()
+		{
+			await AppStorage.SavePlacesAsync(Places);
 		}
 
 		public async Task AddPlace(Place place)
 		{
 			Places.Add(place);
-			await AppStorage.AddPlace(place);
+			await AppStorage.AddPlaceAsync(place);
 		}
 
 		public async Task UpdatePlace(Place place)
 		{
-			await AppStorage.UpdatePlace(place);
+			await AppStorage.UpdatePlaceAsync(place);
 		}
 
 		public async Task DeletePlace(Place place)
 		{
 			if (Places.Remove(place)) {
-				await AppStorage.DeletePlace(place);
+				await AppStorage.DeletePlaceAsync(place);
 			}
 		}
 	}

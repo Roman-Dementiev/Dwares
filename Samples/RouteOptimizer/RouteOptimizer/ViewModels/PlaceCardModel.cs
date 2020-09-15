@@ -51,9 +51,10 @@ namespace RouteOptimizer.ViewModels
 			get => Source?.Tags ?? string.Empty;
 		}
 
-		public bool HasTags {
-			get => !string.IsNullOrEmpty(Tags);
-		}
+		//public bool ShowTags {
+		//	get => !string.IsNullOrEmpty(Tags);
+		//}
+		public bool ShowTags => false;
 
 		public string Address {
 			get => Source?.Address ?? string.Empty;
@@ -134,9 +135,9 @@ namespace RouteOptimizer.ViewModels
 		{
 			FirePropertiesChanged(e.ChangedProperties);
 
-			if (e.ChangedProperties.Contains(nameof(Tags))) {
-				FirePropertyChanged(nameof(HasTags));
-			}
+			//if (e.ChangedProperties.Contains(nameof(Tags))) {
+			//	FirePropertyChanged(nameof(ShowTags));
+			//}
 		}
 	}
 }

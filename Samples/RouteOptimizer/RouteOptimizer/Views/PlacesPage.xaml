@@ -20,8 +20,10 @@
 
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Order="Primary" Text="Add" Command="{Binding AddCommand}" />
+		<ToolbarItem Order="Secondary" Text="Clear" Command="{Binding ClearCommand}" />
 		<ToolbarItem Order="Secondary" Text="Email content" Command="{Binding EmailCommand}" />
 		<ToolbarItem Order="Secondary" Text="Share content" Command="{Binding ShareCommand}" />
+		<ToolbarItem Order="Secondary" Text="Load sample" Command="{Binding LoadSampleCommand}" />
 	</ContentPage.ToolbarItems>
 
 	<Grid>
@@ -32,7 +34,8 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ui:ListViewEx Grid.Row="0" Grid.Column="0"
+		<ui:ListViewEx x:Name="listView"
+					   Grid.Row="0" Grid.Column="0"
 					   ItemsSource="{Binding Items}"
 					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 					   SelectionMode="Single"

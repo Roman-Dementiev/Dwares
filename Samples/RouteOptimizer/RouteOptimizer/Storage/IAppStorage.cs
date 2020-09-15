@@ -8,11 +8,12 @@ namespace RouteOptimizer.Storage
 {
 	public interface IAppStorage
 	{
-		Task LoadPlaces(IList<Place> places);
-		Task LoadRoute(Route route);
+		Task LoadPlacesAsync(IList<Place> places);
+		Task SavePlacesAsync(IList<Place> places);
+		Task LoadRouteAsync(Route route);
 
-		Task AddPlace(Place place);
-		Task UpdatePlace(Place place);
-		Task DeletePlace(Place place);
+		Task AddPlaceAsync(Place place);
+		Task UpdatePlaceAsync(Place place);
+		Task DeletePlaceAsync(Place place);
 	}
 }

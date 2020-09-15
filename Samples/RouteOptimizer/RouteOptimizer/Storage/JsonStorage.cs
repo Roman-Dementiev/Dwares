@@ -17,7 +17,7 @@ namespace RouteOptimizer.Storage
 		const string kPlacesFn = "Places.json";
 		const string kRouteFn = "Route.json";
 
-		public Task LoadPlaces(IList<Place> places)
+		public Task LoadPlacesAsync(IList<Place> places)
 		{
 			try {
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
@@ -46,8 +46,19 @@ namespace RouteOptimizer.Storage
 
 		public void SavePlaces()
 		{
+			SavePlaces(App.Current.Places);
+		}
+
+		public Task SavePlacesAsync(IList<Place> places)
+		{
+			SavePlaces(places);
+			return Task.CompletedTask;
+		}
+
+		public void SavePlaces(IList<Place> places)
+		{
 			try {
-				var text = SerializePlaces(App.Current.Places);
+				var text = SerializePlaces(places);
 
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				File.WriteAllText(path, text);
@@ -57,24 +68,24 @@ namespace RouteOptimizer.Storage
 			}
 		}
 
-		public Task LoadRoute(Route route)
+		public Task LoadRouteAsync(Route route)
 		{
 			return Task.CompletedTask;
 		}
 
-		public Task AddPlace(Place place)
-		{
-			SavePlaces();
-			return Task.CompletedTask;
-		}
-
-		public Task UpdatePlace(Place place)
+		public Task AddPlaceAsync(Place place)
 		{
 			SavePlaces();
 			return Task.CompletedTask;
 		}
 
-		public Task DeletePlace(Place place)
+		public Task UpdatePlaceAsync(Place place)
+		{
+			SavePlaces();
+			return Task.CompletedTask;
+		}
+
+		public Task DeletePlaceAsync(Place place)
 		{
 			SavePlaces();
 			return Task.CompletedTask;
@@ -133,7 +144,7 @@ namespace RouteOptimizer.Storage
 			}
 		}
 
-		public Json DeserializeJson<Json>(string text) where Json : class
+		public static Json DeserializeJson<Json>(string text) where Json : class
 		{
 			Json json;
 			try {

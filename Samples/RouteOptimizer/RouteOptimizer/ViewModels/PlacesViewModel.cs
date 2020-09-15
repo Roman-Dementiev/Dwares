@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using Dwares.Dwarf;
 using Dwares.Druid;
@@ -8,9 +10,8 @@ using Dwares.Druid.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using RouteOptimizer.Models;
-using System.Collections.Generic;
-using System.IO;
 using RouteOptimizer.Storage;
+
 
 namespace RouteOptimizer.ViewModels
 {
@@ -30,8 +31,10 @@ namespace RouteOptimizer.ViewModels
 			HasPlaceholder = UsePlaceholde;
 
 			RefreshCommand = new Command(Reload);
+			ClearCommand = new Command(async () => await BusyTask(Clear));
 			EmailCommand = new Command(async () => await BusyTask(Email));
 			ShareCommand = new Command(async () => await BusyTask(Share));
+			LoadSampleCommand = new Command(async () => await BusyTask(LoadSample));
 		}
 
 		public ObservableCollection<PlaceCardModel> Places => Items;
@@ -40,8 +43,10 @@ namespace RouteOptimizer.ViewModels
 
 		public Command AddCommand => _AddCommand;
 		public Command RefreshCommand { get; }
+		public Command ClearCommand { get; }
 		public Command EmailCommand { get; }
 		public Command ShareCommand { get; }
+		public Command LoadSampleCommand { get; }
 
 		async void Reload()
 		{
@@ -61,14 +66,16 @@ namespace RouteOptimizer.ViewModels
 
 		void AddCard()
 		{
-			var card = new PlaceCardModel(NewCard._);
+			if (EditingCard != null)
+				return;
 
 			SelectedItem = null;
 			HasPlaceholder = false;
 
+			var card = new PlaceCardModel(NewCard._);
+			card.StartEditing();
 			Items.Add(card);
 
-			card.StartEditing();
 			SelectedItem = EditingCard = card;
 		}
 
@@ -80,6 +87,9 @@ namespace RouteOptimizer.ViewModels
 
 		void EditCard(PlaceCardModel card)
 		{
+			if (EditingCard != null)
+				return;
+
 			HasPlaceholder = false;
 
 			card.StartEditing();
@@ -144,6 +154,11 @@ namespace RouteOptimizer.ViewModels
 			}
 		}
 
+		async Task Clear()
+		{
+			await App.Current.ClearPlaces();
+		}
+		
 		async Task Email()
 		{
 			var json = JsonStorage.SerializePlaces(Items.Source);
@@ -183,6 +198,36 @@ namespace RouteOptimizer.ViewModels
 				//,PresentationSourceBounds = bounds.ToSystemRectangle() // for iOS only
 			});
 		}
+
+		async Task LoadSample() => await LoadSample(skipDuplicates: true);
+
+		async Task LoadSample(bool skipDuplicates)
+		{
+			using (var stream = await FileSystem.OpenAppPackageFileAsync("Places.txt"))
+			using (var reader = new StreamReader(stream)) {
+				var text = await reader.ReadToEndAsync();
+				var json = JsonStorage.DeserializeJson<PlacesJson>(text);
+
+				var places = App.Current.Places;
+
+				foreach (var rec in json.Places) {
+					var found = places.FirstOrDefault((p) => p.Name == rec.Name);
+					if (found != null) {
+						if (skipDuplicates)
+							continue;
+						places.Remove(found);
+					}
+					places.Add(new Place {
+						Name = rec.Name,
+						Tags = rec.Tags,
+						Address = rec.Address
+					});
+				}
+			}
+
+			await App.Current.SavePlaces();
+		}
+
 
 		public static Command _AddCommand {
 			get => addCommand ??= new Command(() => ActiveModel?.AddCard());

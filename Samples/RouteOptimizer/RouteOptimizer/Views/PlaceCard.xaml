@@ -45,7 +45,7 @@
 				<ui:LabelEx Grid.Row="1" Grid.Column="0"
 							Flavor="Card-text-default"
 							Text="{Binding Tags, Mode=OneWay}"
-							IsVisible="{Binding HasTags, Mode=OneWay}"
+							IsVisible="{Binding ShowTags, Mode=OneWay}"
 							/>
 				
 				<ui:LabelEx Grid.Row="2" Grid.Column="0"
