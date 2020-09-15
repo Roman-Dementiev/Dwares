@@ -21,9 +21,10 @@
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Order="Primary" Text="Add" Command="{Binding AddCommand}" />
 		<ToolbarItem Order="Secondary" Text="Clear" Command="{Binding ClearCommand}" />
+		<ToolbarItem Order="Secondary" Text="Load sample" Command="{Binding LoadSampleCommand}" />
+		<!--<ToolbarItem Order="Secondary" Text="_____________" />-->
 		<ToolbarItem Order="Secondary" Text="Email content" Command="{Binding EmailCommand}" />
 		<ToolbarItem Order="Secondary" Text="Share content" Command="{Binding ShareCommand}" />
-		<ToolbarItem Order="Secondary" Text="Load sample" Command="{Binding LoadSampleCommand}" />
 	</ContentPage.ToolbarItems>
 
 	<Grid>
@@ -40,7 +41,7 @@
 					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 					   SelectionMode="Single"
 					   HasUnevenRows="True"
-					   IsPullToRefreshEnabled="True"
+					   IsPullToRefreshEnabled="False"
 					   RefreshCommand="{Binding RefreshCommand}"
 					   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
 					   >

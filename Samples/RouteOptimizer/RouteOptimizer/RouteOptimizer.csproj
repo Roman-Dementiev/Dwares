@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,18 +8,56 @@
 
   <ItemGroup>
     <None Remove="Resources\ic_add_item.png" />
+    <None Remove="Resources\ic_airport.png" />
+    <None Remove="Resources\ic_bar.png" />
+    <None Remove="Resources\ic_cafe.png" />
+    <None Remove="Resources\ic_child_care.png" />
     <None Remove="Resources\ic_clear_small.png" />
     <None Remove="Resources\ic_delete_small.png" />
+    <None Remove="Resources\ic_dining.png" />
     <None Remove="Resources\ic_edit_small.png" />
+    <None Remove="Resources\ic_face.png" />
+    <None Remove="Resources\ic_face1.png" />
+    <None Remove="Resources\ic_gas_station.png" />
+    <None Remove="Resources\ic_grocery.png" />
+    <None Remove="Resources\ic_home.png" />
+    <None Remove="Resources\ic_hospital.png" />
+    <None Remove="Resources\ic_hotel.png" />
+    <None Remove="Resources\ic_library.png" />
+    <None Remove="Resources\ic_mall.png" />
+    <None Remove="Resources\ic_movies.png" />
+    <None Remove="Resources\ic_parking.png" />
+    <None Remove="Resources\ic_pharmacy.png" />
+    <None Remove="Resources\ic_pizza.png" />
+    <None Remove="Resources\ic_restaurant.png" />
     <None Remove="Resources\ic_save_small.png" />
+    <None Remove="Resources\ic_store.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\ic_add_item.png" />
+    <EmbeddedResource Include="Resources\ic_airport.png" />
+    <EmbeddedResource Include="Resources\ic_bar.png" />
+    <EmbeddedResource Include="Resources\ic_cafe.png" />
+    <EmbeddedResource Include="Resources\ic_child_care.png" />
     <EmbeddedResource Include="Resources\ic_clear_small.png" />
     <EmbeddedResource Include="Resources\ic_delete_small.png" />
+    <EmbeddedResource Include="Resources\ic_dining.png" />
     <EmbeddedResource Include="Resources\ic_edit_small.png" />
+    <EmbeddedResource Include="Resources\ic_gas_station.png" />
+    <EmbeddedResource Include="Resources\ic_grocery.png" />
+    <EmbeddedResource Include="Resources\ic_home.png" />
+    <EmbeddedResource Include="Resources\ic_hospital.png" />
+    <EmbeddedResource Include="Resources\ic_hotel.png" />
+    <EmbeddedResource Include="Resources\ic_library.png" />
+    <EmbeddedResource Include="Resources\ic_mall.png" />
+    <EmbeddedResource Include="Resources\ic_movies.png" />
+    <EmbeddedResource Include="Resources\ic_parking.png" />
+    <EmbeddedResource Include="Resources\ic_pharmacy.png" />
+    <EmbeddedResource Include="Resources\ic_pizza.png" />
+    <EmbeddedResource Include="Resources\ic_restaurant.png" />
     <EmbeddedResource Include="Resources\ic_save_small.png" />
+    <EmbeddedResource Include="Resources\ic_store.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +71,11 @@
     <ProjectReference Include="..\..\..\Drums\Drums\Drums.csproj" />
     <ProjectReference Include="..\..\..\Dwarf\Dwarf.csproj" />
     <ProjectReference Include="..\..\AutoSuggestBox\dotMorten.Xamarin.Forms.AutoSuggestBox.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\ic_face.png" />
+    <Resource Include="Resources\ic_face1.png" />
   </ItemGroup>
 
   <ItemGroup>

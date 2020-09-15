@@ -34,21 +34,27 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				
-				<ui:LabelEx Grid.Row="0" Grid.Column="0"
+
+				<ui:ArtImage Grid.Row="0" Grid.Column="0"
+							 Flavor="Card-icon"
+							 Art="{Binding Icon, Mode=OneWay}"
+							 />
+
+				<ui:LabelEx Grid.Row="0" Grid.Column="1"
 							Flavor="Card-text-bold"
 							Text="{Binding Name, Mode=OneWay}"
 							/>
 
-				<ui:LabelEx Grid.Row="1" Grid.Column="0"
+				<ui:LabelEx Grid.Row="1" Grid.Column="1"
 							Flavor="Card-text-default"
 							Text="{Binding Tags, Mode=OneWay}"
 							IsVisible="{Binding ShowTags, Mode=OneWay}"
 							/>
 				
-				<ui:LabelEx Grid.Row="2" Grid.Column="0"
+				<ui:LabelEx Grid.Row="2" Grid.Column="1"
 							Flavor="Card-text-default"
 							Text="{Binding Address, Mode=OneWay}"
 							/>
@@ -100,9 +106,13 @@
 			</ui:GridEx>
 
 			<!-- Separator -->
-			<ui:BoxViewEx Grid.Row="1" Grid.Column="0"
+			<!--<ui:BoxViewEx Grid.Row="1" Grid.Column="0"
 						  Flavor="Card-separator"
 						  IsVisible="{Binding IsSelected, Mode=OneWay}"
+						  />-->
+			<ui:BoxViewEx Grid.Row="1" Grid.Column="0"
+						  Flavor="Card-separator"
+						  IsVisible="True"
 						  />
 
 			<!-- Action buttons -->

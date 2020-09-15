@@ -7,7 +7,7 @@ using Dwares.Dwarf;
 
 namespace RouteOptimizer.Models
 {
-	public class Places : ObservableCollection<Place>
+	public class Places
 	{
 		//static ClassRef @class = new ClassRef(typeof(Places));
 
@@ -16,14 +16,44 @@ namespace RouteOptimizer.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public Place GetById(string id)
+		public ObservableCollection<Place> List { get; } = new ObservableCollection<Place>();
+		public Dictionary<string, Place> Index { get;} = new Dictionary<string, Place>();
+
+		public void Add(Place place)
 		{
-			return this.FirstOrDefault((place) => place.Id == id);
+			Debug.Assert(place != null);
+			Debug.Assert(!Index.ContainsKey(place.Name));
+
+			List.Add(place);
+			Index[place.Name] = place;
 		}
+
+		public bool Remove(Place place)
+		{
+			Debug.Assert(place != null);
+
+			if (List.Remove(place)) {
+				Index.Remove(place.Name);
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public void Clear()
+		{
+			List.Clear();
+			Index.Clear();
+		}
+
+		//public Place GetById(string id)
+		//{
+		//	return List.FirstOrDefault((place) => place.Id == id);
+		//}
 
 		public Place GetByName(string name)
 		{
-			return this.FirstOrDefault((place) => place.Name == name);
+			return List.FirstOrDefault((place) => place.Name == name);
 		}
 	}
 }

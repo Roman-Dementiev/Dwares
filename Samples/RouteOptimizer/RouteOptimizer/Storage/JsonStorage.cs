@@ -17,7 +17,7 @@ namespace RouteOptimizer.Storage
 		const string kPlacesFn = "Places.json";
 		const string kRouteFn = "Route.json";
 
-		public Task LoadPlacesAsync(IList<Place> places)
+		public Task LoadPlacesAsync(Places places)
 		{
 			try {
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
@@ -34,7 +34,7 @@ namespace RouteOptimizer.Storage
 						Tags = rec.Tags ?? string.Empty,
 						Address = rec.Address ?? string.Empty
 					};
-					places.Add(place);
+					places.List.Add(place);
 				}
 			}
 			catch (Exception exc) {
@@ -49,16 +49,16 @@ namespace RouteOptimizer.Storage
 			SavePlaces(App.Current.Places);
 		}
 
-		public Task SavePlacesAsync(IList<Place> places)
+		public Task SavePlacesAsync(Places places)
 		{
 			SavePlaces(places);
 			return Task.CompletedTask;
 		}
 
-		public void SavePlaces(IList<Place> places)
+		public void SavePlaces(Places places)
 		{
 			try {
-				var text = SerializePlaces(places);
+				var text = SerializePlaces(places.List);
 
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				File.WriteAllText(path, text);

@@ -43,6 +43,10 @@ namespace RouteOptimizer.ViewModels
 			get => Source?.Id ?? string.Empty;
 		}
 
+		public string Icon {
+			get => Source?.Icon ?? string.Empty;
+		}
+
 		public string Name {
 			get => Source?.Name ?? string.Empty;
 		}
@@ -117,6 +121,10 @@ namespace RouteOptimizer.ViewModels
 				}
 				if (string.IsNullOrWhiteSpace(EditAddress)) {
 					await Alerts.DisplayAlert(null, "Please enter place address");
+					return false;
+				}
+				if (App.Current.Places.GetByName(EditName) != null) {
+					await Alerts.DisplayAlert(null, $"Place with name '{EditName}' already exists");
 					return false;
 				}
 

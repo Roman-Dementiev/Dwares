@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Dwares.Dwarf.Toolkit
 {
-	public interface ITags
+	public interface ITags : IEnumerable<string>
 	{
 		bool HasTag(string tag);
 		void AddTag(string tag);
@@ -72,8 +73,11 @@ namespace Dwares.Dwarf.Toolkit
 			return list;
 		}
 
+		public IEnumerator<string> GetEnumerator() => tags.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => tags.GetEnumerator();
+
 		public static implicit operator string (TagsSet tags) => tags.ToString();
-		public static explicit operator TagsSet(string str) => new TagsSet(str);
+		public static implicit operator TagsSet(string str) => new TagsSet(str);
 	}
 
 	public class TagsList : ITags
@@ -125,9 +129,11 @@ namespace Dwares.Dwarf.Toolkit
 			return tags;
 		}
 
+		public IEnumerator<string> GetEnumerator() => tags.GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => tags.GetEnumerator();
 
 		public static implicit operator string(TagsList tags) => tags.ToString();
-		public static explicit operator TagsList(string str) => new TagsList(str);
+		public static implicit operator TagsList(string str) => new TagsList(str);
 	}
 
 	public static class Tags
@@ -160,6 +166,9 @@ namespace Dwares.Dwarf.Toolkit
 
 		public static void Parse(this ITags tags, string str)
 		{
+			if (string.IsNullOrEmpty(str))
+				return;
+
 			var split = str.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 			foreach (var tag in split) {
 				tags.AddTag(tag);

@@ -23,7 +23,7 @@ namespace RouteOptimizer.ViewModels
 		const bool UsePlaceholde = false;
 
 		public PlacesViewModel() :
-			base(App.Current.Places)
+			base(App.Current.Places.List)
 		{
 				//Debug.EnableTracing(@class);
 
@@ -50,18 +50,7 @@ namespace RouteOptimizer.ViewModels
 
 		async void Reload()
 		{
-			try {
-				IsBusy = true;
-
-				await App.Current.ReloadPlaces();
-			}
-			catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-				await Alerts.ExceptionAlert(exc);
-			}
-			finally {
-				IsBusy = false;
-			}
+			await BusyTask(async () => await App.Current.ReloadPlaces());
 		}
 
 		void AddCard()
@@ -101,11 +90,11 @@ namespace RouteOptimizer.ViewModels
 			if (EditingCard == null)
 				return;
 
-			try {
+			if (await EditingCard.StopEditing(save))
+			{
 				IsBusy = true;
 
-				if (await EditingCard.StopEditing(save))
-				{
+				try {
 					if (EditingCard.IsNewCard) {
 						Items.Remove(EditingCard);
 					}
@@ -117,16 +106,15 @@ namespace RouteOptimizer.ViewModels
 							await App.Current.UpdatePlace(EditingCard.Source);
 						}
 					}
+				} catch (Exception exc) {
+					Debug.ExceptionCaught(exc);
+					await Alerts.ExceptionAlert(exc);
 				}
-			}
-			catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-				await Alerts.ExceptionAlert(exc);
-			}
-			finally {
-				IsBusy = false;
-				EditingCard = null;
-				HasPlaceholder = UsePlaceholde;
+				finally {
+					IsBusy = false;
+					EditingCard = null;
+					HasPlaceholder = UsePlaceholde;
+				}
 			}
 		}
 		public void OnSelectedChanged(ref object selectedItem, int selectedIndex)
@@ -211,7 +199,7 @@ namespace RouteOptimizer.ViewModels
 				var places = App.Current.Places;
 
 				foreach (var rec in json.Places) {
-					var found = places.FirstOrDefault((p) => p.Name == rec.Name);
+					var found = places.GetByName(rec.Name);
 					if (found != null) {
 						if (skipDuplicates)
 							continue;

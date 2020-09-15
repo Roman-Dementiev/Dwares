@@ -27,18 +27,39 @@ namespace RouteOptimizer.Models
 	public static class KnownTags
 	{
 		public static readonly List<KnownTag> All = new List<KnownTag>() {
-			new KnownTag("restaurant", typeof(Place)),
-			new KnownTag("market", typeof(Place)),
-			new KnownTag("store", typeof(Place)),
-			new KnownTag("pharmacy", typeof(Place)),
-			new KnownTag("convenience", typeof(Place)),
-			new KnownTag("gas", typeof(Place)),
-			new KnownTag("hospital", typeof(Place)),
-			new KnownTag("doctors", typeof(Place)),
-			new KnownTag("daycare", typeof(Place)),
+			new KnownTag("airport", "ic_airport", typeof(Place)),
+			new KnownTag("bar", "ic_bar", typeof(Place)),
+			new KnownTag("cafe", "ic_cafe", typeof(Place)),
+			new KnownTag("convenience", "ic_store", typeof(Place)),
+			new KnownTag("daycare", "ic_child_care", typeof(Place)),
+			new KnownTag("dining", "ic_dining", typeof(Place)),
+			new KnownTag("doctors", "ic_hospital", typeof(Place)),
+			new KnownTag("gas", "ic_gas_station", typeof(Place)),
+			new KnownTag("grocery", "ic_grocery", typeof(Place)),
+			new KnownTag("hospital", "ic_hospital", typeof(Place)),
+			new KnownTag("hospital", "ic_hospital", typeof(Place)),
+			new KnownTag("hotel", "ic_hotel", typeof(Place)),
+			new KnownTag("library", "ic_library", typeof(Place)),
+			new KnownTag("mall", "ic_mall", typeof(Place)),
+			new KnownTag("market", "ic_store", typeof(Place)),
+			new KnownTag("movies", "ic_bar", typeof(Place)),
+			new KnownTag("parking", "ic_parking", typeof(Place)),
+			new KnownTag("pharmacy", "ic_pharmacy", typeof(Place)),
+			new KnownTag("pizza", "ic_pizza", typeof(Place)),
+			new KnownTag("residential", "ic_home", typeof(Place)),
+			new KnownTag("restaurant", "ic_restaurant", typeof(Place)),
+			new KnownTag("store", "ic_store", typeof(Place)),
 			new KnownTag("adult-daycare", typeof(Place)),
-			new KnownTag("residential", typeof(Place)),
 		};
+
+		public static KnownTag Get(string tag)
+		{
+			foreach (var knownTag in All) {
+				if (knownTag.Tag == tag)
+					return knownTag;
+			}
+			return null;
+		}
 
 		public static List<KnownTag> GetForType(Type type)
 		{

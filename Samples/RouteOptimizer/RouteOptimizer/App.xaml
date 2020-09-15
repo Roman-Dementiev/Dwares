@@ -14,6 +14,24 @@
 			<drx:BitmapAsset x:Key="ic_save.small" BitmapSize="24" Color="Black">RouteOptimizer.Resources.ic_save_small.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_clear.small" BitmapSize="24" Color="Black">RouteOptimizer.Resources.ic_clear_small.png</drx:BitmapAsset>
 
+			<drx:BitmapAsset x:Key="ic_airport" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_airport.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_bar" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_bar.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_cafe" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_cafe.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_child_care" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_child_care.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_dining" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_dining.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_gas_station" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_gas_station.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_grocery" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_grocery.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_home" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_home.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_hospital" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_hospital.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_hotel" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_hotel.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_library" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_library.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_mall" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_mall.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_movies" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_movies.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_parking" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_parking.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_pharmacy" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_pharmacy.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_pizza" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_pizza.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_restaurant" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_restaurant.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_store" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_store.png</drx:BitmapAsset>
 
 			<Color x:Key="Primary">#2196F3</Color>
 			<Style TargetType="Button">

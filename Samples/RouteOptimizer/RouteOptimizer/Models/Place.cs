@@ -1,7 +1,7 @@
 ﻿using System;
 using Dwares.Dwarf;
 using Dwares.Druid;
-
+using Dwares.Dwarf.Toolkit;
 
 namespace RouteOptimizer.Models
 {
@@ -22,11 +22,20 @@ namespace RouteOptimizer.Models
 		}
 		string name = string.Empty;
 
-		public string Tags {
+		//public string Tags {
+		//	get => tags;
+		//	set => SetProperty(ref tags, value);
+		//}
+		//string tags = string.Empty;
+		public TagsList Tags {
 			get => tags;
-			set => SetProperty(ref tags, value);
+			set {
+				if (SetProperty(ref tags, value)) {
+					icon = null;
+				}
+			}
 		}
-		string tags = string.Empty;
+		TagsList tags = new TagsList();
 
 		public string Address {
 			get => address;
@@ -34,5 +43,25 @@ namespace RouteOptimizer.Models
 		}
 		string address = string.Empty;
 
+		public string Icon {
+			get {
+				if (icon == null) {
+					icon = string.Empty;
+					var list = KnownTags.GetTagsListForType(typeof(Place));
+
+					foreach (var tag in Tags) {
+						if (list.Contains(tag)) {
+							var knownTag = KnownTags.Get(tag);
+							if (!string.IsNullOrEmpty(knownTag.Icon)) {
+								icon = knownTag.Icon;
+								break;
+							}
+						}
+					}
+				}
+				return icon;
+			}
+		}
+		string icon;
 	}
 }
