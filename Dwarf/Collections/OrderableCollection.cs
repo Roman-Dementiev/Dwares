@@ -10,7 +10,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Collections
 {
-	public class OrderableCollection<T> : ObservableCollection<T>, IOrderableCollection
+	public class OrderableCollection<T> : ObservableCollectionEx<T>, IOrderableCollection
 	{
 		//static ClassRef @class = new ClassRef(typeof(OrdarableCollection));
 

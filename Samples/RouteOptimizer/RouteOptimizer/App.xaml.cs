@@ -14,7 +14,7 @@ namespace RouteOptimizer
 {
 	public partial class App : Application
 	{
-		public const string HospitalsSample = "Hospitals.txt";
+		public const string HospitalsSample = "Phila-ru.txt";
 
 
 		//public static new App Current => Application.Current as App;

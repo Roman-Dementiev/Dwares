@@ -1,0 +1,150 @@
+﻿{
+  "Version": 1,
+  "Places": [
+    {
+      "Name": "Ann Kids",
+      "Tags": "daycare",
+      "Address": "10100 Jamison Ave\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Antoshka",
+      "Tags": "daycare",
+      "Address": "195 Philmont Ave\nFeasterville, PA 19053"
+    },
+    {
+      "Name": "Bambi",
+      "Tags": "daycare",
+      "Address": "500 Red Lion Rd\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Happy Bee",
+      "Tags": "daycare",
+      "Address": "1776 Street Rd\nSouthampton, PA 18967"
+    },
+    {
+      "Name": "ABCD Day Care",
+      "Tags": "daycare",
+      "Address": "11010 Renard St\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Azbuka",
+      "Tags": "daycare",
+      "Address": "9090 Old Bustleton Ave\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Great After School & Summer Camp",
+      "Tags": "daycare",
+      "Address": "11030 Renard St\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Kids Castle",
+      "Tags": "daycare",
+      "Address": "9331 Krewstown Rd\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Kids World",
+      "Tags": "daycare",
+      "Address": "1560 Old York Rd\nAbington, PA 19001"
+    },
+    {
+      "Name": "Land of Children",
+      "Tags": "daycare",
+      "Address": "1331 O\"Reilly Drive\nFeasterville, PA 19053"
+    },
+    {
+      "Name": "Land Of Children - Penndel",
+      "Tags": "daycare",
+      "Address": "239 Highland Ave\nPenndel, PA 19047"
+    },
+    {
+      "Name": "Land of Children - Loretta Ave",
+      "Tags": "daycare",
+      "Address": "1661 Loretta Ave\nFeasterville, PA 19053"
+    },
+    {
+      "Name": "Enchanted",
+      "Tags": "daycare",
+      "Address": "13069 Bustleton Ave\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Bright Star Learning Academy",
+      "Tags": "daycare",
+      "Address": "12029 Bustleton Ave\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Little Wonders",
+      "Tags": "daycare",
+      "Address": "15100 Bustleton Ave\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Rising Stars",
+      "Tags": "daycare",
+      "Address": "1411 Highland Ave\nLanghorne, PA 19047"
+    },
+    {
+      "Name": "Kinder Kollege",
+      "Tags": "daycare",
+      "Address": "2708 Commerce Way Suite 101\nPhiladelphia, PA 19154"
+    },
+    {
+      "Name": "Unshine",
+      "Tags": "daycare",
+      "Address": "559 Harding Ave\nFeasterville, PA 19053"
+    },
+    {
+      "Name": "2nd Home Adult Care Center",
+      "Tags": "adult-daycare",
+      "Address": "1614 Old York Rd\nAbington, PA 19001"
+    },
+    {
+      "Name": "Circle of Friends",
+      "Tags": "adult-daycare",
+      "Address": "9405 Bustleton Ave\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Dacha Adult Day Care",
+      "Tags": "adult-daycare",
+      "Address": "250 Geiger Rd\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Grow and Learn (Glec)",
+      "Tags": "daycare",
+      "Address": "250 Geiger Rd\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Golden Age Care",
+      "Tags": "adult-daycare",
+      "Address": "716 Red Lion Rd\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "New Age Adult Day Care",
+      "Tags": "adult-daycare",
+      "Address": "55 Buck Rd, Suite 12\nHuntington Valley, PA 19006"
+    },
+    {
+      "Name": "New Hope Adult Day Care",
+      "Tags": "adult-daycare",
+      "Address": "10750 Bustleton Ave\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "Northeast Adult Day Care",
+      "Tags": "adult-daycare",
+      "Address": "11048 Renard St\nPhiladelphia, PA 19116"
+    },
+    {
+      "Name": "DG Cultural Center",
+      "Tags": "adult-daycare",
+      "Address": "150 James Way\nChurchville, PA 18966"
+    },
+    {
+      "Name": "Joy and Care Adult Day Center",
+      "Tags": "adult-daycare",
+      "Address": "9708 Bustleton Ave\nPhiladelphia, PA 19115"
+    },
+    {
+      "Name": "Klein Life",
+      "Tags": "community-center",
+      "Address": "10100 Jamison Ave\nPhiladelphia, PA 19116"
+    }
+  ]
+}

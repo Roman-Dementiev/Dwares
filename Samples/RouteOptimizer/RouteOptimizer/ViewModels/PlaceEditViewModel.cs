@@ -54,7 +54,7 @@ namespace RouteOptimizer.ViewModels
 		string phone = string.Empty;
 
 		public List<string> SuggestedTags {
-			get => suggestedTags ??= KnownTags.GetTagsListForType(typeof(Place));
+			get => suggestedTags ??= Categories.GetTagsForType(typeof(Place));
 		}
 		List<string> suggestedTags;
 

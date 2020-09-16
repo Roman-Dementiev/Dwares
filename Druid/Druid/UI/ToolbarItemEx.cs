@@ -48,9 +48,10 @@ namespace Dwares.Druid.UI
 				var imageSource = UITheme.Current?.GetImageSource(art);
 				if (imageSource == null)
 					imageSource = ArtBroker.Instance.GetImageSource(iconArt);
-				Icon = imageSource as FileImageSource;
+
+				IconImageSource = imageSource;
 			} else {
-				Icon = null;
+				IconImageSource = null;
 			}
 		}
 	}

@@ -100,7 +100,7 @@ namespace RouteOptimizer.ViewModels
 		static string editPhone = string.Empty;
 
 		public List<string> SuggestedTags {
-			get => suggestedTags ??= KnownTags.GetTagsListForType(typeof(Place));
+			get => suggestedTags ??= Categories.GetTagsForType(typeof(Place));
 		}
 		List<string> suggestedTags;
 
@@ -109,10 +109,10 @@ namespace RouteOptimizer.ViewModels
 			set {
 				choosenTagSuggestion = value;
 
-				//BUG: ??? It gains focus again and reopens suggestion list 
 				//IsSuggestionListOpen = false;
+				//BUG: Control loses focus (too close to keyboard ??) and then gains it again, which reopens suggestion list 
 
-				//FIX: Workaround to close  suggestion list 
+				//FIX: Workaround to dismiss suggestion list 
 				if (choosenTagSuggestion != null) {
 					EditTags = choosenTagSuggestion.ToString() + " ";
 				}

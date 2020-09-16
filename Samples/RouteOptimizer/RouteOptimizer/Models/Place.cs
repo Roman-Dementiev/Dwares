@@ -22,15 +22,17 @@ namespace RouteOptimizer.Models
 		}
 		string name = string.Empty;
 
-		public TagsList Tags {
-			get => tags;
-			set {
-				if (SetProperty(ref tags, value)) {
-					icon = null;
-				}
-			}
+		public string Icon {
+			get => icon;
+			private set => SetProperty(ref icon, value);
 		}
-		TagsList tags = new TagsList();
+		string icon;
+
+		public Category Category {
+			get => category;
+			private set => SetProperty(ref category, value);
+		}
+		Category category;
 
 		public string Address {
 			get => address;
@@ -44,26 +46,35 @@ namespace RouteOptimizer.Models
 		}
 		string phone = string.Empty;
 
-		public string Icon {
-			get {
-				if (icon == null) {
-					icon = string.Empty;
-					var list = KnownTags.GetTagsListForType(typeof(Place));
+		public TagsList TagsList { get; } = new TagsList();
 
-					foreach (var tag in Tags) {
-						if (list.Contains(tag)) {
-							var knownTag = KnownTags.Get(tag);
-							if (!string.IsNullOrEmpty(knownTag.Icon)) {
-								icon = knownTag.Icon;
-								break;
-							}
-						}
+		public string Tags {
+			get => TagsList.ToString();
+			set {
+				TagsList.FromString(value);
+				UpdateCategoryAndIcon();
+			}
+		}
+
+		void UpdateCategoryAndIcon()
+		{
+			Category = null;
+			Icon = null;
+
+			var categories = Categories.GetForType(typeof(Place));
+
+			foreach (var cat in categories)
+			{
+				if (TagsList.HasTag(cat.Tag)) {
+					if (Category == null) {
+						Category = cat;
+					}
+					if (!string.IsNullOrEmpty(cat.Icon)) {
+						Icon = cat.Icon;
+						break;
 					}
 				}
-				return icon;
 			}
-			set => SetProperty(ref icon, value);
 		}
-		string icon;
 	}
 }

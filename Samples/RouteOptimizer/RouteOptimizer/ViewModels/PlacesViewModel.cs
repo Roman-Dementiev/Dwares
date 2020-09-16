@@ -12,6 +12,8 @@ using Xamarin.Essentials;
 using RouteOptimizer.Models;
 using RouteOptimizer.Storage;
 using System.ComponentModel;
+using RouteOptimizer.Views;
+
 
 namespace RouteOptimizer.ViewModels
 {
@@ -44,14 +46,13 @@ namespace RouteOptimizer.ViewModels
 			EmailCommand = new Command(async () => await BusyTask(Email), CanPerformAction);
 			ShareCommand = new Command(async () => await BusyTask(Share), CanPerformAction);
 			LoadSampleCommand = new Command(async () => await BusyTask(LoadSample), CanPerformAction);
+
+			ExpandPanelCommand = new Command(() => IsPanelExpanded = !IsPanelExpanded );
 		}
 
 		public ObservableCollection<PlaceCardModel> Places => Items;
 
 		public PlaceCardModel EditingCard { get; private set; }
-
-		//public bool CanPerformAction() => IsNotBusy;
-		//public bool CanPerformAction(object param) => IsNotBusy;
 
 		public Command AddCommand { get; }
 		public Command DeleteCommand { get; }
@@ -64,6 +65,8 @@ namespace RouteOptimizer.ViewModels
 		public Command EmailCommand { get; }
 		public Command ShareCommand { get; }
 		public Command LoadSampleCommand { get; }
+
+		public Command ExpandPanelCommand { get; }
 
 		public bool UseInPlaceEditor {
 			get => useInPlaceEditor;
@@ -80,6 +83,17 @@ namespace RouteOptimizer.ViewModels
 			set => UseInPlaceEditor = !value;
 		}
 
+		public bool IsPanelExpanded {
+			get => isPanelExpanded;
+			set {
+				SetPropertyEx(ref isPanelExpanded, value, nameof(IsPanelExpanded), nameof(ExpandPanelIcon));
+			}
+		}
+		bool isPanelExpanded = false;
+
+		public string ExpandPanelIcon {
+			get => IsPanelExpanded ? "ic_expand_less" : "ic_expand_more";
+		}
 
 		async Task Reload()
 		{

@@ -9,7 +9,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Collections
 {
-	public class ObservableDictionary<TKey, TValue> : PropertyNotifier, IDictionary<TKey, TValue>, INotifyCollectionChanged
+	public class ObservableDictionary<TKey, TValue> : PropertyNotifier, IDictionary<TKey, TValue>, ISuspendableNotifyCollectionChanged
 	{
 		//static ClassRef @class = new ClassRef(typeof(ObservableDictionary));
 
@@ -128,7 +128,11 @@ namespace Dwares.Dwarf.Collections
 
 		protected void FireCollectionChanged(NotifyCollectionChangedEventArgs args)
 		{
-			CollectionChanged?.Invoke(this, args);
+			if (NotificationsAreSuspended) {
+				HasPendingNotifications = true;
+			} else {
+				CollectionChanged?.Invoke(this, args);
+			}
 		}
 
 		protected void FireCollectionChange_Add(KeyValuePair<TKey, TValue> item)
@@ -170,6 +174,34 @@ namespace Dwares.Dwarf.Collections
 		{
 			FireCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			FirePropertiesChanged(nameof(Count), nameof(Keys), nameof(Values));
+		}
+
+		public bool HasPendingNotifications { get; private set; }
+
+		public bool NotificationsAreSuspended {
+			get => notificationsAreSuspended > 0;
+		}
+		int notificationsAreSuspended;
+
+		public void SuspendNotifications()
+		{
+			notificationsAreSuspended++;
+		}
+
+		public void ResumeNotifications(bool force)
+		{
+			Debug.Assert(notificationsAreSuspended > 0);
+
+			if (force || notificationsAreSuspended <= 0) {
+				notificationsAreSuspended = 0;
+			} else {
+				notificationsAreSuspended--;
+			}
+
+			if (notificationsAreSuspended == 0 && HasPendingNotifications) {
+				HasPendingNotifications = false;
+				FireCollectionChange_Reset();
+			}
 		}
 	}
 }

@@ -77,7 +77,7 @@ namespace Dwares.Dwarf.Toolkit
 		IEnumerator IEnumerable.GetEnumerator() => tags.GetEnumerator();
 
 		public static implicit operator string (TagsSet tags) => tags.ToString();
-		public static implicit operator TagsSet(string str) => new TagsSet(str);
+		public static explicit operator TagsSet(string str) => new TagsSet(str);
 	}
 
 	public class TagsList : ITags
@@ -133,7 +133,7 @@ namespace Dwares.Dwarf.Toolkit
 		IEnumerator IEnumerable.GetEnumerator() => tags.GetEnumerator();
 
 		public static implicit operator string(TagsList tags) => tags.ToString();
-		public static implicit operator TagsList(string str) => new TagsList(str);
+		public static explicit operator TagsList(string str) => new TagsList(str);
 	}
 
 	public static class Tags

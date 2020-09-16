@@ -16,6 +16,8 @@
     <None Remove="Resources\ic_delete_small.png" />
     <None Remove="Resources\ic_dining.png" />
     <None Remove="Resources\ic_edit_small.png" />
+    <None Remove="Resources\ic_expand_less.png" />
+    <None Remove="Resources\ic_expand_more.png" />
     <None Remove="Resources\ic_face.png" />
     <None Remove="Resources\ic_face1.png" />
     <None Remove="Resources\ic_gas_station.png" />
@@ -31,11 +33,14 @@
     <None Remove="Resources\ic_pizza.png" />
     <None Remove="Resources\ic_restaurant.png" />
     <None Remove="Resources\ic_save_small.png" />
+    <None Remove="Resources\ic_search.png" />
     <None Remove="Resources\ic_store.png" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\ic_add_item.png" />
+    <EmbeddedResource Include="Resources\ic_expand_less.png" />
+    <EmbeddedResource Include="Resources\ic_expand_more.png" />
     <EmbeddedResource Include="Resources\ic_face.png" />
     <EmbeddedResource Include="Resources\ic_airport.png" />
     <EmbeddedResource Include="Resources\ic_bar.png" />
@@ -58,6 +63,7 @@
     <EmbeddedResource Include="Resources\ic_pizza.png" />
     <EmbeddedResource Include="Resources\ic_restaurant.png" />
     <EmbeddedResource Include="Resources\ic_save_small.png" />
+    <EmbeddedResource Include="Resources\ic_search.png" />
     <EmbeddedResource Include="Resources\ic_store.png" />
   </ItemGroup>
 

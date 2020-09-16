@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace Dwares.Dwarf.Collections
 {
-	public class ShadowCollection<ShadowItem, SourceItem> : ObservableCollection<ShadowItem>
+	public class ShadowCollection<ShadowItem, SourceItem> : ObservableCollectionEx<ShadowItem>
 		where ShadowItem: class
 	{
 		public ShadowCollection() { }

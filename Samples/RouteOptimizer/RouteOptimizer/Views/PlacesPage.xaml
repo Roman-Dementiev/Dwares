@@ -29,14 +29,54 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
+		<ui:GridEx Grid.Row="0" Grid.Column="0"
+				   Flavor="Panel-grid" 
+				   >
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<ui:ArtImage Grid.Row="0" Grid.Column="0"
+						 Flavor="Panel-icon"
+						 Art="ic_search"
+						 />
+
+			<ui:EntryEx Grid.Row="0" Grid.Column="1"
+						Flavor="Panel-entry"
+						/>
+
+			<ui:ArtButton Grid.Row="0" Grid.Column="2"
+						  Flavor="Panel-expand-button"
+						  IconArt="{Binding ExpandPanelIcon, Mode=OneWay}"
+						  Command="{Binding ExpandPanelCommand}"
+						 />
+
+			<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+				  IsVisible="{Binding IsPanelExpanded, Mode=OneWay}"
+				  >
+				<Label Text="Something" />
+			</Grid>
+
+			<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+						  Flavor="Panel-separator"
+						  />
+		</ui:GridEx>
+		
 		<ui:ListViewEx x:Name="listView"
-					   Grid.Row="0" Grid.Column="0"
+					   Grid.Row="1" Grid.Column="0"
 					   ItemsSource="{Binding Items}"
 					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 					   SelectionMode="Single"
@@ -45,7 +85,7 @@
 					   RefreshCommand="{Binding RefreshCommand}"
 					   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
 					   >
-
+	
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell>

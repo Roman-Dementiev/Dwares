@@ -31,5 +31,10 @@ namespace RouteOptimizer.Views
 				//}
 			}
 		}
+
+		//public void SetPanelVisible(bool isVisible)
+		//{
+		//	panel.IsVisible = isVisible;
+		//}
 	}
 }

@@ -42,7 +42,7 @@
 
 	<Style x:Key="Card-separator" TargetType="BoxView">
 		<Setter Property="HeightRequest" Value="1" />
-		<Setter Property="BackgroundColor" Value="Black" />
+		<Setter Property="BackgroundColor" Value="DarkGray" />
 	</Style>
 	
 	<Style x:Key="Card-add-button" TargetType="ui:ArtButton">
@@ -109,5 +109,32 @@
 	<Style x:Key="Form-editor" TargetType="Editor">
 		<Setter Property="FontSize" Value="16" />
 		<Setter Property="HeightRequest" Value="70" />
+	</Style>
+
+	<Style x:Key="Panel-grid" TargetType="Grid">
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="BackgroundColor" Value="#F5F5F5" />
+	</Style>
+	<Style x:Key="Panel-icon" TargetType="ui:ArtImage">
+		<Setter Property="Margin" Value="4,0,0,0" />
+		<Setter Property="WidthRequest" Value="24" />
+		<Setter Property="HeightRequest" Value="24" />
+		<Setter Property="VerticalOptions" Value="End" />
+	</Style>
+	<Style x:Key="Panel-entry" TargetType="Entry">
+		<Setter Property="Margin" Value="0,0,0,-10" />
+		<Setter Property="FontSize" Value="14" />
+	</Style>
+	<Style x:Key="Panel-expand-button" TargetType="ui:ArtButton">
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="VerticalOptions" Value="End" />
+	</Style>
+	<Style x:Key="Panel-separator" TargetType="BoxView">
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="HeightRequest" Value="1" />
+		<Setter Property="BackgroundColor" Value="Black" />
 	</Style>
 </ResourceDictionary>
