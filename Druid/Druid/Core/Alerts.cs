@@ -49,12 +49,36 @@ namespace Dwares.Druid
 			}
 		}
 
+		public static async Task DisplayPrompt(
+			string title, 
+			string message,
+			string accept = null, 
+			string cancel = null, 
+			string placeholder = null, 
+			int maxLength = -1, 
+			Keyboard keyboard = null, 
+			string initialValue = null)
+		{
+			if (title == null)
+				title = string.Empty;
+			if (message == null)
+				message = string.Empty;
+			if (string.IsNullOrEmpty(accept))
+				accept = AcceptString;
+			if (string.IsNullOrEmpty(cancel))
+				cancel = CancelString;
+			if (initialValue == null)
+				initialValue = string.Empty;
+
+			await CallerPage.DisplayPromptAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
+		}
+
 		public static async Task DisplayAlert(string title, string message, string dismiss = null)
 		{
 			if (title == null)
-				title = "";
+				title = string.Empty;
 			if (message == null)
-				message = "";
+				message = string.Empty;
 			if (string.IsNullOrEmpty(dismiss))
 				dismiss = DismissString;
 
