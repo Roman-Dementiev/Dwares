@@ -27,9 +27,11 @@ namespace RouteOptimizer.Models
 	public static class KnownTags
 	{
 		public static readonly List<KnownTag> All = new List<KnownTag>() {
+			new KnownTag("adult-daycare", "ic_face", typeof(Place)),
 			new KnownTag("airport", "ic_airport", typeof(Place)),
 			new KnownTag("bar", "ic_bar", typeof(Place)),
 			new KnownTag("cafe", "ic_cafe", typeof(Place)),
+			new KnownTag("community-center", "ic_library", typeof(Place)),
 			new KnownTag("convenience", "ic_store", typeof(Place)),
 			new KnownTag("daycare", "ic_child_care", typeof(Place)),
 			new KnownTag("dining", "ic_dining", typeof(Place)),
@@ -47,8 +49,7 @@ namespace RouteOptimizer.Models
 			new KnownTag("pizza", "ic_pizza", typeof(Place)),
 			new KnownTag("residential", "ic_home", typeof(Place)),
 			new KnownTag("restaurant", "ic_restaurant", typeof(Place)),
-			new KnownTag("store", "ic_store", typeof(Place)),
-			new KnownTag("adult-daycare", typeof(Place)),
+			new KnownTag("store", "ic_store", typeof(Place))
 		};
 
 		public static KnownTag Get(string tag)

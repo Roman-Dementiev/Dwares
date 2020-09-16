@@ -32,8 +32,8 @@ namespace RouteOptimizer.Models
 		{
 			Debug.Assert(place != null);
 
-			if (List.Remove(place)) {
-				Index.Remove(place.Name);
+			if (Index.Remove(place.Name)) {
+				List.Remove(place);
 				return true;
 			} else {
 				return false;
@@ -64,7 +64,11 @@ namespace RouteOptimizer.Models
 
 		public Place GetByName(string name)
 		{
-			return List.FirstOrDefault((place) => place.Name == name);
+			//return List.FirstOrDefault((place) => place.Name == name);
+			if (Index.ContainsKey(name))
+				return Index[name];
+			else
+				return null;
 		}
 	}
 }

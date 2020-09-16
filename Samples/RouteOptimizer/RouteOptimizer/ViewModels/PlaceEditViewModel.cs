@@ -7,6 +7,7 @@ using RouteOptimizer.Models;
 using Xamarin.Forms;
 using System.Threading.Tasks;
 using Dwares.Druid.UI;
+using Dwares.Dwarf.Toolkit;
 
 namespace RouteOptimizer.ViewModels
 {
@@ -45,6 +46,12 @@ namespace RouteOptimizer.ViewModels
 			set => SetProperty(ref address, value);
 		}
 		string address = string.Empty;
+
+		public string Phone {
+			get => phone;
+			set => SetProperty(ref phone, value);
+		}
+		string phone = string.Empty;
 
 		public List<string> SuggestedTags {
 			get => suggestedTags ??= KnownTags.GetTagsListForType(typeof(Place));
@@ -93,7 +100,7 @@ namespace RouteOptimizer.ViewModels
 		public async void Save()
 		{
 			try {
-				string message = Validate(Name, Address);
+				string message = Validate(Name, Address, Phone);
 				if (message != null) {
 					await Alerts.DisplayAlert(null, message);
 					return;
@@ -104,10 +111,16 @@ namespace RouteOptimizer.ViewModels
 					{
 						Name = Name,
 						Tags = Tags,
-						Address = Address
+						Address = Address,
+						Phone = Phone
 					};
 					await App.Current.AddPlace(newPlace);
 				} else {
+					Source.Name = Name;
+					Source.Tags = Tags;
+					Source.Address = Address;
+					Source.Phone = Phone;
+
 					await App.Current.UpdatePlace(Source);
 				}
 
@@ -124,7 +137,7 @@ namespace RouteOptimizer.ViewModels
 
 		}
 
-		public static string Validate(string name, string address)
+		public static string Validate(string name, string address, string phone)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				return "Please enter place name";

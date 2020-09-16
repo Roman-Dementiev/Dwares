@@ -71,6 +71,10 @@ namespace RouteOptimizer.ViewModels
 			get => Source?.Address ?? string.Empty;
 		}
 
+		public string Phone {
+			get => Source?.Phone ?? string.Empty;
+		}
+
 		public string EditName {
 			get => editName;
 			set => SetProperty(ref editName, value);
@@ -88,6 +92,12 @@ namespace RouteOptimizer.ViewModels
 			set => SetProperty(ref editAddress, value);
 		}
 		static string editAddress = string.Empty;
+
+		public string EditPhone {
+			get => editPhone;
+			set => SetProperty(ref editPhone, value);
+		}
+		static string editPhone = string.Empty;
 
 		public List<string> SuggestedTags {
 			get => suggestedTags ??= KnownTags.GetTagsListForType(typeof(Place));
@@ -115,6 +125,7 @@ namespace RouteOptimizer.ViewModels
 			EditName = Source.Name;
 			EditTags = Source.Tags;
 			EditAddress = Source.Address;
+			EditPhone = Source.Phone;
 
 			IsEditing = true;
 		}
@@ -122,7 +133,7 @@ namespace RouteOptimizer.ViewModels
 		public async Task<bool> StopEditing(bool save)
 		{
 			if (save) {
-				var message = PlaceEditViewModel.Validate(EditName, EditAddress);
+				var message = PlaceEditViewModel.Validate(EditName, EditAddress, EditPhone);
 				if (message != null) {
 					await Alerts.DisplayAlert(null, message);
 					return false;
@@ -131,6 +142,7 @@ namespace RouteOptimizer.ViewModels
 				Source.Name = EditName.Trim();
 				Source.Tags = EditTags.Trim();
 				Source.Address = EditAddress.Trim();
+				Source.Phone = EditPhone.Trim();
 			}
 
 			EditName = EditTags = EditAddress = string.Empty;
@@ -143,8 +155,9 @@ namespace RouteOptimizer.ViewModels
 		{
 			FirePropertiesChanged(e.ChangedProperties);
 
-			//if (e.ChangedProperties.Contains(nameof(Tags))) {
+			//if (e.ChangedProperties.Contains(nameof(Tags)) || e.JustAdded) {
 			//	FirePropertyChanged(nameof(ShowTags));
+			// e.JustAdded = false;
 			//}
 		}
 	}

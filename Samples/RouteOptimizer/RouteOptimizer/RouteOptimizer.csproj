@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\ic_add_item.png" />
+    <EmbeddedResource Include="Resources\ic_face.png" />
     <EmbeddedResource Include="Resources\ic_airport.png" />
     <EmbeddedResource Include="Resources\ic_bar.png" />
     <EmbeddedResource Include="Resources\ic_cafe.png" />
@@ -74,7 +75,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\ic_face.png" />
     <Resource Include="Resources\ic_face1.png" />
   </ItemGroup>
 

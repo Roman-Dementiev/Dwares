@@ -26,9 +26,9 @@ namespace RouteOptimizer.Views
 		{
 			if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count > 0) {
 				var card = e.NewItems[0] as PlaceCardModel;
-				if (card?.IsEditing == true) {
+				//if (card?.IsEditing == true) {
 					listView.ScrollTo(card, ScrollToPosition.MakeVisible, false);
-				}
+				//}
 			}
 		}
 	}

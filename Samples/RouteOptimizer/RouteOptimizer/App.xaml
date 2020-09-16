@@ -19,6 +19,7 @@
 			<drx:BitmapAsset x:Key="ic_cafe" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_cafe.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_child_care" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_child_care.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_dining" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_dining.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_face" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_face.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_gas_station" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_gas_station.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_grocery" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_grocery.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_home" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_home.png</drx:BitmapAsset>

@@ -30,6 +30,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
@@ -64,6 +65,15 @@
 		<ui:EditorEx Grid.Row="3" Grid.Column="1"
 					 Flavor="Form-editor"
 					 Text="{Binding Address, Mode=TwoWay}"
+					 />
+
+		<ui:LabelEx Grid.Row="4" Grid.Column="0"
+					Flavor="Form-lead-label"
+					Text="Phone:"
+					/>
+		<ui:EditorEx Grid.Row="4" Grid.Column="1"
+					 Flavor="Form-entry"
+					 Text="{Binding Phone, Mode=TwoWay}"
 					 />
 	</ui:GridEx>
 </ui:ShellPageEx>

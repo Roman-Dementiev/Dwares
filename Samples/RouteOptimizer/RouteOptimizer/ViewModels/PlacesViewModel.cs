@@ -109,8 +109,9 @@ namespace RouteOptimizer.ViewModels
 
 		public async Task DeleteCard(PlaceCardModel card)
 		{
-			await App.Current.DeletePlace(card.Source);
-			
+			if (await Alerts.ConfirmAlert($"Are you sure you want to delete '{card.Name}' ?")) {
+				await App.Current.DeletePlace(card.Source);
+			}
 		}
 
 		public async Task EditCard(PlaceCardModel card)
@@ -195,7 +196,9 @@ namespace RouteOptimizer.ViewModels
 
 		async Task Clear()
 		{
-			await App.Current.ClearPlaces();
+			if (await Alerts.ConfirmAlert("Are you sure you want to clear the whole list?")) {
+				await App.Current.ClearPlaces();
+			}
 		}
 		
 		async Task Email()
@@ -238,33 +241,11 @@ namespace RouteOptimizer.ViewModels
 			});
 		}
 
-		async Task LoadSample() => await LoadSample(skipDuplicates: true);
-
-		async Task LoadSample(bool skipDuplicates)
+		async Task LoadSample()
 		{
-			using (var stream = await FileSystem.OpenAppPackageFileAsync("Places.txt"))
-			using (var reader = new StreamReader(stream)) {
-				var text = await reader.ReadToEndAsync();
-				var json = JsonStorage.DeserializeJson<PlacesJson>(text);
-
-				var places = App.Current.Places;
-
-				foreach (var rec in json.Places) {
-					var found = places.GetByName(rec.Name);
-					if (found != null) {
-						if (skipDuplicates)
-							continue;
-						places.Remove(found);
-					}
-					places.Add(new Place {
-						Name = rec.Name,
-						Tags = rec.Tags,
-						Address = rec.Address
-					});
-				}
-			}
-
-			await App.Current.SavePlaces();
+			Items.IsSuspended = true;
+			await App.Current.LoadSample(App.HospitalsSample, skipDuplicates: true);
+			Items.IsSuspended = false;
 		}
 	}
 }

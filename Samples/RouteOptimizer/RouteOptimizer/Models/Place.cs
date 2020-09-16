@@ -22,11 +22,6 @@ namespace RouteOptimizer.Models
 		}
 		string name = string.Empty;
 
-		//public string Tags {
-		//	get => tags;
-		//	set => SetProperty(ref tags, value);
-		//}
-		//string tags = string.Empty;
 		public TagsList Tags {
 			get => tags;
 			set {
@@ -42,6 +37,12 @@ namespace RouteOptimizer.Models
 			set => SetPropertyEx(ref address, value, nameof(Address), nameof(Id));
 		}
 		string address = string.Empty;
+
+		public string Phone {
+			get => phone;
+			set => SetPropertyEx(ref phone, value);
+		}
+		string phone = string.Empty;
 
 		public string Icon {
 			get {
@@ -61,6 +62,7 @@ namespace RouteOptimizer.Models
 				}
 				return icon;
 			}
+			set => SetProperty(ref icon, value);
 		}
 		string icon;
 	}

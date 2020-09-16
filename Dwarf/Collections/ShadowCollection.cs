@@ -79,37 +79,22 @@ namespace Dwares.Dwarf.Collections
 		}
 		ShadowItem placeholder;
 
-		//public void UsePlaceholder(ShadowItem placeholder)
-		//{
-		//	if (placeholder == Placeholder)
-		//		return;
 
-		//	if (Placeholder != null) {
-		//		Remove(Placeholder);
-		//	}
-		//	if (placeholder != null) {
-		//		Add(Placeholder);
-		//	}
-
-		//	Placeholder = placeholder;
-		//	OnPropertyChanged(new PropertyChangedEventArgs(nameof(Placeholder)));
-		//}
-
-		//void UsePlaceholder(bool usePlaceholde, ShadowItem placeholder)
-		//{
-		//	Placeholder = placeholder;
-
-		//	if (usePlaceholde != HasPlaceholder)
-		//	{
-		//		HasPlaceholder = usePlaceholde;
-		//		if (usePlaceholde) {
-		//			Guard.ArgumentNotNull(placeholder, nameof(placeholder));
-		//			Add(Placeholder);
-		//		} else {
-		//			Remove(Placeholder);
-		//		}
-		//	}
-		//}
+		public bool IsSuspended {
+			get => isSuspended;
+			set {
+				if (value != isSuspended) {
+					if (isSuspended && needRecollect) {
+						RecollectShadows();
+					}
+					needRecollect = false;
+					isSuspended = value;
+					OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsSuspended)));
+				}
+			}
+		}
+		bool isSuspended = false;
+		bool needRecollect = false;
 
 		protected void AddShadows()
 		{
@@ -174,7 +159,11 @@ namespace Dwares.Dwarf.Collections
 
 		private void SourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			RecollectShadows();
+			if (IsSuspended) {
+				needRecollect = true;
+			} else {
+				RecollectShadows();
+			}
 		}
 
 		protected ShadowItem ShadowFromObject(object item)

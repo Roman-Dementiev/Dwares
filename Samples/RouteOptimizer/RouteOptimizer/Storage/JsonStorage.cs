@@ -1,4 +1,5 @@
-﻿using Dwares.Dwarf;
+﻿using Dwares.Druid;
+using Dwares.Dwarf;
 using Newtonsoft.Json;
 using RouteOptimizer.Models;
 using System;
@@ -17,14 +18,14 @@ namespace RouteOptimizer.Storage
 		const string kPlacesFn = "Places.json";
 		const string kRouteFn = "Route.json";
 
-		public Task LoadPlacesAsync(Places places)
+		public async Task LoadPlacesAsync(Places places)
 		{
 			try {
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				if (!File.Exists(path))
-					return Task.CompletedTask;
+					return;
 
-				var text = File.ReadAllText(path);
+				var text = await Files.ReadAllText(path, async: true);
 				var json = DeserializeJson<PlacesJson>(text);
 
 				foreach (var rec in json.Places)
@@ -32,16 +33,16 @@ namespace RouteOptimizer.Storage
 					var place = new Place {
 						Name = rec.Name ?? string.Empty,
 						Tags = rec.Tags ?? string.Empty,
-						Address = rec.Address ?? string.Empty
+						//Tnfo = rec.Info ?? string.Emty,
+						Address = rec.Address ?? string.Empty,
+						Phone = rec.Info ?? string.Empty
 					};
-					places.List.Add(place);
+					places.Add(place);
 				}
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
 			}
-
-			return Task.CompletedTask;
 		}
 
 		public void SavePlaces()
@@ -104,7 +105,9 @@ namespace RouteOptimizer.Storage
 				json.Places[i] = new PlaceRecord {
 					Name = place.Name,
 					Tags = place.Tags,
-					Address = place.Address
+					//Info = place.Info,
+					Address = place.Address,
+					Phone = place.Phone
 				};
 			}
 
@@ -163,8 +166,9 @@ namespace RouteOptimizer.Storage
 	{
 		public string Name { get; set; }
 		public string Tags { get; set; }
-		//public string Info { get; set; }
+		public string Info { get; set; }
 		public string Address { get; set; }
+		public string Phone { get; set; }
 	}
 
 	internal class PlacesJson
