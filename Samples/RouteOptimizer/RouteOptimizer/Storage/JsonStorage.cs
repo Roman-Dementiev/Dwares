@@ -18,18 +18,22 @@ namespace RouteOptimizer.Storage
 		const string kPlacesFn = "Places.json";
 		const string kRouteFn = "Route.json";
 
-		public async Task LoadPlacesAsync(Places places)
+		//public async Task LoadPlacesAsync(Places places)
+		public async Task<Place[]> LoadPlacesAsync()
 		{
 			try {
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				if (!File.Exists(path))
-					return;
+					return null;
 
 				var text = await Files.ReadAllText(path, async: true);
 				var json = DeserializeJson<PlacesJson>(text);
 
-				foreach (var rec in json.Places)
+				int count = json.Places.Length;
+				var places = new Place[count];
+				for (int i = 0; i < count; i++)
 				{
+					var rec = json.Places[i];
 					var place = new Place {
 						Name = rec.Name ?? string.Empty,
 						Tags = rec.Tags ?? string.Empty,
@@ -37,11 +41,14 @@ namespace RouteOptimizer.Storage
 						Address = rec.Address ?? string.Empty,
 						Phone = rec.Info ?? string.Empty
 					};
-					places.Add(place);
+					places[i] = place;
 				}
+
+				return places;
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
+				return null;
 			}
 		}
 

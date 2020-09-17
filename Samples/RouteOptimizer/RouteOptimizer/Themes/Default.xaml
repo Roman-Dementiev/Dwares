@@ -116,14 +116,21 @@
 		<Setter Property="BackgroundColor" Value="#F5F5F5" />
 	</Style>
 	<Style x:Key="Panel-icon" TargetType="ui:ArtImage">
-		<Setter Property="Margin" Value="4,0,0,0" />
-		<Setter Property="WidthRequest" Value="24" />
-		<Setter Property="HeightRequest" Value="24" />
+		<Setter Property="Margin" Value="2,0,8,0" />
+		<Setter Property="WidthRequest" Value="32" />
+		<Setter Property="HeightRequest" Value="32" />
 		<Setter Property="VerticalOptions" Value="End" />
 	</Style>
 	<Style x:Key="Panel-entry" TargetType="Entry">
-		<Setter Property="Margin" Value="0,0,0,-10" />
-		<Setter Property="FontSize" Value="14" />
+		<Setter Property="Margin" Value="2,2,2,-4" />
+		<Setter Property="FontSize" Value="16" />
+	</Style>
+	<Style x:Key="Panel-button" TargetType="ui:ArtButton">
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="Orientation" Value="Horizontal" />
+		<Setter Property="IconWidth" Value="24" />
+		<Setter Property="IconHeight" Value="24" />
+		<Setter Property="VerticalOptions" Value="Center" />
 	</Style>
 	<Style x:Key="Panel-expand-button" TargetType="ui:ArtButton">
 		<Setter Property="Margin" Value="0" />

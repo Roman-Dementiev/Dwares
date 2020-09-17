@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Dwares.Dwarf;
-
+using Dwares.Dwarf.Collections;
 
 namespace RouteOptimizer.Models
 {
@@ -16,7 +16,7 @@ namespace RouteOptimizer.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public ObservableCollection<Place> List { get; } = new ObservableCollection<Place>();
+		public ObservableCollectionEx<Place> List { get; } = new ObservableCollectionEx<Place>();
 		public Dictionary<string, Place> Index { get;} = new Dictionary<string, Place>();
 
 		public void Add(Place place)

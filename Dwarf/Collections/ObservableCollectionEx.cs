@@ -45,5 +45,13 @@ namespace Dwares.Dwarf.Collections
 				OnPropertyChanged(new PropertyChangedEventArgs(nameof(Count)));
 			}
 		}
+
+		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+		{
+			if (NotificationsAreSuspended)
+				HasPendingNotifications = true;
+			else
+				base.OnCollectionChanged(e);
+		}
 	}
 }

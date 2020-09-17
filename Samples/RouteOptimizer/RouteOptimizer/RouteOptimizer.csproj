@@ -34,6 +34,7 @@
     <None Remove="Resources\ic_restaurant.png" />
     <None Remove="Resources\ic_save_small.png" />
     <None Remove="Resources\ic_search.png" />
+    <None Remove="Resources\ic_search_again.png" />
     <None Remove="Resources\ic_store.png" />
   </ItemGroup>
 
@@ -64,6 +65,7 @@
     <EmbeddedResource Include="Resources\ic_restaurant.png" />
     <EmbeddedResource Include="Resources\ic_save_small.png" />
     <EmbeddedResource Include="Resources\ic_search.png" />
+    <EmbeddedResource Include="Resources\ic_search_again.png" />
     <EmbeddedResource Include="Resources\ic_store.png" />
   </ItemGroup>
 

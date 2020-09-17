@@ -44,33 +44,67 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
+				<!--<ColumnDefinition Width="Auto" />-->
 			</Grid.ColumnDefinitions>
 
-			<ui:ArtImage Grid.Row="0" Grid.Column="0"
-						 Flavor="Panel-icon"
-						 Art="ic_search"
-						 />
-
-			<ui:EntryEx Grid.Row="0" Grid.Column="1"
+			<ui:EntryEx Grid.Row="0" Grid.Column="0"
 						Flavor="Panel-entry"
+						Text="{Binding SearchText, Mode=OneWayToSource}"
 						/>
 
-			<ui:ArtButton Grid.Row="0" Grid.Column="2"
+			<ui:ArtImage Grid.Row="0" Grid.Column="1"
+						 Flavor="Panel-icon"
+						 Art="{Binding SearchlIcon, Mode=OneWay}"
+						 >
+				<Image.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding SearchCommand}" />
+				</Image.GestureRecognizers>
+			</ui:ArtImage>
+
+			<!--<ui:ArtButton Grid.Row="0" Grid.Column="2"
 						  Flavor="Panel-expand-button"
 						  IconArt="{Binding ExpandPanelIcon, Mode=OneWay}"
 						  Command="{Binding ExpandPanelCommand}"
-						 />
+						 />-->
 
-			<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+			<!--<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
 				  IsVisible="{Binding IsPanelExpanded, Mode=OneWay}"
 				  >
-				<Label Text="Something" />
-			</Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
 
-			<ui:BoxViewEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+				<ui:LabelEx Grid.Row="0" Grid.Column="0"
+							Text="Sort:"
+							/>
+				<ui:RadioButtonEx Grid.Row="0" Grid.Column="1"
+								  Text="By Category"
+								  />
+				<ui:RadioButtonEx Grid.Row="1" Grid.Column="1"
+								  Text="By Name only"
+								  />
+
+				<ui:LabelEx Grid.Row="0" Grid.Column="2"
+							Text="Name order:"
+							/>
+				<ui:RadioButtonEx Grid.Row="0" Grid.Column="3"
+								  Text="Ascending"
+								  />
+				<ui:RadioButtonEx Grid.Row="1" Grid.Column="3"
+								  Text="Descending"
+								  />
+			</Grid>-->
+
+			<ui:BoxViewEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
 						  Flavor="Panel-separator"
 						  />
 		</ui:GridEx>

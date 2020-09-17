@@ -1,14 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
+using Dwares.Dwarf.Collections;
 using Dwares.Druid.UI;
 using RouteOptimizer.Models;
 using RouteOptimizer.Storage;
 using RouteOptimizer.Views;
 using RouteOptimizer.ViewModels;
-using Xamarin.Essentials;
-using System.IO;
+
 
 namespace RouteOptimizer
 {
@@ -26,6 +28,7 @@ namespace RouteOptimizer
 			Current = this;
 
 			InitializeComponent();
+			Device.SetFlags(new string[] { "RadioButton_Experimental" });
 
 			Routing.RegisterRoute(nameof(AboutPage), typeof(AboutPage));
 			Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
@@ -63,8 +66,8 @@ namespace RouteOptimizer
 
 		protected override async void OnStart()
 		{
-			await AppStorage.LoadPlacesAsync(Places);
-			await AppStorage.LoadRouteAsync(Route);
+			await LoadPlaces();
+			await LoadRoute();
 		}
 
 		protected override void OnSleep()
@@ -75,11 +78,26 @@ namespace RouteOptimizer
 		{
 		}
 
-		public async Task ReloadPlaces()
+		public async Task LoadPlaces()
 		{
 			Places.Clear();
-			await AppStorage.LoadPlacesAsync(Places);
+			
+			var places = await AppStorage.LoadPlacesAsync();
+
+			using (var batch = new BatchCollectionChange(Places.List)) {
+				foreach (var place in places) {
+					Places.Add(place);
+				}
+			}
 		}
+
+		public async Task LoadRoute()
+		{
+			//Route.Clear();
+			await AppStorage.LoadRouteAsync(Route);
+		}
+
+
 
 		public async Task ClearPlaces()
 		{
@@ -112,6 +130,7 @@ namespace RouteOptimizer
 
 		public async Task LoadSample(string sampleFile, bool skipDuplicates)
 		{
+			using (var batch = new BatchCollectionChange(Places.List))
 			using (var stream = await FileSystem.OpenAppPackageFileAsync(sampleFile))
 			using (var reader = new StreamReader(stream)) {
 				var text = await reader.ReadToEndAsync();

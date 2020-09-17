@@ -13,7 +13,8 @@ using RouteOptimizer.Models;
 using RouteOptimizer.Storage;
 using System.ComponentModel;
 using RouteOptimizer.Views;
-
+using Dwares.Dwarf.Collections;
+using System.Net.Http.Headers;
 
 namespace RouteOptimizer.ViewModels
 {
@@ -48,6 +49,7 @@ namespace RouteOptimizer.ViewModels
 			LoadSampleCommand = new Command(async () => await BusyTask(LoadSample), CanPerformAction);
 
 			ExpandPanelCommand = new Command(() => IsPanelExpanded = !IsPanelExpanded );
+			SearchCommand = new Command(Search);
 		}
 
 		public ObservableCollection<PlaceCardModel> Places => Items;
@@ -67,6 +69,7 @@ namespace RouteOptimizer.ViewModels
 		public Command LoadSampleCommand { get; }
 
 		public Command ExpandPanelCommand { get; }
+		public Command SearchCommand { get; }
 
 		public bool UseInPlaceEditor {
 			get => useInPlaceEditor;
@@ -95,9 +98,29 @@ namespace RouteOptimizer.ViewModels
 			get => IsPanelExpanded ? "ic_expand_less" : "ic_expand_more";
 		}
 
+		public string SearchText {
+			get => searchText;
+			set {
+				if (SetProperty(ref searchText, value))
+					SearchResult = null;
+			}
+		}
+		string searchText = string.Empty;
+
+		public string SearchlIcon {
+			get => SearchResult?.Card  != null ? "ic_search_again" : "ic_search";
+		}
+
+		internal SearchResult? SearchResult {
+			get => searchResult;
+			set => SetPropertyEx(ref searchResult, value, nameof(SearchResult), nameof(SearchlIcon));
+		}
+		SearchResult? searchResult;
+
+
 		async Task Reload()
 		{
-			await App.Current.ReloadPlaces();
+			await App.Current.LoadPlaces();
 		}
 
 		public async Task AddCard()
@@ -257,9 +280,67 @@ namespace RouteOptimizer.ViewModels
 
 		async Task LoadSample()
 		{
-			Items.IsSuspended = true;
+			//Items.IsSuspended = true;
 			await App.Current.LoadSample(App.HospitalsSample, skipDuplicates: true);
-			Items.IsSuspended = false;
+			//Items.IsSuspended = false;
 		}
+
+		void Search()
+		{
+			if (string.IsNullOrEmpty(SearchText))
+				return;
+
+			var text = SearchText.ToLower();
+			int startIndex = 0;
+			if (SearchResult != null && SearchResult?.Text == text) {
+				startIndex = ((SearchResult)SearchResult).Index + 1;
+			}
+			
+			SearchResult? result = null;
+			for (int i = startIndex; i < Items.Count; i++) {
+				var card = Items[i];
+				if (card == null)
+					continue;
+
+				var name = card.Name.ToLower();
+				if (name.Contains(text)) {
+					result = new SearchResult {
+						Text = text,
+						Card = card,
+						Index = i
+					};
+					break;
+				}
+			}
+
+			if (result != null) {
+				SearchResult = result;
+				WantToScrollTo = result?.Card;
+			} else {
+				if (SelectedItem == SearchResult?.Card)
+					SelectedItem = null;
+				SearchResult = null;
+			}
+		}
+
+
+		public PlaceCardModel WantToScrollTo {
+			get => wantToScrollTo;
+			set {
+				wantToScrollTo = value;
+				if (value != null) {
+					FirePropertyChanged();
+				}
+			}
+		}
+		PlaceCardModel wantToScrollTo;
+	}
+
+	internal struct SearchResult
+	{
+		public string Text;
+		public PlaceCardModel Card;
+		public int Index;
+
 	}
 }
