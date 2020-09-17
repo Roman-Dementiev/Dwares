@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace Dwares.Dwarf.Toolkit
 {
@@ -16,38 +14,48 @@ namespace Dwares.Dwarf.Toolkit
 	{
 		const string EolPattern = "(\r?\n|\r)";
 		const string EmailPattern = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
-		const string PhonePattern = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
-		const string USAPhonePattern = @"^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
-		const string ExtPhonePattern = @"^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$";
+		const string PhonePattern = @"^(\+\d{1,2}\s)?\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})$";
+		const string UsaPhonePattern = @"^(\+0?1\s)?\(?(\d{3})\)?[\s.-]?(\d{3})[\s.-]?(\d{4})$";
+		//const string ExtPhonePattern = @"^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$";
 
+		public static Regex Eol {
+			get => eol ??= new Regex(EolPattern, RegexOptions.Compiled);
+		}
 		static Regex eol;
-		public static Regex Eol => LazyInit(ref eol, EolPattern);
 
+		public static Regex Email {
+			get => email ??= new Regex(EmailPattern, RegexOptions.Compiled);
+		}
 		static Regex email;
-		public static Regex Email => LazyInit(ref email, EmailPattern);
 
+		public static Regex Phone {
+			get => phone ??= new Regex(PhonePattern, RegexOptions.Compiled);
+		}
 		static Regex phone;
-		public static Regex Phone => LazyInit(ref phone, PhonePattern);
 
+		public static Regex UsaPhone {
+			get => usaPhone ??= new Regex(UsaPhonePattern, RegexOptions.Compiled);
+		}
 		static Regex usaPhone;
-		public static Regex USAPhone => LazyInit(ref usaPhone, USAPhonePattern);
 
-		static Regex extPhone;
-		public static Regex ExtPhone => LazyInit(ref extPhone, ExtPhonePattern);
+		//public static Regex ExtPhone {
+		//	get => extPhone ??= new Regex(ExtPhonePattern, RegexOptions.Compiled);
+		//}
+		//static Regex extPhone;
 
 		public static bool IsValidPattern(string pattern)
 		{
 			Regex regex;
-			return IsValidPattern(pattern, out regex);
+			return IsValidPattern(pattern, out regex, false);
 		}
 
-		public static bool IsValidPattern(string pattern, out Regex regex)
+		public static bool IsValidPattern(string pattern, out Regex regex, bool compile = true)
 		{
 			try {
-				regex = new Regex(pattern);
+				regex = new Regex(pattern, compile ? RegexOptions.Compiled : RegexOptions.None);
 				return true;
 			}
-			catch (Exception ex) {
+			catch (Exception exc) {
 				regex = null;
 				return false;
 			}
@@ -67,11 +75,5 @@ namespace Dwares.Dwarf.Toolkit
 		//		return Phone;
 		//	}
 		//}
-
-		static Regex LazyInit(ref Regex regex, string pattern)
-		{
-			return LazyInitializer.EnsureInitialized(ref regex, () => new Regex(pattern));
-		}
-
 	}
 }

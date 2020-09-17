@@ -6,6 +6,7 @@ using RouteOptimizer.Models;
 using System.Threading.Tasks;
 using Dwares.Druid;
 using System.Collections.Generic;
+using Dwares.Dwarf.Toolkit;
 
 namespace RouteOptimizer.ViewModels
 {
@@ -67,12 +68,19 @@ namespace RouteOptimizer.ViewModels
 		//}
 		public bool ShowTags => false;
 
-		public string Address {
-			get => Source?.Address ?? string.Empty;
+		public string Note {
+			get => Source?.Note ?? string.Empty;
 		}
+		public bool ShowNote => !string.IsNullOrEmpty(Note);
 
 		public string Phone {
-			get => Source?.Phone ?? string.Empty;
+			//get => Source?.Phone ?? string.Empty;
+			get => PhoneNumber.Normalize(Source?.Phone, true);
+		}
+		public bool ShowPhone => !string.IsNullOrEmpty(Phone);
+
+		public string Address {
+			get => Source?.Address ?? string.Empty;
 		}
 
 		public string EditName {
@@ -87,17 +95,23 @@ namespace RouteOptimizer.ViewModels
 		}
 		static string editTags = string.Empty;
 
-		public string EditAddress {
-			get => editAddress;
-			set => SetProperty(ref editAddress, value);
+		public string EditNote {
+			get => editNote;
+			set => SetProperty(ref editNote, value);
 		}
-		static string editAddress = string.Empty;
+		static string editNote = string.Empty;
 
 		public string EditPhone {
 			get => editPhone;
 			set => SetProperty(ref editPhone, value);
 		}
 		static string editPhone = string.Empty;
+
+		public string EditAddress {
+			get => editAddress;
+			set => SetProperty(ref editAddress, value);
+		}
+		static string editAddress = string.Empty;
 
 		public List<string> SuggestedTags {
 			get => suggestedTags ??= Categories.GetTagsForType(typeof(Place));
@@ -124,8 +138,9 @@ namespace RouteOptimizer.ViewModels
 		{
 			EditName = Source.Name;
 			EditTags = Source.Tags;
-			EditAddress = Source.Address;
+			EditNote = Source.Note;
 			EditPhone = Source.Phone;
+			EditAddress = Source.Address;
 
 			IsEditing = true;
 		}
@@ -133,19 +148,26 @@ namespace RouteOptimizer.ViewModels
 		public async Task<bool> StopEditing(bool save)
 		{
 			if (save) {
-				var message = PlaceEditViewModel.Validate(EditName, EditAddress, EditPhone);
+				var name = EditName.Trim();
+				var tags = EditTags.Trim();
+				var note = EditNote.Trim();
+				var phone = EditPhone.Trim();
+				var address = EditAddress.Trim();
+
+				var message = PlaceEditViewModel.Validate(Source, name, address, phone);
 				if (message != null) {
 					await Alerts.DisplayAlert(null, message);
 					return false;
 				}
 
-				Source.Name = EditName.Trim();
-				Source.Tags = EditTags.Trim();
-				Source.Address = EditAddress.Trim();
-				Source.Phone = EditPhone.Trim();
+				Source.Name = name;
+				Source.Tags = tags;
+				Source.Note = note;
+				Source.Phone = phone;
+				Source.Address = address;
 			}
 
-			EditName = EditTags = EditAddress = string.Empty;
+			EditName = EditTags = EditNote = EditPhone = EditAddress = string.Empty;
 			IsEditing = false;
 
 			return true;
@@ -154,6 +176,13 @@ namespace RouteOptimizer.ViewModels
 		protected override void OnSourceChanged(object sender, ModelChangedEventArgs e)
 		{
 			FirePropertiesChanged(e.ChangedProperties);
+
+			if (e.ChangedProperties.Contains(nameof(Note))) {
+				FirePropertyChanged(nameof(ShowNote));
+			}
+			if (e.ChangedProperties.Contains(nameof(Phone))) {
+				FirePropertyChanged(nameof(ShowPhone));
+			}
 
 			//if (e.ChangedProperties.Contains(nameof(Tags)) || e.JustAdded) {
 			//	FirePropertyChanged(nameof(ShowTags));

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
+using Dwares.Dwarf;
 using Dwares.Dwarf.Collections;
 using Dwares.Druid.UI;
 using RouteOptimizer.Models;
@@ -62,7 +64,7 @@ namespace RouteOptimizer
 				}
 			}
 		}
-		bool useInPlaceEditor;
+		bool useInPlaceEditor = false;
 
 		protected override async void OnStart()
 		{
@@ -82,7 +84,8 @@ namespace RouteOptimizer
 		{
 			Places.Clear();
 			
-			var places = await AppStorage.LoadPlacesAsync();
+			var places = new List<Place>();
+			await AppStorage.LoadPlacesAsync(places);
 
 			using (var batch = new BatchCollectionChange(Places.List)) {
 				foreach (var place in places) {
@@ -112,19 +115,25 @@ namespace RouteOptimizer
 
 		public async Task AddPlace(Place place)
 		{
+			string id = await AppStorage.AddPlaceAsync(place);
+			Debug.Assert(place.Id == id);
+
 			Places.Add(place);
-			await AppStorage.AddPlaceAsync(place);
 		}
 
 		public async Task UpdatePlace(Place place)
 		{
-			await AppStorage.UpdatePlaceAsync(place);
+			string oldId = place.Id; 
+			string newId = await AppStorage.UpdatePlaceAsync(oldId, place);
+			if (newId != oldId) {
+				Places.Replace(oldId, place);
+			}
 		}
 
 		public async Task DeletePlace(Place place)
 		{
 			if (Places.Remove(place)) {
-				await AppStorage.DeletePlaceAsync(place);
+				await AppStorage.DeletePlaceAsync(place.Id);
 			}
 		}
 

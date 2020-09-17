@@ -14,11 +14,21 @@ namespace RouteOptimizer.Models
 			//Debug.EnableTracing(@class);
 		}
 
-		public string Id => Ids.PlaceId(this);
+		public string Id {
+			get => id;
+			set => SetProperty(ref id, value);
+		}
+		string id;
+
+		public Category Category {
+			get => category;
+			private set => SetProperty(ref category, value);
+		}
+		Category category;
 
 		public string Name {
 			get => name;
-			set => SetPropertyEx(ref name, value, nameof(Name), nameof(Id));
+			set => SetProperty(ref name, value);
 		}
 		string name = string.Empty;
 
@@ -28,23 +38,24 @@ namespace RouteOptimizer.Models
 		}
 		string icon;
 
-		public Category Category {
-			get => category;
-			private set => SetProperty(ref category, value);
+		public string Note {
+			get => note;
+			set => SetProperty(ref note, value);
 		}
-		Category category;
-
-		public string Address {
-			get => address;
-			set => SetPropertyEx(ref address, value, nameof(Address), nameof(Id));
-		}
-		string address = string.Empty;
+		string note = string.Empty;
 
 		public string Phone {
 			get => phone;
-			set => SetPropertyEx(ref phone, value);
+			set => SetProperty(ref phone, value);
 		}
 		string phone = string.Empty;
+
+
+		public string Address {
+			get => address;
+			set => SetProperty(ref address, value);
+		}
+		string address = string.Empty;
 
 		public TagsList TagsList { get; } = new TagsList();
 

@@ -1,40 +1,27 @@
 ﻿using System;
-using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Dwares.Dwarf.Collections
 {
-	public class BatchCollectionChange : IDisposable
+	public class BatchCollectionChange : GuardDisposable<ISuspendableNotifyCollectionChanged>
 	{
-		ISuspendableNotifyCollectionChanged suspendable;
-
-		public BatchCollectionChange(object collection, bool requireSuspandable)
+		public BatchCollectionChange(object collection, bool requireSuspandable) :
+			base(collection, requireSuspandable)
 		{
-			suspendable = collection as ISuspendableNotifyCollectionChanged;
-			if (suspendable != null) {
-				suspendable.SuspendNotifications();
-			}
-			else if (requireSuspandable) {
-				throw new ArgumentException("BatchCollectionChange(): collection does not implement ISuspendableNotifyCollectionChanged");
-			}
+			Guarded?.SuspendNotifications();
 		}
 
-		public BatchCollectionChange(ISuspendableNotifyCollectionChanged collection)
+		public BatchCollectionChange(ISuspendableNotifyCollectionChanged collection) :
+			base(collection)
 		{
-			suspendable = collection ?? throw new ArgumentNullException(nameof(collection));
-			suspendable.SuspendNotifications();
+			Guarded.SuspendNotifications();
 		}
 
-#if DEBUG
-		~BatchCollectionChange()
+		public override void Dispose()
 		{
-			Debug.AssertIsNull(suspendable, "BatchCollectionChange.Dispose() was not called.");
-		}
-#endif
-		public void Dispose()
-		{
-			suspendable.ResumeNotifications(false);
-			suspendable = null;
+			Guarded?.ResumeNotifications(false);
+			base.Dispose();
 		}
 
 	}

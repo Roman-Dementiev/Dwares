@@ -32,6 +32,8 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -53,8 +55,20 @@
 							Text="{Binding Tags, Mode=OneWay}"
 							IsVisible="{Binding ShowTags, Mode=OneWay}"
 							/>
-				
+
 				<ui:LabelEx Grid.Row="2" Grid.Column="1"
+							Flavor="Card-text-default"
+							Text="{Binding Note, Mode=OneWay}"
+							IsVisible="{Binding ShowNote, Mode=OneWay}"
+							/>
+
+				<ui:LabelEx Grid.Row="3" Grid.Column="1"
+							Flavor="Card-text-default"
+							Text="{Binding Phone, Mode=OneWay}"
+							IsVisible="{Binding ShowPhone, Mode=OneWay}"
+							/>
+
+				<ui:LabelEx Grid.Row="4" Grid.Column="1"
 							Flavor="Card-text-default"
 							Text="{Binding Address, Mode=OneWay}"
 							/>
@@ -68,18 +82,21 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				
-				<ui:LabelEx Grid.Row="0" Grid.Column="0"
+				<!--<ui:LabelEx Grid.Row="0" Grid.Column="0"
 							Flavor="Card-lead-label"
 							Text="Name:"
-							/>
-				<ui:EntryEx Grid.Row="0" Grid.Column="1"
+							/>-->
+				<ui:EntryEx Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
 							Flavor="Card-entry"
+							Placeholder="Enter name"
 							Text="{Binding EditName, Mode=TwoWay}"
 							/>
 
@@ -94,12 +111,30 @@
 											 ChoosenSuggestion="{Binding ChoosenTagSuggestion, Mode=OneWayToSource}"
 											 MinSuggestionLength="1"
 											 />
-				
+
 				<ui:LabelEx Grid.Row="2" Grid.Column="0"
+							Flavor="Card-lead-label"
+							Text="Note:"
+							/>
+				<ui:EntryEx Grid.Row="2" Grid.Column="1"
+							Flavor="Card-entry"
+							Text="{Binding EditNote, Mode=TwoWay}"
+							/>
+
+				<ui:LabelEx Grid.Row="3" Grid.Column="0"
+							Flavor="Card-lead-label"
+							Text="Phone:"
+							/>
+				<ui:EntryEx Grid.Row="3" Grid.Column="1"
+							Flavor="Card-entry"
+							Text="{Binding EditPhone, Mode=TwoWay}"
+							/>
+				
+				<ui:LabelEx Grid.Row="4" Grid.Column="0"
 							Flavor="Card-lead-label"
 							Text="Address:"
 							/>
-				<ui:EditorEx Grid.Row="2" Grid.Column="1"
+				<ui:EditorEx Grid.Row="4" Grid.Column="1"
 							 Flavor="Card-editor"
 							 Text="{Binding EditAddress, Mode=TwoWay}"
 							 />

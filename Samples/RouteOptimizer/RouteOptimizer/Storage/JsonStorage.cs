@@ -19,57 +19,43 @@ namespace RouteOptimizer.Storage
 		const string kRouteFn = "Route.json";
 
 		//public async Task LoadPlacesAsync(Places places)
-		public async Task<Place[]> LoadPlacesAsync()
+		public async Task LoadPlacesAsync(IList<Place> places)
 		{
 			try {
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				if (!File.Exists(path))
-					return null;
+					return;
 
-				var text = await Files.ReadAllText(path, async: true);
+				var text = await Files.ReadTextAsync(path);
 				var json = DeserializeJson<PlacesJson>(text);
 
 				int count = json.Places.Length;
-				var places = new Place[count];
-				for (int i = 0; i < count; i++)
+				foreach (var rec in json.Places)
 				{
-					var rec = json.Places[i];
+					string id = Ids.PlaceId(rec.Name, rec.Address);
 					var place = new Place {
+						Id = id,
 						Name = rec.Name ?? string.Empty,
 						Tags = rec.Tags ?? string.Empty,
-						//Tnfo = rec.Info ?? string.Emty,
+						Note = rec.Note ?? string.Empty,
 						Address = rec.Address ?? string.Empty,
-						Phone = rec.Info ?? string.Empty
+						Phone = rec.Phone ?? string.Empty
 					};
-					places[i] = place;
+					places.Add(place);
 				}
-
-				return places;
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
-				return null;
 			}
 		}
 
-		public void SavePlaces()
-		{
-			SavePlaces(App.Current.Places);
-		}
-
-		public Task SavePlacesAsync(Places places)
-		{
-			SavePlaces(places);
-			return Task.CompletedTask;
-		}
-
-		public void SavePlaces(Places places)
+		public async Task SavePlacesAsync(Places places)
 		{
 			try {
 				var text = SerializePlaces(places.List);
 
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
-				File.WriteAllText(path, text);
+				await Files.WriteTextAsync(path, text);
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
@@ -81,26 +67,27 @@ namespace RouteOptimizer.Storage
 			return Task.CompletedTask;
 		}
 
-		public Task AddPlaceAsync(Place place)
+		public async Task<string> AddPlaceAsync(Place place)
 		{
-			SavePlaces();
-			return Task.CompletedTask;
+			place.Id = Ids.PlaceId(place.Name, place.Address);
+			await SavePlacesAsync(App.Current.Places);
+			return place.Id;
 		}
 
-		public Task UpdatePlaceAsync(Place place)
+		public async Task<string> UpdatePlaceAsync(string oldId, Place place)
 		{
-			SavePlaces();
-			return Task.CompletedTask;
+			place.Id = Ids.PlaceId(place.Name, place.Address);
+			await SavePlacesAsync(App.Current.Places);
+			return place.Id;
 		}
 
-		public Task DeletePlaceAsync(Place place)
+		public async Task DeletePlaceAsync(string placeId)
 		{
-			SavePlaces();
-			return Task.CompletedTask;
+			await SavePlacesAsync(App.Current.Places);
 		}
 
 
-		internal static PlacesJson PlacesToJson(IList<Place> places)
+		public static string SerializePlaces(IList<Place> places)
 		{
 			var json = new PlacesJson {
 				Version = kVersion1,
@@ -112,18 +99,12 @@ namespace RouteOptimizer.Storage
 				json.Places[i] = new PlaceRecord {
 					Name = place.Name,
 					Tags = place.Tags,
-					//Info = place.Info,
+					Note = place.Note,
 					Address = place.Address,
 					Phone = place.Phone
 				};
 			}
 
-			return json;
-		}
-
-		public static string SerializePlaces(IList<Place> places)
-		{
-			var json = PlacesToJson(places);
 			return SerializeJson(json);
 		}
 
@@ -173,7 +154,7 @@ namespace RouteOptimizer.Storage
 	{
 		public string Name { get; set; }
 		public string Tags { get; set; }
-		public string Info { get; set; }
+		public string Note { get; set; }
 		public string Address { get; set; }
 		public string Phone { get; set; }
 	}

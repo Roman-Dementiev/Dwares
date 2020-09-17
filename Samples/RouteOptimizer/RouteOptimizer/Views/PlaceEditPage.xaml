@@ -31,18 +31,20 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ui:LabelEx Grid.Row="0" Grid.Column="0"
+		<!--<ui:LabelEx Grid.Row="0" Grid.Column="0"
 					Flavor="Form-head-label"
 					Text="Name:"
-					/>
+					/>-->
 		<ui:EntryEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-					Flavor="Form-entry"
+					Flavor="Form-title-entry"
+					Placeholder="Name"
 					Text="{Binding Name, Mode=TwoWay}"
 					/>
 
@@ -60,21 +62,31 @@
 
 		<ui:LabelEx Grid.Row="3" Grid.Column="0"
 					Flavor="Form-lead-label"
-					Text="Address:"
+					Text="Note:"
 					/>
-		<ui:EditorEx Grid.Row="3" Grid.Column="1"
-					 Flavor="Form-editor"
-					 Text="{Binding Address, Mode=TwoWay}"
+		<ui:EntryEx Grid.Row="3" Grid.Column="1"
+					 Flavor="Form-entry"
+					 Text="{Binding Note, Mode=TwoWay}"
 					 />
 
 		<ui:LabelEx Grid.Row="4" Grid.Column="0"
 					Flavor="Form-lead-label"
 					Text="Phone:"
 					/>
-		<ui:EditorEx Grid.Row="4" Grid.Column="1"
-					 Flavor="Form-entry"
-					 Text="{Binding Phone, Mode=TwoWay}"
+		<ui:EntryEx Grid.Row="4" Grid.Column="1"
+					Flavor="Form-entry"
+					Text="{Binding Phone, Mode=TwoWay}"
+					/>
+		
+		<ui:LabelEx Grid.Row="5" Grid.Column="0"
+					Flavor="Form-lead-label"
+					Text="Address"
+					/>
+		<ui:EditorEx Grid.Row="5" Grid.Column="1"
+					 Flavor="Form-editor"
+					 Text="{Binding Address, Mode=TwoWay}"
 					 />
+
 	</ui:GridEx>
 </ui:ShellPageEx>
 	

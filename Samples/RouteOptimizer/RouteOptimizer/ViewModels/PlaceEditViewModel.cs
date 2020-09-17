@@ -41,17 +41,24 @@ namespace RouteOptimizer.ViewModels
 		}
 		string tags = string.Empty;
 
-		public string Address {
-			get => address;
-			set => SetProperty(ref address, value);
+		public string Note {
+			get => note;
+			set => SetProperty(ref note, value);
 		}
-		string address = string.Empty;
+		string note = string.Empty;
 
 		public string Phone {
 			get => phone;
 			set => SetProperty(ref phone, value);
 		}
 		string phone = string.Empty;
+
+		public string Address {
+			get => address;
+			set => SetProperty(ref address, value);
+		}
+		string address = string.Empty;
+
 
 		public List<string> SuggestedTags {
 			get => suggestedTags ??= Categories.GetTagsForType(typeof(Place));
@@ -73,6 +80,8 @@ namespace RouteOptimizer.ViewModels
 						Source = place;
 						Name = place.Name;
 						Tags = place.Tags;
+						Note = place.Note;
+						Phone = place.Phone;
 						Address = place.Address;
 						IsModified = false;
 						return;
@@ -100,32 +109,40 @@ namespace RouteOptimizer.ViewModels
 		public async void Save()
 		{
 			try {
-				string message = Validate(Name, Address, Phone);
+				var name = Name.Trim();
+				var tags = Tags.Trim();
+				var note = Note.Trim();
+				var phone = Phone.Trim();
+				var address = Address.Trim();
+
+				string message = Validate(Source, name, address, phone);
 				if (message != null) {
 					await Alerts.DisplayAlert(null, message);
 					return;
 				}
 
 				if (Source == null) {
-					var newPlace = new Place
-					{
-						Name = Name,
-						Tags = Tags,
-						Address = Address,
-						Phone = Phone
+					var newPlace = new Place {
+						Name = name,
+						Tags = tags,
+						Note = note,
+						Phone = phone,
+						Address = address
 					};
 					await App.Current.AddPlace(newPlace);
-				} else {
-					Source.Name = Name;
-					Source.Tags = Tags;
-					Source.Address = Address;
-					Source.Phone = Phone;
+				}
+				else {
+					Source.Name = name;
+					Source.Tags = tags;
+					Source.Note = note;
+					Source.Phone = phone;
+					Source.Address = address;
 
 					await App.Current.UpdatePlace(Source);
 				}
 
 				Source = null;
-				Name = Tags = Address = string.Empty;
+				Name = Tags = Note = Phone = Address = string.Empty;
 				ChoosenTagSuggestion = null;
 				IsModified = false;
 
@@ -137,7 +154,7 @@ namespace RouteOptimizer.ViewModels
 
 		}
 
-		public static string Validate(string name, string address, string phone)
+		public static string Validate(Place source, string name, string address, string phone)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				return "Please enter place name";
@@ -145,7 +162,10 @@ namespace RouteOptimizer.ViewModels
 			if (string.IsNullOrWhiteSpace(address))
 				return "Please enter address";
 
-			if (App.Current.Places.GetByName(name) != null)
+			if (!string.IsNullOrWhiteSpace(phone) && !PhoneNumber.IsValidNumber(phone))
+				return "Phone number is invalid";
+
+			if ((source == null || name != source.Name) && App.Current.Places.GetByName(name) != null)
 				return $"Place with name '{name}' already exists";
 
 			return null;

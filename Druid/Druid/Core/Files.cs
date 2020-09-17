@@ -10,16 +10,16 @@ namespace Dwares.Druid
 {
 	public static class Files
 	{
-		public static async Task<string> ReadAllText(string path, bool async)
+		public static async Task<string> ReadText(string path, bool async)
 		{
 			if (async) {
-				return await ReadAllTextAsync(path);
+				return await ReadTextAsync(path);
 			} else {
 				return File.ReadAllText(path);
 			}
 		}
 
-		public static async Task<string> ReadAllTextAsync(string path)
+		public static async Task<string> ReadTextAsync(string path)
 		{
 			using (var reader = File.OpenText(path)) {
 				var text = await reader.ReadToEndAsync();
@@ -27,12 +27,13 @@ namespace Dwares.Druid
 			}
 		}
 
-		//public static async Task WriteAllTextAsync(string path, string text)
-		//{
-		//	using (var writer = File.CreateText(path)) {
-		//		await writer.WriteTextAsync(text);
-		//	}
-		//}
+		public static async Task WriteTextAsync(string path, string text)
+		{
+			using (var writer = File.CreateText(path)) {
+				await writer.WriteAsync(text);
+				await writer.FlushAsync();
+			}
+		}
 
 
 		//public static async Task<bool> FileExists(string path)
