@@ -18,10 +18,10 @@ namespace RouteOptimizer
 {
 	public partial class App : Application
 	{
-		public const string HospitalsSample = "Phila-ru.txt";
+		public const string HospitalsSample = "Hospitals.txt";
+		public const string Phila_Ru_Sample = "Phila-ru.txt";
 
 
-		//public static new App Current => Application.Current as App;
 		public static new App Current { get; private set; }
 		public static IAppStorage Storage => Current.AppStorage;
 
@@ -38,22 +38,25 @@ namespace RouteOptimizer
 			Routing.RegisterRoute(nameof(PlacesPage), typeof(PlacesPage));
 			Routing.RegisterRoute(nameof(PlaceEditPage), typeof(PlaceEditPage));
 
-			//DependencyService.Register<MockStorage>();
-			//AppStorage = new MockStorage();
-			AppStorage = new JsonStorage();
 
 			UIThemeManager.Instance = new UIThemes();
 
-			Route = new Route();
-			Places = new Places();
+			if (Preloaded != null) {
+				Data = Preloaded;
+				Preloaded = null;
+			} else {
+				Data = new Data();
+			}
 
 			MainPage = new AppShell();
 		}
 
-		public IAppStorage AppStorage { get; }
+		private static Data Preloaded { get; set; }
+		private Data Data { get; set; }
 
-		public Places Places { get; }
-		public Route Route { get; }
+		public IAppStorage AppStorage => Data.AppStorage;
+		public Places Places => Data.Places;
+		public Route Route => Data.Route;
 
 		public bool UseInPlaceEditor {
 			get => useInPlaceEditor;
@@ -66,10 +69,15 @@ namespace RouteOptimizer
 		}
 		bool useInPlaceEditor = false;
 
+		public static async Task PreloadData()
+		{
+			Preloaded = new Data();
+			await Preloaded.Load();
+		}
+
 		protected override async void OnStart()
 		{
-			await LoadPlaces();
-			await LoadRoute();
+			await Data.Load();
 		}
 
 		protected override void OnSleep()
@@ -80,27 +88,6 @@ namespace RouteOptimizer
 		{
 		}
 
-		public async Task LoadPlaces()
-		{
-			Places.Clear();
-			
-			var places = new List<Place>();
-			await AppStorage.LoadPlacesAsync(places);
-
-			using (var batch = new BatchCollectionChange(Places.List)) {
-				foreach (var place in places) {
-					Places.Add(place);
-				}
-			}
-		}
-
-		public async Task LoadRoute()
-		{
-			//Route.Clear();
-			await AppStorage.LoadRouteAsync(Route);
-		}
-
-
 
 		public async Task ClearPlaces()
 		{
@@ -108,10 +95,17 @@ namespace RouteOptimizer
 			await AppStorage.SavePlacesAsync(Places);
 		}
 
+		public async Task LoadPlaces()
+		{
+			Places.Clear();
+			await Data.LoadPlaces();
+		}
+
 		public async Task SavePlaces()
 		{
 			await AppStorage.SavePlacesAsync(Places);
 		}
+
 
 		public async Task AddPlace(Place place)
 		{
@@ -163,6 +157,43 @@ namespace RouteOptimizer
 			}
 
 			await SavePlaces();
+		}
+	}
+
+
+	internal class Data
+	{
+		public readonly IAppStorage AppStorage = new JsonStorage();
+		public readonly Places Places = new Places();
+		public readonly Route Route = new Route();
+
+		public bool IsLoaded { get; set; }
+
+		public async Task Load()
+		{
+			if (IsLoaded)
+				return;
+
+			await LoadPlaces();
+			await LoadRoute();
+
+		}
+
+		public async Task LoadPlaces()
+		{
+			var places = new List<Place>();
+			await AppStorage.LoadPlacesAsync(places);
+
+			using (var batch = new BatchCollectionChange(Places.List)) {
+				foreach (var place in places) {
+					Places.Add(place);
+				}
+			}
+		}
+
+		public async Task LoadRoute()
+		{
+			await AppStorage.LoadRouteAsync(Route);
 		}
 	}
 }

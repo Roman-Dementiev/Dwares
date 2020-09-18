@@ -108,6 +108,9 @@ namespace RouteOptimizer.ViewModels
 
 		public async void Save()
 		{
+			//SimulateWork();
+			//return;
+
 			try {
 				var name = Name.Trim();
 				var tags = Tags.Trim();

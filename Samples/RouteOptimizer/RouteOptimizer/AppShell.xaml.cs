@@ -17,5 +17,7 @@ namespace RouteOptimizer
 		{
 			await Shell.Current.GoToAsync("//LoginPage");
 		}
+
+		public string LogoText { get; } = "Route optimizer\rDwares";
 	}
 }

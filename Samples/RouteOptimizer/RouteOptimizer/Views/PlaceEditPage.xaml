@@ -23,7 +23,10 @@
 		<ToolbarItem Order="Primary" Text="Save" Command="{Binding SaveCommand}" />
 	</ContentPage.ToolbarItems>
 
-	<ui:GridEx Margin="4">
+	<ui:GridEx Margin="4"
+				AbsoluteLayout.LayoutBounds="0,0,1,1"
+				AbsoluteLayout.LayoutFlags="All"
+				>
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -39,54 +42,55 @@
 		</Grid.ColumnDefinitions>
 
 		<!--<ui:LabelEx Grid.Row="0" Grid.Column="0"
-					Flavor="Form-head-label"
-					Text="Name:"
-					/>-->
+				Flavor="Form-head-label"
+				Text="Name:"
+				/>-->
 		<ui:EntryEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-					Flavor="Form-title-entry"
-					Placeholder="Name"
-					Text="{Binding Name, Mode=TwoWay}"
-					/>
+				Flavor="Form-title-entry"
+				Placeholder="Name"
+				Text="{Binding Name, Mode=TwoWay}"
+				/>
 
 		<ui:LabelEx Grid.Row="2" Grid.Column="0"
-					Flavor="Form-lead-label"
-					Text="Tags:"
-					/>
+				Flavor="Form-lead-label"
+				Text="Tags:"
+				/>
 		<controls:AutoSuggestEntryEx Grid.Row="2" Grid.Column="1"
-									 Flavor="Form-asentry"
-									 Text="{Binding Tags, Mode=TwoWay}"
-									 SuggestionsSource="{Binding SuggestedTags}"
-									 ChoosenSuggestion="{Binding ChoosenTagSuggestion, Mode=OneWayToSource}"
-									 MinSuggestionLength="1"
-									 />
+									Flavor="Form-asentry"
+									Text="{Binding Tags, Mode=TwoWay}"
+									SuggestionsSource="{Binding SuggestedTags}"
+									ChoosenSuggestion="{Binding ChoosenTagSuggestion, Mode=OneWayToSource}"
+									MinSuggestionLength="1"
+									/>
 
 		<ui:LabelEx Grid.Row="3" Grid.Column="0"
-					Flavor="Form-lead-label"
-					Text="Note:"
-					/>
+				Flavor="Form-lead-label"
+				Text="Note:"
+				/>
 		<ui:EntryEx Grid.Row="3" Grid.Column="1"
-					 Flavor="Form-entry"
-					 Text="{Binding Note, Mode=TwoWay}"
-					 />
+					Flavor="Form-entry"
+					Text="{Binding Note, Mode=TwoWay}"
+					/>
 
 		<ui:LabelEx Grid.Row="4" Grid.Column="0"
-					Flavor="Form-lead-label"
-					Text="Phone:"
-					/>
+				Flavor="Form-lead-label"
+				Text="Phone:"
+				/>
 		<ui:EntryEx Grid.Row="4" Grid.Column="1"
-					Flavor="Form-entry"
-					Text="{Binding Phone, Mode=TwoWay}"
-					/>
-		
+				Flavor="Form-entry"
+				Text="{Binding Phone, Mode=TwoWay}"
+				/>
+
 		<ui:LabelEx Grid.Row="5" Grid.Column="0"
-					Flavor="Form-lead-label"
-					Text="Address"
-					/>
+				Flavor="Form-lead-label"
+				Text="Address"
+				/>
 		<ui:EditorEx Grid.Row="5" Grid.Column="1"
-					 Flavor="Form-editor"
-					 Text="{Binding Address, Mode=TwoWay}"
-					 />
+					Flavor="Form-editor"
+					Text="{Binding Address, Mode=TwoWay}"
+					/>
 
 	</ui:GridEx>
+
 </ui:ShellPageEx>
 	

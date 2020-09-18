@@ -30,5 +30,10 @@ namespace RouteOptimizer.Models
 			//stop.Ordinal = Stops.Count+1;
 			Stops.Add(stop);
 		}
+
+		public void Clear()
+		{
+			Stops.Clear();
+		}
 	}
 }

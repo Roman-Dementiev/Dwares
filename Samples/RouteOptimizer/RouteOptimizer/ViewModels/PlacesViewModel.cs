@@ -281,7 +281,7 @@ namespace RouteOptimizer.ViewModels
 		async Task LoadSample()
 		{
 			//Items.IsSuspended = true;
-			await App.Current.LoadSample(App.HospitalsSample, skipDuplicates: true);
+			await App.Current.LoadSample(App.Phila_Ru_Sample, skipDuplicates: true);
 			//Items.IsSuspended = false;
 		}
 

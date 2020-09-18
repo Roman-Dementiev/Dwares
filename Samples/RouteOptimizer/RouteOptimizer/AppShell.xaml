@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
 	   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	   xmlns:views="clr-namespace:RouteOptimizer.Views"
+	   FlyoutHeaderBehavior="Default"
 	   Title="RouteOptimizer"
 	   x:Class="RouteOptimizer.AppShell">
 
@@ -107,15 +108,16 @@
 	// https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyout-header-->
 	<Shell.FlyoutHeaderTemplate>
 		<DataTemplate>
-			<Grid BackgroundColor="{StaticResource AccentColor}">
-				<Image Aspect="AspectFill"
-					   Source="xamarin_logo.png" 
+			<Image Aspect="AspectFill"
+					   BackgroundColor="{StaticResource AccentColor}"
+					   Source="logo.png" 
 					   Opacity="0.9" 
-					   Margin="16"
+					   Margin="0"
 					   />
-			</Grid>
 		</DataTemplate>
+		
 	</Shell.FlyoutHeaderTemplate>
+	
 
 	<!--// ItemTemplate is for ShellItems as displayed in a Flyout
 	// https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#define-flyoutitem-appearance-->
