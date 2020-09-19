@@ -174,9 +174,13 @@ namespace RouteOptimizer
 			if (IsLoaded)
 				return;
 
-			await LoadPlaces();
-			await LoadRoute();
-
+			try {
+				await LoadPlaces();
+				await LoadRoute();
+			} catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+			}
+			IsLoaded = true;
 		}
 
 		public async Task LoadPlaces()

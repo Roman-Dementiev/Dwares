@@ -42,14 +42,14 @@ namespace Dwares.Dwarf.Toolkit
 		public static implicit operator string(PhoneNumber number)
 			=> number.ToString();
 
-		//public static PhoneNumber Parse(object number)
-		//{
-		//	if (number is PhoneNumber) {
-		//		return (PhoneNumber)number;
-		//	} else {
-		//		return new PhoneNumber(number.ToString());
-		//	}
-		//}
+		public static PhoneNumber Parse(object number)
+		{
+			if (number is PhoneNumber) {
+				return (PhoneNumber)number;
+			} else {
+				return new PhoneNumber(number.ToString());
+			}
+		}
 
 		public static bool IsValidNumber(string number, bool usaOnly = false)
 		{

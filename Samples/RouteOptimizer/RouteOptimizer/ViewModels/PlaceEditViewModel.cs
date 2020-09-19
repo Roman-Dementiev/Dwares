@@ -173,5 +173,36 @@ namespace RouteOptimizer.ViewModels
 
 			return null;
 		}
+	
+		//void SimulateWork()
+		//{
+		//	OverlayIsVisible = true;
+
+		//	TimeSpan duration = TimeSpan.FromSeconds(5);
+		//	DateTime now = DateTime.Now;
+
+		//	Device.StartTimer(TimeSpan.FromSeconds(0.1), () => {
+		//		var progress = (DateTime.Now - now).TotalMilliseconds / duration.TotalMilliseconds;
+		//		ProgressValue = progress;
+
+		//		bool continueTimer = progress < 1;
+		//		if (!continueTimer) {
+		//			OverlayIsVisible = false;
+		//		}
+		//		return continueTimer;
+		//	});
+		//}
+
+		//public bool OverlayIsVisible {
+		//	get => overlayIsVisible;
+		//	set => SetProperty(ref overlayIsVisible, value);
+		//}
+		//bool overlayIsVisible;
+
+		//public double ProgressValue {
+		//	get => progress;
+		//	set => SetProperty(ref progress, value);
+		//}
+		//double progress;
 	}
 }

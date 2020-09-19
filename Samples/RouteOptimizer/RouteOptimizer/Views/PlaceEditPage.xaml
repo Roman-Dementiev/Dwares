@@ -23,11 +23,7 @@
 		<ToolbarItem Order="Primary" Text="Save" Command="{Binding SaveCommand}" />
 	</ContentPage.ToolbarItems>
 
-	<ui:GridEx Margin="4"
-				AbsoluteLayout.LayoutBounds="0,0,1,1"
-				AbsoluteLayout.LayoutFlags="All"
-				>
-
+	<Grid Margin="4">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -90,7 +86,31 @@
 					Text="{Binding Address, Mode=TwoWay}"
 					/>
 
-	</ui:GridEx>
+	</Grid>
 
+	<!--<ui:ShellPageEx.OverlayView> -->
+		<!--<ui:BusyOverlay IsVisible="{Binding OverlayIsVisible, Mode=OneWay}"
+						Message="Working"
+						HorizontalOptions="End"
+						VerticalOptions="End"
+						>
+		</ui:BusyOverlay>-->
+		
+		<!--<ui:SpinningOverlay IsVisible="{Binding OverlayIsVisible, Mode=OneWay}"
+							Message="Working"
+							IndicatorSize="50"
+							IndicatorColor="Color.Orange"
+							HorizontalOptions="End"
+							VerticalOptions="End"
+							/>-->
+
+		<!--<ui:ProgressOverlay IsVisible="{Binding OverlayIsVisible, Mode=OneWay}"
+							Progress="{Binding ProgressValue, Mode=OneWay}"
+							Message="Working"
+							HorizontalOptions="End"
+							VerticalOptions="End"
+							/>--><!--
+		
+	</ui:ShellPageEx.OverlayView>-->
 </ui:ShellPageEx>
 	

@@ -15,20 +15,15 @@ namespace Dwares.Druid.UI
 		{
 			//Debug.EnableTracing(@class);
 
-			//FlyoutHeaderBehavior = FlyoutHeaderBehavior.CollapseOnScroll;
-
-			//Navigating += OnNavigating;
-			//Navigated += OnNavigated;
-
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
-			ChildAdded += ShellEx_ChildAdded;
+			//ChildAdded += ShellEx_ChildAdded;
 		}
 
-		private void ShellEx_ChildAdded(object sender, ElementEventArgs e)
-		{
-			if (string.IsNullOrEmpty(MainRoute) && e.Element is ShellItem item)
-				MainRoute = item.Route;
-		}
+		//private void ShellEx_ChildAdded(object sender, ElementEventArgs e)
+		//{
+		//	if (string.IsNullOrEmpty(MainRoute) && e.Element is ShellItem item)
+		//		MainRoute = item.Route;
+		//}
 
 		public static readonly BindableProperty FlavorProperty =
 			BindableProperty.Create(
@@ -46,27 +41,15 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(FlavorProperty); }
 		}
 
-		//protected virtual void OnNavigating(object sender, ShellNavigatingEventArgs e)
-		//{
-		//	//Cancel any back navigation
-		//	//if (e.Source == ShellNavigationSource.Pop) {
-		//	//	e.Cancel();
-		//	//}
+		//public string MainRoute {
+		//	get => mainRoute ?? string.Empty;
+		//	set {
+		//		OnPropertyChanging();
+		//		mainRoute = value;
+		//		OnPropertyChanged();
+		//	}
 		//}
-
-		//protected virtual void OnNavigated(object sender, ShellNavigatedEventArgs e)
-		//{
-		//}
-
-		public string MainRoute {
-			get => mainRoute ?? string.Empty;
-			set {
-				OnPropertyChanging();
-				mainRoute = value;
-				OnPropertyChanged();
-			}
-		}
-		string mainRoute;
+		//string mainRoute;
 
 
 		//public static async Task GoToMainAsync()
