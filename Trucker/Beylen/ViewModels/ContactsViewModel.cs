@@ -13,7 +13,7 @@ namespace Beylen.ViewModels
 		//static ClassRef @class = new ClassRef(typeof(ContactsViewModel));
 
 		public ContactsViewModel() :
-			base(ApplicationScope, ContactCardModel.CreateCollection())
+			base(ContactCardModel.CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 

@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Dwarf.Collections;
-using Dwares.Druid.Services;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 using Beylen.Models;
 
 
@@ -63,7 +63,7 @@ namespace Beylen.ViewModels
 			var phoneNumber = PhoneNumber.Parse(number);
 			Debug.Print($"ContactCardModel.Call(): Phone={phoneNumber}");
 
-			PhoneDialer.TryDial(phoneNumber);
+			PhoneDialer.Open(phoneNumber);
 		}
 
 		public static bool CanCall(object number)

@@ -11,14 +11,10 @@ using Xamarin.Forms.Markup;
 namespace Dwares.Druid.UI
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ArtButton : ContentView, ICommandHolder, IThemeAware
+	public partial class ArtButton : ContentView, IThemeAware
 	{
-		WritMixin wmix;
-		//public event EventHandler Tapped;
-
 		public ArtButton()
 		{
-			wmix = new WritMixin(this);
 			InitializeComponent();
 
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
@@ -335,15 +331,18 @@ namespace Dwares.Druid.UI
 			image.Source = ArtBroker.Instance.GetImageSource(name, null, color);
 		}
 
-		public WritCommand WritCommand {
-			get => wmix.WritCommand;
-			set => wmix.WritCommand = value;
-		}
-
 		public string Writ {
-			get => wmix.Writ;
-			set => wmix.Writ = value;
+			get => writ;
+			set {
+				if (value != writ) {
+					OnPropertyChanging();
+					writ = value;
+					Command = new WritCommand(writ);
+					OnPropertyChanged();
+				}
+			}
 		}
+		string writ;
 
 		// TapGestureRecognizer handler.
 		void OnTapped(object sender, EventArgs args)

@@ -5,15 +5,18 @@ using System.Text;
 
 namespace Dwares.Druid.Services
 {
-	public interface IResourceSvc
+	public interface IResourceService
 	{
 		string GetString(string key, bool useKeyAsDefault = true);
 	}
 
-	public static class ResourceSvc
+	public static class ResourceService
 	{
-		static DependencyService<IResourceSvc> instance = new DependencyService<IResourceSvc>(true);
-		public static IResourceSvc Instance = instance.Service;
+		public static IResourceService Instance {
+			get => DependencyService.GetInstance<IResourceService>(ref instance);
+			set => DependencyService.SetInstance(ref instance, value);
+		}
+		static IResourceService instance;
 
 		public static string GetString(string key, bool useKeyAsDefault = true)
 		{

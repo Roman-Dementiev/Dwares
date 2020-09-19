@@ -6,6 +6,7 @@ using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Dwares.Druid.Services;
 using BingMapsRESTToolkit;
+using Xamarin.Essentials;
 
 
 namespace Dwares.Drums.Bing

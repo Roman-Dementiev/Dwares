@@ -74,7 +74,7 @@ namespace Dwares.Druid.Localization
 				AddUiHandlers();
 			}
 
-			LocalizationSvc.AddListener(OnLanguageChanged);
+			LocalizationService.AddListener(OnLanguageChanged);
 		}
 
 		void OnLanguageChanged(object sender, EventArgs args)
@@ -190,7 +190,7 @@ namespace Dwares.Druid.Localization
 			var propertyType = Reflection.GetPropertyType(target, propertyInfo);
 			if (propertyType == typeof(string)) {
 				if (propertyInfo.CanWrite) {
-					var value = ResourceSvc.GetString(uid);
+					var value = ResourceService.GetString(uid);
 					Reflection.SetPropertyValue(target, propertyInfo, value);
 				}
 			} else if (propertyInfo.CanRead) {

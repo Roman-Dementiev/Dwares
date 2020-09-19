@@ -20,7 +20,7 @@ namespace Beylen.ViewModels
 		//static ClassRef @class = new ClassRef(typeof(InvoiceFormModel));
 
 		public InvoiceFormModel() :
-			base(AppScope.Instance, new ShadowCollection<ArticleCardModel, Article>())
+			base(new ShadowCollection<ArticleCardModel, Article>())
 		{
 			//Debug.EnableTracing(@class);
 

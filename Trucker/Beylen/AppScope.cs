@@ -30,7 +30,7 @@ namespace Beylen
 	}
 
 
-	public class AppScope : BindingScope
+	public class AppScope
 	{
 		//static ClassRef @class = new ClassRef(typeof(AppScope));
 
@@ -48,7 +48,7 @@ namespace Beylen
 #endif
 
 
-		public AppScope() : base(null)
+		public AppScope()
 		{
 			//Debug.EnableTracing(@class);
 

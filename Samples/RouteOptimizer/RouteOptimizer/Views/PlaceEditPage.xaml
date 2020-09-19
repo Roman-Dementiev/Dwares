@@ -87,30 +87,5 @@
 					/>
 
 	</Grid>
-
-	<!--<ui:ShellPageEx.OverlayView> -->
-		<!--<ui:BusyOverlay IsVisible="{Binding OverlayIsVisible, Mode=OneWay}"
-						Message="Working"
-						HorizontalOptions="End"
-						VerticalOptions="End"
-						>
-		</ui:BusyOverlay>-->
-		
-		<!--<ui:SpinningOverlay IsVisible="{Binding OverlayIsVisible, Mode=OneWay}"
-							Message="Working"
-							IndicatorSize="50"
-							IndicatorColor="Color.Orange"
-							HorizontalOptions="End"
-							VerticalOptions="End"
-							/>-->
-
-		<!--<ui:ProgressOverlay IsVisible="{Binding OverlayIsVisible, Mode=OneWay}"
-							Progress="{Binding ProgressValue, Mode=OneWay}"
-							Message="Working"
-							HorizontalOptions="End"
-							VerticalOptions="End"
-							/>--><!--
-		
-	</ui:ShellPageEx.OverlayView>-->
 </ui:ShellPageEx>
 	

@@ -10,8 +10,7 @@ namespace Beylen.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(SettingsViewModel));
 
-		public SettingsViewModel() :
-			base(ApplicationScope)
+		public SettingsViewModel()
 		{
 			//Debug.EnableTracing(@class);
 

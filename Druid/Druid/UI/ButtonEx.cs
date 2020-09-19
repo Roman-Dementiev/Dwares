@@ -5,23 +5,24 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.UI
 {
-	public class ButtonEx : Button, ICommandHolder
+	public class ButtonEx : Button
 	{
-		WritMixin wmix;
-
 		public ButtonEx()
 		{
-			wmix = new WritMixin(this);
-		}
-
-		public WritCommand WritCommand {
-			get => wmix.WritCommand;
-			set => wmix.WritCommand = value;
 		}
 
 		public string Writ {
-			get => wmix.Writ;
-			set => wmix.Writ = value;
+			get => writ;
+			set {
+				if (value != writ) {
+					OnPropertyChanging();
+					writ = value;
+					Command = new WritCommand(writ);
+					OnPropertyChanged();
+				}
+			}
 		}
+		string writ;
+
 	}
 }

@@ -6,29 +6,15 @@ using Dwares.Druid.Painting;
 
 namespace Dwares.Druid.UI
 {
-	public class ActionImage : Image, ICommandHolder
+	public class ActionImage : Image
 	{
 		TapGestureRecognizer tapRecognizer;
-		WritMixin wmix;
 
 		public ActionImage()
 		{
 			tapRecognizer = new TapGestureRecognizer();
 			this.GestureRecognizers.Add(tapRecognizer);
-			wmix = new WritMixin(this);
 		}
-
-		//string action;
-		//public string Action {
-		//	get => action;
-		//	set {
-		//		if (value != action) {
-		//			action = value;
-		//			Source = new ActionImageSource(value);
-
-		//		}
-		//	}
-		//}
 
 		public static readonly BindableProperty IconProperty =
 			BindableProperty.Create(
@@ -63,8 +49,16 @@ namespace Dwares.Druid.UI
 		}
 
 		public string Writ {
-			get => wmix.Writ;
-			set => wmix.Writ = value;
+			get => writ;
+			set {
+				if (value != writ) {
+					OnPropertyChanging();
+					writ = value;
+					Command = new WritCommand(writ);
+					OnPropertyChanged();
+				}
+			}
 		}
+		string writ;
 	}
 }

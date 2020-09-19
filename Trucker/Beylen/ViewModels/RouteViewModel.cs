@@ -25,7 +25,7 @@ namespace Beylen.ViewModels
 		//}
 
 		public RouteViewModel() :
-			base(ApplicationScope, new RouteStopCardCollection())
+			base(new RouteStopCardCollection())
 		{
 			//Debug.EnableTracing(@class);
 

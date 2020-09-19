@@ -16,12 +16,6 @@ namespace Dwares.Druid.Forms
 			//Debug.EnableTracing(@class);
 		}
 
-		public FormViewModel(BindingScope parentScope) :
-			base(parentScope)
-		{
-			//Debug.EnableTracing(@class);
-		}
-
 		public IFiledList Fields { get; protected set; }
 
 		protected virtual Task DoAccept()
@@ -87,12 +81,6 @@ namespace Dwares.Druid.Forms
 		public FormViewModel() { }
 
 		public FormViewModel(TSource source)
-		{
-			Source = source;
-		}
-
-		public FormViewModel(BindingScope parentScope, TSource source = default(TSource)) :
-			base(parentScope)
 		{
 			Source = source;
 		}

@@ -12,16 +12,11 @@ namespace Dwares.Druid.UI
 		Custom
 	};
 
-	public class ContentPageEx : ContentPage, IContentHolder, IToolbarHolder, ITargeting, IThemeAware
+	public class ContentPageEx : ContentPage, IThemeAware
 	{
 		public ContentPageEx()
 		{
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
-		}
-
-		public ContentPageEx(BindingScope scope) : this()
-		{
-			Scope = scope;
 		}
 
 		public static readonly BindableProperty FlavorProperty =
@@ -38,63 +33,6 @@ namespace Dwares.Druid.UI
 		public string Flavor {
 			set { SetValue(FlavorProperty, value); }
 			get { return (string)GetValue(FlavorProperty); }
-		}
-
-		public virtual View ContentView
-		{
-			get => GetContentView();
-		
-			set {
-				if (value != ContentView) {
-					OnPropertyChanging();
-
-					if (ToolbarSource != null && ContentView == ToolbarSource) {
-						ToolbarSource = null;
-					}
-
-					ChangeContentView(value);
-
-					var newToolbarSource = value as IToolbarHolder;
-					if (newToolbarSource != null) {
-						ToolbarSource = newToolbarSource;
-					}
-
-					if (value is ITitleHolder titleHolder) {
-						Title = titleHolder.Title;
-					} else {
-						Title = string.Empty;
-					}
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		IToolbarHolder toolbarSource;
-		public virtual IToolbarHolder ToolbarSource {
-			get => toolbarSource;
-			set {
-				if (value != toolbarSource) {
-					OnPropertyChanging();
-					toolbarSource = value;
-
-					var toolbarItems = toolbarSource?.ToolbarItems;
-					if (toolbarItems != null) {
-						this.SetToolbarItems(toolbarItems);
-					}
-					OnPropertyChanged();
-				}
-			}
-		}
-
-		public BindingScope Scope {
-			get => BindingContext as BindingScope;
-			set => BindingContext = value;
-		}
-
-		public Element GetTargetElement()
-		{
-			return ContentView;
 		}
 
 		public static readonly BindableProperty TopAdjustmentProperty =
@@ -145,8 +83,6 @@ namespace Dwares.Druid.UI
 			if (BindingContext is IActivatable activatable) {
 				activatable.Activate();
 			}
-
-			Scope?.UpdateCommands();
 		}
 
 		protected override void OnDisappearing()

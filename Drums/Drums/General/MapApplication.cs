@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dwares.Druid.Services;
-using Dwares.Dwarf.Toolkit;
+using Xamarin.Essentials;
 
 
 namespace Dwares.Drums
@@ -31,7 +30,7 @@ namespace Dwares.Drums
 
 		public virtual Task OpenMapUri(Uri uri)
 		{
-			return Launcher.OpenUri(uri);
+			return Launcher.OpenAsync(uri);
 		}
 
 		public Task OpenAddress(string address)

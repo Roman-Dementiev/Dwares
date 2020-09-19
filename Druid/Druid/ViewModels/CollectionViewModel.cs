@@ -15,12 +15,7 @@ namespace Dwares.Druid.ViewModels
 
 		protected CollectionViewModel() { }
 
-		protected CollectionViewModel(BindingScope parentScope) : base(parentScope) { }
-
-		public CollectionViewModel(ObservableCollection<TItem> items) : this(ApplicationScope, items) { }
-
-		public CollectionViewModel(BindingScope parentScope, ObservableCollection<TItem> items) :
-			base(parentScope)
+		public CollectionViewModel(ObservableCollection<TItem> items)
 		{
 			//Debug.EnableTracing(@class);
 			Items = items ?? throw new ArgumentNullException(nameof(items));
@@ -76,5 +71,7 @@ namespace Dwares.Druid.ViewModels
 			}
 			UpdateCommands();
 		}
+
+		public virtual void UpdateCommands() { }
 	}
 }

@@ -1,15 +1,11 @@
 ﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using Dwares.Druid;
 using Dwares.Druid.UI;
-using Dwares.Druid.Services;
 using Dwares.Drums;
 using Dwares.Drums.Google;
 using Dwares.Drums.Bing;
+using Xamarin.Forms;
+using Xamarin.Essentials;
 using Beylen.Models;
-using Beylen.Views;
-
 
 namespace Beylen
 {
@@ -24,10 +20,7 @@ namespace Beylen
 
 			InitializeComponent();
 
-			Preferences.DefaultShare = "Beylen";
-			//Preferences.Clear();
-
-			//DependencyService.Register<MockDataStore>();
+			//Preferences.Clear(Settings.cShare);
 
 			BindingContext = AppScope.Instance;
 			//this.AddDefaultViewLocators();
@@ -38,7 +31,7 @@ namespace Beylen
 
 			Maps.MapApplication = new GoogleMaps();
 			Maps.MapService = new BingMapsREST();
-			Preferences.Set("BingMaps.Key", "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa");
+			Preferences.Set("BingMaps.Key", "At3kj4rBGQ5lVXSMcxAoYc7AQ2tLFhbyfikyPfaEbXuw03XiRTGCWAdYeiUzqFNa", Settings.cShare);
 		}
 
 		protected override async void OnStart()

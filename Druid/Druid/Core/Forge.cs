@@ -51,41 +51,41 @@ namespace Dwares.Druid
 			return view;
 		}
 
-		public static T CreateContentPage<T>(object contentViewModel) where T : ContentPageEx
-		{
-			return CreateContentPage<T>(contentViewModel, out var contentView);
-		}
+		//public static T CreateContentPage<T>(object contentViewModel) where T : ContentPageEx
+		//{
+		//	return CreateContentPage<T>(contentViewModel, out var contentView);
+		//}
 
-		public static T CreateContentPage<T>(object contentViewModel, out View contentView) where T : ContentPageEx
-		{
-			contentView = CreateView(contentViewModel);
-			if (contentView != null) {
-				var page = Activator.CreateInstance(typeof(T)) as T;
-				if (page != null) {
-					page.ContentView = contentView;
-					return page;
-				}
-			}
-			return null;
-		}
+		//public static T CreateContentPage<T>(object contentViewModel, out View contentView) where T : ContentPageEx
+		//{
+		//	contentView = CreateView(contentViewModel);
+		//	if (contentView != null) {
+		//		var page = Activator.CreateInstance(typeof(T)) as T;
+		//		if (page != null) {
+		//			page.ContentView = contentView;
+		//			return page;
+		//		}
+		//	}
+		//	return null;
+		//}
 
-		public static ContentPageEx CreateContentPage(Type contentViewModel)
-		{
-			return CreateContentPage<ContentPageEx>(contentViewModel);
-		}
+		//public static ContentPageEx CreateContentPage(Type contentViewModel)
+		//{
+		//	return CreateContentPage<ContentPageEx>(contentViewModel);
+		//}
 
 
-		public static T CreateContentPageByView<T>(object contentViewOrType) where T : ContentPageEx
-		{
-			var contentView = GetInstance(contentViewOrType) as View;
-			if (contentView != null) {
-				var page = Activator.CreateInstance(typeof(T)) as T;
-				if (page != null) {
-					page.ContentView = contentView;
-					return page;
-				}
-			}
-			return null;
-		}
+		//public static T CreateContentPageByView<T>(object contentViewOrType) where T : ContentPageEx
+		//{
+		//	var contentView = GetInstance(contentViewOrType) as View;
+		//	if (contentView != null) {
+		//		var page = Activator.CreateInstance(typeof(T)) as T;
+		//		if (page != null) {
+		//			page.ContentView = contentView;
+		//			return page;
+		//		}
+		//	}
+		//	return null;
+		//}
 	}
 }

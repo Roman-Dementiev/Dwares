@@ -18,21 +18,21 @@ namespace Dwares.Druid.UI
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
 
-		public static readonly BindableProperty FlavorProperty =
-			BindableProperty.Create(
-				nameof(Flavor),
-				typeof(string),
-				typeof(ShellPageEx),
-				propertyChanged: (bindable, oldValue, newValue) => {
-					if (bindable is ShellPageEx page) {
-						page.ApplyFlavor();
-					}
-				});
+		//public static readonly BindableProperty FlavorProperty =
+		//	BindableProperty.Create(
+		//		nameof(Flavor),
+		//		typeof(string),
+		//		typeof(ShellPageEx),
+		//		propertyChanged: (bindable, oldValue, newValue) => {
+		//			if (bindable is ShellPageEx page) {
+		//				page.ApplyFlavor();
+		//			}
+		//		});
 
-		public string Flavor {
-			set { SetValue(FlavorProperty, value); }
-			get { return (string)GetValue(FlavorProperty); }
-		}
+		//public string Flavor {
+		//	set { SetValue(FlavorProperty, value); }
+		//	get { return (string)GetValue(FlavorProperty); }
+		//}
 
 		public BackButtonBehavior BackButtonBehavior {
 			get => Shell.GetBackButtonBehavior(this);

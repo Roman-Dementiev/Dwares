@@ -18,9 +18,9 @@
 		</ResourceDictionary>
 	</ui:ContentPageEx.Resources>-->
 
-	<!--<ui:ContentPageEx.ToolbarItems>
-		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
-	</ui:ContentPageEx.ToolbarItems>-->
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Order="Primary" Text="Test" Command="{Binding TestCommand}" />
+	</ContentPage.ToolbarItems>
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -30,7 +30,31 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 	</Grid>
-	
-	
+
+	<ui:ShellPageEx.OverlayView>
+		
+		<!--<ui:BusyOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
+						Message="{Binding BusyMessage, Mode=OneWay}"
+						HorizontalOptions="End"
+						VerticalOptions="End"
+						>
+		</ui:BusyOverlay>-->
+
+		<!--<ui:SpinningOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
+							Message="{Binding BusyMessage, Mode=OneWay}"
+							IndicatorSize="50"
+							IndicatorColor="Color.Orange"
+							HorizontalOptions="End"
+							VerticalOptions="End"
+							/>-->
+
+		<ui:ProgressOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
+							Message="{Binding BusyMessage, Mode=OneWay}"
+							Progress="{Binding ProgressValue, Mode=OneWay}"
+							HorizontalOptions="Start"
+							VerticalOptions="End"
+							/>
+
+	</ui:ShellPageEx.OverlayView>
 </ui:ShellPageEx>
 	

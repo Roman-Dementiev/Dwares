@@ -15,6 +15,7 @@ using System.ComponentModel;
 using RouteOptimizer.Views;
 using Dwares.Dwarf.Collections;
 using System.Net.Http.Headers;
+using System.Windows.Input;
 
 namespace RouteOptimizer.ViewModels
 {
@@ -50,6 +51,7 @@ namespace RouteOptimizer.ViewModels
 
 			ExpandPanelCommand = new Command(() => IsPanelExpanded = !IsPanelExpanded );
 			SearchCommand = new Command(Search);
+
 		}
 
 		public ObservableCollection<PlaceCardModel> Places => Items;

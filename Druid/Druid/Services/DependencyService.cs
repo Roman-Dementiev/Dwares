@@ -1,140 +1,64 @@
 ﻿using System;
-using System.Threading;
+using Xamarin.Forms;
 
 
 namespace Dwares.Druid.Services
 {
-	public class DependencyService<TService> where TService : class
+	public static class DependencyService
 	{
-		public enum Mode
+		public static Service GetService<Service>(bool required, bool global = true) where Service : class
 		{
-			Exlusive,
-			InitOnce,
-			InitIfNull,
-			InitAlwyas,
-			GetOnly
-		};
-
-		public static TService GetInstance(ref DependencyService<TService> instance, bool required = true)
-		{
-			var _instance = LazyInitializer.EnsureInitialized(ref instance, () => new DependencyService<TService>(true, required));
-			return _instance.Service;
-		}
-
-		public static void SetInstance(ref DependencyService<TService> instance, TService service)
-		{
-			var _instance = LazyInitializer.EnsureInitialized(ref instance, () => new DependencyService<TService>(false));
-			_instance.Set(service);
-		}
-
-		public DependencyService() : this(true, true) { }
-
-		public DependencyService(bool init, bool required=true)
-		{
-			if (init) {
-				service = TryGet(required);
+			var fetchTarget = global ? DependencyFetchTarget.GlobalInstance : DependencyFetchTarget.NewInstance;
+			var service = Xamarin.Forms.DependencyService.Get<Service>(fetchTarget);
+			if (required && service == null) {
+				throw new DependencyServiceNotFound(typeof(Service));
 			}
-		}
-
-		public DependencyService(TService service)
-		{
-			Set(service);
-		}
-
-		private bool inited = false;
-		private TService service = null;
-		public TService Service {
-			get => Get(Mode.Exlusive);
-			set => Set(value);
-		}
-
-		public TService TryGet(bool required)
-		{
-			try {
-				var service = Xamarin.Forms.DependencyService.Get<TService>();
-				if (service == null && required) {
-					DependencyServiceNotFound.Raise(typeof(TService));
-				}
-				//Debug.Trace("DependencyService.TryGet({0}) => {1}", typeof(TService).FullName, service != null ? service.GetType().FullName : "null");
-				return service;
-			}
-			catch (Exception ex) {
-				if (required) {
-					DependencyServiceNotFound.Raise(typeof(TService), ex);
-					throw;
-				}
-				return null;
-			}
-		}
-
-		public TService Get(Mode mode = Mode.InitOnce, bool required=false)
-		{
-			switch (mode)
-			{
-			case Mode.InitOnce:
-				if (!inited) {
-					service = TryGet(required);
-				}
-				break;
-
-			case Mode.InitIfNull:
-				if (service == null) {
-					service = TryGet(required);
-				}
-				break;
-
-			case Mode.InitAlwyas:
-				service = TryGet(required);
-				break;
-
-			case Mode.GetOnly:
-				return TryGet(required);
-			}
-
 			return service;
 		}
 
-		public void Set(TService service)
+		public static Service GetInstance<Service>(ref Service instance, bool required = true) where Service : class
 		{
-			this.service = service;
-			inited = true; 
+			if (instance == null) {
+				instance = GetService<Service>(required);
+			}
+			return instance;
 		}
 
+		public static Service GetInstance<Service, Default>(ref Service instance)
+			where Service : class
+			where Default : Service, new()
+		{
+			if (instance == null) {
+				instance = GetService<Service>(required: false);
+
+				if (instance == null) {
+					SetInstance(ref instance, new Default());
+				}
+			}
+			return instance;
+		}
+
+		public static void SetInstance<Service>(ref Service instance, Service service)
+			where Service : class
+		{
+			instance = service;
+			Xamarin.Forms.DependencyService.RegisterSingleton(instance);
+		}
 	}
 
 	public class DependencyServiceNotFound : Exception
 	{
-		public const string DefaultMessageFormat = "Dependency Service not found: {0}";
-
 		public Type ServiceType { get; }
 
-		public DependencyServiceNotFound() { }
-
-		public DependencyServiceNotFound(Type serviceType, string message) : base(message)
+		public DependencyServiceNotFound(Type serviceType)
 		{
 			ServiceType = serviceType;
 		}
 
-		public DependencyServiceNotFound(Type serviceType, string message, Exception innerException) : base(message, innerException)
+		public DependencyServiceNotFound(Type serviceType, Exception innerException) :
+			base(null, innerException)
 		{
 			ServiceType = serviceType;
-		}
-
-
-
-		public static void Raise(Type serviceType, Exception innerException = null) => Raise(serviceType, null, innerException);
-
-		public static void Raise(Type serviceType, string messageFormat, Exception innerException = null)
-		{
-			var message = String.Format(messageFormat ?? DefaultMessageFormat, serviceType?.FullName);
-
-			DependencyServiceNotFound ex;
-			if (innerException != null) {
-				ex = new DependencyServiceNotFound(serviceType, message, innerException);
-			} else {
-				ex = new DependencyServiceNotFound(serviceType, message);
-			}
-			throw ex;
 		}
 	}
 }

@@ -22,8 +22,7 @@ namespace Beylen.ViewModels
 
 		public event Action<SelectedItemChangedEventArgs> SelectedItemChangedEvent;
 
-		public CollectionViewModel(BindingScope parentScope, ObservableCollection<Item> items = null) :
-			base(parentScope)
+		public CollectionViewModel(ObservableCollection<Item> items = null)
 		{
 			//Debug.EnableTracing(@class);
 			Items = items ?? new ObservableCollection<Item>();
@@ -110,6 +109,11 @@ namespace Beylen.ViewModels
 		protected virtual async Task ReloadData(CollectionViewReloadMode mode)
 		{
 			await AppScope.Instance.ReloadData();
+		}
+
+		protected virtual void UpdateCommands()
+		{
+
 		}
 	}
 }

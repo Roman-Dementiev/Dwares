@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Threading;
-using Dwares.Druid.Satchel;
+using System.Threading.Tasks;
 using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
+using Dwares.Druid.Satchel;
 
 
 namespace Dwares.Druid.ViewModels
 {
-	public class ViewModel : BindingScope, ITitleHolder
+	public class ViewModel : PropertyNotifier
 	{
-		public ViewModel() : base(ApplicationScope) { }
+		public ViewModel() { }
 
-		public ViewModel(BindingScope parentScope) :
-			base(parentScope)
-		{ }
-
-		string title = string.Empty;
 		public string Title {
 			get => title;
 			set => SetProperty(ref title, value);
 		}
+		string title = string.Empty;
 
 		public bool IsBusy {
 			get => busyState != null;

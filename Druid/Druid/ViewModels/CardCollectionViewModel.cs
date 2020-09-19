@@ -14,15 +14,8 @@ namespace Dwares.Druid.ViewModels
 
 		public CardCollectionViewModel() { }
 
-		protected CardCollectionViewModel(BindingScope parentScope) : base(parentScope) { }
 
-		public CardCollectionViewModel(ObservableCollection<TSource> source, Func<TSource, TCard> cardFactory = null) :
-			this(ApplicationScope, source, cardFactory)
-		{
-		}
-
-		public CardCollectionViewModel(BindingScope parentScope, ObservableCollection<TSource> source, Func<TSource, TCard> cardFactory = null) :
-			this(parentScope)
+		public CardCollectionViewModel(ObservableCollection<TSource> source, Func<TSource, TCard> cardFactory = null)
 		{
 			//Debug.EnableTracing(@class);
 			Items = new ShadowCollection<TCard, TSource>(source, cardFactory ?? DefaultFactory);

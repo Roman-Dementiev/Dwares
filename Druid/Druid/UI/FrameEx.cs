@@ -6,7 +6,7 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.UI
 {
-	public class FrameEx : Frame, IContentHolder, ITargeting, IThemeAware
+	public class FrameEx : Frame, IThemeAware
 	{
 		//static ClassRef @class = new ClassRef(typeof(FrameEx));
 
@@ -20,8 +20,6 @@ namespace Dwares.Druid.UI
 			get => Content;
 			set => Content = value;
 		}
-
-		public Element GetTargetElement() => ContentView;
 
 		public static readonly BindableProperty FlavorProperty =
 			BindableProperty.Create(

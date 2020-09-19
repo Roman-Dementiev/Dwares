@@ -21,7 +21,7 @@ namespace Beylen.ViewModels
 		}
 			
 		public InvoicesViewModel() :
-			base(ApplicationScope, CreateCollection())
+			base(CreateCollection())
 		{
 			//Debug.EnableTracing(@class);
 
