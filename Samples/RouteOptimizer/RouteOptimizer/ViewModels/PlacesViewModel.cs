@@ -37,16 +37,12 @@ namespace RouteOptimizer.ViewModels
 				}
 			};
 
-			AddCommand = new Command(async () => await AddCard(), CanPerformAction);
-			DeleteCommand = new Command(async (param) => await DeleteCard(param as PlaceCardModel), CanPerformAction);
-			EditCommand = new Command(async (param) => await EditCard(param as PlaceCardModel), CanPerformAction);
-			SaveCommand = new Command(async () => await EndEditing(true), CanPerformAction);
-			CancelCommand = new Command(async () => await EndEditing(false), CanPerformAction);
-			RefreshCommand = new Command(async () => await Reload(), CanPerformAction);
-			//ClearCommand = new Command(async () => await BusyTask(Clear), CanPerformAction);
-			//EmailCommand = new Command(async () => await BusyTask(Email), CanPerformAction);
-			//ShareCommand = new Command(async () => await BusyTask(Share), CanPerformAction);
-			//LoadSampleCommand = new Command(async () => await BusyTask(LoadSample), CanPerformAction);
+			//AddCommand = new Command(async () => await AddCard(), CanPerformAction);
+			//DeleteCommand = new Command(async (param) => await DeleteCard(param as PlaceCardModel), CanPerformAction);
+			//EditCommand = new Command(async (param) => await EditCard(param as PlaceCardModel), CanPerformAction);
+			//SaveCommand = new Command(async () => await EndEditing(true), CanPerformAction);
+			//CancelCommand = new Command(async () => await EndEditing(false), CanPerformAction);
+			RefreshCommand = new Command(async () => await PullRefresh(), CanPerformAction);
 
 			ExpandPanelCommand = new Command(() => IsPanelExpanded = !IsPanelExpanded );
 			SearchCommand = new Command(Search);
@@ -57,16 +53,12 @@ namespace RouteOptimizer.ViewModels
 		public PlaceCardModel EditingCard { get; private set; }
 
 
-		public Command AddCommand { get; }
-		public Command DeleteCommand { get; }
-		public Command EditCommand { get; }
-		public Command SaveCommand { get; }
-		public Command CancelCommand { get; }
+		//public Command AddCommand { get; }
+		//public Command DeleteCommand { get; }
+		//public Command EditCommand { get; }
+		//public Command SaveCommand { get; }
+		//public Command CancelCommand { get; }
 		public Command RefreshCommand { get; }
-		//public Command ClearCommand { get; }
-		//public Command EmailCommand { get; }
-		//public Command ShareCommand { get; }
-		//public Command LoadSampleCommand { get; }
 
 		public Command ExpandPanelCommand { get; }
 		public Command SearchCommand { get; }
@@ -129,7 +121,7 @@ namespace RouteOptimizer.ViewModels
 		}
 		bool isPullToRefreshEnabled;
 
-		async Task Reload()
+		async Task PullRefresh()
 		{
 			if (IsPullToRefreshEnabled) {
 				try {
@@ -140,11 +132,16 @@ namespace RouteOptimizer.ViewModels
 					IsRefreshing = false;
 				}
 			} else {
-				Debug.Fail("PlaceViewModel.Reload() called with IsPullToRefreshEnabled=true");
+				Debug.Fail("PlaceViewModel.PullRefresh() called with IsPullToRefreshEnabled=true");
 				//await BusyTask(async () => {
 				//	await App.Current.LoadPlaces();
 				//});
 			}
+		}
+
+		public async Task ExecuteAdd()
+		{
+			await AddCard();
 		}
 
 		public async Task AddCard()
@@ -168,10 +165,24 @@ namespace RouteOptimizer.ViewModels
 			}
 		}
 
+		public async Task ExecuteDelete()
+		{
+			if (SelectedItem != null) {
+				await DeleteCard(SelectedItem);
+			}
+		}
+
 		public async Task DeleteCard(PlaceCardModel card)
 		{
 			if (await Alerts.ConfirmAlert($"Are you sure you want to delete '{card.Name}' ?")) {
 				await App.Current.DeletePlace(card.Source);
+			}
+		}
+
+		public async Task ExecuteEdit()
+		{
+			if (SelectedItem != null) {
+				await EditCard(SelectedItem);
 			}
 		}
 
@@ -196,6 +207,16 @@ namespace RouteOptimizer.ViewModels
 
 				await Shell.Current.GoToAsync($"PlaceEditPage?place={index}");
 			}
+		}
+
+		public async Task ExecuteSave()
+		{
+			await EndEditing(true);
+		}
+
+		public async Task ExecuteCancelEditing()
+		{
+			await EndEditing(false);
 		}
 
 		public async Task EndEditing(bool save)
@@ -266,7 +287,7 @@ namespace RouteOptimizer.ViewModels
 		{
 			if (await Alerts.ConfirmAlert("Are you sure you want to clear the whole list?"))
 			{
-				await BusyTask(async () => {
+				await this.BusyTask(async () => {
 					await App.Current.ClearPlaces();
 				});
 			}
@@ -274,7 +295,7 @@ namespace RouteOptimizer.ViewModels
 
 		public async Task ExecuteEmail()
 		{
-			await BusyTask(async () => {
+			await this.BusyTask(async () => {
 				var json = JsonStorage.SerializePlaces(Items.Source);
 
 				var message = new EmailMessage {
@@ -298,7 +319,7 @@ namespace RouteOptimizer.ViewModels
 
 		public async Task ExecuteShare()
 		{
-			await BusyTask(async () => {
+			await this.BusyTask(async () => {
 				var json = JsonStorage.SerializePlaces(Items.Source);
 
 				// create a temprary file
@@ -324,19 +345,11 @@ namespace RouteOptimizer.ViewModels
 
 		public async Task ExecuteLoadSample()
 		{
-			//StartBusy("Loading");
-			IsBusy = true;
-			await Device.InvokeOnMainThreadAsync(async () => {
-				try {
-					await App.Current.LoadSample(App.Phila_Ru_Sample, skipDuplicates: true);
-				}
-				catch (Exception exc) {
-					Debug.ExceptionCaught(exc);
-				}
-				finally {
-					IsBusy = false;
-				}
-			});
+			await this.BusyTaskOnMainThread(async () => {
+				await App.Current.LoadSample(App.Phila_Ru_Sample, skipDuplicates: true);
+			},
+			"Loading"
+			);
 		}
 
 		void Search()

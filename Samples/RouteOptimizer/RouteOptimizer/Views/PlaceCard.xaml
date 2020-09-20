@@ -20,7 +20,7 @@
 			<ui:ArtButton Grid.Row="0" Grid.Column="0"
 						  Flavor="Card-add-button"
 						  IconArt="ic_add_item"
-						  Command="{Binding AddCommand}"
+						  Writ="Add"
 						  IsVisible="{Binding IsPlaceholder}"
 						  />
 
@@ -161,28 +161,26 @@
 							  IconArt="ic_edit.small"
 							  LabelText="Edit"
 							  IsVisible="{Binding IsRegular}"
-							  Command="{Binding EditCommand}"
-							  CommandParameter="{Binding Self}"
+							  Writ="Edit"
 							  />
 				<ui:ArtButton Flavor="Card-action-button"
 							  IconArt="ic_delete.small"
 							  LabelText="Delete"
 							  IsVisible="{Binding IsRegular}"
-							  Command="{Binding DeleteCommand}"
-							  CommandParameter="{Binding Self}"
+							  Writ="Delete"
 							  />
 
 				<ui:ArtButton Flavor="Card-action-button"
 							  IconArt="ic_save.small"
 							  LabelText="Save"
 							  IsVisible="{Binding IsEditing}"
-							  Command="{Binding SaveCommand}"
+							  Writ="Save"
 							  />
 				<ui:ArtButton Flavor="Card-action-button"
 							  IconArt="ic_clear.small"
 							  LabelText="Cancel"
 							  IsVisible="{Binding IsEditing}"
-							  Command="{Binding CancelCommand}"
+							  Writ="CancelEditing"
 							  />
 			</StackLayout>
 		</ui:GridEx>

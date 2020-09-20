@@ -39,17 +39,20 @@ namespace Dwares.Dwarf.Collections
 			if (newSource == source && itemFactory == ItemFactory)
 				return;
 			
-			if (source != null) {
-				source.CollectionChanged -= SourceCollectionChanged;
-				Clear();
-			}
+			using (var batch = new BatchCollectionChange(this))
+			{
+				if (source != null) {
+					source.CollectionChanged -= SourceCollectionChanged;
+					Clear();
+				}
 
-			source = newSource;
-			ItemFactory = itemFactory ?? ((sourceItem) => sourceItem as ShadowItem);
+				source = newSource;
+				ItemFactory = itemFactory ?? ((sourceItem) => sourceItem as ShadowItem);
 
-			if (newSource != null) {
-				AddShadows();
-				newSource.CollectionChanged += SourceCollectionChanged;
+				if (newSource != null) {
+					AddShadows();
+					newSource.CollectionChanged += SourceCollectionChanged;
+				}
 			}
 
 			if (fire) {
@@ -115,44 +118,45 @@ namespace Dwares.Dwarf.Collections
 
 		protected void RecollectShadows(bool fullRecollect = true)
 		{
-			if (Source == null) {
-				Clear();
-				return;
-			}
-
-			if (fullRecollect) {
-				Clear();
-				AddShadows();
-			}
-			else
+			using (var batch = new BatchCollectionChange(this))
 			{
-				int i, first;
-				for (first = 0; first < Source.Count; first++) {
-					if (first < this.Count) {
-						var shadow = this[first];
-						if (shadow is ISourced<SourceItem> sourced) {
-							if (Equals(sourced.Source, Source[first]))
-								continue;
+				if (Source == null) {
+					Clear();
+					return;
+				}
+
+				if (fullRecollect) {
+					Clear();
+					AddShadows();
+				} else {
+					int i, first;
+					for (first = 0; first < Source.Count; first++) {
+						if (first < this.Count) {
+							var shadow = this[first];
+							if (shadow is ISourced<SourceItem> sourced) {
+								if (Equals(sourced.Source, Source[first]))
+									continue;
+							}
+						}
+						break;
+					}
+
+
+					for (i = this.Count - 1; i >= first; i--) {
+						RemoveAt(i);
+					}
+
+					for (i = first; i < Source.Count; i++) {
+						var item = Source[i];
+						var shadowItem = ShadowFromObject(item);
+						if (shadowItem != null) {
+							Add(shadowItem);
 						}
 					}
-					break;
-				}
 
-
-				for (i = this.Count - 1; i >= first; i--) {
-					RemoveAt(i);
-				}
-
-				for (i = first; i < Source.Count; i++) {
-					var item = Source[i];
-					var shadowItem = ShadowFromObject(item);
-					if (shadowItem != null) {
-						Add(shadowItem);
+					if (HasPlaceholder) {
+						Add(Placeholder);
 					}
-				}
-
-				if (HasPlaceholder) {
-					Add(Placeholder);
 				}
 			}
 		}

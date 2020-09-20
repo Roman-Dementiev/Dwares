@@ -8,7 +8,7 @@ using Dwares.Druid.Satchel;
 
 namespace Dwares.Druid.ViewModels
 {
-	public class ViewModel : PropertyNotifier
+	public class ViewModel : PropertyNotifier, IBusy
 	{
 		public ViewModel() { }
 
@@ -93,71 +93,106 @@ namespace Dwares.Druid.ViewModels
 		}
 
 
-		public async Task BusyAction(Action action)
-		{
-			Debug.AssertNotNull(action);
-			if (IsBusy) {
-				Debug.Fail("Can not perfotm another busy task while in busy state");
-				return;
-			}
+		//public async Task<Exception> BusyAction(Action action, string busyMessage = null, bool alertOnError = true)
+		//{
+		//	Debug.AssertNotNull(action);
+		//	if (IsBusy) {
+		//		//Debug.Fail("Can not perfotm another busy task while in busy state");
+		//		return null;
+		//	}
 
-			try {
-				IsBusy = true;
-				action();
-			}
-			catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-				await Alerts.ExceptionAlert(exc);
-			}
-			finally {
-				IsBusy = false;
-			}
-		}
+		//	StartBusy(busyMessage);
+		//	try {
+		//		action();
+		//		return null;
+		//	}
+		//	catch (Exception exc) {
+		//		Debug.ExceptionCaught(exc);
+		//		if (alertOnError) {
+		//			await Alerts.ExceptionAlert(exc);
+		//		}
+		//		return exc;
+		//	}
+		//	finally {
+		//		EndBusy();
+		//	}
+		//}
 
-		public async Task BusyTask(Func<Task> task)
-		{
-			Debug.AssertNotNull(task);
-			if (IsBusy) {
-				//Debug.Fail("Can not perfotm another busy task while in busy state");
-				return;
-			}
+		//public async Task<Exception> BusyActionOnMainThread(Action action, string busyMessage = null, bool alertOnError = true)
+		//{
+		//	Debug.AssertNotNull(action);
+		//	if (IsBusy) {
+		//		//Debug.Fail("Can not perfotm another busy task while in busy state");
+		//		return null;
+		//	}
 
-			try {
-				IsBusy = true;
-				await task();
-			}
-			catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-				await Alerts.ExceptionAlert(exc);
-			}
-			finally {
-				IsBusy = false;
-			}
-		}
+		//	StartBusy(busyMessage);
+		//	try {
+		//		action();
+		//		return null;
+		//	}
+		//	catch (Exception exc) {
+		//		Debug.ExceptionCaught(exc);
+		//		if (alertOnError) {
+		//			await Alerts.ExceptionAlert(exc);
+		//		}
+		//		return exc;
+		//	}
+		//	finally {
+		//		EndBusy();
+		//	}
+		//}
+		//public async Task<Exception> BusyTask(Func<Task> task, string busyMessage = null, bool alertOnError = true)
+		//{
+		//	Debug.AssertNotNull(task);
+		//	if (IsBusy) {
+		//		//Debug.Fail("Can not perfotm another busy task while in busy state");
+		//		return null;
+		//	}
 
-		public async Task<T> BusyTask<T>(Func<Task<T>> task)
-		{
-			Debug.AssertNotNull(task);
-			if (IsBusy) {
-				Debug.Fail("Can not perfotm another busy task while in busy state");
-				return default;
-			}
+		//	StartBusy(busyMessage);
+		//	try {
+		//		await task();
+		//		return null;
+		//	}
+		//	catch (Exception exc) {
+		//		Debug.ExceptionCaught(exc);
+		//		if (alertOnError) {
+		//			await Alerts.ExceptionAlert(exc);
+		//		}
+		//		return exc;
+		//	}
+		//	finally {
+		//		EndBusy();
+		//	}
+		//}
 
-			try {
-				IsBusy = true;
-				return await task();
-			}
-			catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-				await Alerts.ExceptionAlert(exc);
-				return default;
-			}
-			finally {
-				IsBusy = false;
-			}
-		}
+		//public async Task<T> BusyFunc<T>(Func<Task<T>> task, string busyMessage = null, bool alertOnError = true)
+		//{
+		//	Debug.AssertNotNull(task);
+		//	if (IsBusy) {
+		//		Debug.Fail("Can not call another busy function while in busy state");
+		//		return default;
+		//	}
+
+		//	StartBusy(busyMessage);
+		//	try {
+		//		return await task();
+		//	}
+		//	catch (Exception exc) {
+		//		Debug.ExceptionCaught(exc);
+		//		if (alertOnError) {
+		//			await Alerts.ExceptionAlert( exc);
+		//		}
+		//		return default;
+		//	}
+		//	finally {
+		//		EndBusy();
+		//	}
+		//}
 
 		public bool CanPerformAction() => IsNotBusy;
 		public bool CanPerformAction(object param) => IsNotBusy;
 	}
+
 }

@@ -18,11 +18,11 @@ namespace RouteOptimizer.ViewModels
 		{
 			//Debug.EnableTracing(@class);
 			
-			AddCommand = new Command(async () => await PlacesViewModel.ActiveModel?.AddCard(), CanPerformAction);
-			DeleteCommand = new Command(async (param) => await PlacesViewModel.ActiveModel?.DeleteCard(param as PlaceCardModel), CanPerformAction);
-			EditCommand = new Command(async (param) => await PlacesViewModel.ActiveModel?.EditCard(param as PlaceCardModel), CanPerformAction);
-			SaveCommand = new Command(async () => await PlacesViewModel.ActiveModel?.EndEditing(true), CanPerformAction);
-			CancelCommand = new Command(async () => await PlacesViewModel.ActiveModel?.EndEditing(false), CanPerformAction);
+			//AddCommand = new Command(async () => await PlacesViewModel.ActiveModel?.AddCard(), CanPerformAction);
+			//DeleteCommand = new Command(async (param) => await PlacesViewModel.ActiveModel?.DeleteCard(param as PlaceCardModel), CanPerformAction);
+			//EditCommand = new Command(async (param) => await PlacesViewModel.ActiveModel?.EditCard(param as PlaceCardModel), CanPerformAction);
+			//SaveCommand = new Command(async () => await PlacesViewModel.ActiveModel?.EndEditing(true), CanPerformAction);
+			//CancelCommand = new Command(async () => await PlacesViewModel.ActiveModel?.EndEditing(false), CanPerformAction);
 		}
 
 		public PlaceCardModel(NewCard newCard) :
@@ -34,11 +34,11 @@ namespace RouteOptimizer.ViewModels
 
 		}
 
-		public Command AddCommand { get; }
-		public Command DeleteCommand { get; }
-		public Command EditCommand { get; }
-		public Command SaveCommand { get; }
-		public Command CancelCommand { get; }
+		//public Command AddCommand { get; }
+		//public Command DeleteCommand { get; }
+		//public Command EditCommand { get; }
+		//public Command SaveCommand { get; }
+		//public Command CancelCommand { get; }
 
 		public bool CanPerformAction() {
 			return PlacesViewModel.ActiveModel?.CanPerformAction() == true;
@@ -189,5 +189,6 @@ namespace RouteOptimizer.ViewModels
 			// e.JustAdded = false;
 			//}
 		}
+
 	}
 }

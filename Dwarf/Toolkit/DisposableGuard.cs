@@ -4,12 +4,12 @@ using Dwares.Dwarf;
 
 namespace Dwares.Dwarf.Toolkit
 {
-	public class GuardDisposable<T> : IDisposable
+	public class DisposableGuard<T> : IDisposable
 	{
 		protected T Guarded { get; private set; }
 		protected bool IsDisposed { get; private set; } = false;
 
-		public GuardDisposable(object obj, bool required)
+		public DisposableGuard(object obj, bool required)
 		{
 			if (obj is T guarded) {
 				Guarded = guarded;
@@ -21,20 +21,20 @@ namespace Dwares.Dwarf.Toolkit
 			}
 		}
 
-		public GuardDisposable(T obj)
+		public DisposableGuard(T obj)
 		{
 			Guarded = obj ?? throw new ArgumentNullException(nameof(obj));
 		}
 
 #if DEBUG
-		~GuardDisposable()
+		~DisposableGuard()
 		{
-			Debug.Assert(IsDisposed, "DebugDisposable.Dispose() was not called.");
+			Debug.Assert(IsDisposed, "DisposableGuard.Dispose() was not called.");
 		}
 #endif
 		public virtual void Dispose()
 		{
-			Debug.Assert(!IsDisposed, "DebugDisposable.Dispose() already was called.");
+			Debug.Assert(!IsDisposed, "DisposableGuard.Dispose() already was called.");
 			if (IsDisposed)
 				return;
 
@@ -47,9 +47,9 @@ namespace Dwares.Dwarf.Toolkit
 		}
 	}
 
-	public class GuardDisposable : GuardDisposable<object>
+	public class DisposableGuard : DisposableGuard<object>
 	{
-		public GuardDisposable(object obj, bool required = true) :
+		public DisposableGuard(object obj, bool required = true) :
 			base(obj, required)
 		{
 		}

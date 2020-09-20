@@ -4,7 +4,7 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Collections
 {
-	public class BatchCollectionChange : GuardDisposable<ISuspendableNotifyCollectionChanged>
+	public class BatchCollectionChange : DisposableGuard<ISuspendableNotifyCollectionChanged>
 	{
 		public BatchCollectionChange(object collection, bool requireSuspandable) :
 			base(collection, requireSuspandable)

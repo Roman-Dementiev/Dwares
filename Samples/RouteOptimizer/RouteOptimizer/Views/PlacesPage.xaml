@@ -19,7 +19,7 @@
 	</ContentPage.Resources>-->
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Order="Primary" Text="Add" Command="{Binding AddCommand}" />
+		<ui:ToolbarItemEx Order="Primary" Text="Add" Writ="Add" />
 		<ui:ToolbarItemEx Order="Secondary" Text="Clear" Writ="Clear" />
 		<!--<ToolbarItem Order="Secondary" Text="_____________" />-->
 		<ui:ToolbarItemEx Order="Secondary" Text="Load sample" Writ="LoadSample" />
@@ -137,7 +137,7 @@
 							Message="{Binding BusyMessage, Mode=OneWay}"
 							IndicatorSize="50"
 							HorizontalOptions="Center"
-							VerticalOptions="Start"
+							VerticalOptions="End"
 							/>
 	</ui:ShellPageEx.OverlayView>
 </ui:ShellPageEx>
