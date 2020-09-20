@@ -10,7 +10,7 @@ namespace Dwares.Druid.UI
 		public static Color DefaultIndicatorColor => Color.Black;
 
 		public SpinningOverlay() : 
-			base(false)
+			base(true, false)
 		{
 			MessageFrame.VerticalOptions = LayoutOptions.Start;
 
@@ -32,11 +32,11 @@ namespace Dwares.Druid.UI
 				}
 			};
 
-			this.PropertyChanged += (s, e) => {
-				if (e.PropertyName == nameof(IsVisible)) {
-					ActivityIndicator.IsRunning = IsVisible;
-				}
-			};
+			//this.PropertyChanged += (s, e) => {
+			//	if (e.PropertyName == nameof(IsVisible)) {
+			//		ActivityIndicator.IsRunning = IsVisible;
+			//	}
+			//};
 		}
 
 		public ActivityIndicator ActivityIndicator { get; }
@@ -72,6 +72,16 @@ namespace Dwares.Druid.UI
 		public Color IndicatorColor {
 			set { SetValue(IndicatorColorProperty, value); }
 			get { return (Color)GetValue(IndicatorColorProperty); }
+		}
+
+		public override void OnAppearing()
+		{
+			ActivityIndicator.IsRunning = true;
+		}
+
+		public override void OnDisappearing()
+		{
+			ActivityIndicator.IsRunning = false;
 		}
 	}
 }

@@ -139,7 +139,7 @@ namespace RouteOptimizer
 				var text = await reader.ReadToEndAsync();
 				var json = JsonStorage.DeserializeJson<PlacesJson>(text);
 
-				int i = 0;
+				//int i = 0;
 				foreach (var rec in json.Places) {
 					var found = Places.GetByName(rec.Name);
 					if (found != null) {
@@ -147,12 +147,9 @@ namespace RouteOptimizer
 							continue;
 						Places.Remove(found);
 					}
-					Places.Add(new Place {
-						Name = rec.Name,
-						Tags = rec.Tags,
-						Address = rec.Address
-					});
-					i++;
+					var place = JsonStorage.JsonToPlace(rec);
+					Places.Add(place);
+					//i++;
 				}
 			}
 

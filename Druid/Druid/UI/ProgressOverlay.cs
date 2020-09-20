@@ -10,15 +10,19 @@ namespace Dwares.Druid.UI
 		const double DefaultProgressBarHeight = 2;
 
 		public ProgressOverlay() : this(true) {}
+
 		public ProgressOverlay(bool progressOutideFrame) :
-			base(false)
+			base(progressOutideFrame, false)
 		{
+			IsProgressOutsideFrame = progressOutideFrame;
+
 			ProgressBar = new ProgressBar {
 				Margin = new Thickness(0, 0),
 				HorizontalOptions = DefaultHorizontalOptions,
 				VerticalOptions = DefaultVerticalOptions,
 				WidthRequest = DefaultProgressBarWidth,
-				HeightRequest = DefaultProgressBarHeight
+				HeightRequest = DefaultProgressBarHeight,
+				IsVisible = true
 			};
 
 			if (progressOutideFrame) {
@@ -35,12 +39,34 @@ namespace Dwares.Druid.UI
 				};
 			}
 			else {
+				MessageLabel = new Label {
+					HorizontalOptions = LayoutOptions.Center,
+					TextColor = DefaultMessageTextColor,
+					IsVisible = false
+				};
+				MessageFrame = new Frame {
+					BackgroundColor = DefaultMessageBackColor,
+					HorizontalOptions = DefaultHorizontalOptions,
+					VerticalOptions = DefaultVerticalOptions,
+					Padding = DefaultMessageFramePadding,
+					CornerRadius = DefaultMessageFrameCornerRadius,
+					Content = new StackLayout {
+						HorizontalOptions = DefaultHorizontalOptions,
+						VerticalOptions = DefaultVerticalOptions,
+						Margin = DefaultContentMargin,
+						Children = {
+							ProgressBar,
+							MessageLabel
+						}
+					}
+				};
+
 				Content = MessageFrame;
-				Content.Margin = DefaultContentMargin;
 			}
 		}
 
 		public ProgressBar ProgressBar { get; }
+		public bool IsProgressOutsideFrame { get; }
 
 
 		public static readonly BindableProperty ProgressProperty =
@@ -109,5 +135,14 @@ namespace Dwares.Druid.UI
 			get { return (Color)GetValue(ProgressColorProperty); }
 		}
 
+		public override void OnMessageChanged()
+		{
+			bool hasMessage = !string.IsNullOrEmpty(Message);
+			if (IsProgressOutsideFrame) {
+				MessageFrame.IsVisible = hasMessage;
+			} else {
+				MessageLabel.IsVisible = hasMessage;
+			}
+		}
 	}
 }

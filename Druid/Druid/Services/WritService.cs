@@ -7,7 +7,7 @@ namespace Dwares.Druid.Services
 	public interface IWritExecutor
 	{
 		Task ExecuteWrit(string writ);
-		bool CanExecuteWrit(string writ);
+		//bool CanExecuteWrit(string writ);
 	}
 
 	public interface IWritService
@@ -31,9 +31,8 @@ namespace Dwares.Druid.Services
 		public static async Task ExecuteWrit(string writ)
 		{
 			var executor = GetExecutor(writ);
-			if (executor?.CanExecuteWrit(writ)==true) {
+			//if (executor?.CanExecuteWrit(writ)==true)
 				await executor.ExecuteWrit(writ);
-			}
 		}
 	}
 

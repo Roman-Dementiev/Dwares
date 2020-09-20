@@ -118,7 +118,7 @@ namespace Dwares.Druid.ViewModels
 		{
 			Debug.AssertNotNull(task);
 			if (IsBusy) {
-				Debug.Fail("Can not perfotm another busy task while in busy state");
+				//Debug.Fail("Can not perfotm another busy task while in busy state");
 				return;
 			}
 

@@ -42,36 +42,40 @@ namespace RouteOptimizer.ViewModels
 			EditCommand = new Command(async (param) => await EditCard(param as PlaceCardModel), CanPerformAction);
 			SaveCommand = new Command(async () => await EndEditing(true), CanPerformAction);
 			CancelCommand = new Command(async () => await EndEditing(false), CanPerformAction);
-
-			RefreshCommand = new Command(async () => await BusyTask(Reload), CanPerformAction);
-			ClearCommand = new Command(async () => await BusyTask(Clear), CanPerformAction);
-			EmailCommand = new Command(async () => await BusyTask(Email), CanPerformAction);
-			ShareCommand = new Command(async () => await BusyTask(Share), CanPerformAction);
-			LoadSampleCommand = new Command(async () => await BusyTask(LoadSample), CanPerformAction);
+			RefreshCommand = new Command(async () => await Reload(), CanPerformAction);
+			//ClearCommand = new Command(async () => await BusyTask(Clear), CanPerformAction);
+			//EmailCommand = new Command(async () => await BusyTask(Email), CanPerformAction);
+			//ShareCommand = new Command(async () => await BusyTask(Share), CanPerformAction);
+			//LoadSampleCommand = new Command(async () => await BusyTask(LoadSample), CanPerformAction);
 
 			ExpandPanelCommand = new Command(() => IsPanelExpanded = !IsPanelExpanded );
 			SearchCommand = new Command(Search);
-
 		}
 
 		public ObservableCollection<PlaceCardModel> Places => Items;
 
 		public PlaceCardModel EditingCard { get; private set; }
 
+
 		public Command AddCommand { get; }
 		public Command DeleteCommand { get; }
 		public Command EditCommand { get; }
 		public Command SaveCommand { get; }
 		public Command CancelCommand { get; }
-
 		public Command RefreshCommand { get; }
-		public Command ClearCommand { get; }
-		public Command EmailCommand { get; }
-		public Command ShareCommand { get; }
-		public Command LoadSampleCommand { get; }
+		//public Command ClearCommand { get; }
+		//public Command EmailCommand { get; }
+		//public Command ShareCommand { get; }
+		//public Command LoadSampleCommand { get; }
 
 		public Command ExpandPanelCommand { get; }
 		public Command SearchCommand { get; }
+
+		public bool IsRefreshing {
+			get => isRefreshing;
+			set => SetProperty(ref isRefreshing, value);
+		}
+		bool isRefreshing;
 
 		public bool UseInPlaceEditor {
 			get => useInPlaceEditor;
@@ -119,10 +123,28 @@ namespace RouteOptimizer.ViewModels
 		}
 		SearchResult? searchResult;
 
+		public bool IsPullToRefreshEnabled {
+			get => isPullToRefreshEnabled;
+			set => SetProperty(ref isPullToRefreshEnabled, value);
+		}
+		bool isPullToRefreshEnabled;
 
 		async Task Reload()
 		{
-			await App.Current.LoadPlaces();
+			if (IsPullToRefreshEnabled) {
+				try {
+					await App.Current.LoadPlaces();
+				} catch (Exception exc) {
+					Debug.ExceptionCaught(exc);
+				} finally {
+					IsRefreshing = false;
+				}
+			} else {
+				Debug.Fail("PlaceViewModel.Reload() called with IsPullToRefreshEnabled=true");
+				//await BusyTask(async () => {
+				//	await App.Current.LoadPlaces();
+				//});
+			}
 		}
 
 		public async Task AddCard()
@@ -233,58 +255,88 @@ namespace RouteOptimizer.ViewModels
 			}
 		}
 
-		async Task Clear()
+		//async Task Clear()
+		//{
+		//	if (await Alerts.ConfirmAlert("Are you sure you want to clear the whole list?")) {
+		//		await App.Current.ClearPlaces();
+		//	}
+		//}
+
+		public async Task ExecuteClear()
 		{
-			if (await Alerts.ConfirmAlert("Are you sure you want to clear the whole list?")) {
-				await App.Current.ClearPlaces();
+			if (await Alerts.ConfirmAlert("Are you sure you want to clear the whole list?"))
+			{
+				await BusyTask(async () => {
+					await App.Current.ClearPlaces();
+				});
 			}
 		}
-		
-		async Task Email()
+
+		public async Task ExecuteEmail()
 		{
-			var json = JsonStorage.SerializePlaces(Items.Source);
+			await BusyTask(async () => {
+				var json = JsonStorage.SerializePlaces(Items.Source);
 
-			var message = new EmailMessage {
-				Subject = string.Empty, //"RouteOptimizer sharing places",
-				Body = string.Empty,
-				BodyFormat = EmailBodyFormat.PlainText,
-				To = null, //new List<string> { "someone@somewhere" },
-				Cc = null,
-				Bcc = null,
-			};
+				var message = new EmailMessage {
+					Subject = string.Empty, //"RouteOptimizer sharing places",
+					Body = string.Empty,
+					BodyFormat = EmailBodyFormat.PlainText,
+					To = null, //new List<string> { "someone@somewhere" },
+					Cc = null,
+					Bcc = null,
+				};
 
-			// create a temprary file
-			var path = Path.Combine(FileSystem.CacheDirectory, "Places.txt");
-			File.WriteAllText(path, json);
+				// create a temprary file
+				var path = Path.Combine(FileSystem.CacheDirectory, "Places.txt");
+				File.WriteAllText(path, json);
 
-			message.Attachments.Add(new EmailAttachment(path));
+				message.Attachments.Add(new EmailAttachment(path));
 
-			await Xamarin.Essentials.Email.ComposeAsync(message);
-		}
-
-		async Task Share()
-		{
-			var json = JsonStorage.SerializePlaces(Items.Source);
-
-			// create a temprary file
-			var path = Path.Combine(FileSystem.CacheDirectory, "Places.txt");
-			File.WriteAllText(path, json);
-
-			//var bounds = element.GetAbsoluteBounds();
-
-			await Xamarin.Essentials.Share.RequestAsync(new ShareFileRequest
-			{
-				Title = Title,
-				File = new ShareFile(path)
-				//,PresentationSourceBounds = bounds.ToSystemRectangle() // for iOS only
+				await Xamarin.Essentials.Email.ComposeAsync(message);
 			});
 		}
 
-		async Task LoadSample()
+		public async Task ExecuteShare()
 		{
-			//Items.IsSuspended = true;
-			await App.Current.LoadSample(App.Phila_Ru_Sample, skipDuplicates: true);
-			//Items.IsSuspended = false;
+			await BusyTask(async () => {
+				var json = JsonStorage.SerializePlaces(Items.Source);
+
+				// create a temprary file
+				var path = Path.Combine(FileSystem.CacheDirectory, "Places.txt");
+				File.WriteAllText(path, json);
+
+				//var bounds = element.GetAbsoluteBounds();
+
+				await Xamarin.Essentials.Share.RequestAsync(new ShareFileRequest {
+					Title = Title,
+					File = new ShareFile(path)
+					//,PresentationSourceBounds = bounds.ToSystemRectangle() // for iOS only
+				});
+			});
+		}
+
+		//public async Task ExecuteLoadSample()
+		//{
+		//	await BusyTask(async () => {
+		//		await App.Current.LoadSample(App.Phila_Ru_Sample, skipDuplicates: true);
+		//	});
+		//}
+
+		public async Task ExecuteLoadSample()
+		{
+			//StartBusy("Loading");
+			IsBusy = true;
+			await Device.InvokeOnMainThreadAsync(async () => {
+				try {
+					await App.Current.LoadSample(App.Phila_Ru_Sample, skipDuplicates: true);
+				}
+				catch (Exception exc) {
+					Debug.ExceptionCaught(exc);
+				}
+				finally {
+					IsBusy = false;
+				}
+			});
 		}
 
 		void Search()

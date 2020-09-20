@@ -40,12 +40,9 @@ namespace Dwares.Druid.Satchel
 
 		public bool CanExecute(object parameter)
 		{
-			var executor = Executor;
-			if (executor == null)
-				return true;
-
-			return executor.CanExecuteWrit(Writ);
+			return true;
 		}
+
 
 		public void FireCanExecuteChanged()
 		{

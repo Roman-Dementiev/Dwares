@@ -27,11 +27,11 @@ namespace Dwares.Druid.Services
 					continue;
 				// TODO: check return type
 
-				var canExecute = Reflection.GetMethod(target, CanExecuteMethodName(writ), null, null, false);
-				// TODO: check return type
+				//var canExecute = Reflection.GetMethod(target, CanExecuteMethodName(writ), null, null, false);
+				//// TODO: check return type
+				//return new ReflectionWritExecutor(target, execute, canExecute);
 
-				return new ReflectionWritExecutor(target, execute, canExecute);
-
+				return new ReflectionWritExecutor(target, execute);
 			}
 
 			return null;
@@ -58,16 +58,22 @@ namespace Dwares.Druid.Services
 
 	internal class ReflectionWritExecutor : IWritExecutor
 	{
-		public ReflectionWritExecutor(object target, MethodInfo executeMethod, MethodInfo canExecuteMethod)
+		public ReflectionWritExecutor(object target, MethodInfo executeMethod)
 		{
 			Target = target ?? throw new ArgumentNullException(nameof(target));
 			ExecuteMethod = executeMethod ?? throw new ArgumentNullException(nameof(executeMethod));
-			CanExecuteMethod = canExecuteMethod;
 		}
+
+		//public ReflectionWritExecutor(object target, MethodInfo executeMethod, MethodInfo canExecuteMethod)
+		//{
+		//	Target = target ?? throw new ArgumentNullException(nameof(target));
+		//	ExecuteMethod = executeMethod ?? throw new ArgumentNullException(nameof(executeMethod));
+		//	CanExecuteMethod = canExecuteMethod;
+		//}
 
 		public object Target { get; }
 		private MethodInfo ExecuteMethod { get; set; }
-		private MethodInfo CanExecuteMethod { get; set; }
+		//private MethodInfo CanExecuteMethod { get; set; }
 
 
 		public Task ExecuteWrit(string writ)
@@ -84,20 +90,20 @@ namespace Dwares.Druid.Services
 			return Task.CompletedTask;
 		}
 
-		public bool CanExecuteWrit(string writ)
-		{
-			try {
-				var result = CanExecuteMethod.Invoke(Target, Reflection.cNoArgs);
-				if (result is bool canExecute) {
-					return canExecute;
-				}
-			}
-			catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-			}
-			return true;
+		//public bool CanExecuteWrit(string writ)
+		//{
+		//	try {
+		//		var result = CanExecuteMethod.Invoke(Target, Reflection.cNoArgs);
+		//		if (result is bool canExecute) {
+		//			return canExecute;
+		//		}
+		//	}
+		//	catch (Exception exc) {
+		//		Debug.ExceptionCaught(exc);
+		//	}
+		//	return true;
 
-		}
+		//}
 
 	}
 }

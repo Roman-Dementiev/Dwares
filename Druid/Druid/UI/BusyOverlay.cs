@@ -17,10 +17,13 @@ namespace Dwares.Druid.UI
 		public static float DefaultMessageFrameCornerRadius => 10;
 
 
-		protected BusyOverlay(bool setContent)
+		protected BusyOverlay(bool initWidgets, bool setContent)
 		{
 			IsVisible = false;
 			BackgroundColor = DefaultBackgroundColor;
+			
+			if (!initWidgets)
+				return;
 
 			MessageLabel = new Label {
 				HorizontalOptions = LayoutOptions.Center,
@@ -32,7 +35,8 @@ namespace Dwares.Druid.UI
 				VerticalOptions = DefaultVerticalOptions,
 				Padding = DefaultMessageFramePadding,
 				CornerRadius = DefaultMessageFrameCornerRadius,
-				Content = MessageLabel
+				Content = MessageLabel,
+				IsVisible = false
 			};
 
 			if (setContent) {
@@ -47,9 +51,19 @@ namespace Dwares.Druid.UI
 				Content = MessageFrame;
 				Content.Margin = DefaultContentMargin;
 			}
+
+			this.PropertyChanged += (s, e) => {
+				if (e.PropertyName == nameof(IsVisible)) {
+					if (IsVisible) {
+						OnAppearing();
+					} else {
+						OnDisappearing();
+					}
+				}
+			};
 		}
 
-		public BusyOverlay() : this(true)
+		public BusyOverlay() : this(true, true)
 		{
 			UITheme.OnCurrentThemeChanged(() => this.ApplyFlavor());
 		}
@@ -81,13 +95,8 @@ namespace Dwares.Druid.UI
 				typeof(BusyOverlay),
 				propertyChanged: (bindable, oldValue, newValue) => {
 					if (bindable is BusyOverlay overlay && newValue is string text) {
-						if (string.IsNullOrWhiteSpace(text)) {
-							overlay.MessageLabel.Text = string.Empty;
-							overlay.MessageFrame.IsVisible = false;
-						} else {
-							overlay.MessageLabel.Text = text;
-							overlay.MessageFrame.IsVisible = true;
-						}
+						overlay.MessageLabel.Text = text ?? string.Empty;
+						overlay.OnMessageChanged();
 					}
 				});
 
@@ -163,5 +172,19 @@ namespace Dwares.Druid.UI
 			set { SetValue(VerticalOptionsProperty, value); }
 			get { return (LayoutOptions)GetValue(VerticalOptionsProperty); }
 		}
+
+		public virtual void OnAppearing()
+		{
+		}
+
+		public virtual void OnDisappearing()
+		{
+		}
+
+		public virtual void OnMessageChanged()
+		{
+			MessageFrame.IsVisible = !string.IsNullOrEmpty(Message);
+		}
+
 	}
 }

@@ -32,21 +32,27 @@ namespace RouteOptimizer.Storage
 				int count = json.Places.Length;
 				foreach (var rec in json.Places)
 				{
-					string id = Ids.PlaceId(rec.Name, rec.Address);
-					var place = new Place {
-						Id = id,
-						Name = rec.Name ?? string.Empty,
-						Tags = rec.Tags ?? string.Empty,
-						Note = rec.Note ?? string.Empty,
-						Address = rec.Address ?? string.Empty,
-						Phone = rec.Phone ?? string.Empty
-					};
+					var place = JsonToPlace(rec);
 					places.Add(place);
 				}
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
 			}
+		}
+
+		internal static Place JsonToPlace(PlaceRecord rec)
+		{
+			string id = Ids.PlaceId(rec.Name, rec.Address);
+			var place = new Place {
+				Id = id,
+				Name = rec.Name ?? string.Empty,
+				Tags = rec.Tags ?? string.Empty,
+				Note = rec.Note ?? string.Empty,
+				Address = rec.Address ?? string.Empty,
+				Phone = rec.Phone ?? string.Empty
+			};
+			return place;
 		}
 
 		public async Task SavePlacesAsync(Places places)

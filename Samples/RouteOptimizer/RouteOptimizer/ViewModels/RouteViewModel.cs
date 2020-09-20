@@ -22,31 +22,24 @@ namespace RouteOptimizer.ViewModels
 
 			Title = "Route";
 
-			TestCommand = new WritCommand("Test");
+			//TestCommand = new WritCommand("Test");
 		}
 
 		public ObservableCollection<RouteStopCardModel> Stops => Items;
 
-		public WritCommand TestCommand { get; }
+		//public WritCommand TestCommand { get; }
 
-		public bool CanExecuteTest()
+		public async Task ExecuteTest(string message)
 		{
-			return IsNotBusy;
-		}
-		
-
-		public async Task ExecuteTest()
-		{
-			if (!CanExecuteTest())
+			if (IsBusy)
 				return;
 
 			TimeSpan delay = TimeSpan.Zero; //TimeSpan.FromSeconds(3);
 			TimeSpan duration = TimeSpan.FromSeconds(5);
+			await Task.Delay(delay);
 
 			ProgressValue = 0;
-
-			await Task.Delay(delay);
-			StartBusy("Working...");
+			StartBusy(message);
 
 			DateTime now = DateTime.Now;
 
@@ -61,6 +54,9 @@ namespace RouteOptimizer.ViewModels
 				return continueTimer;
 			});
 		}
+
+		public async Task ExecuteTest1() => await ExecuteTest(string.Empty);
+		public async Task ExecuteTest2() => await ExecuteTest("Working...");
 
 		//public bool OverlayIsVisible {
 		//	get => overlayIsVisible;

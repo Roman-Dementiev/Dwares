@@ -20,11 +20,11 @@
 
 	<ContentPage.ToolbarItems>
 		<ToolbarItem Order="Primary" Text="Add" Command="{Binding AddCommand}" />
-		<ToolbarItem Order="Secondary" Text="Clear" Command="{Binding ClearCommand}" />
-		<ToolbarItem Order="Secondary" Text="Load sample" Command="{Binding LoadSampleCommand}" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Clear" Writ="Clear" />
 		<!--<ToolbarItem Order="Secondary" Text="_____________" />-->
-		<ToolbarItem Order="Secondary" Text="Email content" Command="{Binding EmailCommand}" />
-		<ToolbarItem Order="Secondary" Text="Share content" Command="{Binding ShareCommand}" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Load sample" Writ="LoadSample" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Email content" Writ="Email" />
+		<ui:ToolbarItemEx Order="Secondary" Text="Share content" Writ="Share" />
 	</ContentPage.ToolbarItems>
 
 	<Grid>
@@ -115,9 +115,9 @@
 					   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
 					   SelectionMode="Single"
 					   HasUnevenRows="True"
-					   IsPullToRefreshEnabled="False"
+					   IsPullToRefreshEnabled="{Binding IsPullToRefreshEnabled, Mode=OneWay}"
 					   RefreshCommand="{Binding RefreshCommand}"
-					   IsRefreshing="{Binding IsBusy, Mode=TwoWay}"
+					   IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
 					   >
 	
 			<ListView.ItemTemplate>
@@ -130,5 +130,15 @@
 		</ui:ListViewEx>
 
 	</Grid>
+
+
+	<ui:ShellPageEx.OverlayView>
+		<ui:SpinningOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
+							Message="{Binding BusyMessage, Mode=OneWay}"
+							IndicatorSize="50"
+							HorizontalOptions="Center"
+							VerticalOptions="Start"
+							/>
+	</ui:ShellPageEx.OverlayView>
 </ui:ShellPageEx>
 	

@@ -19,7 +19,8 @@
 	</ui:ContentPageEx.Resources>-->
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Order="Primary" Text="Test" Command="{Binding TestCommand}" />
+		<ui:ToolbarItemEx Order="Primary" Text="Test1" Writ="Test1" />
+		<ui:ToolbarItemEx Order="Primary" Text="Test2" Writ="Test2" />
 	</ContentPage.ToolbarItems>
 
 	<Grid>
@@ -35,23 +36,21 @@
 		
 		<!--<ui:BusyOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
 						Message="{Binding BusyMessage, Mode=OneWay}"
-						HorizontalOptions="End"
-						VerticalOptions="End"
+						HorizontalOptions="Center"
+						VerticalOptions="Start"
 						>
 		</ui:BusyOverlay>-->
 
 		<!--<ui:SpinningOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
 							Message="{Binding BusyMessage, Mode=OneWay}"
-							IndicatorSize="50"
-							IndicatorColor="Color.Orange"
-							HorizontalOptions="End"
-							VerticalOptions="End"
+							HorizontalOptions="Center"
+							VerticalOptions="Center"
 							/>-->
 
 		<ui:ProgressOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
 							Message="{Binding BusyMessage, Mode=OneWay}"
 							Progress="{Binding ProgressValue, Mode=OneWay}"
-							HorizontalOptions="Start"
+							HorizontalOptions="Center"
 							VerticalOptions="End"
 							/>
 

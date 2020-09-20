@@ -67,14 +67,14 @@ namespace Dwares.Dwarf
 		[System.Diagnostics.Conditional("DEBUG")]
 		public static void AssertIsEmpty(object obj, string message = null, string detailFormat = null, params object[] detailArgs)
 		{
-			bool isEmpty = string.IsNullOrEmpty(obj.ToString());
+			bool isEmpty = string.IsNullOrEmpty(obj?.ToString());
 			Assert(isEmpty, message, detailFormat, detailArgs);
 		}
 
 		[System.Diagnostics.Conditional("DEBUG")]
 		public static void AssertNotEmpty(object obj, string message = null, string detailFormat = null, params object[] detailArgs)
 		{
-			bool isEmpty = string.IsNullOrEmpty(obj.ToString());
+			bool isEmpty = string.IsNullOrEmpty(obj?.ToString());
 			Assert(!isEmpty, message, detailFormat, detailArgs);
 		}
 
