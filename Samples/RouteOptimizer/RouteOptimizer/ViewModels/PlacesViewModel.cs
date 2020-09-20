@@ -159,6 +159,7 @@ namespace RouteOptimizer.ViewModels
 				Items.Add(card);
 
 				SelectedItem = EditingCard = card;
+				WantToScrollTo = card;
 			}
 			else {
 				await Shell.Current.GoToAsync($"PlaceEditPage");
@@ -401,6 +402,16 @@ namespace RouteOptimizer.ViewModels
 			}
 		}
 		PlaceCardModel wantToScrollTo;
+
+		public string WantToScrollToId {
+			get => WantToScrollTo?.Id;
+			set => WantToScrollTo = FindCardById(value);
+		}
+
+		PlaceCardModel FindCardById(string id)
+		{
+			return Items.FirstOrDefault((card) => card.Id == id);
+		}
 	}
 
 	internal struct SearchResult

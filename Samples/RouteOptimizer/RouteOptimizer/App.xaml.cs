@@ -107,21 +107,23 @@ namespace RouteOptimizer
 		}
 
 
-		public async Task AddPlace(Place place)
+		public async Task<string> AddPlace(Place place)
 		{
 			string id = await AppStorage.AddPlaceAsync(place);
 			Debug.Assert(place.Id == id);
 
 			Places.Add(place);
+			return id;
 		}
 
-		public async Task UpdatePlace(Place place)
+		public async Task<string> UpdatePlace(Place place)
 		{
 			string oldId = place.Id; 
 			string newId = await AppStorage.UpdatePlaceAsync(oldId, place);
 			if (newId != oldId) {
 				Places.Replace(oldId, place);
 			}
+			return newId;
 		}
 
 		public async Task DeletePlace(Place place)

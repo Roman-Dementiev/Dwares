@@ -124,6 +124,8 @@ namespace RouteOptimizer.ViewModels
 					return;
 				}
 
+				string id;
+
 				if (Source == null) {
 					var newPlace = new Place {
 						Name = name,
@@ -132,7 +134,7 @@ namespace RouteOptimizer.ViewModels
 						Phone = phone,
 						Address = address
 					};
-					await App.Current.AddPlace(newPlace);
+					id = await App.Current.AddPlace(newPlace);
 				}
 				else {
 					Source.Name = name;
@@ -141,7 +143,7 @@ namespace RouteOptimizer.ViewModels
 					Source.Phone = phone;
 					Source.Address = address;
 
-					await App.Current.UpdatePlace(Source);
+					id = await App.Current.UpdatePlace(Source);
 				}
 
 				Source = null;
@@ -149,7 +151,14 @@ namespace RouteOptimizer.ViewModels
 				ChoosenTagSuggestion = null;
 				IsModified = false;
 
+
 				await ShellPageEx.TryGoBack();
+
+				//await Device.InvokeOnMainThreadAsync(() => {
+					if (PlacesViewModel.ActiveModel != null) {
+						PlacesViewModel.ActiveModel.WantToScrollToId = id;
+					}
+				//});
 			}
 			catch (Exception exc) {
 				await Alerts.ErrorAlert(exc.Message);

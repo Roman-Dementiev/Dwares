@@ -41,24 +41,12 @@ namespace RouteOptimizer.Storage
 			}
 		}
 
-		internal static Place JsonToPlace(PlaceRecord rec)
-		{
-			string id = Ids.PlaceId(rec.Name, rec.Address);
-			var place = new Place {
-				Id = id,
-				Name = rec.Name ?? string.Empty,
-				Tags = rec.Tags ?? string.Empty,
-				Note = rec.Note ?? string.Empty,
-				Address = rec.Address ?? string.Empty,
-				Phone = rec.Phone ?? string.Empty
-			};
-			return place;
-		}
+		public async Task SavePlacesAsync(Places places) => await SavePlacesAsync(places, null);
 
-		public async Task SavePlacesAsync(Places places)
+		public async Task SavePlacesAsync(Places places, Place addPlace)
 		{
 			try {
-				var text = SerializePlaces(places.List);
+				var text = SerializePlaces(places.List, addPlace);
 
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				await Files.WriteTextAsync(path, text);
@@ -76,7 +64,7 @@ namespace RouteOptimizer.Storage
 		public async Task<string> AddPlaceAsync(Place place)
 		{
 			place.Id = Ids.PlaceId(place.Name, place.Address);
-			await SavePlacesAsync(App.Current.Places);
+			await SavePlacesAsync(App.Current.Places, place);
 			return place.Id;
 		}
 
@@ -92,23 +80,24 @@ namespace RouteOptimizer.Storage
 			await SavePlacesAsync(App.Current.Places);
 		}
 
-
-		public static string SerializePlaces(IList<Place> places)
+		public static string SerializePlaces(IList<Place> places, Place addPlace = null)
 		{
+			int count = places.Count;
+			if (addPlace != null)
+				count++;
+
 			var json = new PlacesJson {
 				Version = kVersion1,
-				Places = new PlaceRecord[places.Count]
+				Places = new PlaceRecord[count]
 			};
 
 			for (int i = 0; i < places.Count; i++) {
 				var place = places[i];
-				json.Places[i] = new PlaceRecord {
-					Name = place.Name,
-					Tags = place.Tags,
-					Note = place.Note,
-					Address = place.Address,
-					Phone = place.Phone
-				};
+				json.Places[i] = PlaceToJson(place);
+			}
+
+			if (addPlace != null) {
+				json.Places[count-1] = PlaceToJson(addPlace);
 			}
 
 			return SerializeJson(json);
@@ -152,6 +141,31 @@ namespace RouteOptimizer.Storage
 				Debug.ExceptionCaught(ex);
 				return null;
 			}
+		}
+
+		internal static Place JsonToPlace(PlaceRecord rec)
+		{
+			string id = Ids.PlaceId(rec.Name, rec.Address);
+			var place = new Place {
+				Id = id,
+				Name = rec.Name ?? string.Empty,
+				Tags = rec.Tags ?? string.Empty,
+				Note = rec.Note ?? string.Empty,
+				Address = rec.Address ?? string.Empty,
+				Phone = rec.Phone ?? string.Empty
+			};
+			return place;
+		}
+
+		internal static PlaceRecord PlaceToJson(Place place)
+		{
+			return new PlaceRecord {
+				Name = place.Name,
+				Tags = place.Tags,
+				Note = place.Note,
+				Address = place.Address,
+				Phone = place.Phone
+			};
 		}
 	}
 

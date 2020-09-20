@@ -17,24 +17,24 @@ namespace RouteOptimizer.Views
 		{
 			InitializeComponent();
 
-			if (listView.ItemsSource is ObservableCollection<PlaceCardModel> cards) {
-				cards.CollectionChanged += Cards_CollectionChanged;
-			}
+			//if (listView.ItemsSource is ObservableCollection<PlaceCardModel> cards) {
+			//	cards.CollectionChanged += Cards_CollectionChanged;
+			//}
 
 			if (BindingContext is PlacesViewModel viewModel) {
 				viewModel.PropertyChanged += ViewModel_PropertyChanged;
 			}
 		}
 
-		private void Cards_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count > 0) {
-				var card = e.NewItems[0] as PlaceCardModel;
-				//if (card?.IsEditing == true) {
-					listView.ScrollTo(card, ScrollToPosition.MakeVisible, animated: false);
-				//}
-			}
-		}
+		//private void Cards_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		//{
+		//	if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count > 0) {
+		//		var card = e.NewItems[0] as PlaceCardModel;
+		//		//if (card?.IsEditing == true) {
+		//			listView.ScrollTo(card, ScrollToPosition.MakeVisible, animated: false);
+		//		//}
+		//	}
+		//}
 
 		private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{

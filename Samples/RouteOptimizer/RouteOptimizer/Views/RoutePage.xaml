@@ -18,10 +18,10 @@
 		</ResourceDictionary>
 	</ui:ContentPageEx.Resources>-->
 
-	<ContentPage.ToolbarItems>
+	<!--<ContentPage.ToolbarItems>
 		<ui:ToolbarItemEx Order="Primary" Text="Test1" Writ="Test1" />
 		<ui:ToolbarItemEx Order="Primary" Text="Test2" Writ="Test2" />
-	</ContentPage.ToolbarItems>
+	</ContentPage.ToolbarItems>-->
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -41,18 +41,18 @@
 						>
 		</ui:BusyOverlay>-->
 
-		<!--<ui:SpinningOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
+		<ui:SpinningOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
 							Message="{Binding BusyMessage, Mode=OneWay}"
 							HorizontalOptions="Center"
 							VerticalOptions="Center"
-							/>-->
+							/>
 
-		<ui:ProgressOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
+		<!--<ui:ProgressOverlay IsVisible="{Binding IsBusy, Mode=OneWay}"
 							Message="{Binding BusyMessage, Mode=OneWay}"
 							Progress="{Binding ProgressValue, Mode=OneWay}"
 							HorizontalOptions="Center"
 							VerticalOptions="End"
-							/>
+							/>-->
 
 	</ui:ShellPageEx.OverlayView>
 </ui:ShellPageEx>
