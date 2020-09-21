@@ -3,12 +3,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Dwares.Dwarf;
-
+using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Dwarf.Collections
 {
 	public class OrdarableShadowCollection<ShadowItem, SourceItem> : ShadowCollection<ShadowItem, SourceItem>, IOrderableCollection
-		where ShadowItem : class, new()
+		//where SourceItem : class
+		where ShadowItem : class
 	{
 		//static ClassRef @class = new ClassRef(typeof(OrdarableShadowCollection));
 

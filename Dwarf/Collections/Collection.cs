@@ -116,7 +116,7 @@ namespace Dwares.Dwarf.Collections
 			return Array.BinarySearch(items, item, comparer);
 		}
 
-		// TODO
+		//TODO
 		public static ICollection<T> Sort<T>(ICollection<T> collection, ICollection<T> sorted, IComparer<T> comparer)
 		{
 			Guard.ArgumentNotNull(collection, nameof(collection));
@@ -128,7 +128,6 @@ namespace Dwares.Dwarf.Collections
 
 			items.Sort(comparer);
 
-			;
 			foreach (var item in collection) {
 				items.Add(item);
 			}
@@ -152,6 +151,8 @@ namespace Dwares.Dwarf.Collections
 		public static void Sort<T>(this ICollection<T> collection, IComparer<T> comparer)
 			=> Sort(collection, collection, comparer);
 
+		public static void Sort<T>(this ICollection<T> collection, Comparison<T> comparison)
+			=> Sort(collection, collection, Comparer<T>.Create(comparison));
 
 		public static bool Lookup<T>(ICollection<T> collection, Func<T, bool> test, out T result, T defaultValue = default)
 		{

@@ -87,5 +87,36 @@ namespace RouteOptimizer.Models
 				}
 			}
 		}
+
+		public static int CompareEmptyLast(string s1, string s2)
+		{
+			if (string.IsNullOrEmpty(s1))
+				s1 = "\xFF";
+			if (string.IsNullOrEmpty(s2))
+				s2 = "\xFF";
+
+			int result = string.Compare(s1, s2);
+			return result;
+		}
+
+		public static int CompareByNameOnly(Place p1, Place p2)
+		{
+			var name1 = p1?.Name ?? string.Empty;
+			var name2 = p2?.Name ?? string.Empty;
+			return CompareEmptyLast(name1, name2);
+		}
+
+		public static int CompareByCategory(Place p1, Place p2)
+		{
+			var cat1 = p1?.Category?.Title;
+			var cat2 = p2?.Category?.Title;
+
+			int result = CompareEmptyLast(cat1, cat2);
+			if (result == 0) {
+				return CompareByNameOnly(p1, p2);
+			} else {
+				return result;
+			}
+		}
 	}
 }

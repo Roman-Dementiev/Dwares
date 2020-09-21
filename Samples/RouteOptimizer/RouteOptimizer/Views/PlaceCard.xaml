@@ -128,6 +128,7 @@
 				<ui:EntryEx Grid.Row="3" Grid.Column="1"
 							Flavor="Card-entry"
 							Text="{Binding EditPhone, Mode=TwoWay}"
+							Keyboard="Telephone"
 							/>
 				
 				<ui:LabelEx Grid.Row="4" Grid.Column="0"

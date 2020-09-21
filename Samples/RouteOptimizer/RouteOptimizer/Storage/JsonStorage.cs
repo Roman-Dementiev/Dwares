@@ -19,34 +19,36 @@ namespace RouteOptimizer.Storage
 		const string kRouteFn = "Route.json";
 
 		//public async Task LoadPlacesAsync(Places places)
-		public async Task LoadPlacesAsync(IList<Place> places)
+		public async Task<Place[]> LoadPlacesAsync()
 		{
 			try {
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				if (!File.Exists(path))
-					return;
+					return null;
 
 				var text = await Files.ReadTextAsync(path);
 				var json = DeserializeJson<PlacesJson>(text);
 
 				int count = json.Places.Length;
-				foreach (var rec in json.Places)
-				{
-					var place = JsonToPlace(rec);
-					places.Add(place);
+				var array = new Place[count];
+				for (int i = 0; i < count; i++) {
+					var rec = json.Places[i];
+					array[i] = JsonToPlace(rec);
 				}
+				return array;
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
+				return null;
 			}
 		}
 
-		public async Task SavePlacesAsync(Places places) => await SavePlacesAsync(places, null);
+		public async Task SavePlacesAsync(IList<Place> places) => await SavePlacesAsync(places, null);
 
-		public async Task SavePlacesAsync(Places places, Place addPlace)
+		public async Task SavePlacesAsync(IList<Place> places, Place addPlace)
 		{
 			try {
-				var text = SerializePlaces(places.List, addPlace);
+				var text = SerializePlaces(places, addPlace);
 
 				string path = Path.Combine(FileSystem.AppDataDirectory, kPlacesFn);
 				await Files.WriteTextAsync(path, text);
@@ -56,28 +58,28 @@ namespace RouteOptimizer.Storage
 			}
 		}
 
-		public Task LoadRouteAsync(Route route)
+		public Task<RouteStop[]> LoadRouteAsync()
 		{
-			return Task.CompletedTask;
+			return Task.FromResult<RouteStop[]>(null);
 		}
 
 		public async Task<string> AddPlaceAsync(Place place)
 		{
 			place.Id = Ids.PlaceId(place.Name, place.Address);
-			await SavePlacesAsync(App.Current.Places, place);
+			await SavePlacesAsync(App.Current.Places.List, place);
 			return place.Id;
 		}
 
 		public async Task<string> UpdatePlaceAsync(string oldId, Place place)
 		{
 			place.Id = Ids.PlaceId(place.Name, place.Address);
-			await SavePlacesAsync(App.Current.Places);
+			await SavePlacesAsync(App.Current.Places.List);
 			return place.Id;
 		}
 
 		public async Task DeletePlaceAsync(string placeId)
 		{
-			await SavePlacesAsync(App.Current.Places);
+			await SavePlacesAsync(App.Current.Places.List);
 		}
 
 		public static string SerializePlaces(IList<Place> places, Place addPlace = null)

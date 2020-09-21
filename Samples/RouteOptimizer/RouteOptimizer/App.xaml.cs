@@ -23,7 +23,6 @@ namespace RouteOptimizer
 
 
 		public static new App Current { get; private set; }
-		public static IAppStorage Storage => Current.AppStorage;
 
 		public App()
 		{
@@ -41,22 +40,18 @@ namespace RouteOptimizer
 
 			UIThemeManager.Instance = new UIThemes();
 
-			if (Preloaded != null) {
-				Data = Preloaded;
-				Preloaded = null;
-			} else {
-				Data = new Data();
-			}
+			//PlaceOrder = Place.CompareByCategory;
 
 			MainPage = new AppShell();
 		}
 
-		private static Data Preloaded { get; set; }
-		private Data Data { get; set; }
+		private static Preloaded Preloaded { get; set; }
 
-		public IAppStorage AppStorage => Data.AppStorage;
-		public Places Places => Data.Places;
-		public Route Route => Data.Route;
+		public IAppStorage Storage => AppStorage.Instance;
+		public Places Places { get; } = new Places();
+		public Route Route { get; } = new Route();
+
+		//public Comparison<Place> PlaceOrder { get; }
 
 		public bool UseInPlaceEditor {
 			get => useInPlaceEditor;
@@ -71,13 +66,26 @@ namespace RouteOptimizer
 
 		public static async Task PreloadData()
 		{
-			Preloaded = new Data();
+			Preloaded = new Preloaded();
 			await Preloaded.Load();
 		}
 
 		protected override async void OnStart()
 		{
-			await Data.Load();
+			Place[] places;
+			RouteStop[] route;
+
+			if (Preloaded?.IsLoaded == true) {
+				places = Preloaded.Places;
+				route = Preloaded.Route;
+			} else {
+				places = await Storage.LoadPlacesAsync();
+				route = await Storage.LoadRouteAsync();
+			}
+
+			Preloaded = null;
+			AddPlaces(places);
+			AddStops(route);
 		}
 
 		protected override void OnSleep()
@@ -92,24 +100,49 @@ namespace RouteOptimizer
 		public async Task ClearPlaces()
 		{
 			Places.Clear();
-			await AppStorage.SavePlacesAsync(Places);
+			await Storage.SavePlacesAsync(Places.List);
 		}
 
 		public async Task LoadPlaces()
 		{
 			Places.Clear();
-			await Data.LoadPlaces();
+			
+			var places = await Storage.LoadPlacesAsync();
+			AddPlaces(places);
 		}
+
+		void AddPlaces(Place[] places)
+		{
+			//if (PlaceOrder != null) {
+			//	Array.Sort(places, PlaceOrder);
+			//}
+
+			using (var batch = new BatchCollectionChange(Places.List)) {
+				foreach (var place in places) {
+					Places.Add(place);
+				}
+			}
+		}
+
 
 		public async Task SavePlaces()
 		{
-			await AppStorage.SavePlacesAsync(Places);
+			await Storage.SavePlacesAsync(Places.List);
 		}
 
+		public Task LoadRoute()
+		{
+			return Task.CompletedTask;
+		}
+
+		void AddStops(RouteStop[] stops)
+		{
+
+		}
 
 		public async Task<string> AddPlace(Place place)
 		{
-			string id = await AppStorage.AddPlaceAsync(place);
+			string id = await Storage.AddPlaceAsync(place);
 			Debug.Assert(place.Id == id);
 
 			Places.Add(place);
@@ -119,7 +152,7 @@ namespace RouteOptimizer
 		public async Task<string> UpdatePlace(Place place)
 		{
 			string oldId = place.Id; 
-			string newId = await AppStorage.UpdatePlaceAsync(oldId, place);
+			string newId = await Storage.UpdatePlaceAsync(oldId, place);
 			if (newId != oldId) {
 				Places.Replace(oldId, place);
 			}
@@ -129,7 +162,7 @@ namespace RouteOptimizer
 		public async Task DeletePlace(Place place)
 		{
 			if (Places.Remove(place)) {
-				await AppStorage.DeletePlaceAsync(place.Id);
+				await Storage.DeletePlaceAsync(place.Id);
 			}
 		}
 
@@ -160,11 +193,10 @@ namespace RouteOptimizer
 	}
 
 
-	internal class Data
+	internal class Preloaded
 	{
-		public readonly IAppStorage AppStorage = new JsonStorage();
-		public readonly Places Places = new Places();
-		public readonly Route Route = new Route();
+		public Place[] Places { get; private set; }
+		public RouteStop[] Route { get; private set; }
 
 		public bool IsLoaded { get; set; }
 
@@ -173,30 +205,19 @@ namespace RouteOptimizer
 			if (IsLoaded)
 				return;
 
+			var storage = AppStorage.Instance;
 			try {
-				await LoadPlaces();
-				await LoadRoute();
-			} catch (Exception exc) {
-				Debug.ExceptionCaught(exc);
-			}
-			IsLoaded = true;
-		}
-
-		public async Task LoadPlaces()
-		{
-			var places = new List<Place>();
-			await AppStorage.LoadPlacesAsync(places);
-
-			using (var batch = new BatchCollectionChange(Places.List)) {
-				foreach (var place in places) {
-					Places.Add(place);
+				Places = await storage.LoadPlacesAsync();
+				Route = await storage.LoadRouteAsync();
+				if (Places != null && Route != null) {
+					IsLoaded = true;
 				}
 			}
-		}
-
-		public async Task LoadRoute()
-		{
-			await AppStorage.LoadRouteAsync(Route);
+			catch (Exception exc) {
+				Debug.ExceptionCaught(exc);
+			}
+			Places = null;
+			Route = null;
 		}
 	}
 }

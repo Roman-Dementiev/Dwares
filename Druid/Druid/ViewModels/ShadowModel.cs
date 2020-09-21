@@ -5,7 +5,8 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Dwares.Druid.ViewModels
 {
-	public class ShadowModel<TSource> : PropertyNotifier, ISelectable where TSource : class, IModel
+	public class ShadowModel<TSource> : PropertyNotifier, ISelectable, ISourced<TSource> 
+		where TSource : class, IModel
 	{
 		//static ClassRef @class = new ClassRef(typeof(ShadowModel));
 

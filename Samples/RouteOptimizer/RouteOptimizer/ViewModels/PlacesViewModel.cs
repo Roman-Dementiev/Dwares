@@ -24,10 +24,13 @@ namespace RouteOptimizer.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(PlacesViewModel));
 
-		public PlacesViewModel() :
-			base(App.Current.Places.List)
+		public PlacesViewModel()
 		{
 			//Debug.EnableTracing(@class);
+
+			Cards = new SortableShadowCollection<PlaceCardModel, Place>(App.Current.Places.List, DefaultFactory, null, SortOrder);
+			Items = Cards;
+
 			Title = "Places";
 			
 			HasPlaceholder = UseInPlaceEditor = App.Current.UseInPlaceEditor;
@@ -37,27 +40,17 @@ namespace RouteOptimizer.ViewModels
 				}
 			};
 
-			//AddCommand = new Command(async () => await AddCard(), CanPerformAction);
-			//DeleteCommand = new Command(async (param) => await DeleteCard(param as PlaceCardModel), CanPerformAction);
-			//EditCommand = new Command(async (param) => await EditCard(param as PlaceCardModel), CanPerformAction);
-			//SaveCommand = new Command(async () => await EndEditing(true), CanPerformAction);
-			//CancelCommand = new Command(async () => await EndEditing(false), CanPerformAction);
 			RefreshCommand = new Command(async () => await PullRefresh(), CanPerformAction);
 
 			ExpandPanelCommand = new Command(() => IsPanelExpanded = !IsPanelExpanded );
 			SearchCommand = new Command(Search);
 		}
 
-		public ObservableCollection<PlaceCardModel> Places => Items;
+		public SortableShadowCollection<PlaceCardModel, Place> Cards { get; }
 
 		public PlaceCardModel EditingCard { get; private set; }
 
 
-		//public Command AddCommand { get; }
-		//public Command DeleteCommand { get; }
-		//public Command EditCommand { get; }
-		//public Command SaveCommand { get; }
-		//public Command CancelCommand { get; }
 		public Command RefreshCommand { get; }
 
 		public Command ExpandPanelCommand { get; }
@@ -68,6 +61,44 @@ namespace RouteOptimizer.ViewModels
 			set => SetProperty(ref isRefreshing, value);
 		}
 		bool isRefreshing;
+
+		public bool SortByCategory {
+			get => sortByCategory;
+			set {
+				if (SetProperty(ref sortByCategory, value)) {
+					Cards.SortOrder = SortOrder;
+					FirePropertiesChanged(nameof(SortOrder));
+				}
+			}
+		}
+		bool sortByCategory = true;
+
+		public bool SortDescending {
+			get => sortDescending;
+			set {
+				if (SetProperty(ref sortDescending, value)) {
+					Cards.SortOrder = SortOrder;
+					FirePropertiesChanged(nameof(SortOrder));
+				}
+			}
+		}
+		bool sortDescending;
+
+		public Comparison<Place> SortOrder {
+			get {
+				Comparison<Place> order;
+				if (SortByCategory) {
+					order = Place.CompareByCategory;
+				} else {
+					order = Place.CompareByNameOnly;
+				}
+				if (SortDescending) {
+					return (p1,p2) => order(p2,p1);
+				} else {
+					return order;
+				}
+			}
+		}
 
 		public bool UseInPlaceEditor {
 			get => useInPlaceEditor;

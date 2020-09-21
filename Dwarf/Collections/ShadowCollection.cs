@@ -5,58 +5,89 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-
+using System.Linq;
 
 namespace Dwares.Dwarf.Collections
 {
 	public class ShadowCollection<ShadowItem, SourceItem> : ObservableCollectionEx<ShadowItem>
-		where ShadowItem: class
+		//where SourceItem : class
+		where ShadowItem : class
 	{
 		public ShadowCollection() { }
 
-		public ShadowCollection(ObservableCollection<SourceItem> source, Func<SourceItem, ShadowItem> itemFactory)
+		public ShadowCollection(
+			ObservableCollection<SourceItem> source, 
+			Func<SourceItem, ShadowItem> itemFactory, 
+			Predicate<SourceItem> itemFilter = null)
 		{
-			SetSource(
-				source ?? throw new ArgumentNullException(nameof(source)),
-				itemFactory /*?? throw new ArgumentNullException(nameof(itemFactory))*/,
-				false
-				);
+			SetItemFactory(itemFactory);
+			SetItemFilter(itemFilter);
+			Source = source ?? throw new ArgumentNullException(nameof(source));
 		}
 
-		public Func<SourceItem, ShadowItem> ItemFactory { get; protected set; }
 
 		public ObservableCollection<SourceItem> Source {
 			get => source;
-			set => SetSource(value, ItemFactory);
+			set {
+				if (value != source) {
+					if (source != null) {
+						source.CollectionChanged -= SourceCollectionChanged;
+						Clear();
+					}
+					if (value != null) {
+						value.CollectionChanged += SourceCollectionChanged;
+					}
+
+					source = value;
+					Recollect();
+					OnPropertyChanged(new PropertyChangedEventArgs(nameof(Source)));
+				}
+			}
 		}
 		ObservableCollection<SourceItem> source = null;
 
-		public virtual void SetSource(
-			ObservableCollection<SourceItem> newSource, 
-			Func<SourceItem, ShadowItem> itemFactory,
-			bool fire = true)
-		{
-			if (newSource == source && itemFactory == ItemFactory)
-				return;
-			
-			using (var batch = new BatchCollectionChange(this))
-			{
-				if (source != null) {
-					source.CollectionChanged -= SourceCollectionChanged;
-					Clear();
-				}
-
-				source = newSource;
-				ItemFactory = itemFactory ?? ((sourceItem) => sourceItem as ShadowItem);
-
-				if (newSource != null) {
-					AddShadows();
-					newSource.CollectionChanged += SourceCollectionChanged;
+		public Func<SourceItem, ShadowItem> ItemFactory {
+			get => itemFactory;
+			set {
+				if (SetItemFactory(value)) {
+					Recollect();
+					OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFactory)));
 				}
 			}
+		}
+		Func<SourceItem, ShadowItem> itemFactory;
 
-			if (fire) {
-				OnPropertyChanged(new PropertyChangedEventArgs(nameof(Source)));
+		protected bool SetItemFactory(Func<SourceItem, ShadowItem> factory)
+		{
+			if (factory != itemFactory) {
+				itemFactory = factory ?? throw new ArgumentNullException(nameof(factory));
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		public Predicate<SourceItem> ItemFilter {
+			get => itemFilter;
+			set {
+				if (SetItemFilter(value)) {
+					Recollect();
+					OnPropertyChanged(new PropertyChangedEventArgs(nameof(ItemFilter)));
+				}
+			}
+		}
+		Predicate<SourceItem> itemFilter;
+
+		protected bool SetItemFilter(Predicate<SourceItem> filter)
+		{
+			if (filter == null) {
+				filter = Unfiltered;
+			}
+			if (filter != itemFilter) {
+				itemFilter = filter;
+				return true;
+			} else {
+				return false;
 			}
 		}
 
@@ -68,6 +99,8 @@ namespace Dwares.Dwarf.Collections
 			set {
 				if (value == placeholder)
 					return;
+				//if (Equals(value, placeholder))
+				//	return;
 
 				if (placeholder != null) {
 					Remove(placeholder);
@@ -83,100 +116,92 @@ namespace Dwares.Dwarf.Collections
 		ShadowItem placeholder;
 
 
-		//public bool IsSuspended {
-		//	get => isSuspended;
-		//	set {
-		//		if (value != isSuspended) {
-		//			if (isSuspended && needRecollect) {
-		//				RecollectShadows();
-		//			}
-		//			needRecollect = false;
-		//			isSuspended = value;
-		//			OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsSuspended)));
-		//		}
-		//	}
-		//}
-		//bool isSuspended = false;
-		//bool needRecollect = false;
-
-		protected void AddShadows()
-		{
-			if (Source == null)
-				return;
-
-			foreach (var item in Source) {
-				var shadowItem = ShadowFromObject(item);
-				if (shadowItem != null) {
-					Add(shadowItem);
-				}
-			}
-
-			if (HasPlaceholder) {
-				Add(Placeholder);
-			}
-		}
-
-		protected void RecollectShadows(bool fullRecollect = true)
+		protected virtual void Recollect()
 		{
 			using (var batch = new BatchCollectionChange(this))
 			{
-				if (Source == null) {
-					Clear();
+				Clear();
+				if (Source == null)
 					return;
-				}
 
-				if (fullRecollect) {
-					Clear();
-					AddShadows();
-				} else {
-					int i, first;
-					for (first = 0; first < Source.Count; first++) {
-						if (first < this.Count) {
-							var shadow = this[first];
-							if (shadow is ISourced<SourceItem> sourced) {
-								if (Equals(sourced.Source, Source[first]))
-									continue;
-							}
-						}
-						break;
-					}
-
-
-					for (i = this.Count - 1; i >= first; i--) {
-						RemoveAt(i);
-					}
-
-					for (i = first; i < Source.Count; i++) {
-						var item = Source[i];
-						var shadowItem = ShadowFromObject(item);
+				foreach (var item in Source) {
+					if (ItemFilter(item)) {
+						var shadowItem = ItemFactory(item);
 						if (shadowItem != null) {
 							Add(shadowItem);
 						}
 					}
+				}
 
-					if (HasPlaceholder) {
-						Add(Placeholder);
-					}
+				if (HasPlaceholder) {
+					Add(Placeholder);
 				}
 			}
 		}
 
 		private void SourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			//if (IsSuspended) {
-			//	needRecollect = true;
-			//} else {
-				RecollectShadows();
+			//if (!AlwaysRecollect) {
+			//	if (e.Action == NotifyCollectionChangedAction.Add) {
+			//		if (Placeholder != null) {
+			//			Remove(Placeholder);
+			//		}
+
+			//		AddShadows(e.NewItems);
+
+			//		if (Placeholder != null) {
+			//			Add(Placeholder);
+			//		}
+			//		return;
+			//	}
+			//	if (e.Action == NotifyCollectionChangedAction.Remove) {
+			//		if (Placeholder != null) {
+			//			Remove(Placeholder);
+			//		}
+
+			//		RemoveShadows(e.OldItems);
+
+			//		if (Placeholder != null) {
+			//			Add(Placeholder);
+			//		}
+			//		return;
+			//	}
 			//}
+
+			Recollect();
 		}
 
-		protected ShadowItem ShadowFromObject(object item)
-		{
-			if (item is SourceItem sourceItem) {
-				return ItemFactory(sourceItem);
-			} else {
-				return null;
-			}
-		}
+		//protected void AddShadows(IList sourceItems)
+		//{
+		//	foreach (var item in sourceItems) {
+		//		if (item is SourceItem sourceItem) {
+		//			if (ItemFilter(sourceItem)) {
+		//				var shadowItem = ItemFactory(sourceItem);
+		//				if (shadowItem != null) {
+		//					Add(shadowItem);
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+
+		//protected void RemoveShadows(IList sourceItems)
+		//{
+		//	foreach (var item in sourceItems) {
+		//		for (int i = 0; i <= Count; i++) {
+		//			var shadow = this[i];
+		//			if (shadow.Source == item) {
+		//				RemoveAt(i);
+		//				break;
+		//			}
+		//		}
+		//	}
+		//}
+
+
+		//Turning AlwaysRecollect off makes too much troubles
+		//protected bool AlwaysRecollect { get; set; } = true;
+
+		static bool Unfiltered(SourceItem item) => true;
 	}
 }

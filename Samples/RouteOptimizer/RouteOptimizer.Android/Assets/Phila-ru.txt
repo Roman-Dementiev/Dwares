@@ -448,6 +448,419 @@
       "Note": "",
       "Address": "11685 Bustleton Ave\nPhiladelphia, PA 19116",
       "Phone": "215-969-3900"
+    },
+    {
+      "Name": "Dr. Joukova, Irina",
+      "Tags": "doctors",
+      "Note": "Cardiology",
+      "Address": "9861 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-969-3322"
+    },
+    {
+      "Name": "Dr. Annopolsky, Elena",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "2137 Welsh Rd\nPhiladelphia, PA 19115",
+      "Phone": "215-698-1995"
+    },
+    {
+      "Name": "Dr. Azrilevich, Mikhail",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "9892 Bustleton Ave\nPhiladelphia, PA 19115",
+      "Phone": "215-676-2741"
+    },
+    {
+      "Name": "Dr. Bennov, Benjamin",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "9630 Bustleton Ave\nPhiladelphia, PA 19115",
+      "Phone": "215-671-1484"
+    },
+    {
+      "Name": "Dr. Biniaurishvili, Inessa",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "11685 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-464-7820"
+    },
+    {
+      "Name": "Dr. Ilicovich, Yuriy",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "826 Bustleton Pike\nFeasterville, PA 19053",
+      "Phone": "215-305-8206"
+    },
+    {
+      "Name": "Dr.Kryss, Meri",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "11054 Renard St. #2618\nPhiladelphia, PA 19116",
+      "Phone": "215-698-6980"
+    },
+    {
+      "Name": "Dr. Leyzin, Mara",
+      "Tags": "doctors",
+      "Note": "Family medicine",
+      "Address": "8025 Castor Ave\nPhiladelphia, PA 19152",
+      "Phone": "215-745-9900"
+    },
+    {
+      "Name": "Dr. Meeker, Adelaida",
+      "Tags": "doctors",
+      "Note": "Family medicine",
+      "Address": "842 Red Lion Rd. #7\nPhiladelphia, PA 19115",
+      "Phone": "215-677-6616"
+    },
+    {
+      "Name": "Dr. Magidenko, Leonid",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "518 Bustleton Pike, 1st floor\nFeasterville, PA 19053",
+      "Phone": "215-464-6040"
+    },
+    {
+      "Name": "Dr. Khusid, Rudolf",
+      "Tags": "doctors",
+      "Note": "Pulmology",
+      "Address": "2630 Holme Ave #104\nPhiladelphia, PA 19152",
+      "Phone": "215-332-9095"
+    },
+    {
+      "Name": "Dr. Chekov, Sergei",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "9892 Bustleton Ave\nPhiladelphia, PA 19115",
+      "Phone": "215-897-9090"
+    },
+    {
+      "Name": "Dr. Rubin, Alexander",
+      "Tags": "doctors",
+      "Note": "Cardiology",
+      "Address": "261 Old York Rd #214\nJenkintown, PA 19046",
+      "Phone": "215-673-5000"
+    },
+    {
+      "Name": "Dr. Antonov, Oleg",
+      "Tags": "doctors",
+      "Note": "Dermatology",
+      "Address": "11400 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "267-788-1424"
+    },
+    {
+      "Name": "Dr Volchonok, Oleg",
+      "Tags": "doctors",
+      "Note": "Gastroenterology",
+      "Address": "11400 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-969-8446"
+    },
+    {
+      "Name": "Dr. Ivanov, Gennadiy",
+      "Tags": "doctors",
+      "Note": "Ob/Gyn",
+      "Address": "520 Bustleton Pike\nFeasterville, PA 19053",
+      "Phone": "215-631-3873"
+    },
+    {
+      "Name": "Dr. Mosidze-Hammond, Meggy",
+      "Tags": "doctors",
+      "Note": "Ob/Gyn",
+      "Address": "826 Bustleton Pike #202\nFeasterville, PA 19053",
+      "Phone": "215-354-9150"
+    },
+    {
+      "Name": "Dr. Fishman, Alla",
+      "Tags": "doctors",
+      "Note": "Ob/Gyn",
+      "Address": "1904 County Line Rd\nHuntington Valley, PA 19006",
+      "Phone": "215-322-3022"
+    },
+    {
+      "Name": "Dr. Pantelyat, Susann",
+      "Tags": "doctors",
+      "Note": "Neurology",
+      "Address": "212 Welsh Rd\nPhiladelphia, PA 19115",
+      "Phone": "215-673-1798"
+    },
+    {
+      "Name": "Dr. Biniaurishvili, Raoul",
+      "Tags": "doctors",
+      "Note": "Neurology",
+      "Address": "9908 Roosevelt Blvd\nPhiladelphia, PA 19114",
+      "Phone": "215-464-3300"
+    },
+    {
+      "Name": "Dr. Benenson, Igor",
+      "Tags": "doctors",
+      "Note": "Ophthalmology",
+      "Address": "9892 Bustleton Ave #306\nPhiladelphia, PA 19115",
+      "Phone": "215-969-0300"
+    },
+    {
+      "Name": "Dr. Broker, Viktor",
+      "Tags": "doctors",
+      "Note": "Optometry",
+      "Address": "842 Red Lion Rd #18\nPhiladelphia, PA 19115",
+      "Phone": "215-856-9810"
+    },
+    {
+      "Name": "Dr. Perelshteyn, Vladimir",
+      "Tags": "doctors",
+      "Note": "Pediatrics",
+      "Address": "10172 Verree Rd\nPhiladelphia, PA 9116",
+      "Phone": "215-676-6272"
+    },
+    {
+      "Name": "Dr. Privotsky, Galina",
+      "Tags": "doctors",
+      "Note": "Pediatrics",
+      "Address": "10125 Verree Rd #303\nPhiladelphia, PA 19116",
+      "Phone": "215-552-9060"
+    },
+    {
+      "Name": "Dr. Mahmudova, Nargiza",
+      "Tags": "doctors",
+      "Note": "Podiatry",
+      "Address": "727 Welsh Rd #203\nHuntington Valley, PA 19006",
+      "Phone": "215-938-7725"
+    },
+    {
+      "Name": "Dr. Mosheyev, Albert",
+      "Tags": "doctors",
+      "Note": "Podiatry",
+      "Address": "821 Huntington Pike, #206\nHuntington Valley, PA 19006",
+      "Phone": "215-379-5112"
+    },
+    {
+      "Name": "Dr. Linetsky, GennDiy",
+      "Tags": "doctors",
+      "Note": "Podiatry",
+      "Address": "10890 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-533-7101"
+    },
+    {
+      "Name": "Dr. Schneider, Efim",
+      "Tags": "doctors",
+      "Note": "Podiatry",
+      "Address": "11054 Renard St\nPhiladelphia, PA 19116",
+      "Phone": "800-417-3177"
+    },
+    {
+      "Name": "Dr. Nemirovsky, Natan",
+      "Tags": "doctors",
+      "Note": "Neurology",
+      "Address": "11500 Bustleton Ave\nPhiladelphia, PA 19117",
+      "Phone": "215-856-7140"
+    },
+    {
+      "Name": "Dr. Feigin Irene",
+      "Tags": "doctors",
+      "Note": "Psychology",
+      "Address": "2375 Woodward St #108\nPhiladelphia, PA 19115",
+      "Phone": "215-969-2420"
+    },
+    {
+      "Name": "Dr. Dossumbekova, Anar",
+      "Tags": "doctors",
+      "Note": "Pulmology",
+      "Address": "2137 Welsh Rd #2B\nPhiladelphia, PA 19115",
+      "Phone": "215-677-4433"
+    },
+    {
+      "Name": "Dr. Kaganovich, Itzhak",
+      "Tags": "doctors",
+      "Note": "Chiropractor",
+      "Address": "8400 Bustleton Ave\nPhiladelphia, PA 19152",
+      "Phone": "215-280-8229"
+    },
+    {
+      "Name": "Dr. Tarnopolsky, Alexander",
+      "Tags": "doctors",
+      "Note": "Family medicine",
+      "Address": "14200 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-671-0900"
+    },
+    {
+      "Name": "Dr. Adamov, Victor",
+      "Tags": "doctors",
+      "Note": "Anesthesiology",
+      "Address": "2 Park Ln #101\nFeasterville, PA 19053",
+      "Phone": "215-953-9944"
+    },
+    {
+      "Name": "Dr. Freylikh, Mikhail",
+      "Tags": "doctors",
+      "Note": "Physiatry",
+      "Address": "826 Bustleton Pike\nFeasterville, PA 19053",
+      "Phone": "215-671-8840"
+    },
+    {
+      "Name": "Dr. Itkin, Olga",
+      "Tags": "doctors",
+      "Note": "Chiropractor",
+      "Address": "14425 Bustleton Ave\nPhiladelphia, PA 19117",
+      "Phone": "215-676-3236"
+    },
+    {
+      "Name": "Dr. Ginzburg, Serge",
+      "Tags": "doctors",
+      "Note": "Urology",
+      "Address": "50 Township Line Rd\nElkins Park, PA 19027",
+      "Phone": "245-663-6067"
+    },
+    {
+      "Name": "Dr. Betdichevdkaya, Violetta",
+      "Tags": "doctors",
+      "Note": "Internal medicine",
+      "Address": "2375 Woodward St\nPhiladelphia, PA 19116",
+      "Phone": "215-722-6022"
+    },
+    {
+      "Name": "Dr. Granovsky, Larisa",
+      "Tags": "doctors",
+      "Note": "Chiropractor",
+      "Address": "842 Red Lion Rd\nPhiladelphia, PA 19115",
+      "Phone": "215-464-0404"
+    },
+    {
+      "Name": "Dr. Selcova, Olga",
+      "Tags": "doctors",
+      "Note": "Acupuncture",
+      "Address": "9748 Susan Rd\nPhiladelphia, PA 19115",
+      "Phone": "215-501-2142"
+    },
+    {
+      "Name": "Dr. Lakeev, Konstantin",
+      "Tags": "doctors",
+      "Note": "Hirudotherapy",
+      "Address": "11400 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "267-632-5393"
+    },
+    {
+      "Name": "Dr. Friedman, Eric",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "1045 Street Rd\nSouthampton, PA 18966",
+      "Phone": "215-355-7007"
+    },
+    {
+      "Name": "Dr. Friedman, Boris",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "6722 Bustleton Ave\nPhiladelphia, PA 19149",
+      "Phone": "215-331-7585"
+    },
+    {
+      "Name": "Dr. Babiner, Boris",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "332 Bustleton Pike\nFeasterville, PA 19053",
+      "Phone": "215-698-2710"
+    },
+    {
+      "Name": "Dr. Genis, Oleg",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "1235 Bridgetown Pike\nFeasterville, PA 19053",
+      "Phone": "267-988-4586"
+    },
+    {
+      "Name": "Dr. Gofman, Leonid",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "1200 Bustleton Pike #5\nFeasterville, PA 19053",
+      "Phone": "215-485-5890"
+    },
+    {
+      "Name": "Dr. Holding, Larisa",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "227 Bustleton Pike\nFeasterville, PA 19053",
+      "Phone": "215-942-0909"
+    },
+    {
+      "Name": "Dr. Marchenko, Anna",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "10125 Verree Rd #307\nPhiladelphia, PA 19116",
+      "Phone": "215-671-1833"
+    },
+    {
+      "Name": "Dr. Volchonok, Alexandr",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "1722 Bridgetown Pike\nFeasterville, PA 19053",
+      "Phone": "215-322-7862"
+    },
+    {
+      "Name": "Dr. Losing, Oleg",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "9630 Bustleton Ave\nPhiladelphia, PA 19115",
+      "Phone": "215-437-1292"
+    },
+    {
+      "Name": "Dr. Vasilyev, Kirill",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "1250 Greenwood Ave #2\nJenkintown, PA 19046",
+      "Phone": "215-774-5500"
+    },
+    {
+      "Name": "Dr. Akbasheva, Zaliya",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "1619 Grant Ave #24\nPhiladelphia, PA 19115",
+      "Phone": "215-673-4940"
+    },
+    {
+      "Name": "Dr. Kurdimov, Andrey",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "6722 Bustleton Ave\nPhiladelphia, PA 19149",
+      "Phone": "215-331-7585"
+    },
+    {
+      "Name": "Dr. Genkin, Alexander",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "10108 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-677-3904"
+    },
+    {
+      "Name": "Dr Zilberman, Alexander",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "10108 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-677-3904"
+    },
+    {
+      "Name": "Dr Plotnik, Igor",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "10108 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-677-3904"
+    },
+    {
+      "Name": "Dr Levites, Margarita",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "10108 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-677-3904"
+    },
+    {
+      "Name": "Dr Fedoroshina, Nadya",
+      "Tags": "doctors",
+      "Note": "Dentistry",
+      "Address": "10108 Bustleton Ave\nPhiladelphia, PA 19116",
+      "Phone": "215-677-3904"
+    },
+    {
+      "Name": "Einstein Center One",
+      "Tags": "doctors",
+      "Note": "",
+      "Address": "9880 Bustleton Ave\nPhiladelphia, PA 19115",
+      "Phone": "215-827-1600"
     }
   ]
 }
