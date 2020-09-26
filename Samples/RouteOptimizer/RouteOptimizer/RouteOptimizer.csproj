@@ -20,6 +20,7 @@
     <None Remove="Resources\ic_expand_more.png" />
     <None Remove="Resources\ic_face.png" />
     <None Remove="Resources\ic_face1.png" />
+    <None Remove="Resources\ic_filter.png" />
     <None Remove="Resources\ic_gas_station.png" />
     <None Remove="Resources\ic_grocery.png" />
     <None Remove="Resources\ic_home.png" />
@@ -51,6 +52,7 @@
     <EmbeddedResource Include="Resources\ic_delete_small.png" />
     <EmbeddedResource Include="Resources\ic_dining.png" />
     <EmbeddedResource Include="Resources\ic_edit_small.png" />
+    <EmbeddedResource Include="Resources\ic_filter.png" />
     <EmbeddedResource Include="Resources\ic_gas_station.png" />
     <EmbeddedResource Include="Resources\ic_grocery.png" />
     <EmbeddedResource Include="Resources\ic_home.png" />

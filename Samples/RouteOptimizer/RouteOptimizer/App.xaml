@@ -18,6 +18,7 @@
 			<drx:BitmapAsset x:Key="ic_expand_less" BitmapSize="24" Color="Black">RouteOptimizer.Resources.ic_expand_less.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_search" BitmapSize="24" Color="Black">RouteOptimizer.Resources.ic_search.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_search_again" BitmapSize="24" Color="Black">RouteOptimizer.Resources.ic_search_again.png</drx:BitmapAsset>
+			<drx:BitmapAsset x:Key="ic_filter" BitmapSize="24" Color="Black">RouteOptimizer.Resources.ic_filter.png</drx:BitmapAsset>
 
 			<drx:BitmapAsset x:Key="ic_airport" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_airport.png</drx:BitmapAsset>
 			<drx:BitmapAsset x:Key="ic_bar" BitmapSize="36" Color="Black">RouteOptimizer.Resources.ic_bar.png</drx:BitmapAsset>

@@ -36,78 +36,71 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<ui:GridEx Grid.Row="0" Grid.Column="0"
-				   Flavor="Panel-grid" 
-				   >
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<!--<ColumnDefinition Width="Auto" />-->
-			</Grid.ColumnDefinitions>
-
-			<ui:EntryEx Grid.Row="0" Grid.Column="0"
-						Flavor="Panel-entry"
-						Text="{Binding SearchText, Mode=OneWayToSource}"
-						/>
-
-			<ui:ArtImage Grid.Row="0" Grid.Column="1"
-						 Flavor="Panel-icon"
-						 Art="{Binding SearchlIcon, Mode=OneWay}"
-						 >
-				<Image.GestureRecognizers>
-					<TapGestureRecognizer Command="{Binding SearchCommand}" />
-				</Image.GestureRecognizers>
-			</ui:ArtImage>
-
-			<!--<ui:ArtButton Grid.Row="0" Grid.Column="2"
-						  Flavor="Panel-expand-button"
-						  IconArt="{Binding ExpandPanelIcon, Mode=OneWay}"
-						  Command="{Binding ExpandPanelCommand}"
-						 />-->
-
-			<!--<Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-				  IsVisible="{Binding IsPanelExpanded, Mode=OneWay}"
-				  >
+		<StackLayout Grid.Row="0" Grid.Column="0"
+					 Orientation="Vertical"
+					 >
+			<Grid>
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
-				<ui:LabelEx Grid.Row="0" Grid.Column="0"
-							Text="Sort:"
+				<ui:EntryEx Grid.Row="0" Grid.Column="0"
+							Flavor="Panel-entry"
+							Text="{Binding SearchText, Mode=OneWayToSource}"
 							/>
-				<ui:RadioButtonEx Grid.Row="0" Grid.Column="1"
-								  Text="By Category"
-								  />
-				<ui:RadioButtonEx Grid.Row="1" Grid.Column="1"
-								  Text="By Name only"
-								  />
+				<ui:ArtImage Grid.Row="0" Grid.Column="1"
+							 Flavor="Panel-icon"
+							 Art="{Binding SearchlIcon, Mode=OneWay}"
+							 >
+					<Image.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding SearchCommand}" />
+					</Image.GestureRecognizers>
+				</ui:ArtImage>
+				<ui:ArtButton Grid.Row="0" Grid.Column="2"
+							  Flavor="Panel-expand-button"
+							  IconArt="{Binding ExpandPanelIcon, Mode=OneWay}"
+							  Command="{Binding ExpandPanelCommand}"
+							  />
+			</Grid>
 
-				<ui:LabelEx Grid.Row="0" Grid.Column="2"
-							Text="Name order:"
-							/>
-				<ui:RadioButtonEx Grid.Row="0" Grid.Column="3"
-								  Text="Ascending"
-								  />
-				<ui:RadioButtonEx Grid.Row="1" Grid.Column="3"
-								  Text="Descending"
-								  />
-			</Grid>-->
+			<StackLayout Orientation="Vertical"
+						 IsVisible="{Binding IsPanelExpanded, Mode=OneWay}"
+						 >
+				<ui:LabelEx Text="Look in:" />
+				<StackLayout Orientation="Horizontal" >
+					<ui:CheckBoxEx />
+					<ui:LabelEx Text="Names" />
+					<ui:CheckBoxEx />
+					<ui:LabelEx Text="Tags" />
+					<ui:CheckBoxEx />
+					<ui:LabelEx Text="Addresses" />
+				</StackLayout>
 
-			<ui:BoxViewEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-						  Flavor="Panel-separator"
+			</StackLayout>
+			
+			<ui:BoxViewEx Flavor="Panel-separator"
+						  Margin="10,0"
+						  IsVisible="{Binding IsPanelExpanded, Mode=OneWay}"
 						  />
-		</ui:GridEx>
+
+			<StackLayout Orientation="Vertical"
+						 IsVisible="{Binding IsPanelExpanded, Mode=OneWay}">
+				<Label Text="Sort:" />
+				<StackLayout Orientation="Horizontal">
+					<ui:CheckBoxEx />
+					<ui:LabelEx Text="By category" />
+					<ui:CheckBoxEx />
+					<ui:LabelEx Text="Descending" />
+				</StackLayout>
+			</StackLayout>
+			
+			<ui:BoxViewEx Flavor="Panel-separator" />
+		</StackLayout>
 		
 		<ui:ListViewEx x:Name="listView"
 					   Grid.Row="1" Grid.Column="0"

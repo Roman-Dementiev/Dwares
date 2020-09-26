@@ -118,10 +118,10 @@ namespace RouteOptimizer.ViewModels
 		public bool IsPanelExpanded {
 			get => isPanelExpanded;
 			set {
-				SetPropertyEx(ref isPanelExpanded, value, nameof(IsPanelExpanded), nameof(ExpandPanelIcon));
+				SetPropertyEx(ref isPanelExpanded, value, nameof(IsPanelExpanded), nameof(ExpandPanelIcon), nameof(SearchlIcon));
 			}
 		}
-		bool isPanelExpanded = false;
+		bool isPanelExpanded = true;
 
 		public string ExpandPanelIcon {
 			get => IsPanelExpanded ? "ic_expand_less" : "ic_expand_more";
@@ -137,7 +137,13 @@ namespace RouteOptimizer.ViewModels
 		string searchText = string.Empty;
 
 		public string SearchlIcon {
-			get => SearchResult?.Card  != null ? "ic_search_again" : "ic_search";
+			get {
+				if (IsPanelExpanded) {
+					return "ic_filter";
+				} else {
+					return SearchResult?.Card != null ? "ic_search_again" : "ic_search";
+				}
+			}
 		}
 
 		internal SearchResult? SearchResult {
