@@ -32,7 +32,7 @@ namespace Dwares.Druid.ViewModels
 
 		public bool IsNotBusy {
 			get => busyState == null;
-			set => IsBusy = false;
+			set => IsBusy = !value;
 		}
 
 		public string BusyMessage {

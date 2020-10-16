@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Ziply.Themes.Default">
+
+
+	<x:String x:Key="ThemeName">Default</x:String>
+	<x:Boolean x:Key="Internal">False</x:Boolean>
+
+	<Style x:Key="Shell" TargetType="Shell">
+	</Style>
+	
+	<Style x:Key="ShellPage" TargetType="Page">
+	</Style>
+
+	<Style x:Key="MainButton" TargetType="Button">
+		<Setter Property="HorizontalOptions" Value="Center" />
+		<Setter Property="VerticalOptions" Value="Center" />
+		<Setter Property="BackgroundColor" Value="LightGray" />
+		<Setter Property="BorderColor" Value="Black" />
+		<Setter Property="TextColor" Value="Black" />
+		<Setter Property="CornerRadius" Value="16" />
+		<Setter Property="FontSize" Value="32" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="SendButton" TargetType="ui:ArtButton">
+		<Setter Property="Orientation" Value="Vertical" />
+		<Setter Property="VerticalOptions" Value="Start" />
+		<Setter Property="HorizontalOptions" Value="Center" />
+		<!--<Setter Property="Margin" Value="8" />-->
+		<Setter Property="IconWidth" Value="32" />
+		<Setter Property="IconHeight" Value="32" />
+		<Setter Property="FontSize" Value="14" />
+	</Style>
+
+	<Style x:Key="InfoFrame" TargetType="Frame">
+		<Setter Property="HorizontalOptions" Value="FillAndExpand" />
+		<Setter Property="Margin" Value="16,0" />
+		<Setter Property="Padding" Value="8,0" />
+		<Setter Property="CornerRadius" Value="16" />
+		<Setter Property="BackgroundColor" Value="Silver" />
+		<Setter Property="BorderColor" Value="DodgerBlue" />
+	</Style>
+	
+	<Style x:Key="InfoCheckBox" TargetType="CheckBox">
+	</Style>
+	
+	<Style x:Key="InfoCaption" TargetType="Label">
+		<Setter Property="Margin" Value="0,6,0,0" />
+		<Setter Property="FontSize" Value="12" />
+		<Setter Property="FontAttributes" Value="Bold" />
+		<Setter Property="TextColor" Value="Black" />
+	</Style>
+
+	<Style x:Key="InfoText" TargetType="Label">
+		<Setter Property="Margin" Value="0,-8,0,4" />
+		<Setter Property="FontSize" Value="18" />
+		<Setter Property="TextColor" Value="DodgerBlue" />
+	</Style>
+</ResourceDictionary>

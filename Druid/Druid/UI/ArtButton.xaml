@@ -25,5 +25,6 @@
 
 	<ContentView.GestureRecognizers>
 		<TapGestureRecognizer Tapped="OnTapped" />
+		<TapGestureRecognizer NumberOfTapsRequired="2" Tapped="OnDoubleTapped" />
 	</ContentView.GestureRecognizers>
 </ContentView>

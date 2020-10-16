@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  Title="{Binding Title}"
+				  x:Class="Ziply.Views.EtaPage">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="20" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+
+		<ActivityIndicator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+						   HorizontalOptions="Center"
+						   VerticalOptions="Center"
+						   IsVisible="{Binding IsBusy, Mode=OneWay}"
+						   IsRunning="{Binding IsBusy, Mode=OneWay}"
+						   />
+
+		<ui:ButtonEx Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+					 Flavor="MainButton"
+					 Text="{Binding ButtonText, Mode=OneWay}"
+					 Command="{Binding RefreshCommand}"
+					 IsVisible="{Binding IsNotBusy, Mode=OneWay}"
+					 />
+
+		<ui:FrameEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+					Flavor="InfoFrame"
+					>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<ui:LabelEx Grid.Row="0" Grid.Column="0"
+							Flavor="InfoCaption"
+							Text="DESTINATION"
+							/>
+				<ui:EditorEx Grid.Row="1" Grid.Column="0"
+							 FontSize="18"
+							 Placeholder="Address"
+							 HeightRequest="100"
+							 BackgroundColor="LightGray"
+							 TextColor="DodgerBlue"
+							 Text="{Binding Address, Mode=TwoWay}"
+							 />
+				
+				<ui:LabelEx Grid.Row="2" Grid.Column="0"
+							Flavor="InfoCaption"
+							Text="DISTANCE"
+							/>
+				<ui:LabelEx Grid.Row="3" Grid.Column="0"
+							Flavor="InfoText"
+							Text="{Binding Distance, Mode=OneWay}"
+							/>
+
+				<ui:LabelEx Grid.Row="4" Grid.Column="0"
+							Flavor="InfoCaption"
+							Text="TRAVEL TIME"
+							/>
+				<ui:LabelEx Grid.Row="5" Grid.Column="0"
+							Flavor="InfoText"
+							Text="{Binding Duration, Mode=OneWay}"
+							/>
+			</Grid>
+		</ui:FrameEx>
+
+		<ui:ArtButtonEx Grid.Row="2" Grid.Column="0"
+						Flavor="SendButton"
+						IconArt="ic_share"
+						ArtColor="{Binding DefaultRecipientColor, Mode=OneWay}"
+						LabelText="Share"
+						LabelColor="{Binding DefaultRecipientColor, Mode=OneWay}"
+						FontAttributes="Bold"
+						Command="{Binding ShareCommand}"
+						/>
+
+		<ui:ArtButtonEx Grid.Row="2" Grid.Column="1"
+						x:Name="recipient1"
+						Flavor="SendButton"
+						IconArt="ic_contact"
+						ArtColor="{Binding Recipient1Color, Mode=OneWay}"
+						LabelText="{Binding Recipient1Title, Mode=OneWay}"
+						LabelColor="{Binding Recipient1Color, Mode=OneWay}"
+						Command="{Binding SendToRecipient1Command}"
+						DoubleTapped="recipient_DoubleTapped"
+						/>
+
+		<ui:ArtButtonEx Grid.Row="2" Grid.Column="2"
+						x:Name="recipient2"
+						Flavor="SendButton"
+						IconArt="ic_contact"
+						ArtColor="{Binding Recipient2Color, Mode=OneWay}"
+						LabelText="{Binding Recipient2Title, Mode=OneWay}"
+						LabelColor="{Binding Recipient2Color, Mode=OneWay}"
+						Command="{Binding SendToRecipient2Command}"
+						DoubleTapped="recipient_DoubleTapped"
+						/>
+	</Grid>
+</ui:ContentPageEx>
+	

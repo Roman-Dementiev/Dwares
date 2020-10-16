@@ -13,6 +13,9 @@ namespace Dwares.Druid.UI
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ArtButton : ContentView, IThemeAware
 	{
+		public event EventHandler Tapped;
+		public event EventHandler DoubleTapped;
+
 		public ArtButton()
 		{
 			InitializeComponent();
@@ -345,12 +348,20 @@ namespace Dwares.Druid.UI
 		string writ;
 
 		// TapGestureRecognizer handler.
-		void OnTapped(object sender, EventArgs args)
+		protected virtual void OnTapped(object sender, EventArgs args)
 		{
 			if (IsEnabled && Command != null && Command.CanExecute(CommandParameter)) {
 				//Debug.Print("ArtButton.OnTapped(): Wtit={0}", Writ);
 				Command.Execute(CommandParameter);
 			}
+
+			Tapped?.Invoke(this, EventArgs.Empty);
+		}
+
+		protected virtual void OnDoubleTapped(object sender, EventArgs args)
+		{
+			//Debug.Print("ArtButton.OnDoubleTapped()");
+			DoubleTapped?.Invoke(this, EventArgs.Empty);
 		}
 
 		protected Image Image => image;

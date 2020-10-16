@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1DEDB6E7-5F94-408B-97D3-92E91B9BA8C7}</ProjectGuid>
+    <ProjectGuid>{FB447C28-4398-49D0-AC40-416034A6CF08}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TemplateGuid>{c9e5eea5-ca05-42a1-839b-61506e0a37df}</TemplateGuid>
+    <TemplateGuid>{6968b3a4-1835-46a3-ac5c-1ae33b475983}</TemplateGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Ziply.Droid</RootNamespace>
     <AssemblyName>Ziply.Android</AssemblyName>
@@ -48,14 +48,14 @@
     <Reference Include="Mono.Android" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.1141" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.0-pre2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -84,13 +84,25 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
+    <AndroidResource Include="Resources\drawable\xamarin_logo.png" />
+    <AndroidResource Include="Resources\drawable\tab_about.png" />
+    <AndroidResource Include="Resources\drawable\tab_feed.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\Druid\Druid.Android\Druid.Android.csproj">
+      <Project>{c8a321d4-1b21-4817-adb6-c62037593324}</Project>
+      <Name>Druid.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Druid\Druid\Druid.csproj">
+      <Project>{32e236d6-8d49-4210-9bc5-aaecc796a90d}</Project>
+      <Name>Druid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Dwarf\Dwarf.csproj">
+      <Project>{b10ac669-6d78-46cc-9351-71be5a37ad71}</Project>
+      <Name>Dwarf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ziply\Ziply.csproj">
-      <Project>{A1741962-3A6C-4B8C-95CC-A877AB8E11D3}</Project>
+      <Project>{E489AAF1-6079-4AF9-A7AE-64E7673F5BC1}</Project>
       <Name>Ziply</Name>
     </ProjectReference>
   </ItemGroup>

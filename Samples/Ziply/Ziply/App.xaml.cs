@@ -1,25 +1,33 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Dwares.Druid.UI;
+using Ziply.Services;
+using Ziply.Views;
+using Ziply.ViewModels;
+
 
 namespace Ziply
 {
 	public partial class App : Application
 	{
+
 		public App()
 		{
+			Dwares.Dwarf.Package.Init();
+			Dwares.Druid.Package.Init();
+
 			InitializeComponent();
 
-			MainPage = new MainPage();
-			ViewModel = new ViewModel();
-			MainPage.BindingContext = ViewModel;
-		}
+			UIThemeManager.Instance = new UIThemes();
 
-		public ViewModel ViewModel { get; }
+			DependencyService.Register<MockDataStore>();
+			MainPage = new AppShell();
+		}
 
 		protected override async void OnStart()
 		{
-			await ViewModel.Refresh();
+			//await ZipViewModel.Instance.Refresh();
 		}
 
 		protected override void OnSleep()
@@ -28,7 +36,7 @@ namespace Ziply
 
 		protected override async void OnResume()
 		{
-			await ViewModel.RefreshIfExpired();
+			//await ZipViewModel.Instance.RefreshIfExpired();
 		}
 	}
 }

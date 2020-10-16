@@ -19,7 +19,13 @@ namespace Dwares.Druid.Xaml
 			if (obj is ResourceDictionary resources)
 				return new UI.UITheme(resources);
 
-			Debug.Print($"Invalid type of asset value {obj.GetType()} (expected {typeof(UI.UITheme)})");
+			if (obj == null) {
+				Debug.Print($"Asset not found (expected {typeof(UI.UITheme)})");
+
+			} else {
+				Debug.Print($"Invalid type of asset value {obj.GetType()} (expected {typeof(UI.UITheme)})");
+
+			}
 			return null;
 		}
 	}

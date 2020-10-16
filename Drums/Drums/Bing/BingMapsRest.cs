@@ -27,6 +27,7 @@ namespace Dwares.Drums.Bing
 		{
 			var request = new RouteRequest()
 			{
+
 				RouteOptions = new BingMapsRESTToolkit.RouteOptions() {
 					TravelMode = BingConvert.TravelMode(options),
 					Avoid = BingConvert.Avoid(options),
