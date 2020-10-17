@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using BingMapsRESTToolkit;
 using Dwares.Druid;
 using Dwares.Dwarf;
-using Xamarin.Essentials;
+
 
 namespace Ziply.ViewModels
 {
-	public class EtaViewModel : BaseViewModel
+	public partial class EtaViewModel : BaseViewModel
 	{
 		public EtaViewModel() :
 			base(expireMinutes: 10)
 		{
-			Route = null;
-			UpdateFromRoute();
+			Clear();
 		}
 
 		public string Eta {
@@ -41,11 +41,6 @@ namespace Ziply.ViewModels
 		}
 		string address;
 
-		public Route Route {
-			get => route;
-			set => SetProperty(ref route, value);
-		}
-		Route route;
 
 		public override async Task Refresh(bool silent)
 		{
@@ -56,15 +51,17 @@ namespace Ziply.ViewModels
 				return;
 			}
 
-			Route = null;
-			UpdateFromRoute();
+			Clear();
 
 			IsBusy = true;
 			try {
-				Route = await SendRequest();
+				var geolocation = await Geolocation.GetLocationAsync();
+
+				var timeZone = await GetTimeZone(geolocation.Latitude, geolocation.Longitude);
+				var route = await SendRequest(geolocation.Latitude, geolocation.Longitude);
 				LastRefreshed = DateTime.Now;
 
-				UpdateFromRoute();
+				UpdateFromRoute(route, timeZone);
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
@@ -74,18 +71,23 @@ namespace Ziply.ViewModels
 			}
 		}
 
-		void UpdateFromRoute()
+		public override void Clear()
 		{
-			if (Route == null) {
-				Eta = Duration = ButtonText = string.Empty;
+			Eta = Duration = Distance = string.Empty;
+		}
+
+		void UpdateFromRoute(Route route, TimeZoneInfo currentTZ)
+		{
+			if (route == null) {
+				Clear();
 			} else {
-				double duration = Route.TravelDuration;
-				if (Route.TimeUnitType == TimeUnitType.Second)
+				double duration = route.TravelDuration;
+				if (route.TimeUnitType == TimeUnitType.Second)
 					duration /= 60;
 
 
-				DateTime eta = DateTime.Now.AddMinutes(duration);
-				Eta = eta.ToString("t");
+				var eta = DateTime.Now.AddMinutes(duration);
+				AdjustETA(eta, currentTZ);
 
 				int hh = (int)duration / 60;
 				int mm = (int)duration - hh * 60;
@@ -97,8 +99,8 @@ namespace Ziply.ViewModels
 					Duration = $"{mm} min";
 				}
 
-				double distance = Route.TravelDistance;
-				if (Route.DistanceUnitType == DistanceUnitType.Kilometers)
+				double distance = route.TravelDistance;
+				if (route.DistanceUnitType == DistanceUnitType.Kilometers)
 					distance *= 0.621371;
 				distance = Math.Round(distance);
 				Distance = $"{(int)distance} mi";
@@ -107,11 +109,21 @@ namespace Ziply.ViewModels
 			SetButtonText(Eta);
 		}
 
-
-		public async Task<Route> SendRequest()
+		void AdjustETA(DateTime eta, TimeZoneInfo currentTZ)
 		{
-			var geolocation = await Geolocation.GetLocationAsync();
-			var startPoint = new SimpleWaypoint(geolocation.Latitude, geolocation.Longitude);
+			if (currentTZ != null && DestinationTimeZone != null) {
+				var adjustment = DestinationTimeZone.UtcOffset - currentTZ.UtcOffset;
+				eta = eta.AddHours(adjustment);
+				Eta = eta.ToString("t") + " " + DestinationTimeZone.Abbr;
+			} else {
+				Eta = eta.ToString("t");
+			}
+		}
+
+
+		public async Task<Route> SendRequest(double latitude, double longitude)
+		{
+			var startPoint = new SimpleWaypoint(latitude, longitude);
 			var endPoint = new SimpleWaypoint(Address);
 
 			var request = new RouteRequest() {
@@ -149,6 +161,11 @@ namespace Ziply.ViewModels
 				return null;
 
 			return "ETA: " + Eta;
+		}
+
+		public void OnDestinationChanged()
+		{
+			//DestinationTimeZone = null;
 		}
 	}
 }

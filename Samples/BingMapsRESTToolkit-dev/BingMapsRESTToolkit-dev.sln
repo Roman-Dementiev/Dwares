@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EE6BA17-40F4-419F-BDA6-6C9C8A96C8FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingMapsRESTToolkit", "Source\BingMapsRESTToolkit.csproj", "{AC15CCAC-63B7-43EB-A1CB-25925F04398B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingMapsRESTToolkit.Standard", "Source\BingMapsRESTToolkit.Standard\BingMapsRESTToolkit.Standard.csproj", "{7276C2E0-0E13-4B47-BD1D-C162DA9252AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7276C2E0-0E13-4B47-BD1D-C162DA9252AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7276C2E0-0E13-4B47-BD1D-C162DA9252AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7276C2E0-0E13-4B47-BD1D-C162DA9252AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7276C2E0-0E13-4B47-BD1D-C162DA9252AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A17980AC-C051-4AA7-B0CD-B0175A267964}
+	EndGlobalSection
+EndGlobal

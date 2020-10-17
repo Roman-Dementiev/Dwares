@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>BingMapsRESTToolkit_NETStandard</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Internal\" />
+    <Folder Include="Models\" />
+    <Folder Include="Requests\" />
+  </ItemGroup>
+
+</Project>

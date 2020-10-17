@@ -59,4 +59,11 @@
 		<Setter Property="FontSize" Value="18" />
 		<Setter Property="TextColor" Value="DodgerBlue" />
 	</Style>
+
+	<Style x:Key="AddressEditor" TargetType="Editor">
+		<Setter Property="HeightRequest" Value="100" />
+		<Setter Property="FontSize" Value="18" />
+		<Setter Property="BackgroundColor" Value="LightGray" />
+		<Setter Property="TextColor" Value="DodgerBlue" />
+	</Style>
 </ResourceDictionary>

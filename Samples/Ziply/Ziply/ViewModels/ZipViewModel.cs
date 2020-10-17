@@ -18,8 +18,7 @@ namespace Ziply.ViewModels
 		public ZipViewModel() :
 			base(expireMinutes: 10)
 		{
-			Address = null;
-			UpdateFromAddress();
+			Clear();
 		}
 
 
@@ -47,12 +46,6 @@ namespace Ziply.ViewModels
 		}
 		string country;
 
-		public Address Address {
-			get => address;
-			set => SetProperty(ref address, value);
-		}
-		Address address;
-
 		public bool IsUSA {
 			get => isUSA;
 			set => SetProperty(ref isUSA, value);
@@ -62,14 +55,14 @@ namespace Ziply.ViewModels
 
 		public override async Task Refresh(bool silent)
 		{
-			Address = null;
-			UpdateFromAddress();
+			Clear();
 
 			IsBusy = true;
 			try {
-				Address = await SendRequest();
+				var address = await SendRequest();
 				LastRefreshed = DateTime.Now;
-				UpdateFromAddress();
+
+				UpdateFromAddress(address);
 			}
 			catch (Exception exc) {
 				Debug.ExceptionCaught(exc);
@@ -79,45 +72,49 @@ namespace Ziply.ViewModels
 			}
 		}
 
-
-		void UpdateFromAddress()
+		public override void Clear()
 		{
-			if (Address == null) {
-				Zip = City = State = Country = string.Empty;
-			} else {
-				Zip = Address.PostalCode ?? string.Empty;
+			Zip = City = State = Country = string.Empty;
+		}
 
-				if (!string.IsNullOrEmpty(Address.Locality)) {
-					City = Address.Locality;
-					if (string.IsNullOrEmpty(Address.Neighborhood)) {
-						City = Address.Locality;
+		void UpdateFromAddress(Address address)
+		{
+			if (address == null) {
+				Clear();
+			} else {
+				Zip = address.PostalCode ?? string.Empty;
+
+				if (!string.IsNullOrEmpty(address.Locality)) {
+					City = address.Locality;
+					if (string.IsNullOrEmpty(address.Neighborhood)) {
+						City = address.Locality;
 					} else {
-						City = $"{Address.Locality} ({Address.Neighborhood})";
+						City = $"{address.Locality} ({address.Neighborhood})";
 					}
 				} else {
-					if (string.IsNullOrEmpty(Address.Neighborhood)) {
+					if (string.IsNullOrEmpty(address.Neighborhood)) {
 						City = string.Empty;
 					} else {
 						City = "Address.Neighborhood";
 					}
 				}
 
-				City = Address.Locality ?? string.Empty;
+				City = address.Locality ?? string.Empty;
 
-				if (!string.IsNullOrEmpty(Address.AdminDistrict)) {
-					State = Address.AdminDistrict;
+				if (!string.IsNullOrEmpty(address.AdminDistrict)) {
+					State = address.AdminDistrict;
 				} else {
-					State = Address.AdminDistrict2 ?? string.Empty;
+					State = address.AdminDistrict2 ?? string.Empty;
 				}
 
-				if (!string.IsNullOrEmpty(Address.CountryRegion)) {
-					Country = Address.CountryRegion;
+				if (!string.IsNullOrEmpty(address.CountryRegion)) {
+					Country = address.CountryRegion;
 				} else {
-					Country = Address.CountryRegionIso2 ?? string.Empty;
+					Country = address.CountryRegionIso2 ?? string.Empty;
 				}
 
-				if (!string.IsNullOrEmpty(Address.CountryRegionIso2)) {
-					IsUSA = Address.CountryRegionIso2 == "US";
+				if (!string.IsNullOrEmpty(address.CountryRegionIso2)) {
+					IsUSA = address.CountryRegionIso2 == "US";
 				} else {
 					IsUSA = Country == "United States";
 				}

@@ -32,5 +32,10 @@ namespace Ziply.Views
 
 			await ViewModel.Activate();
 		}
+
+		private void DestinationChanged(object sender, TextChangedEventArgs e)
+		{
+			ViewModel.OnDestinationChanged();
+		}
 	}
 }

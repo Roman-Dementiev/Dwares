@@ -101,18 +101,30 @@ namespace Ziply.ViewModels
 			return Task.CompletedTask;
 		}
 
+		public virtual void Clear()
+		{
+		}
+
 		public bool CheckIfExpired()
 		{
-			if (LastRefreshed == null)
-				return true;
-
-			var lastRefreshed = (DateTime)LastRefreshed;
-			var now = DateTime.Now;
-			if (now > lastRefreshed) {
-				return (now - lastRefreshed) >= ExpirePeriod;
-			} else {
-				return false;
+			bool expired;
+			if (LastRefreshed == null) {
+				expired = true;
 			}
+			else {
+				var lastRefreshed = (DateTime)LastRefreshed;
+				var now = DateTime.Now;
+				if (now > lastRefreshed) {
+					expired = (now - lastRefreshed) >= ExpirePeriod;
+				} else {
+					expired = false;
+				}
+			}
+
+			if (expired) {
+				Clear();
+			}
+			return expired;
 		}
 
 
