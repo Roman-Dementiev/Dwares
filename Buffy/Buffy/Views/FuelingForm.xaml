@@ -5,7 +5,8 @@
 				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
 				xmlns:vm="clr-namespace:Buffy.ViewModels"
 				Title="{Binding Title}"
-				x:Class="Buffy.Views.FuelingForm">
+				x:Class="Buffy.Views.FuelingForm"
+				>
 
 	<ui:ShellPageEx.BindingContext>
 		<vm:FuelingFormModel />
@@ -67,6 +68,12 @@
 					Text="{Binding Vendor, Mode=TwoWay}"
 					IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
 					/>
+		<ui:ButtonEx Grid.Row="1" Grid.Column="3"
+					 WidthRequest="40"
+					 HeightRequest="40"
+					 Text="?"
+					 Clicked="ChooseVendor_Clicked"
+					 />
 
 		<ui:LabelEx Grid.Row="2" Grid.Column="0"
 					Style="{DynamicResource FieldCaptionStyle}" 

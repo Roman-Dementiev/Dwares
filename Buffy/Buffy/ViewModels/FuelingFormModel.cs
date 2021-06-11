@@ -23,11 +23,14 @@ namespace Buffy.ViewModels
 			SaveCommand = new Command(async () => await Save());
 			EditCommand = new Command(() => IsReadOnly = false);
 			DeleteCommand = new Command(async () => await Delete());
+			//ChooseVendorCommand = new Command(ChooseVendor);
 		}
 
 		public Command SaveCommand { get; }
 		public Command EditCommand { get; }
 		public Command DeleteCommand { get; }
+
+		//public Command ChooseVendorCommand { get; }
 
 		public string QueryId {
 			set {

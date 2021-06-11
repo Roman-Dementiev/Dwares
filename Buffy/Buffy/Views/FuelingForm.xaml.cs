@@ -4,7 +4,7 @@ using Dwares.Druid.UI;
 using Dwares.Dwarf;
 using Buffy.ViewModels;
 using Xamarin.Forms.Xaml;
-
+using System.Collections.Generic;
 
 namespace Buffy.Views
 {
@@ -15,9 +15,28 @@ namespace Buffy.Views
 		{
 			InitializeComponent();
 
-			if (BindingContext is FuelingFormModel vm) {
-				CanGoBack = vm.CanGoBack;
+			ViewModel = BindingContext as FuelingFormModel;
+			CanGoBack = ViewModel.CanGoBack;
+		}
+
+		FuelingFormModel ViewModel { get; }
+
+		private async void ChooseVendor_Clicked(object sender, EventArgs e)
+		{
+			if (vendors == null) {
+				var list = new List<string>();
+				foreach (var vendor in App.Vendors) {
+					list.Add(vendor.Name);
+				}
+				vendors = list.ToArray();
+			}
+
+			var result = await DisplayActionSheet("Choose Vendor", "Cancel", null, vendors);
+			if (!string.IsNullOrEmpty(result) && result != "Cancel") {
+				ViewModel.Vendor = result;
 			}
 		}
+
+		static string[] vendors = null;
 	}
 }
