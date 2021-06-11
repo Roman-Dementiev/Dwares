@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:vm="clr-namespace:Buffy.ViewModels"
+				xmlns:model="clr-namespace:Buffy.Models"
+				Title="{Binding Title}"
+				x:Class="Buffy.Views.FuelingsPage">
+
+	<ui:ShellPageEx.BindingContext>
+		<vm:FuelingsViewModel />
+	</ui:ShellPageEx.BindingContext>
+
+	<!--<ui:ShellPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ShellPageEx.Resources>-->
+
+	<ui:ShellPageEx.ToolbarItems>
+		<ToolbarItem Text="Add" Command="{Binding AddCommand}" />
+		<!--<ToolbarItem Icon="reload.png" Text="Reload" Command="{Binding FullLoadItemsCommand}"/>-->
+	</ui:ShellPageEx.ToolbarItems>
+
+	<!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+	<RefreshView x:DataType="vm:FuelingsViewModel" Command="{Binding SyncCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+		<CollectionView ItemsSource="{Binding Fuelings}"
+						SelectionMode="None">
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<Grid Padding="10" x:DataType="vm:FuelingCell">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="100" />
+						</Grid.ColumnDefinitions>
+						<Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+							   Source="{Binding VendorIcon}" 
+							   VerticalOptions="Start"
+							   Margin="1,2"
+							   />
+						<Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+							   Text="{Binding VendorName}" 
+							   LineBreakMode="NoWrap" 
+							   Style="{DynamicResource ListItemTextStyle}" 
+							   FontSize="16"
+							   />
+						<Label Grid.Row="0" Grid.Column="3" 
+							   Text="{Binding Date}" 
+							   LineBreakMode="NoWrap" 
+							   Style="{DynamicResource ListItemTextStyle}" 
+							   FontSize="16"
+							   />
+						<Label Grid.Row="1" Grid.Column="1" 
+							   Text="{Binding Gallons}" 
+							   LineBreakMode="NoWrap" 
+							   Style="{DynamicResource ListItemDetailTextStyle}" 
+							   FontSize="14"
+							   />
+						<Label Grid.Row="1" Grid.Column="2" 
+							   Text="{Binding Price}" 
+							   LineBreakMode="NoWrap" 
+							   Style="{DynamicResource ListItemDetailTextStyle}" 
+							   FontSize="14"
+							   />
+						<Label Grid.Row="1" Grid.Column="3" 
+							   Text="{Binding Total}" 
+							   LineBreakMode="NoWrap" 
+							   Style="{DynamicResource ListItemTextStyle}" 
+							   FontSize="16"
+							   />
+						<Grid.GestureRecognizers>
+							<TapGestureRecognizer 
+								NumberOfTapsRequired="1"
+								Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FuelingsViewModel}}, Path=CellTapped}"
+								CommandParameter="{Binding .}"
+								/>
+						</Grid.GestureRecognizers>
+					</Grid>
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+		</CollectionView>
+	</RefreshView>
+</ui:ShellPageEx>

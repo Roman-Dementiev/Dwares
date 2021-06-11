@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:vm="clr-namespace:Buffy.ViewModels"
+				Title="{Binding Title}"
+				x:Class="Buffy.Views.SummaryPage">
+
+	<ui:ShellPageEx.BindingContext>
+		<vm:SummaryViewModel />
+	</ui:ShellPageEx.BindingContext>
+
+	<!--<ui:ShellPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ShellPageEx.Resources>-->
+
+	<!--<ui:ShellPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ShellPageEx.ToolbarItems>-->
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+
+	</Grid>
+</ui:ShellPageEx>
+	

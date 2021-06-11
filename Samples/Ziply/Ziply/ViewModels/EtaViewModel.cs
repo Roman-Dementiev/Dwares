@@ -5,6 +5,7 @@ using Xamarin.Essentials;
 using BingMapsRESTToolkit;
 using Dwares.Druid;
 using Dwares.Dwarf;
+using Ziply.Models;
 
 
 namespace Ziply.ViewModels
@@ -15,6 +16,9 @@ namespace Ziply.ViewModels
 			base(expireMinutes: 10)
 		{
 			Clear();
+			SetButtonText(null);
+
+			Address = Settings.DestinationAddress;
 		}
 
 		public string Eta {
@@ -51,6 +55,8 @@ namespace Ziply.ViewModels
 				return;
 			}
 
+			Settings.DestinationAddress = Address;
+
 			Clear();
 
 			IsBusy = true;
@@ -80,6 +86,7 @@ namespace Ziply.ViewModels
 		{
 			if (route == null) {
 				Clear();
+				SetButtonText(null);
 			} else {
 				double duration = route.TravelDuration;
 				if (route.TimeUnitType == TimeUnitType.Second)
@@ -87,7 +94,7 @@ namespace Ziply.ViewModels
 
 
 				var eta = DateTime.Now.AddMinutes(duration);
-				AdjustETA(eta, currentTZ);
+				eta = AdjustETA(eta, currentTZ);
 
 				int hh = (int)duration / 60;
 				int mm = (int)duration - hh * 60;
@@ -104,12 +111,13 @@ namespace Ziply.ViewModels
 					distance *= 0.621371;
 				distance = Math.Round(distance);
 				Distance = $"{(int)distance} mi";
-			}
 
-			SetButtonText(Eta);
+				//SetButtonText(Eta);
+				SetButtonText($"{eta.ToShortDateString()} \n {Eta}");
+			}
 		}
 
-		void AdjustETA(DateTime eta, TimeZoneInfo currentTZ)
+		DateTime AdjustETA(DateTime eta, TimeZoneInfo currentTZ)
 		{
 			if (currentTZ != null && DestinationTimeZone != null) {
 				var adjustment = DestinationTimeZone.UtcOffset - currentTZ.UtcOffset;
@@ -118,6 +126,7 @@ namespace Ziply.ViewModels
 			} else {
 				Eta = eta.ToString("t");
 			}
+			return eta;
 		}
 
 
@@ -165,7 +174,7 @@ namespace Ziply.ViewModels
 
 		public void OnDestinationChanged()
 		{
-			//DestinationTimeZone = null;
+			DestinationTimeZone = null;
 		}
 	}
 }

@@ -23,13 +23,19 @@ namespace Ziply.ViewModels
 			ExpirePeriod = TimeSpan.FromMinutes(expireMinutes);
 			RefreshCommand = new Command(async () => await Refresh(false));
 			ShareCommand = new Command(async () => await Share());
-			SendToRecipient1Command = new Command(async () => Recipient1 = await SendToRecipient(Recipient1));
-			SendToRecipient2Command = new Command(async () => Recipient2 = await SendToRecipient(Recipient2));
+			SendToRecipient1Command = new Command(async () => await SendToRecipient1());
+			SendToRecipient2Command = new Command(async () => await SendToRecipient2());
 
-			Recipient1 = new Recipient {
-				Name = "Andriy",
-				Phone = "267-707-7788"
-			};
+			Recipient1 = Settings.Recipient1;
+			Recipient2 = Settings.Recipient2;
+
+			//if (Recipient1 == null) {
+			//	Recipient1 = new Recipient {
+			//		Name = "Andriy",
+			//		Phone = "267-707-7788"
+			//	};
+			//	Settings.Recipient1 = Recipient1;
+			//}
 		}
 
 		public TimeSpan ExpirePeriod { get; set; }
@@ -81,7 +87,7 @@ namespace Ziply.ViewModels
 		}
 
 		public Color DefaultRecipientColor {
-			get => Color.Black;
+			get => Settings.DefaultRecipientColor;
 		}
 
 		public Color UnusedRecipientColor {
@@ -143,6 +149,18 @@ namespace Ziply.ViewModels
 				//Subject = "Current location",
 				Text = text
 			});
+		}
+
+		async Task SendToRecipient1()
+		{
+			Recipient1 = await SendToRecipient(Recipient1);
+			Settings.Recipient1 = Recipient1;
+		}
+
+		async Task SendToRecipient2()
+		{
+			Recipient2 = await SendToRecipient(Recipient2);
+			Settings.Recipient2 = Recipient2;
 		}
 
 		async Task<Recipient> SendToRecipient(Recipient recipient)

@@ -8,7 +8,6 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -21,35 +20,21 @@
 		</Grid.ColumnDefinitions>
 
 
-		<StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
-					 Orientation="Horizontal"
-					 HorizontalOptions="Center"
-					 >
-			<ui:LabelEx Text="{Binding AdjustmentText, Mode=OneWay}"
-						Margin="8,0"
-						FontSize="20"
-						/>
-			<Stepper Minimum="-2" Maximum="2" Increment="1"
-					 Value="{Binding AdjustmentValue, Mode=TwoWay}"
-					 Margin="8,0"
-					 />
-		</StackLayout>
-
-		<ActivityIndicator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+		<ActivityIndicator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
 						   HorizontalOptions="Center"
 						   VerticalOptions="Center"
 						   IsVisible="{Binding IsBusy, Mode=OneWay}"
 						   IsRunning="{Binding IsBusy, Mode=OneWay}"
 						   />
 
-		<ui:ButtonEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+		<ui:ButtonEx Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
 					 Flavor="MainButton"
 					 Text="{Binding ButtonText, Mode=OneWay}"
 					 Command="{Binding RefreshCommand}"
 					 IsVisible="{Binding IsNotBusy, Mode=OneWay}"
 					 />
 
-		<ui:FrameEx Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" 
+		<ui:FrameEx Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
 					Flavor="InfoFrame"
 					>
 			<Grid>
@@ -96,7 +81,7 @@
 			</Grid>
 		</ui:FrameEx>
 
-		<ui:ArtButtonEx Grid.Row="3" Grid.Column="0"
+		<ui:ArtButtonEx Grid.Row="2" Grid.Column="0"
 						Flavor="SendButton"
 						IconArt="ic_share"
 						ArtColor="{Binding DefaultRecipientColor, Mode=OneWay}"
@@ -106,7 +91,7 @@
 						Command="{Binding ShareCommand}"
 						/>
 
-		<ui:ArtButtonEx Grid.Row="3" Grid.Column="1"
+		<ui:ArtButtonEx Grid.Row="2" Grid.Column="1"
 						x:Name="recipient1"
 						Flavor="SendButton"
 						IconArt="ic_contact"
@@ -117,7 +102,7 @@
 						DoubleTapped="recipient_DoubleTapped"
 						/>
 
-		<ui:ArtButtonEx Grid.Row="3" Grid.Column="2"
+		<ui:ArtButtonEx Grid.Row="2" Grid.Column="2"
 						x:Name="recipient2"
 						Flavor="SendButton"
 						IconArt="ic_contact"

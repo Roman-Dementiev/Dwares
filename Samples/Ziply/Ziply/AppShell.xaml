@@ -84,6 +84,7 @@
 	<FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
 		<ShellContent Title="ZIP" Icon="tab_feed.png" Route="ZipPage" ContentTemplate="{DataTemplate local:ZipPage}" />
 		<ShellContent Title="ETA" Icon="tab_feed.png" Route="EtaPage" ContentTemplate="{DataTemplate local:EtaPage}" />
+		<ShellContent Title="Job" Icon="tab_feed.png" Route="JobPage" ContentTemplate="{DataTemplate local:JobPage}" />
 		<!--<ShellContent Title="About" Icon="tab_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />-->
 	</FlyoutItem>
 

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				xmlns:vm="clr-namespace:Buffy.ViewModels"
+				Title="{Binding Title}"
+				x:Class="Buffy.Views.FuelingForm">
+
+	<ui:ShellPageEx.BindingContext>
+		<vm:FuelingFormModel />
+	</ui:ShellPageEx.BindingContext>
+
+	<ui:ShellPageEx.Resources>
+		<ResourceDictionary>
+			<Style x:Key="FieldCaptionStyle" TargetType="Label" BaseResourceKey="CaptionStyle">
+				<Setter Property="HorizontalOptions" Value="End" />
+				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="Margin" Value="8" />
+			</Style>
+			<Keyboard x:Key="CapitalizeWordKeyboard" x:FactoryMethod="Create">
+				<x:Arguments>
+					<KeyboardFlags>CapitalizeWord</KeyboardFlags>
+				</x:Arguments>
+			</Keyboard>
+			<Keyboard x:Key="CapitalizeAllKeyboard" x:FactoryMethod="Create">
+				<x:Arguments>
+					<KeyboardFlags>CapitalizeCharacter</KeyboardFlags>
+				</x:Arguments>
+			</Keyboard>
+		</ResourceDictionary>
+	</ui:ShellPageEx.Resources>
+
+	<!--<ui:ShellPageEx.ToolbarItems>
+		<ToolbarItem Text="Save" Command="{Binding SaveCommand}" />
+	</ui:ShellPageEx.ToolbarItems>-->
+
+	<ui:GridEx>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="40" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<ui:DatePickerEx Grid.Row="0" Grid.Column="1"
+						 Date="{Binding Date, Mode=TwoWay}"
+						 />
+		
+		<ui:LabelEx Grid.Row="1" Grid.Column="0"
+					Style="{DynamicResource FieldCaptionStyle}" 
+					Text="Vendor:"
+					/>
+		<ui:EntryEx Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+					Keyboard="{StaticResource CapitalizeWordKeyboard}"
+					Text="{Binding Vendor, Mode=TwoWay}"
+					IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
+					/>
+
+		<ui:LabelEx Grid.Row="2" Grid.Column="0"
+					Style="{DynamicResource FieldCaptionStyle}" 
+					Text="State:"
+					/>
+		<ui:EntryEx Grid.Row="2" Grid.Column="1"
+					Keyboard="{StaticResource CapitalizeAllKeyboard}"
+					Text="{Binding State, Mode=TwoWay}"
+					IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
+					/>
+		
+		<ui:LabelEx Grid.Row="3" Grid.Column="0"
+					Style="{DynamicResource FieldCaptionStyle}" 
+					Text="Gallons:"
+					/>
+		<ui:EntryEx Grid.Row="3" Grid.Column="1"
+					Keyboard="Numeric"
+					Text="{Binding Gallons, Mode=TwoWay}"
+					IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
+					/>
+		
+		<ui:LabelEx Grid.Row="4" Grid.Column="0"
+					Style="{DynamicResource FieldCaptionStyle}" 
+					Text="Price:"
+					/>
+		<ui:EntryEx Grid.Row="4" Grid.Column="1"
+					Keyboard="Numeric"
+					Text="{Binding Price, Mode=TwoWay}"
+					IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
+					/>
+		
+		<ui:LabelEx Grid.Row="5" Grid.Column="0"
+					Style="{DynamicResource FieldCaptionStyle}" 
+					Text="Total:"
+					/>
+		<ui:EntryEx Grid.Row="5" Grid.Column="1"
+					Keyboard="Numeric"
+					Text="{Binding Total, Mode=TwoWay}"
+					IsReadOnly="{Binding IsReadOnly, Mode=OneWay}"
+					/>
+
+		<ui:ButtonEx Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4"
+					 Text="Save" 
+					 HorizontalOptions="Center"
+					 IsVisible="{Binding IsEditing, Mode=OneWay}"
+					 Command="{Binding SaveCommand}"
+					 />
+
+		<ui:GridEx Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4"
+				   IsVisible="{Binding IsReadOnly, Mode=OneWay}"
+				   >
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="10" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<ui:ButtonEx Grid.Column="0"
+						 WidthRequest="100"
+						 Text="Edit" 
+						 HorizontalOptions="End"
+						 Command="{Binding EditCommand}"
+						 />
+			<ui:ButtonEx Grid.Column="2"
+						 WidthRequest="100"
+						 Text="Delete" 
+						 HorizontalOptions="Start"
+						 Command="{Binding DeleteCommand}"
+						 />
+
+		</ui:GridEx>
+	</ui:GridEx>
+</ui:ShellPageEx>
+	

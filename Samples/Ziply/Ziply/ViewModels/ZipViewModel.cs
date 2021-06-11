@@ -19,6 +19,7 @@ namespace Ziply.ViewModels
 			base(expireMinutes: 10)
 		{
 			Clear();
+			SetButtonText(null);
 		}
 
 
