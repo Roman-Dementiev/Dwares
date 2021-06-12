@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				xmlns:vm="clr-namespace:Buffy.ViewModels"
+				Title="{Binding Title}"
+				x:Class="Buffy.Views.SettingsPage">
+
+	<ui:ShellPageEx.BindingContext>
+		<vm:SettingsViewModel />
+	</ui:ShellPageEx.BindingContext>
+	
+	<!--<ui:ContentPageEx.Resources>
+		<ResourceDictionary>
+			<druid:WritCommand x:Key="About">about</druid:WritCommand>
+		</ResourceDictionary>
+	</ui:ContentPageEx.Resources>-->
+
+	<!--<ui:ContentPageEx.ToolbarItems>
+		<ui:ToolbarItemEx Order="Secondary" Text="About" Writ="About" />
+	</ui:ContentPageEx.ToolbarItems>-->
+
+	<StackLayout Orientation="Vertical"
+				 Padding="4">
+		
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+				   FontSize="Medium"
+				   Text="Database"
+				   />
+
+			<Label Grid.Row="1" Grid.Column="0"
+				   HorizontalOptions="End"
+				   VerticalOptions="Center"
+				   FontAttributes="Bold"
+				   Text="API key:"
+				   />
+			<Entry Grid.Row="1" Grid.Column="1"
+				   HorizontalOptions="FillAndExpand"
+				   Text="{Binding ApiKey, Mode=TwoWay}"
+				   />
+
+			<Label Grid.Row="2" Grid.Column="0"
+				   HorizontalOptions="End"
+				   VerticalOptions="Center"
+				   FontAttributes="Bold"
+				   Text="Base Id:"
+				   />
+			<Entry Grid.Row="2" Grid.Column="1"
+				   HorizontalOptions="FillAndExpand"
+				   Text="{Binding BaseId, Mode=TwoWay}"
+				   />
+		</Grid>
+
+	</StackLayout>
+</ui:ShellPageEx>
+	

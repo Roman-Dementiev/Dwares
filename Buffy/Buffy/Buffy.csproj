@@ -30,6 +30,9 @@
     <EmbeddedResource Update="Views\FuelingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SummaryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

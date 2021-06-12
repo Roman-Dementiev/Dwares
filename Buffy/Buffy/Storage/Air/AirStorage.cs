@@ -10,8 +10,8 @@ namespace Buffy.Storage.Air
 	public class AirStorage : AirClient, IAppStorage
 	{
 		//static ClassRef @class = new ClassRef(typeof(AirStorage));
-		const string ApiKey = "keyn9n03pU21UkxTg";
-		const string BaseId = "appzMiVx1IkpFjato";
+		//const string ApiKey = "keyn9n03pU21UkxTg";
+		//const string BaseId = "appzMiVx1IkpFjato";
 		const int MaxPeriod = 30; // days
 
 		public AirStorage()
@@ -26,6 +26,9 @@ namespace Buffy.Storage.Air
 
 		public async Task Initialize()
 		{
+			var ApiKey = Settings.ApiKey;
+			var BaseId = Settings.BaseId;
+
 			DataBase = new AirBase(ApiKey, BaseId);
 			await DataBase.Initialize();
 

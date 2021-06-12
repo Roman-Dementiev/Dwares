@@ -2,8 +2,8 @@
 <ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
 				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-				x:Class="Buffy.Views.AboutPage"
 				xmlns:vm="clr-namespace:Buffy.ViewModels"
+				x:Class="Buffy.Views.AboutPage"
 				Title="{Binding Title}">
 
 	<ui:ShellPageEx.BindingContext>
