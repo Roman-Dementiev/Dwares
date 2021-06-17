@@ -16,6 +16,8 @@ namespace Buffy
 		public static List<FuelVendor> Vendors { get; } = new List<FuelVendor>();
 		public static ObservableCollection<Fueling> Fuelings { get; } = new ObservableCollection<Fueling>();
 
+		public static Summary Summary { get; } = new Summary();
+
 		public static async Task InitData(bool silent = false)
 		{
 			var apiKey = Settings.ApiKey;
@@ -41,6 +43,7 @@ namespace Buffy
 		{
 			Vendors.Clear();
 			Fuelings.Clear();
+			Summary.Clear();
 
 			await InitData(silent: true);
 		}

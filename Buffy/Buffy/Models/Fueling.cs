@@ -58,6 +58,12 @@ namespace Buffy.Models
 			}
 		}
 
+		//public decimal EstimatedGallons {
+		//	get => estimatedGallons;
+		//	set => SetProperty(ref estimatedGallons, value);
+		//}
+		//decimal estimatedGallons;
+
 		public decimal Gallons {
 			get => gallons;
 			set => SetProperty(ref gallons, value);

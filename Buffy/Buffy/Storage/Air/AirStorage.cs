@@ -39,15 +39,18 @@ namespace Buffy.Storage.Air
 
 		public async Task LoadData()
 		{
-			//var records = await GasTable.ListRecords(100);
+			await LoadFuelings(30);
+			await LoadSummaries();
+		}
 
-			var query = new QyeryBuilder();
-			query.FilterByFormula = "DATETIME_DIFF(TODAY(), {Date}, 'days') < 31";
-			query.SetSortByField("Date");
+		public async Task LoadFuelings(int days)
+		{
+			await LoadFuelings(App.Fuelings, $"DATETIME_DIFF(TODAY(), {{Date}}, 'days') < {days + 1}");
+		}
 
-			var list = await GasTable.List(query);
-			var records = list.Records;
-			foreach (var rec in records) {
+		async Task LoadFuelings(IList<Fueling> fuelings, string filter = null)
+		{
+			await GasTable.ForEach((rec) => {
 				var fueling = new Fueling {
 					Id = rec.Id,
 					Date = rec.Date,
@@ -57,7 +60,19 @@ namespace Buffy.Storage.Air
 					Price = rec.Price,
 					Total = rec.Total
 				};
-				App.Fuelings.Add(fueling);
+				fuelings.Add(fueling);
+			},
+			filter, sortField: "Date");
+		}
+
+		public async Task LoadSummaries()
+		{
+			var fuelings = new List<Fueling>();
+			await LoadFuelings(fuelings);
+
+			var summary = App.Summary;
+			foreach (var fueling in fuelings) {
+				summary.Add(fueling);
 			}
 		}
 

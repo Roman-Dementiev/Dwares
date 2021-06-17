@@ -275,6 +275,31 @@ namespace Dwares.Drudge.Airtable
 		//	return record;
 		//}
 
+		public async Task ForEach(Action<TRecord> action, string filter = null, string sortField = null, bool sortDescending = false)
+		{
+			var queryBuilder = new QyeryBuilder { };
+			if (!string.IsNullOrEmpty(filter))
+				queryBuilder.FilterByFormula = filter;
+			if (!string.IsNullOrEmpty(sortField))
+				queryBuilder.SetSortByField(sortField, sortDescending);
+
+			for (;;) {
+				var uri = queryBuilder.GetUri(Base.BaseId, Name);
+				var response = await AirClient.GetAsync(Base.ApiKey, uri);
+				var recordList = JsonConvert.DeserializeObject<AirRecordList<TRecord>>(response.Body);
+				if (recordList.Records.Length == 0)
+					break;
+
+				foreach (var record in recordList.Records)
+					action(record);
+
+				if (string.IsNullOrEmpty(recordList.Offset))
+					break;
+				queryBuilder.Offset = recordList.Offset;
+			}
+		}
+
+
 		public async Task<AirRecordList<TRecord>> List(QyeryBuilder queryBuilder)
 		{
 			if (queryBuilder == null)
