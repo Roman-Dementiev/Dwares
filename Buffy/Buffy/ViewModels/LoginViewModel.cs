@@ -1,12 +1,12 @@
-﻿using Buffy.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Dwares.Druid.ViewModels;
 using Xamarin.Forms;
+using Buffy.Views;
+
 
 namespace Buffy.ViewModels
 {
-	public class LoginViewModel : BaseViewModel
+	public class LoginViewModel : ViewModel
 	{
 		public Command LoginCommand { get; }
 

@@ -1,5 +1,4 @@
-﻿using Buffy.Services;
-using System;
+﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +11,6 @@ namespace Buffy
 		{
 			InitializeComponent();
 
-			DependencyService.Register<MockDataStore>();
 			MainPage = new AppShell();
 		}
 

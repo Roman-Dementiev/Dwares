@@ -12,8 +12,6 @@ namespace Buffy
 		public AppShell()
 		{
 			InitializeComponent();
-			Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-			Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
 			Routing.RegisterRoute(nameof(FuelingForm), typeof(FuelingForm));
 			Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
 		}

@@ -80,11 +80,15 @@
 		</RefreshView>
 		<ui:LabelEx Grid.Row="1" Grid.Column="0"
 					Text="Weekly:" />
-		<ui:SwitchEx Grid.Row ="1" Grid.Column="1" />
+		<ui:SwitchEx Grid.Row ="1" Grid.Column="1" 
+					 IsToggled="{Binding IsWeekly, Mode=TwoWay}"
+					 />
 
 		<ui:LabelEx Grid.Row="1" Grid.Column="3"
-					Text="All years:" />
-		<ui:SwitchEx Grid.Row ="1" Grid.Column="4" />
+					Text="All data:" />
+		<ui:SwitchEx Grid.Row ="1" Grid.Column="4"
+					 IsToggled="{Binding AllData, Mode=TwoWay}"
+					 />
 	</Grid>
 </ui:ShellPageEx>
 	

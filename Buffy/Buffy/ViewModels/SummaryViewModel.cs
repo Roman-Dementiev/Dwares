@@ -33,15 +33,23 @@ namespace Buffy.ViewModels
 
 		public bool IsWeekly {
 			get => isWeekly;
-			set => SetProperty(ref isWeekly, value);
+			set {
+				if (SetProperty(ref isWeekly, value)) {
+					CreateCells();
+				}
+			}
 		}
 		bool isWeekly;
 
-		public bool AllYears {
-			get => allYears;
-			set => SetProperty(ref allYears, value);
+		public bool AllData {
+			get => allData;
+			set {
+				if (SetProperty(ref allData, value)) {
+					CreateCells();
+				}
+			}
 		}
-		bool allYears;
+		bool allData;
 
 		Action Unsubscribe = null;
 

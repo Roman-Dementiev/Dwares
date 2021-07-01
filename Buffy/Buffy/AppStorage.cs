@@ -27,12 +27,14 @@ namespace Buffy
 			providers.Add(new FuelVendor { Name = "Speedway", Icon = "ic_gp_speedway.png" });
 			providers.Add(new FuelVendor { Name = "Sunoco", Icon = "ic_gp_sunoco.png" });
 			providers.Add(new FuelVendor { Name = "Shell", Icon = "ic_gp_shell.png" });
+			providers.Add(new FuelVendor { Name = "Gulf", Icon = "ic_gp_gulf.png" });
 			providers.Add(new FuelVendor { Name = "Marathon", Icon = "ic_gp_marathon.png" });
 			providers.Add(new FuelVendor { Name = "Chevron", Icon = "ic_gp_chevron.png" });
 			providers.Add(new FuelVendor { Name = "QT", Icon = "ic_gp_qt.png" });
 			providers.Add(new FuelVendor { Name = "Wawa", Icon = "ic_gp_wawa.png" });
 			providers.Add(new FuelVendor { Name = "Royal Farms", Icon = "ic_gp_royal_farms.png" });
 			providers.Add(new FuelVendor { Name = "Cumberland Farms", Icon = "ic_gp_cumberland_farms.png" });
+			providers.Add(new FuelVendor { Name = "Phillips 66", Icon = "ic_gp_phillips_66.png" });
 
 			return Instance.Initialize();
 		}
