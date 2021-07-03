@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Dwares.Dwarf;
 using Dwares.Dwarf.Toolkit;
 using Buffy.Models;
@@ -6,18 +8,19 @@ using Buffy.Models;
 
 namespace Buffy.ViewModels
 {
-	public class SummaryCell : PropertyNotifier
+	public class SummaryGroup : ObservableCollection<SummaryCell>
 	{
-		//static ClassRef @class = new ClassRef(typeof(SummaryCell));
+		//static ClassRef @class = new ClassRef(typeof(SummaryGroup));
 
-		public SummaryCell(SummaryRecord summary)
+		public SummaryGroup(YearSummary summary)
 		{
 			//Debug.EnableTracing(@class);
 			Summary = summary ?? throw new ArgumentNullException(nameof(summary));
-			Summary.PropertyChanged += (s, e) => FirePropertyChanged(e.PropertyName);
+			Summary.PropertyChanged += (s, e) => OnPropertyChanged(e);
 		}
 
-		SummaryRecord Summary { get; }
+		public YearSummary Summary { get; }
+		public int Year => Summary.Year;
 
 		public string Title {
 			get => Summary.Title;
@@ -30,6 +33,5 @@ namespace Buffy.ViewModels
 		public string Gallons {
 			get => Summary.GallonsStr();
 		}
-
 	}
 }

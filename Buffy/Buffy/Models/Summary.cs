@@ -8,11 +8,11 @@ using Dwares.Dwarf.Toolkit;
 
 namespace Buffy.Models
 {
-	public abstract class BaseSummary : PropertyNotifier
+	public abstract class SummaryRecord : Record
 	{
 		//static ClassRef @class = new ClassRef(typeof(Summary));
 
-		protected BaseSummary()
+		protected SummaryRecord()
 		{
 			//Debug.EnableTracing(@class);
 		}
@@ -34,23 +34,15 @@ namespace Buffy.Models
 		}
 		int count;
 
-		public decimal Total {
-			get => total;
-			set => SetProperty(ref total, value);
-		}
-		decimal total;
-
-		public decimal Gallons {
-			get => gallons;
-			set => SetProperty(ref gallons, value);
-		}
-		decimal gallons;
-
 		public bool IsEstimated {
 			get => isEstimated;
 			set => SetProperty(ref isEstimated, value);
 		}
 		bool isEstimated;
+
+		public string GallonsStr() => GallonsStr(IsEstimated);
+
+		public int Year => StartDate.Year;
 
 		public virtual bool DateInRange(DateOnly date)
 		{
@@ -74,30 +66,27 @@ namespace Buffy.Models
 		}
 	}
 
-	public class YearSummary : BaseSummary
+	public class YearSummary : SummaryRecord
 	{
 		public YearSummary(int year)
 		{
 			SetPeriod(new DateOnly(year, 1, 1), new DateOnly(year, 12, 31));
 		}
 
-		public int Year => StartDate.Year;
 		public override bool DateInRange(DateOnly date) => date.Year == Year;
 
 		public override string Title {
 			get => Year.ToString();
 		}
-
 	}
 
-	public class MonthSummary : BaseSummary
+	public class MonthSummary : SummaryRecord
 	{
 		public MonthSummary(int year, int month)
 		{
 			SetPeriod(new DateOnly(year, month, 1), new DateOnly(year, month, DateTime.DaysInMonth(year, month)));
 		}
 
-		public int Year => StartDate.Year;
 		public int Month => StartDate.Month;
 
 		public override bool DateInRange(DateOnly date) => date.Year == Year && date.Month == Month;
@@ -108,7 +97,7 @@ namespace Buffy.Models
 
 	}
 
-	public class WeekSummary : BaseSummary
+	public class WeekSummary : SummaryRecord
 	{
 		public WeekSummary(DateOnly date)
 		{
@@ -133,7 +122,20 @@ namespace Buffy.Models
 		}
 	}
 
-	public class Summary : BaseSummary
+
+	public class SummaryAddedEventArgs : EventArgs
+	{
+		public SummaryAddedEventArgs(SummaryRecord summary, bool atEnd)
+		{
+			Summary = summary;
+			AtEnd = atEnd;
+		}
+
+		public SummaryRecord Summary { get; }
+		public bool AtEnd { get; }
+	}
+
+	public class Summary : SummaryRecord
 	{
 		public Summary()
 		{
@@ -141,9 +143,12 @@ namespace Buffy.Models
 			SetPeriod(today, today);
 		}
 
-		public ObservableCollection<YearSummary> YearSummaries = new ObservableCollection<YearSummary>();
-		public ObservableCollection<MonthSummary> MonthSummaries = new ObservableCollection<MonthSummary>();
-		public ObservableCollection<WeekSummary> WeekSummaries = new ObservableCollection<WeekSummary>();
+		public event Action<SummaryAddedEventArgs> SummaryAdded;
+		public event Action<EventArgs> SummaryCleared;
+
+		public List<YearSummary> YearSummaries = new List<YearSummary>();
+		public List<MonthSummary> MonthSummaries = new List<MonthSummary>();
+		public List<WeekSummary> WeekSummaries = new List<WeekSummary>();
 
 		public override string Title {
 			get => $"{StartDate.ToShortDateString()}- {EndDate.ToShortDateString()}";
@@ -162,7 +167,13 @@ namespace Buffy.Models
 			GetMonthSummary(date.Year, date.Month, true).Add(fueling, estimatedGallons);
 			GetWeekSummary(date, true).Add(fueling, estimatedGallons);
 			base.Add(fueling, estimatedGallons);
+		}
 
+		void FireSummaryAdded(SummaryRecord summary, bool atEnd)
+		{
+			if (SummaryAdded != null) {
+				SummaryAdded.Invoke(new SummaryAddedEventArgs(summary, atEnd));
+			}
 		}
 
 		public YearSummary GetYearSummary(int year, bool create)
@@ -176,6 +187,7 @@ namespace Buffy.Models
 					if (create) {
 						sum = new YearSummary(year);
 						YearSummaries.Insert(i, sum);
+						FireSummaryAdded(sum, false);
 						return sum;
 					} else {
 						return null;
@@ -186,6 +198,7 @@ namespace Buffy.Models
 			if (create) {
 				var sum = new YearSummary(year);
 				YearSummaries.Add(sum);
+				FireSummaryAdded(sum, true);
 				return sum;
 			} else {
 				return null;
@@ -206,6 +219,7 @@ namespace Buffy.Models
 					if (create) {
 						sum = new MonthSummary(year, month);
 						MonthSummaries.Insert(i, sum);
+						FireSummaryAdded(sum, false);
 						return sum;
 					} else {
 						return null;
@@ -216,6 +230,7 @@ namespace Buffy.Models
 			if (create) {
 				var sum = new MonthSummary(year, month);
 				MonthSummaries.Add(sum);
+				FireSummaryAdded(sum, true);
 				return sum;
 			} else {
 				return null;
@@ -234,6 +249,7 @@ namespace Buffy.Models
 				if (sum.StartDate > newSum.StartDate) {
 					if (create) {
 						WeekSummaries.Insert(i, newSum);
+						FireSummaryAdded(newSum, false);
 						return newSum;
 					} else {
 						return null;
@@ -243,6 +259,7 @@ namespace Buffy.Models
 
 			if (create) {
 				WeekSummaries.Add(newSum);
+				FireSummaryAdded(newSum, true);
 				return newSum;
 			} else {
 				return null;
@@ -254,6 +271,7 @@ namespace Buffy.Models
 			YearSummaries.Clear();
 			MonthSummaries.Clear();
 			WeekSummaries.Clear();
+			SummaryCleared?.Invoke(new EventArgs());
 		}
 	}
 }

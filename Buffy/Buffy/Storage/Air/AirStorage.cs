@@ -23,6 +23,7 @@ namespace Buffy.Storage.Air
 
 		public AirBase DataBase { get; private set; }
 		public GasTable GasTable { get; private set; }
+		public BasesTable BasesTable { get; private set; }
 
 		public async Task Initialize()
 		{
@@ -34,6 +35,9 @@ namespace Buffy.Storage.Air
 
 			GasTable = new GasTable(DataBase);
 			await GasTable.Initialize();
+
+			BasesTable = new BasesTable(DataBase);
+			await BasesTable.Initialize();
 		}
 
 
@@ -45,12 +49,12 @@ namespace Buffy.Storage.Air
 
 		public async Task LoadFuelings(int days)
 		{
-			await LoadFuelings(App.Fuelings, $"DATETIME_DIFF(TODAY(), {{Date}}, 'days') < {days + 1}");
+			await LoadFuelings(GasTable, App.Fuelings, $"DATETIME_DIFF(TODAY(), {{Date}}, 'days') < {days + 1}");
 		}
 
-		async Task LoadFuelings(IList<Fueling> fuelings, string filter = null)
+		async Task LoadFuelings(GasTable table, IList<Fueling> fuelings, string filter = null)
 		{
-			await GasTable.ForEach((rec) => {
+			await table.ForEach((rec) => {
 				var fueling = new Fueling {
 					Id = rec.Id,
 					Date = rec.Date,
@@ -67,8 +71,35 @@ namespace Buffy.Storage.Air
 
 		public async Task LoadSummaries()
 		{
+#if false
 			var fuelings = new List<Fueling>();
-			await LoadFuelings(fuelings);
+			await LoadFuelings(GasTable, fuelings);
+
+			var summary = App.Summary;
+			foreach (var fueling in fuelings) {
+				summary.Add(fueling);
+			}
+#else
+			var ApiKey = Settings.ApiKey;
+			await BasesTable.ForEach(async (rec) => {
+				if (rec.BaseId != DataBase.BaseId) {
+					var dataBase = new AirBase(ApiKey, rec.BaseId);
+					await dataBase.Initialize();
+
+					var gasTable = new GasTable(dataBase);
+					await gasTable.Initialize();
+
+					await LoadSummaries(gasTable);
+				}
+			});
+			await LoadSummaries(GasTable);
+#endif
+		}
+
+		public async Task LoadSummaries(GasTable table)
+		{
+			var fuelings = new List<Fueling>();
+			await LoadFuelings(table, fuelings);
 
 			var summary = App.Summary;
 			foreach (var fueling in fuelings) {

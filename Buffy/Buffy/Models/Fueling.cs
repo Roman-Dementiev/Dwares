@@ -1,17 +1,17 @@
-﻿using Dwares.Dwarf.Toolkit;
+﻿using System;
+using Dwares.Dwarf;
+using Dwares.Dwarf.Toolkit;
 
 
 namespace Buffy.Models
 {
-	public class Fueling : PropertyNotifier
+	public class Fueling : Record
 	{
 		//static ClassRef @class = new ClassRef(typeof(Fueling));
 
 		public Fueling()
 		{
 			//Debug.EnableTracing(@class);
-
-
 		}
 
 		public string Id {
@@ -63,24 +63,5 @@ namespace Buffy.Models
 		//	set => SetProperty(ref estimatedGallons, value);
 		//}
 		//decimal estimatedGallons;
-
-		public decimal Gallons {
-			get => gallons;
-			set => SetProperty(ref gallons, value);
-		}
-		decimal gallons;
-
-		public decimal Price {
-			get => price;
-			set => SetProperty(ref price, value);
-		}
-		decimal price;
-
-		public decimal Total {
-			get => total;
-			set => SetProperty(ref total, value);
-		}
-		decimal total;
-
 	}
 }

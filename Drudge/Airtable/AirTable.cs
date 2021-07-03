@@ -277,6 +277,15 @@ namespace Dwares.Drudge.Airtable
 
 		public async Task ForEach(Action<TRecord> action, string filter = null, string sortField = null, bool sortDescending = false)
 		{
+			await ForEach((rec) => {
+				action(rec);
+				return Task.CompletedTask;
+			}, 
+			filter, sortField, sortDescending);
+		}
+
+		public async Task ForEach(Func<TRecord, Task> action, string filter = null, string sortField = null, bool sortDescending = false)
+		{
 			var queryBuilder = new QyeryBuilder { };
 			if (!string.IsNullOrEmpty(filter))
 				queryBuilder.FilterByFormula = filter;
@@ -291,7 +300,7 @@ namespace Dwares.Drudge.Airtable
 					break;
 
 				foreach (var record in recordList.Records)
-					action(record);
+					await action(record);
 
 				if (string.IsNullOrEmpty(recordList.Offset))
 					break;

@@ -7,6 +7,8 @@ using Dwares.Dwarf;
 using Buffy.Models;
 using Xamarin.Forms;
 using System.Collections.Specialized;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Buffy.ViewModels
 {
@@ -14,7 +16,8 @@ namespace Buffy.ViewModels
 	{
 		//static ClassRef @class = new ClassRef(typeof(SummaryViewModel));
 
-		public ObservableCollection<SummaryCell> Items { get; }
+		public ObservableCollection<SummaryGroup> Groups { get; }
+		//public ObservableCollection<SummaryCell> Items => Groups[0];
 
 		public Command SyncCommand { get; }
 
@@ -26,9 +29,11 @@ namespace Buffy.ViewModels
 
 			Title = "Summary";
 			SyncCommand = new Command(async () => await ExecuteSyncCommand());
-			Items = new ObservableCollection<SummaryCell>();
+			Groups = new ObservableCollection<SummaryGroup>();
 
-			CreateCells();
+			CreateCells(false);
+
+			App.Summary.PropertyChanged += Summary_PropertyChanged;
 		}
 
 		public bool IsWeekly {
@@ -41,95 +46,91 @@ namespace Buffy.ViewModels
 		}
 		bool isWeekly;
 
-		public bool AllData {
-			get => allData;
-			set {
-				if (SetProperty(ref allData, value)) {
-					CreateCells();
-				}
+		public string Total {
+			get => App.Summary.TotalStr();
+		}
+
+		private void Summary_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(Summary.Total)) {
+				FirePropertyChanged(nameof(Total));
 			}
 		}
-		bool allData;
 
-		Action Unsubscribe = null;
 
-		void CreateCells()
+		void CreateCells(bool reset = true)
 		{
-			if (Unsubscribe != null) {
-				Unsubscribe();
-				Items.Clear();
+			if (reset) {
+				App.Summary.SummaryAdded -= OnSummaryAdded;
+				App.Summary.SummaryCleared -= OnSummaryCleared;
+				Groups.Clear();
+			}
+
+			foreach (var year in App.Summary.YearSummaries) {
+				Groups.Add(new SummaryGroup(year));
 			}
 
 			if (IsWeekly) {
-				foreach (var summary in App.Summary.WeekSummaries) {
-					Items.Add(new SummaryCell(summary));
-				}
-				SubscribeWeekly();
-				Unsubscribe = UnsubscribeWeekly;
+				CreateCells(App.Summary.WeekSummaries);
 			} else {
-				foreach (var summary in App.Summary.MonthSummaries) {
-					Items.Add(new SummaryCell(summary));
+				CreateCells(App.Summary.MonthSummaries);
+			}
+
+			App.Summary.SummaryAdded += OnSummaryAdded;
+			App.Summary.SummaryCleared += OnSummaryCleared;
+		}
+
+		SummaryGroup GetGroup(int year)
+		{
+			foreach (var group in Groups) {
+				if (group.Year == year)
+					return group;
+			}
+			return null;
+		}
+
+		void CreateCells<T>(IList<T> list) where T : SummaryRecord
+		{
+			foreach (var summary in list) {
+				var group = GetGroup(summary.Year);
+				if (group != null) {
+					group.Add(new SummaryCell(summary));
+				} else {
+					Debug.Fail($"Summary for year {summary.Year} not found");
 				}
-				SubscribeMonthly();
-				Unsubscribe = UnsubscribeMonthly;
 			}
 		}
 
-		void SubscribeMonthly()
+		private void OnSummaryAdded(SummaryAddedEventArgs args)
 		{
-			App.Summary.MonthSummaries.CollectionChanged += Summary_MonthlyChanged;
-		}
-
-		void UnsubscribeMonthly()
-		{
-			App.Summary.MonthSummaries.CollectionChanged -= Summary_MonthlyChanged;
-		}
-
-		void SubscribeWeekly()
-		{
-			App.Summary.WeekSummaries.CollectionChanged += Summary_WeeklyChanged;
-		}
-
-		void UnsubscribeWeekly()
-		{
-			App.Summary.MonthSummaries.CollectionChanged -= Summary_WeeklyChanged;
-		}
-
-		private void Summary_MonthlyChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			if (IsWeekly)
-				return;
-
-			if (e.Action == NotifyCollectionChangedAction.Add) {
-				foreach (var item in e.NewItems) {
-					if (item is MonthSummary summary) {
-						Items.Add(new SummaryCell(summary));
-					} else {
-						Debug.Print($"Unknown item in summary: {item.GetType()}");
-					}
-				}
-			} else {
+			if (!args.AtEnd) {
 				CreateCells();
-			}
-		}
-
-		private void Summary_WeeklyChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			if (!IsWeekly)
 				return;
+			}
 
-			if (e.Action == NotifyCollectionChangedAction.Add) {
-				foreach (var item in e.NewItems) {
-					if (item is WeekSummary summary) {
-						Items.Add(new SummaryCell(summary));
-					} else {
-						Debug.Print($"Unknown item in summary: {item.GetType()}");
-					}
+			if (args.Summary is YearSummary yearSum) {
+				Groups.Add(new SummaryGroup(yearSum));
+				return;
+			}
+
+			var group = GetGroup(args.Summary.Year);
+
+			if (IsWeekly) {
+				if (args.Summary is WeekSummary sum) {
+					group.Add(new SummaryCell(sum));
 				}
 			} else {
-				CreateCells();
+				if (args.Summary is MonthSummary sum) {
+					group.Add(new SummaryCell(sum));
+				}
 			}
 		}
+
+		private void OnSummaryCleared(EventArgs args)
+		{
+			CreateCells();
+		}
+
 
 		async Task ExecuteSyncCommand()
 		{

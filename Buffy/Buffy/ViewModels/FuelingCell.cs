@@ -33,15 +33,15 @@ namespace Buffy.ViewModels
 		}
 
 		public string Gallons {
-			get => Fueling.Gallons > 0 ? Fueling.Gallons.ToString("N3") + "G" : string.Empty;
+			get => Fueling.GallonsStr();
 		}
 
 		public string Price {
-			get => Fueling.Price > 0 ? Fueling.Price.ToString("C") : string.Empty;
+			get => Fueling.PriceStr();
 		}
 
 		public string Total {
-			get => Fueling.Total > 0 ? Fueling.Total.ToString("C") : string.Empty;
+			get => Fueling.TotalStr();
 		}
 	}
 }
