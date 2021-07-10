@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:ContentPageEx xmlns="http://xamarin.com/schemas/2014/forms"
+				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				  xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				  xmlns:druid="clr-namespace:Dwares.Druid;assembly=Druid"
+				  xmlns:views="clr-namespace:Drive.Views"
+				  Title="Kon-Tiki"
+				  x:Class="Drive.Views.MainPage">
+
+	<ui:ContentPageEx.ToolbarItems>
+		<ToolbarItem Order="Primary" Text="About" IconImageSource="icon_about.png" Command="{Binding AboutCommand}" />
+		<!--<ToolbarItem Order="Secondary" Text="About" IconImageSource="icon_about.png" Command="{Binding AboutCommand}" />-->
+	</ui:ContentPageEx.ToolbarItems>
+
+	<ui:GridEx>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<views:AppButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" 
+						 Large="True"
+						 LabelText="Jobs"
+						 DefaultIcon="app_jobs"
+						 DisabledIcon="app_jobs_disabled"
+						 IsEnabled="False"
+						 />
+
+		<views:AppButton Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" 
+						 Large="True"
+						 LabelText="ZIP"
+						 DefaultIcon="app_zip"
+						 DisabledIcon="app_zip_disabled"
+						 IsEnabled="False"
+						 />
+
+		<views:AppButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+						 Large="False"
+						 LabelText="Payments"
+						 DefaultIcon="app_payments"
+						 DisabledIcon="app_payments_disabled"
+						 IsEnabled="False"
+					  />
+
+		<views:AppButton Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" 
+						 Large="False"
+						 LabelText="Gas"
+						 DefaultIcon="app_gas"
+						 DisabledIcon="app_gas_disabled"
+						 IsEnabled="False"
+					  />
+
+		<views:AppButton Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" 
+						 Large="False"
+						 LabelText="Expenses"
+						 DefaultIcon="app_expenses"
+						 DisabledIcon="app_expenses_disabled"
+						 IsEnabled="False"
+					  />
+
+		<views:AppButton Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+						 Large="False"
+						 LabelText="Summarys"
+						 DefaultIcon="app_summary"
+						 DisabledIcon="app_summary_disabled"
+						 IsEnabled="False"
+					  />
+
+		<views:AppButton Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" 
+						 Large="False"
+						 LabelText="Settings"
+						 DefaultIcon="app_settings"
+						 IsEnabled="True"
+						 Command="{Binding SettingsCommand}"
+					  />
+
+		<views:AppButton Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" 
+						 Large="False"
+						 LabelText="Maintenance"
+						 DefaultIcon="app_maintenance"
+						 DisabledIcon="app_maintenance_disabled"
+						 IsEnabled="False"
+					  />
+	</ui:GridEx>
+</ui:ContentPageEx>
+	

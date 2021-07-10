@@ -93,22 +93,22 @@ namespace Dwares.Druid.UI
 			get { return (string)GetValue(DisabledFlavorProperty); }
 		}
 
-		//public static readonly BindableProperty DefaultArtProperty =
-		//	BindableProperty.Create(
-		//		nameof(DefaultArt),
-		//		typeof(string),
-		//		typeof(ArtButton),
-		//		defaultValue: string.Empty,
-		//		propertyChanged: (bindable, oldValue, newValue) => {
-		//			if (bindable is ArtButtonEx button && newValue is string value) {
-		//				button.Update();
-		//			}
-		//		});
+		public static readonly BindableProperty DefaultArtProperty =
+			BindableProperty.Create(
+				nameof(DefaultArt),
+				typeof(string),
+				typeof(ArtButton),
+				defaultValue: string.Empty,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButtonEx button && newValue is string value) {
+						button.Update();
+					}
+				});
 
-		//public string DefaultArt {
-		//	set { SetValue(DefaultArtProperty, value); }
-		//	get { return (string)GetValue(DefaultArtProperty); }
-		//}
+		public string DefaultArt {
+			set { SetValue(DefaultArtProperty, value); }
+			get { return (string)GetValue(DefaultArtProperty); }
+		}
 
 		//public static readonly BindableProperty SelectedArtProperty =
 		//	BindableProperty.Create(
@@ -127,29 +127,29 @@ namespace Dwares.Druid.UI
 		//	get { return (string)GetValue(SelectedArtProperty); }
 		//}
 
-		//public static readonly BindableProperty DisabledArtProperty =
-		//	BindableProperty.Create(
-		//		nameof(DisabledArt),
-		//		typeof(string),
-		//		typeof(ArtButton),
-		//		defaultValue: string.Empty,
-		//		propertyChanged: (bindable, oldValue, newValue) => {
-		//			if (bindable is ArtButtonEx button && newValue is string value) {
-		//				button.Update();
-		//			}
-		//		});
+		public static readonly BindableProperty DisabledArtProperty =
+			BindableProperty.Create(
+				nameof(DisabledArt),
+				typeof(string),
+				typeof(ArtButton),
+				defaultValue: string.Empty,
+				propertyChanged: (bindable, oldValue, newValue) => {
+					if (bindable is ArtButtonEx button && newValue is string value) {
+						button.Update();
+					}
+				});
 
-		//public string DisabledArt {
-		//	set { SetValue(DisabledArtProperty, value); }
-		//	get { return (string)GetValue(DisabledArtProperty); }
-		//}
+		public string DisabledArt {
+			set { SetValue(DisabledArtProperty, value); }
+			get { return (string)GetValue(DisabledArtProperty); }
+		}
 
 		protected virtual void Update()
 		{
-			string /*art = null,*/ flavor = null;
+			string art = null, flavor = null;
 			if (!IsEnabled) {
-				//if (!string.IsNullOrEmpty(DisabledArt))
-				//	art = DisabledArt;
+				if (!string.IsNullOrEmpty(DisabledArt))
+					art = DisabledArt;
 				if (!string.IsNullOrEmpty(DisabledFlavor))
 					flavor = DisabledFlavor;
 			} else if (IsSelected) {
@@ -159,13 +159,13 @@ namespace Dwares.Druid.UI
 					flavor = SelectedFlavor;
 			}
 
-			//if (string.IsNullOrEmpty(art))
-			//	art = DefaultArt;
+			if (string.IsNullOrEmpty(art))
+				art = DefaultArt;
 			if (string.IsNullOrEmpty(flavor))
 				flavor = DefaultFlavor;
 
-			//if (!string.IsNullOrEmpty(art))
-			//	IconArt = art;
+			if (!string.IsNullOrEmpty(art))
+				IconArt = art;
 			if (!string.IsNullOrEmpty(flavor))
 				Flavor = flavor;
 		}

@@ -1,25 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ui:ShellPageEx xmlns="http://xamarin.com/schemas/2014/forms"
-				xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-				xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
-				xmlns:vm="clr-namespace:Buffy.ViewModels"
-				x:Class="Buffy.Views.AboutPage"
-				Title="{Binding Title}">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Drive.Views.AboutPage"
+			 xmlns:vm="clr-namespace:Drive.ViewModels"
+			 Title="{Binding Title}">
 
-	<ui:ShellPageEx.BindingContext>
+	<ContentPage.BindingContext>
 		<vm:AboutViewModel />
-	</ui:ShellPageEx.BindingContext>
+	</ContentPage.BindingContext>
 
-	<ui:ShellPageEx.Resources>
+	<ContentPage.Resources>
 		<ResourceDictionary>
+			<Color x:Key="Primary">#2196F3</Color>
 			<Color x:Key="Accent">#96d1ff</Color>
-		</ResourceDictionary>
-    </ui:ShellPageEx.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<Style TargetType="Button">
+				<Setter Property="TextColor" Value="White"></Setter>
+				<Setter Property="VisualStateManager.VisualStateGroups">
+					<VisualStateGroupList>
+						<VisualStateGroup x:Name="CommonStates">
+							<VisualState x:Name="Normal">
+								<VisualState.Setters>
+									<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+								</VisualState.Setters>
+							</VisualState>
+							<VisualState x:Name="Disabled">
+								<VisualState.Setters>
+									<Setter Property="BackgroundColor" Value="#332196F3" />
+								</VisualState.Setters>
+							</VisualState>
+						</VisualStateGroup>
+					</VisualStateGroupList>
+				</Setter>
+			</Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
@@ -50,4 +70,4 @@
         </ScrollView>
     </Grid>
 
-</ui:ShellPageEx>
+</ContentPage>

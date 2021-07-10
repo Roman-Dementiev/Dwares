@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ic_pg_jobs.png" />
+    <None Remove="Resources\ic_pg_zip.png" />
+    <None Remove="Resources\pg_expenses.png" />
+    <None Remove="Resources\pg_expenses_disabled.png" />
+    <None Remove="Resources\pg_gas.png" />
+    <None Remove="Resources\pg_gas_disabled.png" />
+    <None Remove="Resources\pg_jobs-disabled.png" />
+    <None Remove="Resources\pg_jobs.png" />
+    <None Remove="Resources\pg_maintenance.png" />
+    <None Remove="Resources\pg_maintenance_disabled.png" />
+    <None Remove="Resources\pg_payments.png" />
+    <None Remove="Resources\pg_payments_disabled.png" />
+    <None Remove="Resources\pg_settings.png" />
+    <None Remove="Resources\pg_summary.png" />
+    <None Remove="Resources\pg_summary_disabled.png" />
+    <None Remove="Resources\pg_zip.png" />
+    <None Remove="Resources\pg_zip_disabled.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\pg_expenses.png" />
+    <EmbeddedResource Include="Resources\pg_expenses_disabled.png" />
+    <EmbeddedResource Include="Resources\pg_gas.png" />
+    <EmbeddedResource Include="Resources\pg_gas_disabled.png" />
+    <EmbeddedResource Include="Resources\pg_jobs-disabled.png" />
+    <EmbeddedResource Include="Resources\pg_jobs.png" />
+    <EmbeddedResource Include="Resources\pg_maintenance.png" />
+    <EmbeddedResource Include="Resources\pg_maintenance_disabled.png" />
+    <EmbeddedResource Include="Resources\pg_payments.png" />
+    <EmbeddedResource Include="Resources\pg_payments_disabled.png" />
+    <EmbeddedResource Include="Resources\pg_settings.png" />
+    <EmbeddedResource Include="Resources\pg_summary.png" />
+    <EmbeddedResource Include="Resources\pg_summary_disabled.png" />
+    <EmbeddedResource Include="Resources\pg_zip.png" />
+    <EmbeddedResource Include="Resources\pg_zip_disabled.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Drudge\Drudge.csproj" />
+    <ProjectReference Include="..\..\Druid\Druid\Druid.csproj" />
+    <ProjectReference Include="..\..\Dwarf\Dwarf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Themes\Base.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Themes\PG_Light.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="UIThemes.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

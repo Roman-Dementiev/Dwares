@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Drive.Themes.Base">
+
+
+	<x:String x:Key="ThemeName">@Base</x:String>
+	<x:Boolean x:Key="Internal">True</x:Boolean>
+
+	<Style x:Key="App-button-large" TargetType="ui:ArtButton">
+		<Setter Property="IconWidth" Value="80" />
+		<Setter Property="IconHeight" Value="80" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+	</Style>
+
+	<Style x:Key="App-button-small" TargetType="ui:ArtButton">
+		<Setter Property="IconWidth" Value="50" />
+		<Setter Property="IconHeight" Value="50" />
+		<Setter Property="FontSize" Value="16" />
+		<Setter Property="FontAttributes" Value="Bold" />
+
+	</Style>
+</ResourceDictionary>

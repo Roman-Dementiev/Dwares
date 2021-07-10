@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
+			 x:Class="Drive.App"
+			 >
+	<Application.Resources>
+		<drx:BitmapAsset x:Key="app_jobs" BitmapSize="256" Color="Black">Drive.Resources.pg_jobs.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_jobs_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_jobs-disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_zip" BitmapSize="256" Color="Black">Drive.Resources.pg_zip.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_zip_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_zip_disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_gas" BitmapSize="256" Color="Black">Drive.Resources.pg_gas.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_gas_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_gas_disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_expenses" BitmapSize="256" Color="Black">Drive.Resources.pg_expenses.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_expenses_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_expenses_disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_payments" BitmapSize="256" Color="Black">Drive.Resources.pg_payments.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_payments_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_payments_disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_summary" BitmapSize="256" Color="Black">Drive.Resources.pg_summary.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_summary_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_summary_disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_maintenance" BitmapSize="256" Color="Black">Drive.Resources.pg_maintenance.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_maintenance_disabled" BitmapSize="256" Color="Black">Drive.Resources.pg_maintenance_disabled.png</drx:BitmapAsset>
+		<drx:BitmapAsset x:Key="app_settings" BitmapSize="256" Color="Black">Drive.Resources.pg_settings.png</drx:BitmapAsset>		
+	</Application.Resources>
+</Application>

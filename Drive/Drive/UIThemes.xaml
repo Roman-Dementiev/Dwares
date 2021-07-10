@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ui:UIThemeManager xmlns="http://xamarin.com/schemas/2014/forms"
+				   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+				   xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+				   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				   xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+				   xmlns:drx="clr-namespace:Dwares.Druid.Xaml;assembly=Druid"
+				   mc:Ignorable="d"
+				   x:Class="Drive.UIThemes"
+				   DefaultTheme="PG_Light"
+				   >
+
+	<!--<x:String x:Key="DefaultTheme">Light</x:String>-->
+
+	<drx:UITheme x:Key="@Base" Class="Drive.Themes.Base"></drx:UITheme>
+	<drx:UITheme x:Key="PG_Light" Class="Drive.Themes.PG_Light"></drx:UITheme>
+
+</ui:UIThemeManager>

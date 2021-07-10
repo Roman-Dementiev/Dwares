@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:ui="clr-namespace:Dwares.Druid.UI;assembly=Druid"
+					x:Class="Drive.Themes.PG_Light">
+
+
+	<x:String x:Key="ThemeName">PG_Light</x:String>
+	<x:String x:Key="BasedOn">@Base</x:String>
+
+</ResourceDictionary>
